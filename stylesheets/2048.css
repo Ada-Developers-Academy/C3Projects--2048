@@ -3,15 +3,16 @@ html {
 }
 
 #gameboard {
-  background: teal;
+  background: #d0d0d0;
   border-radius: 0.5rem;
   height: 18.5rem;
   margin: 1rem auto;
+  position: relative;
   width: 18.5rem;
 }
 
 .cell {
-  background: yellow;
+  background: #a7a7a7;
   border-radius: 0.5rem;
   float: left;
   height: 4rem;
@@ -20,9 +21,27 @@ html {
 }
 
 .tile {
-  border-radius: 0.5rem;  
+  position: absolute;
+  top: 0; left: 0;
+
+  background: #6da35c;
+  color: white;  
+
+  border-radius: 0.5rem;
   font-size: 1rem;
+  line-height: 4rem;
   height: 4rem;
+  margin: 0.5rem 0 0 0.5rem ;
   text-align: center;
   width: 4rem;
 }
+
+.tile[data-row=r0] { top: 0; }
+.tile[data-row=r1] { top: 4.5rem; }
+.tile[data-row=r2] { top: 9rem; }
+.tile[data-row=r3] { top: 13.5rem; }
+
+.tile[data-col=c0] { left: 0; }
+.tile[data-col=c1] { left: 4.5rem; }
+.tile[data-col=c2] { left: 9rem; }
+.tile[data-col=c3] { left: 13.5rem; }
