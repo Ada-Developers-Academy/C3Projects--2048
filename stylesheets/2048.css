@@ -23,6 +23,7 @@ html {
 .tile {
   position: absolute;
   top: 0; left: 0;
+  transition: all 0.2s ease-in;
 
   background: #6da35c;
   color: white;  
