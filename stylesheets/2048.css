@@ -1,9 +1,9 @@
 html {
-  font-size: 30px;
+  font: normal normal 30px/1 "Clear Sans", "Helvetica Neue", Arial, sans-serif;
 }
 
 #gameboard {
-  background: #d0d0d0;
+  background: #bbada0;
   border-radius: 0.5rem;
   height: 18.5rem;
   margin: 1rem auto;
@@ -12,7 +12,7 @@ html {
 }
 
 .cell {
-  background: #a7a7a7;
+  background: rgba(238, 228, 218, 0.35);
   border-radius: 0.5rem;
   float: left;
   height: 4rem;
@@ -23,13 +23,14 @@ html {
 .tile {
   position: absolute;
   top: 0; left: 0;
-  transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in-out;
 
-  background: #6da35c;
-  color: white;  
+  color: #f9f6f2;
+  background: #000;
 
   border-radius: 0.5rem;
-  font-size: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
   line-height: 4rem;
   height: 4rem;
   margin: 0.5rem 0 0 0.5rem ;
@@ -46,3 +47,15 @@ html {
 .tile[data-col=c1] { left: 4.5rem; }
 .tile[data-col=c2] { left: 9rem; }
 .tile[data-col=c3] { left: 13.5rem; }
+
+.tile[data-val="2"]    { color: #776e65; background-color: #eee4da; }
+.tile[data-val="4"]    { color: #776e65; background-color: #ede0c8; }
+.tile[data-val="8"]    { background-color: #f2b179; }
+.tile[data-val="16"]   { background-color: #f59563; }
+.tile[data-val="32"]   { background: #f67c5f; }
+.tile[data-val="64"]   { background: #f65e3b; }
+.tile[data-val="128"]  { background: #edcf72; }
+.tile[data-val="256"]  { background: #edcc61; }
+.tile[data-val="512"]  { background: #edc850; }
+.tile[data-val="1024"] { background: #edc53f; }
+.tile[data-val="2048"] { background: #edc22e; }
