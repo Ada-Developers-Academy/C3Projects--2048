@@ -37,16 +37,16 @@ html {
   text-align: center;
   width: 4rem;
 }
+/*Restructured to reflect an x/y coordinate system and our 2-D array*/
+.tile[data-row=y0] { top: 13.5rem; }
+.tile[data-row=y1] { top: 9rem; }
+.tile[data-row=y2] { top: 4.5rem; }
+.tile[data-row=y3] { top: 0; }
 
-.tile[data-row=r0] { top: 0; }
-.tile[data-row=r1] { top: 4.5rem; }
-.tile[data-row=r2] { top: 9rem; }
-.tile[data-row=r3] { top: 13.5rem; }
-
-.tile[data-col=c0] { left: 0; }
-.tile[data-col=c1] { left: 4.5rem; }
-.tile[data-col=c2] { left: 9rem; }
-.tile[data-col=c3] { left: 13.5rem; }
+.tile[data-col=x0] { left: 0; }
+.tile[data-col=x1] { left: 4.5rem; }
+.tile[data-col=x2] { left: 9rem; }
+.tile[data-col=x3] { left: 13.5rem; }
 
 .tile[data-val="2"]    { color: #776e65; background-color: #eee4da; }
 .tile[data-val="4"]    { color: #776e65; background-color: #ede0c8; }

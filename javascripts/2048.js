@@ -17,16 +17,16 @@ function moveTile(tile, direction) {
 
   switch(direction) {
     case 38: //up
-      tile.attr("data-row","r0");
+      tile.attr("data-row","y3");
       break;
     case 40: //down
-      tile.attr("data-row","r3");
+      tile.attr("data-row","y0");
       break;
     case 37: //left
-      tile.attr("data-col","c0");
+      tile.attr("data-col","x0");
       break;
     case 39: //right
-      tile.attr("data-col","c3");
+      tile.attr("data-col","x3");
       break;
   }
 }
