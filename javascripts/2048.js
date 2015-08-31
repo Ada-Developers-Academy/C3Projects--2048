@@ -4,8 +4,10 @@ $(document).ready(function() {
   function begin() {
     for (i = 0; i < 4; i++) {
       board[i] = new Array(4);
+      console.log(board);
     }
     console.log('ready!');
+
   }
 
   begin();
@@ -24,11 +26,22 @@ $(document).ready(function() {
       console.log(tile);
       console.log(tile.length);
       console.log(tile[1]);
+      empty(tile);
       moveTile(tile, event.which);
       event.preventDefault();
     }
   })
 })
+
+function empty(location) {
+  // input will be board location
+  // check if board array location is undefined
+  var answer = location == undefined ? true : false;
+  console.log(location);
+  console.log(answer);
+  return answer;
+
+}
 
 function moveTile(tile, direction) {
   var new_tile_value = tile.attr("data-val") * 2;
