@@ -16,15 +16,26 @@ Recreate as much of the original game as is reasonable in the one week we have a
 
 ### Project Baseline
 - Play a couple games of [2048](http://gabrielecirulli.github.io/2048/). Think about everything that's likely happening in the code to support what's happening on the screen. Once you've got a feel for the game, talk with your pair and answer the following questions:
-  1. How does scoring work?
-  1. When do tiles enter the game?
-  1. How do you know if you've won?
-  1. How do you know if you've lost?
-  1. What makes tiles move?
-  1. What happens when they move?
-  1. How would you know how far a tile should move?
-  1. How would you know if tiles would collide?
-  1. What happens when tiles collide?
+1. How does scoring work?
+   * Increases by sum of combining tiles -- value of new tiles formed
+2. When do tiles enter the game?
+   * After each move of a keystroke. Position seems random, as do fours. Fours seem less frequent than 2s.
+3. How do you know if you've won?
+   * You get a tile with a value of 2048
+4. How do you know if you've lost?
+   * All tiles are filled, and there are no more possible moves/combinations
+5. What makes tiles move?
+   * Keystroke
+6. What happens when they move?
+   * All rows that have available spaces in the keystroke direction wills shift in the same direction
+7. How would you know how far a tile should move?
+   * it will move as far as there are available spaces (so until it runs out of spaces in the row or there is another tile)
+8. How would you know if tiles would collide?
+   * Tiles combine in the direction of the keystroke, and will combine if the values are the same.
+9. What happens when tiles collide?
+   * The values sum into one tile, the tile that is collided into remains while the “moving” tile disappears
+   * If two tiles don't have the same value, the "collision" stops the motion of the tile in that direction
+
 - Document your answers to these questions in this README.
 - Use your discussion and answers to create tasks for a trello board. Organize those tasks into deliverable components (e.e., _Scoring_, _Tile Collision_, _Win/Loss_).
 - Open a PR with your discussion notes and answers to the above questions. Include a link to your Trello board. Indicate in the PR which deliverable(s) you are targeting first.
