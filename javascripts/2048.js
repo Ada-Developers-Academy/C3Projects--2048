@@ -52,20 +52,7 @@ function initializeBoard() {
         cell.text(board[y][x]);
       }
     }
-
-        // var cell = y3[i];
-        // console.log(typeof y3[i]);
-        // cell.attr("data-val", board[3][i]);
-        // cell.text(board[3][i]);
-    }
-    // var new_tile_value = tile.attr("data-val") * 2;
-
-    // tile.attr("data-val", new_tile_value);
-    // tile.text(new_tile_value);
-
-
-
-
+  }
 
 
 function moveTile(tile, direction) {
