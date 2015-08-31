@@ -41,7 +41,7 @@ Recreate as much of the original game as is reasonable in the one week we have a
     - if you press the left arrow, it starts calculating from the left side
       - 2 2 4 4 -> 2 4 _ _
   1. How would you know if tiles would collide?
-    - see questions
+    - see questions 6 & 7
   1. What happens when tiles collide?
     - update score
     - delete one tile
