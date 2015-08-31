@@ -15,6 +15,11 @@ $(document).ready(function() {
 
 function generateRandomTile() {
   // Generate random tile position and value
+  // For test purposes!
+  // var randomRow = Math.floor(Math.random() * 2 - 0);
+  // var randomCol = Math.floor(Math.random() * 2 - 0);
+  // var newValArray = [2,2,2,2,2,2,2,2];
+
   var randomRow = Math.floor(Math.random() * 4 - 0);
   var randomCol = Math.floor(Math.random() * 4 - 0);
   var newValArray = [2,2,2,2,2,2,2,2,4,4];
@@ -45,15 +50,15 @@ function generateRandomBoard(){
     // do not allow append until new value is different than 1st
 
     // If there's already a tile
-    // if (tilesAdded === 1){
-    //   // Grab existing tile
-    //   var firstTile = $(".tile");
-    //   // Check if new tile and existing tile are the same
-    //   // While they are the same
-    //   while (newTileTemplate === firstTile){
-    //     generateRandomTile();
-    //   }
-    // }
+    if (tilesAdded === 1){
+      // Grab existing tile
+      var existingTile = $(".tile").first();
+      // Check if new tile and existing tile are the same
+      // While they are the same
+      while (newTile === existingTile){
+        newTile = generateRandomTile();
+      }
+    }
 
     // Insert new tile
     $("#gameboard").append(newTile);
