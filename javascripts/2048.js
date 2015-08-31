@@ -1,4 +1,10 @@
 $(document).ready(function() {
+  var MAXSTARTINGTILE = 4;
+  var MINSTARTINGTILE = 2;
+  var MINBOARDLOCALE = 3;
+  var MAXBOARDLOCALE = 0;
+  // Constants -----------------
+
   var board = []
 
   function begin() {
@@ -42,6 +48,21 @@ function empty(location) {
   return answer;
 
 }
+
+function randomizeValue() {
+  var coinFlip = Math.floor(Math.random() * 2)
+  value = coinFlip == 0 ? 2 : 4;
+  return value;
+}
+
+function randomizeLocation() {
+  // floor rounds down for an integer
+  var row = Math.floor(Math.random() *(MAXBOARDLOCALE - MINBOARDLOCALE) + MINBOARDLOCALE );
+  var col = Math.floor(Math.random() *(MAXBOARDLOCALE - MINBOARDLOCALE) + MINBOARDLOCALE );
+  return row;
+  return col;
+}
+
 
 function moveTile(tile, direction) {
   var new_tile_value = tile.attr("data-val") * 2;
