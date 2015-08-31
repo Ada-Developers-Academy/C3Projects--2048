@@ -22,10 +22,10 @@ function generateRandomBoard(){
     var randomCol = Math.floor(Math.random() * 4 - 0);
     var newValArray = [2,2,2,2,2,2,2,2,4,4];
     var randomValue = newValArray[Math.floor(Math.random() * newValArray.length)];
-    var newTileTemplate = $("<div class='tile' data-row='' data-col='' data-val=''></div>");
+    var newTileTemplate = $("<div class='tile' data-row='', data-col='' data-val=''></div>");
     // Build new tile
-    newTileTemplate.attr("data-row", randomRow);
-    newTileTemplate.attr("data-col", randomCol);
+    newTileTemplate.attr("data-row", 'r'+ randomRow);
+    newTileTemplate.attr("data-col", 'c'+ randomCol);
     newTileTemplate.attr("data-val", randomValue);
 
     // Insert new tile
