@@ -17,14 +17,32 @@ Recreate as much of the original game as is reasonable in the one week we have a
 ### Project Baseline
 - Play a couple games of [2048](http://gabrielecirulli.github.io/2048/). Think about everything that's likely happening in the code to support what's happening on the screen. Once you've got a feel for the game, talk with your pair and answer the following questions:
   1. How does scoring work?
+    Whenever identical numbers are added together (e.g. tile "2" + tile "2" = tile "4") that sum is added to your score. Any tiles that haven't been added together (i.e. tile "2") are not part of your score.
+
   1. When do tiles enter the game?
+    When you hit an arrow key *and* the tiles move (i.e. have space), a new tile is introduced to the board.
+
   1. How do you know if you've won?
+    When one of the tiles' sum is equal to 2048.
+
   1. How do you know if you've lost?
+    When the entire board is filled with tiles and none of them can be merged.
+
   1. What makes tiles move?
+    Keystrokes of the up, down, left, and right arrow keys.
+
   1. What happens when they move?
+    All the tiles shift as far in that direction as possible. Tiles of the same value merge together and display their sum (your score is also updated). A new tile, if there is space *and* movement, is introduced to the board.
+
   1. How would you know how far a tile should move?
+    It moves as far in the keystroke direction until it hits the edge of the board game or another tile (at that point it'd merge or sit next to it).
+
   1. How would you know if tiles would collide?
+    When the adjacent tile has the same value.
+
   1. What happens when tiles collide?
+    The **two** (and only the two) tiles collide and create a tile of their sum.
+
 - Document your answers to these questions in this README.
 - Use your discussion and answers to create tasks for a trello board. Organize those tasks into deliverable components (e.e., _Scoring_, _Tile Collision_, _Win/Loss_).
 - Open a PR with your discussion notes and answers to the above questions. Include a link to your Trello board. Indicate in the PR which deliverable(s) you are targeting first.
