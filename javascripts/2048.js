@@ -4,8 +4,8 @@ $(document).ready(function() {
   $('body').keydown(function(event){
     var arrow_keys = [37, 38, 39, 40];
     if(arrow_keys.indexOf(event.which) > -1) {
-      var tile = $('.tile');
-      moveTile(tile, event.which);
+      // var tile = $('.tile');
+      moveTile(event.which);
       event.preventDefault();
     }
   })
@@ -55,23 +55,76 @@ function initializeBoard() {
   }
 
 
-function moveTile(tile, direction) {
-  var new_tile_value = tile.attr("data-val") * 2;
-  tile.attr("data-val", new_tile_value);
-  tile.text(new_tile_value);
-
+function moveTile(direction) {
+  // var new_tile_value = tile.attr("data-val") * 2;
+  // tile.attr("data-val", new_tile_value);
+  // tile.text(new_tile_value);
   switch(direction) {
     case 38: //up
-      tile.attr("data-row","y3");
+      moveUp();
+      // tile.attr("data-row","y3");
       break;
     case 40: //down
-      tile.attr("data-row","y0");
+      moveDown();
+      // tile.attr("data-row","y0");
       break;
     case 37: //left
-      tile.attr("data-col","x0");
+      moveLeft();
+      // tile.attr("data-col","x0");
       break;
     case 39: //right
-      tile.attr("data-col","x3");
+      moveRight();
+      // tile.attr("data-col","x3");
       break;
+  }
+  displayBoard();
+}
+
+function moveUp() {
+  // traversal starting point = y0, x0
+  for(y = 0; y < boardSize; y++) {
+    for(x = 0; x < boardSize; x++) {
+      // check if blank
+      if (board[y][x] != 0) {
+        // do something
+        var next = checkNext(y, x);
+        console.log(next);
+        if (next == 0) {
+          // move it
+          board[y + 1][x] = board[y][x];
+          board[y][x]     = 0;
+        }
+        else if (next == board[y][x]) {
+          // collapse it
+        }
+        else {
+          // do nothing probably dont need this. we'll see
+        }
+      }
+      else {
+      }
+    }
+  }
+}
+
+function moveDown () {
+  // traversal starting point = y3, x0
+}
+
+function moveLeft() {
+  // traversal starting point = y0, x3
+}
+
+function moveRight() {
+  // traversal starting point = y0, x0
+}
+
+function checkNext(y, x) {
+  // this is for up condition
+  if(y + 1 <= 3) {
+  return board[y + 1][x];
+  }
+  else {
+    return null;
   }
 }
