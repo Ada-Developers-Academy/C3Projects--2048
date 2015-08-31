@@ -2,36 +2,61 @@ $(document).ready(function() {
   console.log('ready!');
   $('body').keydown(function(event){
     var arrow_keys = [37, 38, 39, 40];
+
     if(arrow_keys.indexOf(event.which) > -1) {
       var tile = $('.tile');
       moveTile(tile, event.which);
-      createTile();
+      createTile(filled_space);
       event.preventDefault();
     }
   })
 })
 
+  var filled_space = [];
 // generate data structure to keep track of spaces -- object with array pairs
-// x = { 0:[c0, r0], 1:[c1, r0], 2:[c2, r0] }
+// x = { 0:[c0r0], 1:[c1r0], 2:[c2r0] }
 // { '0': [ 0, 0 ], '1': [ 1, 0 ], '2': [ 2, 0 ] }
+
+function rando_num(){
+  return Math.floor(Math.random() * 4);
+}
+
+
+function checkLocation(column, row) {
+  for(var i = 0; i < filled_space.length; i++) {
+    if (filled_space[i] == column + row) {
+      column = 'c' + rando_num();
+      row = 'r' + rando_num();
+      checkLocation(column, row);
+    }
+  }
+  return [column, row];
+}
 
 function createTile() {
 
   // Check for empty spaces before creating
 
   // Create new div element with tile class, location attributes, and value attribute
-  var colrand = Math.floor(Math.random() * 4);
-  var rowrand = Math.floor(Math.random() * 4);
-  var column = 'c' + colrand;
-  var row= 'r' + rowrand;
-  console.log(column);
-  console.log(row);
+  var new_column = 'c' + rando_num();
+  var new_row = 'r' + rando_num();
+
+
+  var result = checkLocation(new_column, new_row);
+  console.log(result);
+
+  var column = result[0];
+  var row = result[1];
+
   var newTile = $( '<div= class="tile">2</div>');
   newTile.attr("data-row", row);
   newTile.attr("data-col", column);
   newTile.attr("data-val", "2");
   $('#gameboard').append(newTile);
-  // console.log(newTile['data-row']);
+
+  filled_space.push(column + row);
+
+
   // Maybe assign unique tile identifier
 
   // Ramdomly generate location attributes. Always start with value of 2 for now.
