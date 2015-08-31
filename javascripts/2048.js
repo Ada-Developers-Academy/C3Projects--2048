@@ -12,7 +12,7 @@ $(document).ready(function() {
 })
 
 // generate data structure to keep track of spaces -- object with array pairs
-// x = { 0:[0, 0], 1:[1, 0], 2:[2, 0] }
+// x = { 0:[c0, r0], 1:[c1, r0], 2:[c2, r0] }
 // { '0': [ 0, 0 ], '1': [ 1, 0 ], '2': [ 2, 0 ] }
 
 function createTile() {
@@ -20,9 +20,18 @@ function createTile() {
   // Check for empty spaces before creating
 
   // Create new div element with tile class, location attributes, and value attribute
-  var newTile = $( '<div= class="tile" data-row="r1", data-col="c1" data-val="2">2</div>' );
+  var colrand = Math.floor(Math.random() * 4);
+  var rowrand = Math.floor(Math.random() * 4);
+  var column = 'c' + colrand;
+  var row= 'r' + rowrand;
+  console.log(column);
+  console.log(row);
+  var newTile = $( '<div= class="tile">2</div>');
+  newTile.attr("data-row", row);
+  newTile.attr("data-col", column);
+  newTile.attr("data-val", "2");
   $('#gameboard').append(newTile);
-  console.log(newTile);
+  // console.log(newTile['data-row']);
   // Maybe assign unique tile identifier
 
   // Ramdomly generate location attributes. Always start with value of 2 for now.
