@@ -1,3 +1,5 @@
+# Kari & Elsa
+
 # Pair Project: 2048
 For this project, we will be working in pairs to create a clone of the super-fun browser based game [2048](http://gabrielecirulli.github.io/2048/).
 
