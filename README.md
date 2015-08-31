@@ -68,5 +68,7 @@ Recreate as much of the original game as is reasonable in the one week we have a
       - Moving
       - Collision
       - New Tile
-      
+
 - Open a PR with your discussion notes and answers to the above questions. Include a link to your Trello board. Indicate in the PR which deliverable(s) you are targeting first.
+  - here is our Trello board: https://trello.com/b/LcM4jdgi/2048-team-beefcake
+  - We are starting with the task: Turn:Moving
