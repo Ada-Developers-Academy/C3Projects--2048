@@ -26,6 +26,7 @@ function initializeBoard() {
     }
     assignRandoTiles();
     assignRandoTiles();
+    displayBoard();
     console.log(board.toString());
   }
 
@@ -42,6 +43,25 @@ function initializeBoard() {
       // this will run endlessly when the board is full -- write a conditional for that
     }
   }
+
+  function displayBoard() {
+    for(var y = 0; y < boardSize; y++) {
+      for(var x = 0; x < boardSize; x++) {
+        var cell = $(".tile[data-row=y" + y + "][data-col=x" + x);
+        cell.attr("data-val", board[y][x]);
+        cell.text(board[y][x]);
+      }
+    }
+
+        // var cell = y3[i];
+        // console.log(typeof y3[i]);
+        // cell.attr("data-val", board[3][i]);
+        // cell.text(board[3][i]);
+    }
+    // var new_tile_value = tile.attr("data-val") * 2;
+
+    // tile.attr("data-val", new_tile_value);
+    // tile.text(new_tile_value);
 
 
 
