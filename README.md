@@ -19,8 +19,8 @@ Recreate as much of the original game as is reasonable in the one week we have a
 ### Project Baseline
 - Play a couple games of [2048](http://gabrielecirulli.github.io/2048/). Think about everything that's likely happening in the code to support what's happening on the screen. Once you've got a feel for the game, talk with your pair and answer the following questions:
   1. How does scoring work?
-    -- score increments when tiles combine
-    -- increment by the sum of those two combining tiles
+    * score increments when tiles combine
+    - increment by the sum of those two combining tiles
   1. When do tiles enter the game?
     -After each keydown the user makes that results in some kind of tile movement
     -Enters at a random empty space
