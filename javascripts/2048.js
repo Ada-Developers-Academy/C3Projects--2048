@@ -13,33 +13,65 @@ $(document).ready(function() {
 });
 
 function startGame() {
-  newTile();
-  newTile();
+  function startTiles() {
+    var rows = ["r0", "r1", "r2", "r3"];
+    var cols = ["c0", "c1", "c2", "c3"];
+
+    // randomize the row & column value
+    var rowIndex = Math.floor(Math.random() * rows.length);
+    var colIndex = Math.floor(Math.random() * cols.length);
+    var tile = $("<div class='tile'></div>");
+    tile.attr({"data-row":rows[rowIndex], "data-col":cols[colIndex]});
+    tile.attr("data-val", 2); // brownie pts = randomly mix in 4s
+    tile.text("2");
+    $("#gameboard").append(tile);
+  }
+  startTiles();
+  startTiles();
 }
 
 // tiles will be anywhere on the board
 // refactor for when you're in the middle of a game
 function newTile() {
-  var rows = ["r0", "r1", "r2", "r3"];
-  var cols = ["c0", "c1", "c2", "c3"];
 
-  // randomize the row & column value
-  var rowIndex = Math.floor(Math.random() * rows.length);
-  var colIndex = Math.floor(Math.random() * cols.length);
+  var BOARD_SPACES = [['r0', 'c0'],['r0', 'c1'], ['r0', 'c2'],['r0', 'c3'],
+                      ['r1', 'c0'],['r1', 'c1'], ['r1', 'c2'],['r1', 'c3'],
+                      ['r2', 'c0'],['r2', 'c1'], ['r2', 'c2'],['r2', 'c3'],
+                      ['r3', 'c0'],['r3', 'c1'], ['r3', 'c2'],['r3', 'c3']];
+
+  var tiles = $('.tile');
+  var takenSpaces = [];
+  for (var i = 0; i < tiles.length; i++) {
+    var row = tiles[i].getAttribute("data-row");
+    var col = tiles[i].getAttribute("data-col");
+    takenSpaces.push([row, col]);
+  }
+
+  var openSpaces = BOARD_SPACES.map( function(space) {
+    if (!($.inArray(space, takenSpaces))) { return space; }
+  });
+
+  function noUndefined(value) {
+    return value != 'undefined';
+  }
+  openSpaces = openSpaces.filter(noUndefined);
+console.log(openSpaces);
+  var spaceIndex = Math.floor(Math.random() * openSpaces.length);
+  var cell = openSpaces[spaceIndex];
 
   // create a html tile
+console.log(cell);
   var tile = $("<div class='tile'></div>");
-  tile.attr({"data-row":rows[rowIndex], "data-col":cols[colIndex]});
+  tile.attr({"data-row":cell[0], "data-col":cell[1]});
   tile.attr("data-val", 2); // brownie pts = randomly mix in 4s
   tile.text("2");
-
   $("#gameboard").append(tile);
 }
 
 function moveTile(tile, direction) {
-  var new_tile_value = tile.attr("data-val") * 2;
-  tile.attr("data-val", new_tile_value);
-  tile.text(new_tile_value);
+  // var new_tile_value = tile.attr("data-val") * 2;
+  // tile.attr("data-val", new_tile_value);
+  // tile.text(new_tile_value);
 
   switch(direction) {
     case 38: // up
@@ -55,4 +87,6 @@ function moveTile(tile, direction) {
       tile.attr("data-col","c3");
       break;
   }
+
+  newTile();
 }
