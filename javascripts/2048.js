@@ -8,7 +8,18 @@ $(document).ready(function() {
       event.preventDefault();
     }
   })
- tilePlacement(["r3", "c2"]);
+  // Assign position of first 2 tiles
+  var tile1 = position();
+  var tile2 = position();
+
+  // if tiles are set to the same position
+  while (tile1[0] === tile2[0] && tile1[1] === tile2[1]) {
+    tile2 = position();
+  }
+
+  // Place tiles on gameboard
+  tilePlacement(tile1);
+  tilePlacement(tile2)
 })
 
 function moveTile(tile, direction) {
@@ -45,12 +56,12 @@ function position(){
 }
 
 function tilePlacement(position) {
-    var tileDiv =  $("<div class='tile'></div>");
-    tileDiv.text(2);
-    tileDiv.attr("data-row", position[0]);
-    tileDiv.attr("data-col", position[1]);
-    tileDiv.attr("data-val",  '2');
+  var tileDiv =  $("<div class='tile'></div>");
+  tileDiv.text(2);
+  tileDiv.attr("data-row", position[0]);
+  tileDiv.attr("data-col", position[1]);
+  tileDiv.attr("data-val",  '2');
 
-    $("#gameboard").append(tileDiv);
-    console.log(tileDiv);
-  }
+  $("#gameboard").append(tileDiv);
+  console.log(tileDiv);
+}
