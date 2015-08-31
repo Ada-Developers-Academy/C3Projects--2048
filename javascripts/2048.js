@@ -5,6 +5,7 @@ $(document).ready(function() {
     if(arrow_keys.indexOf(event.which) > -1) {
       var tile = $('.tile');
       moveTile(tile, event.which);
+      createTile();
       event.preventDefault();
     }
   })
@@ -15,10 +16,13 @@ $(document).ready(function() {
 // { '0': [ 0, 0 ], '1': [ 1, 0 ], '2': [ 2, 0 ] }
 
 function createTile() {
+
   // Check for empty spaces before creating
 
   // Create new div element with tile class, location attributes, and value attribute
-
+  var newTile = $( '<div= class="tile" data-row="r1", data-col="c1" data-val="2">2</div>' );
+  $('#gameboard').append(newTile);
+  console.log(newTile);
   // Maybe assign unique tile identifier
 
   // Ramdomly generate location attributes. Always start with value of 2 for now.
