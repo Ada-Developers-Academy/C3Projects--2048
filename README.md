@@ -65,4 +65,14 @@ If R/L:
 
 - Document your answers to these questions in this README.
 - Use your discussion and answers to create tasks for a trello board. Organize those tasks into deliverable components (e.e., _Scoring_, _Tile Collision_, _Win/Loss_).
+
+  Our deliverable components:
+  - Initialize game: Draw board
+  - Initialize game: Place initial tiles (2 tiles, randomly valued 2 and/or 4)
+  - Game Play: Shifting tiles (pull/add blanks, update rows/columns, display board)
+  - Game Play: Combining tiles  
+  - New tiles - new tiles enter the game
+  - Scoring   
+  - End game
+
 - Open a PR with your discussion notes and answers to the above questions. Include a link to your Trello board. Indicate in the PR which deliverable(s) you are targeting first.
