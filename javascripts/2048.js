@@ -30,10 +30,16 @@ $(document).ready(function() {
   })
 })
 
-function moveTile(tile, direction) {
+function mergeTile(tile) {
   var new_tile_value = tile.attr("data-val") * 2;
   tile.attr("data-val", new_tile_value);
   tile.text(new_tile_value);
+}
+
+function moveTile(tile, direction) {
+
+
+
 
   switch(direction) {
     case 38: //up
