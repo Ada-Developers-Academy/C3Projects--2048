@@ -1,7 +1,10 @@
 $(document).ready(function() {
-  startGame();
+  // introduces 2 tiles only when the game is first started
+  var tiles = $("#gameboard").children(".tile");
+  var inPlay = (tiles.length > 0) ? true : false;
+  if (inPlay === false) { startGame(); }
 
-  // kicks off the game
+  // heart of the game
   $('body').keydown(function(event){
     var arrow_keys = [37, 38, 39, 40];
     if(arrow_keys.indexOf(event.which) > -1) {
@@ -51,7 +54,7 @@ function newTile() {
 
   // determine the unoccupied spaces
   var openSpaces = BOARD_SPACES.map( function(space) {
-    if (!($.inArray(space, takenSpaces))) { return space; }
+    if ($.inArray(space, takenSpaces) < 0) { return space; }
   });
   // remove 'undefined's
   function noUndefined(value) {
