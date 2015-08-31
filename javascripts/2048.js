@@ -21,8 +21,6 @@ function initializeGame() {
   createTile();
 }
 
-
-
 function rando_num(){
   return Math.floor(Math.random() * 4);
 }
@@ -41,35 +39,29 @@ function checkLocation(column, row) {
 
 function createTile() {
 
-  // Check for empty spaces before creating
-
-  // Create new div element with tile class, location attributes, and value attribute
+  // Set initial random location to check
   var new_column = 'c' + rando_num();
   var new_row = 'r' + rando_num();
 
 
+  // Check for empty space before creating tile
   var result = checkLocation(new_column, new_row);
-  console.log(result);
 
   var column = result[0];
   var row = result[1];
 
+  // Create new div element with tile class, location attributes, and value attribute
   var newTile = $( '<div= class="tile">2</div>');
   newTile.attr("data-row", row);
   newTile.attr("data-col", column);
   newTile.attr("data-val", "2");
   $('#gameboard').append(newTile);
 
+  // Add the created tile to the array of filled spaces
   filled_space.push(column + row);
 
 
   // Maybe assign unique tile identifier
-
-  // Ramdomly generate location attributes. Always start with value of 2 for now.
-
-  // Location attributes must be unique/unused.
-
-  // Probably be called twice to initialize game
 }
 
 function destroyTile() {
