@@ -1,6 +1,6 @@
 $(document).ready(function() {
-  console.log('ready!');
   startGame();
+
   // kicks off the game
   $('body').keydown(function(event){
     var arrow_keys = [37, 38, 39, 40];
@@ -20,25 +20,27 @@ function startGame() {
     // randomize the row & column value
     var rowIndex = Math.floor(Math.random() * rows.length);
     var colIndex = Math.floor(Math.random() * cols.length);
+
     var tile = $("<div class='tile'></div>");
     tile.attr({"data-row":rows[rowIndex], "data-col":cols[colIndex]});
     tile.attr("data-val", 2); // brownie pts = randomly mix in 4s
     tile.text("2");
     $("#gameboard").append(tile);
   }
+
   startTiles();
   startTiles();
 }
 
 // tiles will be anywhere on the board
-// refactor for when you're in the middle of a game
+// refactor for being in the middle of tiles instead of on the edge?
 function newTile() {
-
   var BOARD_SPACES = [['r0', 'c0'],['r0', 'c1'], ['r0', 'c2'],['r0', 'c3'],
                       ['r1', 'c0'],['r1', 'c1'], ['r1', 'c2'],['r1', 'c3'],
                       ['r2', 'c0'],['r2', 'c1'], ['r2', 'c2'],['r2', 'c3'],
                       ['r3', 'c0'],['r3', 'c1'], ['r3', 'c2'],['r3', 'c3']];
 
+  // collect the occupied tile spaces
   var tiles = $('.tile');
   var takenSpaces = [];
   for (var i = 0; i < tiles.length; i++) {
@@ -47,31 +49,34 @@ function newTile() {
     takenSpaces.push([row, col]);
   }
 
+  // determine the unoccupied spaces
   var openSpaces = BOARD_SPACES.map( function(space) {
     if (!($.inArray(space, takenSpaces))) { return space; }
   });
-
+  // remove 'undefined's
   function noUndefined(value) {
     return value != 'undefined';
   }
   openSpaces = openSpaces.filter(noUndefined);
-console.log(openSpaces);
+
+  // randomly select an available space
   var spaceIndex = Math.floor(Math.random() * openSpaces.length);
   var cell = openSpaces[spaceIndex];
 
-  // create a html tile
-console.log(cell);
+  // create html tile
   var tile = $("<div class='tile'></div>");
   tile.attr({"data-row":cell[0], "data-col":cell[1]});
   tile.attr("data-val", 2); // brownie pts = randomly mix in 4s
   tile.text("2");
+
   $("#gameboard").append(tile);
 }
 
 function moveTile(tile, direction) {
-  // var new_tile_value = tile.attr("data-val") * 2;
-  // tile.attr("data-val", new_tile_value);
-  // tile.text(new_tile_value);
+  // increments tile value:
+    // var new_tile_value = tile.attr("data-val") * 2;
+    // tile.attr("data-val", new_tile_value);
+    // tile.text(new_tile_value);
 
   switch(direction) {
     case 38: // up
