@@ -1,21 +1,27 @@
 $(document).ready(function() {
   console.log('ready!');
+  initializeGame();
   $('body').keydown(function(event){
     var arrow_keys = [37, 38, 39, 40];
 
     if(arrow_keys.indexOf(event.which) > -1) {
       var tile = $('.tile');
       moveTile(tile, event.which);
-      createTile(filled_space);
+      createTile();
       event.preventDefault();
     }
   })
 })
 
+ //keeps track of where on the board has a tile
   var filled_space = [];
-// generate data structure to keep track of spaces -- object with array pairs
-// x = { 0:[c0r0], 1:[c1r0], 2:[c2r0] }
-// { '0': [ 0, 0 ], '1': [ 1, 0 ], '2': [ 2, 0 ] }
+
+function initializeGame() {
+  createTile();
+  createTile();
+}
+
+
 
 function rando_num(){
   return Math.floor(Math.random() * 4);
