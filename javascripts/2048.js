@@ -7,8 +7,8 @@ $(document).ready(function() {
       moveTile(tile, event.which);
       event.preventDefault();
     }
-  })
-})
+  });
+});
 
 function moveTile(tile, direction) {
   var new_tile_value = tile.attr("data-val") * 2;
