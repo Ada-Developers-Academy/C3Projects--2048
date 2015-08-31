@@ -1,5 +1,6 @@
 $(document).ready(function() {
   console.log('ready!');
+  playGame();
   $('body').keydown(function(event){
     var arrow_keys = [37, 38, 39, 40];
     if(arrow_keys.indexOf(event.which) > -1) {
@@ -10,7 +11,38 @@ $(document).ready(function() {
   })
 })
 
+function playGame() {
+  var openCells = [["r1", "c1"], ["r1", "c2"], ["r1", "c3"], ["r1", "c0"],
+                   ["r2", "c1"], ["r2", "c2"], ["r2", "c3"], ["r2", "c0"],
+                   ["r3", "c1"], ["r3", "c2"], ["r3", "c3"], ["r3", "c0"],
+                   ["r0", "c1"], ["r0", "c2"], ["r0", "c3"], ["r0", "c0"]];
+  var newGame = 2
+  var contGame = 1
+  newTile(openCells, newGame)
+}
+
+function randomNum(array) {
+
+  var index = Math.floor(Math.random()*(array.length));
+  return array[index]
+}
+
+function newTile(cells, tileNum) {
+  var initNum = randomNum([2, 4]);
+  var cellSpace = randomNum(cells);
+  var tile = document.createElement("div");
+  $("#gameboard").append(tile);
+  $(tile).addClass("tile");
+  $(tile).attr("data-row", cellSpace[0]);
+  $(tile).attr("data-col", cellSpace[1]);
+  $(tile).attr("data-val", initNum);
+  $(tile).text(initNum);
+  //delete cellSpace from openCells
+
+}
+
 function moveTile(tile, direction) {
+  //only be user * 2 if the tiles merged
   var new_tile_value = tile.attr("data-val") * 2;
   tile.attr("data-val", new_tile_value);
   tile.text(new_tile_value);
