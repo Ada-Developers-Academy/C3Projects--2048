@@ -1,4 +1,4 @@
-# Pair Project: 2048
+# Brenna and Carly Pair Project: 2048
 For this project, we will be working in pairs to create a clone of the super-fun browser based game [2048](http://gabrielecirulli.github.io/2048/).
 
 You will not use or reference of of the code or assets in the original or any clones, forks, remakes, extensions, or modifications of 2048. This one is yours. Own it.
