@@ -7,7 +7,9 @@ $(document).ready(function() {
       moveTile(tile, event.which);
       event.preventDefault();
     }
+  addTile();
   })
+
   // Assign position of first 2 tiles
   var tile1 = position();
   var tile2 = position();
@@ -21,6 +23,34 @@ $(document).ready(function() {
   tilePlacement(tile1);
   tilePlacement(tile2)
 })
+
+// Score is zero at the start of the game;
+var score = 0;
+
+// Find positions of all tiles on board =>[["r3", "c0"], ["r3", "c1"]]
+function locateTiles(){
+  var tileRowPositions = $(".tile").map(function() {return $(this).attr("data-row");}).get();
+  var tileColPositions = $(".tile").map(function() {return $(this).attr("data-col");}).get();
+
+  var tilePositions = [];
+  for (var i=0; i < tileRowPositions.length; i++){
+    tilePositions[i] = [tileRowPositions[i], tileColPositions[i]];
+  }
+  return tilePositions;
+}
+
+// Add a tile with evert key press
+function addTile(){
+  var takenSpace = locateTiles();
+
+  var newTile = position();
+  for (var i=0; i < takenSpace.length; i++) {
+    while (newTile[i] === takenSpace[i]) {
+      newTile = position();
+    }
+  }
+  tilePlacement(newTile);
+}
 
 function moveTile(tile, direction) {
   var new_tile_value = tile.attr("data-val") * 2;
@@ -43,6 +73,7 @@ function moveTile(tile, direction) {
   }
 }
 
+// generates a random grid postion =>["r3", "c0"]
 function position(){
   var rowCoordinates = ["r0", "r1", "r2", "r3"];
   var columnCoordinates = ["c0", "c1", "c2", "c3"];
