@@ -96,6 +96,8 @@ function moveUp() {
         }
         else if (next == board[y][x]) {
           // collapse it
+          board[y + 1 ][x] += board[y][x];
+          board[y][x]       = 0;
         }
         else {
           // do nothing probably dont need this. we'll see
