@@ -19,8 +19,8 @@ Recreate as much of the original game as is reasonable in the one week we have a
 ### Project Baseline
 - Play a couple games of [2048](http://gabrielecirulli.github.io/2048/). Think about everything that's likely happening in the code to support what's happening on the screen. Once you've got a feel for the game, talk with your pair and answer the following questions:
   1. How does scoring work?
-    -score increments when tiles combine
-    -increment by the sum of those two combining tiles
+    -- score increments when tiles combine
+    -- increment by the sum of those two combining tiles
   1. When do tiles enter the game?
     -After each keydown the user makes that results in some kind of tile movement
     -Enters at a random empty space
@@ -42,7 +42,7 @@ Recreate as much of the original game as is reasonable in the one week we have a
     -if the tile they reach is the same value, they combine into one tile with the value of their sum
   1. What happens when tiles collide?
     -if they have the same value, they combine into one tile with the value of their sum
-    
+
 - Document your answers to these questions in this README.
 - Use your discussion and answers to create tasks for a trello board. Organize those tasks into deliverable components (e.e., _Scoring_, _Tile Collision_, _Win/Loss_).
 - Open a PR with your discussion notes and answers to the above questions. Include a link to your Trello board. Indicate in the PR which deliverable(s) you are targeting first.
