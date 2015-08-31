@@ -10,6 +10,25 @@ $(document).ready(function() {
   })
 })
 
+var
+
+var tilesNum = 2;
+
+var tilesNum
+
+function generateRandomBoard(){
+  var tilesAdded = 0;
+  while (tilesAdded < tilesNum){
+    var randomRow = Math.floor(Math.random() * 4 - 0);
+    var randomCol = Math.floor(Math.random() * 4 - 0);
+    var newTile =
+    var newValArray = [2,2,2,2,2,2,2,2,4,4];
+    var newTileValue = newValArray[Math.floor(Math.random() * newValArray.length)];
+  }
+
+}
+
+
 function moveTile(tile, direction) {
   var new_tile_value = tile.attr("data-val") * 2;
   tile.attr("data-val", new_tile_value);
