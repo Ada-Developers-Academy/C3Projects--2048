@@ -1,4 +1,7 @@
 # Marleigh and Lindsey # Pair Project: 2048
+
+Link to Trello Board: https://trello.com/b/M9bDT0zB/2048-lindsey-marleigh
+
 For this project, we will be working in pairs to create a clone of the super-fun browser based game [2048](http://gabrielecirulli.github.io/2048/).
 
 You will not use or reference of of the code or assets in the original or any clones, forks, remakes, extensions, or modifications of 2048. This one is yours. Own it.
@@ -33,7 +36,7 @@ Recreate as much of the original game as is reasonable in the one week we have a
   8. How would you know if tiles would collide?
       if the tiles have an identical value, they collide and merge.
   9. What happens when tiles collide?
-      They merge into a single tile where the face value doubles to reflect the addition of the tiles.
+      They merge into a single tile where the face value doubles to reflect the addition of the tiles. New tile takes farthest space.
 
 - Document your answers to these questions in this README.
 - Use your discussion and answers to create tasks for a trello board. Organize those tasks into deliverable components (e.e., _Scoring_, _Tile Collision_, _Win/Loss_).
