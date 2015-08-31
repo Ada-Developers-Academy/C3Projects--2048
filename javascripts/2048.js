@@ -16,20 +16,24 @@ function playGame() {
                    ["r2", "c1"], ["r2", "c2"], ["r2", "c3"], ["r2", "c0"],
                    ["r3", "c1"], ["r3", "c2"], ["r3", "c3"], ["r3", "c0"],
                    ["r0", "c1"], ["r0", "c2"], ["r0", "c3"], ["r0", "c0"]];
-  var newGame = 2
-  var contGame = 1
-  newTile(openCells, newGame)
+  var usedCells = []
+  if (openCells.length == 16) {
+    newTile(openCells, usedCells);
+    newTile(openCells, usedCells);
+  } else {
+    newTile(openCells, usedCells)
+  }
+
 }
 
 function randomNum(array) {
-
   var index = Math.floor(Math.random()*(array.length));
   return array[index]
 }
 
-function newTile(cells, tileNum) {
+function newTile(openCells, usedCells) {
   var initNum = randomNum([2, 4]);
-  var cellSpace = randomNum(cells);
+  var cellSpace = randomNum(openCells);
   var tile = document.createElement("div");
   $("#gameboard").append(tile);
   $(tile).addClass("tile");
@@ -37,8 +41,12 @@ function newTile(cells, tileNum) {
   $(tile).attr("data-col", cellSpace[1]);
   $(tile).attr("data-val", initNum);
   $(tile).text(initNum);
-  //delete cellSpace from openCells
+  occupyCell(openCells, usedCells, cellSpace);
+}
 
+function occupyCell(openCells, usedCells, cellSpace) {
+  openCells.splice(openCells.indexOf(cellSpace), 1);
+  usedCells.push(cellSpace);
 }
 
 function moveTile(tile, direction) {
