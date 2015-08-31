@@ -1,5 +1,8 @@
 $(document).ready(function() {
   console.log('ready!');
+  generateRandomBoard();
+
+
   $('body').keydown(function(event){
     var arrow_keys = [37, 38, 39, 40];
     if(arrow_keys.indexOf(event.which) > -1) {
@@ -10,24 +13,27 @@ $(document).ready(function() {
   })
 })
 
-var
-
-var tilesNum = 2;
-
-var tilesNum
-
 function generateRandomBoard(){
   var tilesAdded = 0;
+  var tilesNum = 2;
   while (tilesAdded < tilesNum){
+    // Generate random tile position and value
     var randomRow = Math.floor(Math.random() * 4 - 0);
     var randomCol = Math.floor(Math.random() * 4 - 0);
-    var newTile =
     var newValArray = [2,2,2,2,2,2,2,2,4,4];
-    var newTileValue = newValArray[Math.floor(Math.random() * newValArray.length)];
+    var randomValue = newValArray[Math.floor(Math.random() * newValArray.length)];
+    var newTileTemplate = $("<div class='tile' data-row='' data-col='' data-val=''></div>");
+    // Build new tile
+    newTileTemplate.attr("data-row", randomRow);
+    newTileTemplate.attr("data-col", randomCol);
+    newTileTemplate.attr("data-val", randomValue);
+
+    // Insert new tile
+    $("#gameboard").append(newTileTemplate);
+
+    tilesAdded++;
   }
-
 }
-
 
 function moveTile(tile, direction) {
   var new_tile_value = tile.attr("data-val") * 2;
