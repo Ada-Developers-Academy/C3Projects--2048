@@ -61,4 +61,12 @@ Recreate as much of the original game as is reasonable in the one week we have a
 
 - Document your answers to these questions in this README.
 - Use your discussion and answers to create tasks for a trello board. Organize those tasks into deliverable components (e.e., _Scoring_, _Tile Collision_, _Win/Loss_).
+  - Deliverables:
+    - Scoring
+    - Win/Lose
+    - Turn:
+      - Moving
+      - Collision
+      - New Tile
+      
 - Open a PR with your discussion notes and answers to the above questions. Include a link to your Trello board. Indicate in the PR which deliverable(s) you are targeting first.
