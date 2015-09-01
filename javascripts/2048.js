@@ -13,6 +13,10 @@ $(document).ready(function() {
 
 function makeTurn(direction) {
   var tiles = $(".tile"); // in order by the html
+  var type = rowOrColumn();
+  var oppositeType = (type == "data-row") ? "data-col" : "data-row";
+  // set the positive or negative according to direction
+  var magnitude = parseInt(farthestValue());
 
   function moveTiles() {
     var moveInDirection = makeMovement(direction);
@@ -27,11 +31,9 @@ function makeTurn(direction) {
 
   function orderTiles() {
     // check if movement is up/down (row) or right/left (col)
-    var type = rowOrColumn();
     // check if movement makes values get smaller (up/left) or bigger (down/right)
     var magnitude = parseInt(farthestValue(direction));
     // store type of non-movement dimension
-    var oppositeType = (type == "data-row") ? "data-col" : "data-row";
 
     // split into groups by type
     var typeA = [];
@@ -72,6 +74,41 @@ function makeTurn(direction) {
     return sortedTiles;
   }
 
+  function mergeTiles() {
+    var sortedTiles = orderTiles();
+
+    function mergeableTile(tile) {
+      // look at opposite type value
+      var typeValue = tile.getAttribute(type);
+      var oppositeValue = tile.getAttribute(oppositeType);
+      // find neighbor value ( if c1,r1 and moving up, neighbor is c1, r2)
+      var neighborValue = parseInt(typeValue) - magnitude;
+      // nasty block text stuff
+      var neighborText = ".tile[" + type + "=\"" + neighborValue + "\"][" + oppositeType + "=\"" + oppositeValue + "\"]";
+      // use block text to check if neighbor exists
+      var neighbor = $(neighborText);
+
+      if (neighbor.length > 0) {
+        return neighbor[0];
+      } else {
+        return null;
+      }
+    }
+
+    for (var i = 0; i < sortedTiles.length; i++) {
+      var neighbor = mergeableTile(sortedTiles[i]);
+      // if neighbor exists, then double current tile's value and delete neighbor tile
+      if (neighbor) {
+        var currentVal = parseInt(sortedTiles[i].getAttribute("data-val"));
+        sortedTiles[i].setAttribute("data-val", (currentVal * 2));
+        sortedTiles[i].innerHTML = (currentVal * 2);
+        neighbor.remove();
+      }
+    }
+  }
+
+
+
   function rowOrColumn() {
     var type = "";
     if (direction == 38 || direction == 40) {
@@ -99,8 +136,6 @@ function makeTurn(direction) {
   // outputs a function that takes a tile and moves it in a particular direction
   function makeMovement() {
     var moveTile = function(tile) {
-      // set the positive or negative according to direction
-      var magnitude = parseInt(farthestValue());
 
       function okayToMove(tile) {
         var okay = true;
@@ -116,9 +151,6 @@ function makeTurn(direction) {
         return okay;
         // return true/false
       }
-
-      // set row or column (type)
-      var type = rowOrColumn();
 
       // move the tile one space
       var relevantAttributeValue = tile.getAttribute(type);
@@ -142,6 +174,6 @@ function makeTurn(direction) {
   }
 
   moveTiles();
-  // mergeTiles(direction);
-  // moveTiles(direction);
+  mergeTiles();
+  // moveTiles();
 }
