@@ -69,10 +69,10 @@ Board.prototype.horizontalReorient = function() {
 Board.prototype.verticalReorient = function() {
   var reorientedBoard = [];
 
-  for (var oldCol = this.emptyTile; oldCol < this.boardLength; oldCol++) {
+  for (var oldCol = 0; oldCol < this.boardLength; oldCol++) {
     var newRow = [];
 
-    for (var oldRow = this.emptyTile; oldRow < this.boardLength; oldRow++) {
+    for (var oldRow = 0; oldRow < this.boardLength; oldRow++) {
       newRow.push(this.board[oldRow][oldCol]);
     };
 
