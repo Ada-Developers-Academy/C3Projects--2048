@@ -51,11 +51,11 @@ function empty(location) {
   return answer;
 }
 
-// function mergeTile(tile) {
-//   var new_tile_value = tile.attr("data-val") * 2;
-//   tile.attr("data-val", new_tile_value);
-//   tile.text(new_tile_value);
-// }
+function mergeTile(tile) {
+  var new_tile_value = tile.attr("data-val") * 2;
+  tile.attr("data-val", new_tile_value);
+  tile.text(new_tile_value);
+}
 
 function moveTiles(direction) {
 
@@ -77,7 +77,6 @@ function moveTiles(direction) {
     return function(x) {
       var count = x;
       while (empty(board[x][y]) && count > 0) {
-        console.log("y" + y + "x" + x + "count" + count);
         if (!empty(board[count - 1][y])) {
           board[x][y] = board[count - 1][y];
           board[count - 1][y] = undefined;
@@ -92,7 +91,6 @@ function moveTiles(direction) {
     return function(y) {
       var count = y;
       while (empty(board[x][y]) && count < 3) {
-        console.log(count);
         if (!empty(board[x][count + 1])) {
           board[x][y] = board[x][count + 1];
           board[x][count + 1] = undefined;
@@ -110,13 +108,7 @@ function moveTiles(direction) {
         if (!empty(board[x][count - 1])) {
           board[x][y] = board[x][count - 1];
           board[x][count - 1] = undefined;
-
-          var attri = "data-col";
-          var old_location = ".tile[data-col=c" + (count - 1) + "]"
-          var tile = $(old_location);
-          var new_location = "c" + y;
-          tile.attr(attri, new_location);
-          // reassigningTileAttr("col", (count - 1), y);
+          reassigningTileAttr(x, x, (count - 1), y);
         }
         count--;
       }
@@ -125,17 +117,13 @@ function moveTiles(direction) {
 
   function reassigningTileAttr(oldRow, newRow, oldCol, newCol) {
     var oldLocation = ".tile[data-row=r" + oldRow + "][data-col=c" + oldCol + "]";
-    var tile = $(oldLocation); // .tile[data-row=r1]
-    //****** .tile[data-col=c1]
+    var tile = $(oldLocation);
     var newRowLocation = "r" + newRow;
     var newColLocation = "c" + newCol;
     tile.attr("data-row", newRowLocation);
     tile.attr("data-col", newColLocation);
   }
 
-  // for (y = 0; y < 3; y++) {
-  //   column(y);
-  // }
   switch(direction) {
     case 38:
       for (i = 0; i <= 3; i++) { // for each column
@@ -144,10 +132,6 @@ function moveTiles(direction) {
           row(j);
         }
       }
-      // a = column(0);
-      // a(0);
-      // a(1);
-      // a(2);
       break;
     case 40:
       for (i = 0; i <= 3; i++) { // for each column
