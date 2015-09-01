@@ -3,8 +3,6 @@ var cols = ['c0', 'c1', 'c2', 'c3'];
 var startValues = [ 2, 4 ];
 
 $(document).ready(function() {
-
-
   initializeGame();
 
   console.log('ready!');
@@ -62,3 +60,11 @@ function moveTile(tile, direction) {
       break;
   }
 }
+
+// partial code for keypress 39?
+  // var row0 = $('[data-row=r0]');  // not in order... need to fix
+  // for (var i = row0.length - 1; i >= 0; i--) {
+  //   if (row0[i].getAttribute('data-val') === row0[i - 1].getAttribute('data-val')) {
+  //     moveTile(row0[i], event.which);
+  //   }
+  // }
