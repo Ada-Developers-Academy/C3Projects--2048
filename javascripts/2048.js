@@ -1,5 +1,6 @@
 $(document).ready(function() {
   console.log('ready!');
+  initializeGame();
   $('body').keydown(function(event){
     var arrow_keys = [37, 38, 39, 40];
 
@@ -12,10 +13,13 @@ $(document).ready(function() {
   })
 })
 
+ //keeps track of where on the board has a tile
   var filled_space = [];
-// generate data structure to keep track of spaces -- object with array pairs
-// x = { 0:[c0r0], 1:[c1r0], 2:[c2r0] }
-// { '0': [ 0, 0 ], '1': [ 1, 0 ], '2': [ 2, 0 ] }
+
+function initializeGame() {
+  createTile();
+  createTile();
+}
 
 function rando_num(){
   return Math.floor(Math.random() * 4);
@@ -37,18 +41,16 @@ function createTile() {
 
   // Check for empty spaces before creating
 
-  // Create new div element with tile class, location attributes, and value attribute
   if (filled_space.length < 16) {
     var new_column = rando_num();
     var new_row = rando_num();
 
-
     var result = checkLocation(new_column, new_row);
-    console.log(result);
 
     var column = result[0];
     var row = result[1];
 
+    // Create new div element with tile class, location attributes, and value attribute
     var newTile = $( '<div= class="tile">2</div>');
     newTile.attr("data-row", 'r' + row);
     newTile.attr("data-col", 'c' + column);
@@ -61,12 +63,6 @@ function createTile() {
   }
 
   // Maybe assign unique tile identifier
-
-  // Ramdomly generate location attributes. Always start with value of 2 for now.
-
-  // Location attributes must be unique/unused.
-
-  // Probably be called twice to initialize game
 }
 
 function destroyTile() {
