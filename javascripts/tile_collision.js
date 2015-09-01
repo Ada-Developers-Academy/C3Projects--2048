@@ -1,5 +1,5 @@
+// all the tiles and their locations
 function tileInventory() {
-  // all the tiles and their locations
   var tiles = $('.tile');
   var takenSpaces = [];
   for (var i = 0; i < tiles.length; i++) {
@@ -11,6 +11,8 @@ function tileInventory() {
   return takenSpaces;
 }
 
+// returns a fat array of all the tiles in
+// opposite order of the keystroke
 function orderTiles(keystroke) {
   // collect all the tile locations
   var tiles = tileInventory();
@@ -54,7 +56,13 @@ function orderTiles(keystroke) {
     return result;
   };
 
-  // a fat array of all the tiles in opposite order
-  // of the keystroke
   return organizedTiles;
+}
+
+// move through the tiles one by one
+// figure out if they merge, move, or stay put
+function tileCollision(keystroke) {
+  var orderedTiles = orderTiles(keystroke);
+
+  
 }
