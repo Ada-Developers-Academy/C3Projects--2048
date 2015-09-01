@@ -39,6 +39,7 @@ function startGame() {
 // tiles will be anywhere on the board
 // refactor for being in the middle of tiles instead of on the edge?
 function newTile() {
+  // TODO refactor against tileInventory
   var BOARD_SPACES = [['r0', 'c0'],['r0', 'c1'], ['r0', 'c2'],['r0', 'c3'],
                       ['r1', 'c0'],['r1', 'c1'], ['r1', 'c2'],['r1', 'c3'],
                       ['r2', 'c0'],['r2', 'c1'], ['r2', 'c2'],['r2', 'c3'],
