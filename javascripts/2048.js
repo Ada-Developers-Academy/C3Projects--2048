@@ -20,6 +20,14 @@ function initializeGame() {
   // randomly pick two positions and start values
   generateTile(startValues);
   generateTile(startValues);
+  generateTile(startValues);
+  generateTile(startValues);
+  generateTile(startValues);
+  generateTile(startValues);
+  generateTile(startValues);
+  generateTile(startValues);
+  generateTile(startValues);
+
 }
 
 function generateTile(array) {
@@ -59,8 +67,28 @@ function moveTiles(tile, direction) {
 
 function moveRight() {
   for (var i = 0; i < rows.length; i++) {
-    shiftRightOrDown(generateRow(i), 'row');
+    shiftRightOrDown(combine(generateRow(i)), 'row');
   }
+}
+
+function combineRightOrDown(row) {
+  for (var i = row.length - 2; i >= 0; i--) {
+    console.log("right after start of for loop i is" + i);
+    if (row[i].attr('data-val') === row[i + 1].attr('data-val')) {
+      // combine!
+      var value = row[i].attr('data-val');
+      row[i].attr('data-val', (value * 2));
+      row[i].text(value * 2);
+
+      row[i + 1].remove();
+      row.splice(i + 1, 1);
+      console.log("in if before extra decrement i is" + i);
+      i -= 1;
+      console.log("in if after extra decrement i is" + i);
+
+    }
+  }
+  return row;
 }
 
 function moveLeft() {
