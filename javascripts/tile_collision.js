@@ -64,5 +64,60 @@ function orderTiles(keystroke) {
 function tileCollision(keystroke) {
   var orderedTiles = orderTiles(keystroke);
 
+  var direction = function() {
+    switch(keystroke) {
+    case 38:
+      return "up";
+    case 40:
+      return "down";
+    case 37:
+      return "left";
+    case 39:
+      return "right";
+    }
+  };
 
+  for (var i = 0; i < orderedTiles; i++) {
+    var tile = orderedTiles[i];
+    var rows = ["r0","r1", "r2", "r3"];
+    var columns = ["c0","c1", "c2", "c3"];
+
+    if(direction === "up" || direction === "down") {
+      var tileRow = tile[0];
+      var rowsIndex = rows.indexOf(tileRow); // index of the row that the tile is in
+      var sameColumn = tile[1];
+
+      if(direction === "up") {
+        var rowUp = (rows[rowsIndex - 1]);
+        var empty = $.inArray([rowUp, sameColumn], orderedTiles);
+
+        if (empty) {
+          merge();
+        } else {
+          moveOne();
+        }
+
+      } else if(direction === "down") {
+        var rowDown = (rows[rowsIndex + 1]);
+        var empty = $.inArray([rowDown, sameColumn], orderedTiles);
+
+        if (empty) {
+          merge();
+        } else {
+          moveOne();
+        }
+      }
+
+    } else if(direction ==="left" || direction === "right") {
+      var tileColumn = tile[1];
+      var columnsIndex = columns.indexOf(tileColumn);
+      if(direction === "left") {
+
+
+      } else if(direction === "right") {
+
+        
+      }
+    }
+  }
 }
