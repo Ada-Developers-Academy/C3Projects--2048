@@ -77,6 +77,25 @@ function tileCollision(keystroke) {
     }
   };
 
+  function isEmpty(direction){
+    if (direction === "up") {
+      var rowUp = (rows[rowsIndex - 1]);
+      return $.inArray([rowUp, sameColumn], orderedTiles);
+
+    } else if (direction === "down") {
+      var rowDown = (rows[rowsIndex + 1]);
+      return $.inArray([rowDown, sameColumn], orderedTiles);
+
+    } else if (direction === "left") {
+      var colLeft = (columns[columnsIndex - 1]);
+      return $.inArray([colLeft, sameRow], orderedTiles);
+
+    } else if (direction === "right") {
+      var colRight = (columns[columnsIndex + 1]);
+      return $.inArray([colRight, sameRow], orderedTiles);
+    }
+  }
+
   for (var i = 0; i < orderedTiles; i++) {
     var tile = orderedTiles[i];
     var rows = ["r0","r1", "r2", "r3"];
@@ -87,37 +106,18 @@ function tileCollision(keystroke) {
       var rowsIndex = rows.indexOf(tileRow); // index of the row that the tile is in
       var sameColumn = tile[1];
 
-      if(direction === "up") {
-        var rowUp = (rows[rowsIndex - 1]);
-        var empty = $.inArray([rowUp, sameColumn], orderedTiles);
-
-        if (empty) {
-          merge();
-        } else {
-          moveOne();
-        }
-
-      } else if(direction === "down") {
-        var rowDown = (rows[rowsIndex + 1]);
-        var empty = $.inArray([rowDown, sameColumn], orderedTiles);
-
-        if (empty) {
-          merge();
-        } else {
-          moveOne();
-        }
-      }
-
     } else if(direction ==="left" || direction === "right") {
       var tileColumn = tile[1];
       var columnsIndex = columns.indexOf(tileColumn);
-      if(direction === "left") {
+      var sameRow = tile[0];
+    }
 
+    var adjacentSpace = isEmpty(direction);
 
-      } else if(direction === "right") {
-
-        
-      }
+    if (adjacentSpace === true) {
+      merge();
+    } else {
+      moveOne();
     }
   }
 }
