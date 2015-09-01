@@ -1,6 +1,6 @@
 $(document).ready(function() {
   console.log('ready!');
-  $('body').keydown(function(event){
+  $('body').keydown(function(event){ // invoking a keydown event
     var arrow_keys = [37, 38, 39, 40];
     if(arrow_keys.indexOf(event.which) > -1) {
       var tile = $('.tile');
