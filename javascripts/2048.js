@@ -18,27 +18,30 @@ function moveTiles(direction) {
 }
 
 function moveTile(tile, direction) {
-  var farthestEdgeType = "";
-  var farthestEdgeValue = "";
+  var type = rowOrColumn(direction);
+  var value = farthestValue(direction);
 
-  switch(direction) {
-    case 38: // up
-      farthestEdgeType = "data-row";
-      farthestEdgeValue = "1";
-      break;
-    case 40: // down
-      farthestEdgeType = "data-row";
-      farthestEdgeValue = "4";
-      break;
-    case 37: // left
-      farthestEdgeType = "data-col";
-      farthestEdgeValue = "1";
-      break;
-    case 39: // right
-      farthestEdgeType = "data-col";
-      farthestEdgeValue = "4";
-      break;
+  tile.setAttribute(type, value);
+}
+
+function rowOrColumn(direction) {
+  var type = "";
+  if (direction == 38 || direction == 40) {
+    type = "data-row";
+  } else if (direction == 37 || direction == 39) {
+    type = "data-col";
   }
 
-  tile.setAttribute(farthestEdgeType, farthestEdgeValue);
+  return type;
+}
+
+function farthestValue(direction) {
+  var value = "";
+  if (direction == 37 || direction == 38) {
+    value = "1";
+  } else if (direction == 39 || direction == 40) {
+    value = "4";
+  }
+
+  return value;
 }
