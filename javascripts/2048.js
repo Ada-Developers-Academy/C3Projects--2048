@@ -54,23 +54,47 @@ function mergeTile(tile) {
 
 function moveTiles(direction) {
 
-  function column(y) {
+  function goingUp(y) {
     return function(x) {
-      // for (x = 0; x < 3; x++) { // don't want to move a non-existant row up
-        console.log("round" + x)
-        var count = x
-        while (empty(board[x][y]) && count < 3) {
-          if (!empty(board[count + 1][y])) {
-            board[x][y] = board[count + 1][y];
-            board[count + 1][y] = undefined;
-            var old_row = ".tile[data-row=r" + (count + 1) + "]"
-            var tile = $(old_row);
-            var new_row = "r" + (x);
-            tile.attr("data-row", new_row);
-          }
-          count++
+      var count = x
+      while (empty(board[x][y]) && count < 3) {
+        if (!empty(board[count + 1][y])) {
+          board[x][y] = board[count + 1][y];
+          board[count + 1][y] = undefined;
+          // var old_row = ".tile[data-row=r" + (count + 1) + "]"
+          // var tile = $(old_row);
+          // var new_row = "r" + (x);
+          // tile.attr("data-row", new_row);
+          reassigningTileAttr("row", (count + 1), x)
         }
-      // }
+        count++
+      }
+    }
+  }
+
+  function reassigningTileAttr(dataType, old_num, new_num) {
+    var attri = "data-" + dataType
+    var old_location = ".tile[" + attri + "=r" + old_num + "]"
+    var tile = $(old_location);
+    var new_location = dataType[0] + new_num;
+    tile.attr(attri, new_location);
+  }
+
+  function goingDown(y) {
+    return function(x) {
+      var count = x
+      while (empty(board[x][y]) && count > 0) {
+        if (!empty(board[count - 1][y])) {
+          board[x][y] = board[count - 1][y];
+          board[count - 1][y] = undefined;
+          // var old_row = ".tile[data-row=r" + (count - 1) + "]"
+          // var tile = $(old_row);
+          // var new_row = "r" + (x);
+          // tile.attr("data-row", new_row);
+          reassigningTileAttr("row", (count - 1), x)
+        }
+        count--
+      }
     }
   }
 
@@ -80,7 +104,7 @@ function moveTiles(direction) {
   switch(direction) {
     case 38:
       for (i = 0; i < 3; i++) { // for each column
-        row = column(i);
+        row = goingUp(i);
         for (j = 0; j < 3; j++) { // for each row
           row(j);
         }
@@ -90,10 +114,15 @@ function moveTiles(direction) {
       // a(1);
       // a(2);
       break;
+    case 40:
+      for (i = 0; i < 3; i++) { // for each column
+        row = goingDown(i);
+        for (j = 3; j > 0; j--) { // for each row
+          row(j);
+        }
+      }
+      break;
   }
-  // column(1);
-  // column(2);
-  // column(3);
 
   // switch(direction) {
   //   case 38: //up
