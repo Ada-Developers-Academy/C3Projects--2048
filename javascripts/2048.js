@@ -180,7 +180,43 @@ function makeTurn(direction) {
     return moveTile;
   }
 
+  function addTile() {
+    var tile = $("<div data-row='' data-col='' data-val=''></div>");
+    var dataVal = Math.random() < 0.04 ? 4 : 2;
+
+    // figure out all empty spots
+    // function to pick row and column number
+    function pickLocation() {
+      function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+      var row = getRandomInt(1, 4);
+      var col = getRandomInt(1, 4);
+
+      var newLocationText = ".tile[data-row=\"" + row + "\"][data-col=\"" + col + "\"]";
+      var newLocation = $(newLocationText);
+
+    // while tile exists, keep reassigning new numbers
+      while (newLocation.length > 0) {
+        pickLocation();
+      }
+
+      return [row, col];
+    }
+
+    // var rowCol = pickLocation();
+
+    tile.addClass("tile");
+    tile.attr("data-row", 4);
+    tile.attr("data-col", 4);
+    tile.attr("data-val", dataVal);
+    tile.text(dataVal);
+
+    $("#gameboard").append(tile);
+  }
+
   moveTiles();
   mergeTiles();
   moveTiles();
+  addTile();
 }
