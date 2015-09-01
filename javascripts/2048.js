@@ -76,7 +76,7 @@ function generateRandomBoard(){
 }
 
 function moveTile(tile, direction) {
-  var new_tile_value = tile.attr("data-val") * 2;
+  var new_tile_value = tile.attr("data-val");
   tile.attr("data-val", new_tile_value);
   // tile.text(new_tile_value);
 
@@ -89,19 +89,30 @@ function moveTile(tile, direction) {
       // start with checking all tile.attr for items containing data-col === c0
       // getElementby get all objects with data-col === c0
 
-      // get the tile
+      // get a collection of tiles
       var occupants = $("[data-col='c0']");
-      // console.log(occupants);
 
-      // check its upstairs neighbor
-      var occupantRow = occupants.attr("data-row");
-      var neighborRow = (occupantRow.replace("r","") - 1);
+      // for  each tile...
+      for (i = 0; i < occupants.length; i++) {
+        // check if they're next to a wall
+        var topWall = "r0"
+        // check if it has upstairs neighbor
+        var occupantRow = occupants.attr("data-row");
+        var neighborRow = (occupantRow.replace("r","") - 1);
+        var neighborCount = $("[data-row='r" + neighborRow + "'][data-col='c0']").size();
 
-      $("[data-col='c0', data-row='neighborRow']").size();
-      // how do we interpolate neighborRow???
-      // while next cell is empty
-        // move up
+        if (neighborCount === 0 && tile.attr("data-row") != "topWall"){
+          var currentPosition = tile.attr("data-row"); // r3
+          var positionNum = currentPosition.replace("r","");
+          // movement (go up one cell)
+          tile.attr("data-row", "r" + (positionNum - 1) );
+          // move forward one
+        }
+      }
 
+
+
+      // look for occupants that have a row value of neighborRow
 
       // shift "occupant(s)" in direction pressed if next tile is empty else
 
