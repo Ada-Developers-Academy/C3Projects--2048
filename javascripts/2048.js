@@ -11,26 +11,27 @@ $(document).ready(function() {
 })
 
 function moveTiles(direction) {
+  var moveInDirection = makeMovement(direction);
   var tiles = $(".tile");
   for (i = 0; i < tiles.length; i++) {
-    moveTile(tiles[i], direction);
+    moveInDirection(tiles[i]);
   }
 }
 
-function moveTile(tile, direction) {
-  // determine if tiles are moving across rows or columns
-  var type = rowOrColumn(direction);
+// function moveTile(tile, direction) {
+//   // determine if tiles are moving across rows or columns
+//   var type = rowOrColumn(direction);
 
-  // determine if you are moving in positive or negative direction
-  var farthestValue = farthestValue(direction);
+//   // determine if you are moving in positive or negative direction
+//   var farthestValue = farthestValue(direction);
 
-  // works for up and left
-  var secondFarthest = parseInt(farthestValue) + 1;
-  // look through col1 row2
+//   // works for up and left
+//   var secondFarthest = parseInt(farthestValue) + 1;
+//   // look through col1 row2
 
 
-  // tile.setAttribute(type, value);
-}
+//   // tile.setAttribute(type, value);
+// }
 
 function rowOrColumn(direction) {
   var type = "";
@@ -56,15 +57,24 @@ function farthestValue(direction) {
   return value;
 }
 
-
+// outputs a function that takes a tile and moves it in a particular direction
 function makeMovement(direction) {
   var moveTile = function(tile) {
     // set the positive or negative according to direction
+    var magnitude = parseInt(farthestValue(direction));
 
     // set row or column (type)
-    // check if tile can move
-    // if tile can move, move the tile one space
+    var type = rowOrColumn(direction);
+
+    // NOTE do elsewhere!! check if tile can move
+    // move the tile one space
+    var relevantAttributeValue = tile.getAttribute(type);
+    // console.log(relevantAttributeValue);
+    var newAttributeValue = parseInt(relevantAttributeValue) + magnitude;
+
+    tile.setAttribute(type, newAttributeValue);
     // if tile can't move, do nothing
+    // NOTE new attribute value going above 4 or below 1
   }
   return moveTile;
 }
