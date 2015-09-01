@@ -77,30 +77,35 @@ function tileCollision(keystroke) {
     }
   };
 
-  function isEmpty(direction){
+  // returns index of the adjacent tile (in regards to orderedTiles)
+  // or -1 if the tile does not exist
+  function adjacentSpace(direction){
     if (direction === "up") {
-      var rowUp = (rows[rowsIndex - 1]);
+      var rowUp = rows[rowsIndex - 1]; if (rowsIndex > 0);
       return $.inArray([rowUp, sameColumn], orderedTiles);
 
     } else if (direction === "down") {
-      var rowDown = (rows[rowsIndex + 1]);
+      var rowDown = rows[rowsIndex + 1]; if (rowsIndex < 3);
       return $.inArray([rowDown, sameColumn], orderedTiles);
 
     } else if (direction === "left") {
-      var colLeft = (columns[columnsIndex - 1]);
+      var colLeft = columns[columnsIndex - 1]; if (columnsIndex > 0);
       return $.inArray([colLeft, sameRow], orderedTiles);
 
     } else if (direction === "right") {
-      var colRight = (columns[columnsIndex + 1]);
+      var colRight = columns[columnsIndex + 1]; if (columnsIndex < 3);
       return $.inArray([colRight, sameRow], orderedTiles);
     }
   }
 
+  // iterates through every tile to determine it's action
+  // on this single keystroke
   for (var i = 0; i < orderedTiles; i++) {
     var tile = orderedTiles[i];
     var rows = ["r0","r1", "r2", "r3"];
     var columns = ["c0","c1", "c2", "c3"];
 
+    // prepares variables to check the adjacent tile
     if(direction === "up" || direction === "down") {
       var tileRow = tile[0];
       var rowsIndex = rows.indexOf(tileRow); // index of the row that the tile is in
@@ -112,12 +117,30 @@ function tileCollision(keystroke) {
       var sameRow = tile[0];
     }
 
-    var adjacentSpace = isEmpty(direction);
+    // returns adjacent tile's index
+    // or -1 if the adjacent space isn't occupied
+    var adjacentTile = adjacentSpace(direction);
 
-    if (adjacentSpace === true) {
-      merge();
+    if (adjacentTile > -1) {
+      merge(tile, orderedTiles[adjacentTile]);
     } else {
       moveOne();
     }
+  }
+}
+
+// determines if tiles can merge or not
+function merge(space1, space2) {
+  var tile1 = $("div[data-row|='" + space1[0] + "'][data-col|='" + space1[1] + "']");
+  var tile2 = $("div[data-row|='" + space2[0] + "'][data-col|='" + space2[1] + "']");
+  var tile1Value = tile1.val();
+  var tile2Value = tile2.val();
+
+  if (tile1Value === tile2Value) {
+    // tile closer to the edge gets it's value updated
+    // tiler farther from the edge gets deleted? - brownie pts
+    // update score
+  } else {
+    // the tile does not move at all
   }
 }
