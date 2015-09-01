@@ -41,9 +41,6 @@ function placeFirstTiles() {
 }
 
 function moveTile(tile, direction) {
-  // var new_tile_value = tile.attr("data-val") * 2;
-  // tile.attr("data-val", new_tile_value);
-  // tile.text(new_tile_value);
 
   switch(direction) {
     case 38: //up
@@ -60,17 +57,10 @@ function moveTile(tile, direction) {
           var data_col_num = parseInt(active_tile.getAttribute('data-col')[1]);
           var data_val = parseInt(active_tile.getAttribute('data-val'));
 
-          console.log('tile: ' + data_row_num + "," + data_col_num);
-          console.log('data-val: ' + data_val);
-
           // starting at that tile's row position, check each possible move 'up' (decreasing row #)
           for(k = data_row_num ; k >= 0; k--) {
             var next_row_num = k - 1; 
             var next_tile = $('.tile[data-row="r' + next_row_num + '"][data-col="c' + data_col_num + '"]');
-
-            console.log('next_tile: ' + next_tile);
-            console.log('next_tile.length= ' + next_tile.length);
-            console.log("next_tile.attr('data-val')= " + parseInt(next_tile.attr('data-val')));
 
             // if next_tile doesn't exist and it is within the board bounds, move active_tile to that position
             if (next_tile.length == 0 && next_row_num >= 0 && next_row_num <= 3) {
@@ -106,17 +96,10 @@ function moveTile(tile, direction) {
           var data_col_num = parseInt(active_tile.getAttribute('data-col')[1]);
           var data_val = parseInt(active_tile.getAttribute('data-val'));
 
-          console.log('tile: ' + data_row_num + "," + data_col_num);
-          console.log('data-val: ' + data_val);
-
           // starting at that tile's row position, check each possible move 'down' (incr row #)
           for(k = data_row_num ; k <= 3; k++) {
             var next_row_num = k + 1; 
             var next_tile = $('.tile[data-row="r' + next_row_num + '"][data-col="c' + data_col_num + '"]');
-
-            console.log('next_tile: ' + next_tile);
-            console.log('next_tile.length= ' + next_tile.length);
-            console.log("next_tile.attr('data-val')= " + parseInt(next_tile.attr('data-val')));
 
             // if next_tile doesn't exist and it is within the board bounds, move active_tile to that position
             if (next_tile.length == 0 && next_row_num >= 0 && next_row_num <= 3) {
@@ -193,16 +176,24 @@ function moveTile(tile, direction) {
           var data_col_num = parseInt(active_tile.getAttribute('data-col')[1]);
           var data_val = parseInt(active_tile.getAttribute('data-val'));
 
-          // starting at that tile's col position, check each possible move 'right' (incr col #)
+          // starting at that tile's col position, get coordinates for next move 'right' (incr col #)
           for(k = data_col_num ; k <= 3; k++) {
             var next_col_num = k + 1; 
             var next_tile = $('.tile[data-row="r' + data_row_num + '"][data-col="c' + next_col_num + '"]');
 
-            // if next_tile doesn't exist and it is within the board bounds, move active_tile to that position
+            console.log('COMPARISON 1...');
+            console.log('next_tile.length: ' + next_tile.length);
+            console.log('next_col_num: ' + next_col_num);
+
+            console.log('COMPARISON 2 & 3...');
+            console.log('next_tile data-val: ' + parseInt(next_tile.attr('data-val')));
+            console.log('data_val: ' + data_val);
+
+            // if next_tile doesn't exist and the space is within bounds, move active_tile to that position
             if (next_tile.length == 0 && next_col_num >= 0 && next_col_num <= 3) {
               $(active_tile).attr('data-col', "c" + next_col_num);
 
-            // if next_tile does exist and has same data-val as active_tile, combine them
+            // if there is a tile there and it IS a match, combine them
             } else if ( parseInt(next_tile.attr('data-val')) == data_val ) {
               var new_tile_value = data_val * 2;
               
