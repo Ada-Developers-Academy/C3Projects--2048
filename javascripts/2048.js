@@ -20,14 +20,6 @@ function initializeGame() {
   // randomly pick two positions and start values
   generateTile(startValues);
   generateTile(startValues);
-  generateTile(startValues);
-  generateTile(startValues);
-  generateTile(startValues);
-  generateTile(startValues);
-  generateTile(startValues);
-  generateTile(startValues);
-  generateTile(startValues);
-
 }
 
 function generateTile(array) {
