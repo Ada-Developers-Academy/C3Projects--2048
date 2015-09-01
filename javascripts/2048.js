@@ -67,7 +67,7 @@ function moveTiles(tile, direction) {
 
 function moveRight() {
   for (var i = 0; i < rows.length; i++) {
-    shiftRightOrDown(combine(generateRow(i)), 'row');
+    shiftRightOrDown(combineRightOrDown(generateRow(i)), 'row');
   }
 }
 
