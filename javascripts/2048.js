@@ -49,8 +49,18 @@ Board.prototype.split() {
 }
 
 // board.condense()
-Board.prototype.condense() {
-  // condensing the array (removing empty spaces / 0s)
+Board.prototype.condense = function(colOrRow) {
+  var condensedColOrRow = [];
+
+  for (i = 0; i < colOrRow.length; i++) {
+    if (colOrRow[i] == "0") {
+      continue;
+    } else {
+      condensedColOrRow.push(colOrRow[i]);
+    }
+  }
+
+  return condensedColOrRow;
 }
 
 
