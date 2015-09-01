@@ -153,17 +153,10 @@ function moveTile(tile, direction) {
           var data_col_num = parseInt(active_tile.getAttribute('data-col')[1]);
           var data_val = parseInt(active_tile.getAttribute('data-val'));
 
-          console.log('tile: ' + data_row_num + "," + data_col_num);
-          console.log('data-val: ' + data_val);
-
           // starting at that tile's col position, check each possible move 'left' (decr col #)
           for(k = data_col_num ; k >= 0; k--) {
             var next_col_num = k - 1; 
             var next_tile = $('.tile[data-row="r' + data_row_num + '"][data-col="c' + next_col_num + '"]');
-
-            console.log('next_tile: ' + next_tile);
-            console.log('next_tile.length= ' + next_tile.length);
-            console.log("next_tile.attr('data-val')= " + parseInt(next_tile.attr('data-val')));
 
             // if next_tile doesn't exist and it is within the board bounds, move active_tile to that position
             if (next_tile.length == 0 && next_col_num >= 0 && next_col_num <= 3) { 
@@ -188,26 +181,41 @@ function moveTile(tile, direction) {
 
     case 39: //right
 
-      // for each col (starting at the right)
+      // for each col (starting at the right), collect all tiles in that row
       for (i = 3; i >= 0; i--) {
         var tiles = $('.tile[data-col="c' + i +'"]');
 
+        // for each tile in that col, save coordinates and data-val
         for (j = 0; j < tiles.length; j++) {
           var active_tile = tiles[j];
 
           var data_row_num = parseInt(active_tile.getAttribute('data-row')[1]);
           var data_col_num = parseInt(active_tile.getAttribute('data-col')[1]);
+          var data_val = parseInt(active_tile.getAttribute('data-val'));
 
+          // starting at that tile's col position, check each possible move 'right' (incr col #)
           for(k = data_col_num ; k <= 3; k++) {
             var next_col_num = k + 1; 
             var next_tile = $('.tile[data-row="r' + data_row_num + '"][data-col="c' + next_col_num + '"]');
 
-            if (next_tile.length == 0 && next_col_num >= 0 && next_col_num <= 3) { // so the next tile doesn't exist
-              $(active_tile).attr('data-col', "c" + next_col_num); // move the tile to that position
+            // if next_tile doesn't exist and it is within the board bounds, move active_tile to that position
+            if (next_tile.length == 0 && next_col_num >= 0 && next_col_num <= 3) {
+              $(active_tile).attr('data-col', "c" + next_col_num);
+
+            // if next_tile does exist and has same data-val as active_tile, combine them
+            } else if ( parseInt(next_tile.attr('data-val')) == data_val ) {
+              var new_tile_value = data_val * 2;
+              
+              // update next_tile's val
+              next_tile.attr('data-val', new_tile_value);
+              next_tile.text(new_tile_value);
+
+              // active_tile disappears
+              active_tile.remove();
             }
-          }
-        }
-      }
+          } 
+        } 
+      } // end column loop
 
       break;
   } // end switch
