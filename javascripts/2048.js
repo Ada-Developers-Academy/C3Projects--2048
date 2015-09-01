@@ -83,7 +83,6 @@ function randomizeLocation() {
 }
 
 function matched(direction) {
-  console.log('board: ' + board);
   switch(direction) {
     case 38: //up
       var rowStart = 0; //rowstart
@@ -91,9 +90,9 @@ function matched(direction) {
       for(c=0; c<4; c++) { //colm incrementing
         for(r=rowStart; r<3; r++) { //row incrementing
           if (isNaN(board[r][c])) { break;} // will do check if value is a number
-          if (board[r][c] == board[r + 1][c]) {
-            console.log(board[r][c] + 'matches' + board[r + 1][c]);
-            console.log('matched!');
+            var neighbor = board[r + 1][c];
+          if (board[r][c] == neighbor) {
+            console.log(board[r][c] + 'matches' + neighbor);
             tileLevelUp(r, c, board[r][c]);
             board[r + 1][c] = undefined;
           } // if
@@ -105,10 +104,12 @@ function matched(direction) {
 
       for(c=0; c<4; c++) { //colm incrementing
         for(r=rowStart; r>0; r--) { //row decrementing
-          if (board[r][c] == board[r - 1][c]) {
-            console.log(board[r][c] + 'matches' + board[r - 1][c]);
-            console.log('matched!');
-            return true;
+          if (isNaN(board[r][c])) { break;} // will do check if value is a number
+          var neighbor = board[r - 1][c];
+          if (board[r][c] == neighbor) {
+            console.log(board[r][c] + 'matches' + neighbor);
+            tileLevelUp(r, c, board[r][c]);
+            board[r - 1][c] = undefined;
           } // if
         } // r
       } // c
@@ -118,10 +119,12 @@ function matched(direction) {
 
       for(c=colStart; c<3; c++) { //colm incrementing
         for(r=0; r<3; r++) { //row incrementing
-          if (board[r][c] == board[r][c + 1]) {
-            console.log(board[r][c] + 'matches'+ board[r][c + 1]);
-            console.log('matched!');
-            return true;
+          if (isNaN(board[r][c])) { break;} // will do check if value is a number
+          var neighbor = board[r][c + 1];
+          if (board[r][c] == neighbor) {
+            console.log(board[r][c] + 'matches'+ neighbor);
+            tileLevelUp(r, c, board[r][c]);
+            board[r][c + 1] = undefined;
           } // if
         } // r
       } // c
@@ -131,10 +134,13 @@ function matched(direction) {
 
       for(c=colmStart; c>0; c--) { //colm decrementing
         for(r=0; r<4; r++) { //row incrementing
-          if (board[r][c] == board[r][c - 1]) {
-            console.log(board[r][c] + 'matches'+ board[r][c - 1]);
+          if (isNaN(board[r][c])) { break;} // will do check if value is a number
+          var neighbor = board[r][c - 1];
+          if (board[r][c] == neighbor) {
+            console.log(board[r][c] + 'matches'+ neighbor);
             console.log('matched!');
-            return true;
+            tileLevelUp(r, c, board[r][c]);
+            board[r][c - 1] = undefined;
           } // if
         } // r
       } // c
