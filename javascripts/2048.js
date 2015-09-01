@@ -1,6 +1,11 @@
 var board = []
 
 $(document).ready(function() {
+  const MAXSTARTINGTILE = 4;
+  const MINSTARTINGTILE = 2;
+  const MINBOARDLOCALE = 0;
+  const BOARDCEILING = 4; // anything less than 4 is valid
+  // Constants -----------------
 
   function begin() {
     for (i = 0; i < 4; i++) {
@@ -46,9 +51,36 @@ $(document).ready(function() {
 function empty(location) {
   // input will be board location
   // check if board array location is undefined
-  var answer = location == undefined ? true : false;
-  console.log(answer);
+  var answer = (location == undefined) ? true : false;
+  console.log('location: '+ location);
+  console.log('answer: ' + answer);
   return answer;
+}
+
+function randomizeValue() {
+  var coinFlip = Math.floor(Math.random() * 2)
+  value = coinFlip == 0 ? 2 : 4;
+  return value;
+}
+
+function randomizeLocation() {
+  // floor rounds down for an integer
+  var row = Math.floor(
+    Math.random() *(BOARDCEILING - MINBOARDLOCALE) + MINBOARDLOCALE );
+  var col = Math.floor(
+    Math.random() *(BOARDCEILING - MINBOARDLOCALE) + MINBOARDLOCALE );
+
+  // need to check if slot is empty
+  while !empty(board[row][col]) {  // can probably refactor this
+    var row = Math.floor(
+      Math.random() *(BOARDCEILING - MINBOARDLOCALE) + MINBOARDLOCALE );
+    var col = Math.floor(
+      Math.random() *(BOARDCEILING - MINBOARDLOCALE) + MINBOARDLOCALE );
+    // need to check if slot is empty
+
+  }
+  return row;
+  return col;
 }
 
 function mergeTile(tile) {
@@ -58,6 +90,40 @@ function mergeTile(tile) {
 }
 
 function moveTiles(direction) {
+  switch(direction) {
+    case 38: // up
+      for (i = 0; i <= 3; i++) { // for each column
+        var row = goingUp(i);
+        for (j = 0; j < 3; j++) { // for each row
+          row(j);
+        }
+      }
+      break;
+    case 40: // down
+      for (i = 0; i <= 3; i++) { // for each column
+        var row = goingDown(i);
+        for (j = 3; j > 0; j--) { // for each row
+          row(j);
+        }
+      }
+      break;
+    case 37: // left
+      for (i = 0; i <= 3; i++) { // for each row
+        var col = goingLeft(i);
+        for (j = 0; j < 3; j++) { // for each column
+          col(j);
+        }
+      }
+      break;
+    case 39: // right
+      for (i = 0; i <= 3; i++) { // for each row
+        var col = goingRight(i);
+        for (j = 3; j > 0; j--) { // for each column
+          col(j);
+        }
+      }
+      break;
+  }
 
   function goingUp(y) {
     return function(x) {
@@ -122,41 +188,6 @@ function moveTiles(direction) {
     var newColLocation = "c" + newCol;
     tile.attr("data-row", newRowLocation);
     tile.attr("data-col", newColLocation);
-  }
-
-  switch(direction) {
-    case 38:
-      for (i = 0; i <= 3; i++) { // for each column
-        var row = goingUp(i);
-        for (j = 0; j < 3; j++) { // for each row
-          row(j);
-        }
-      }
-      break;
-    case 40:
-      for (i = 0; i <= 3; i++) { // for each column
-        var row = goingDown(i);
-        for (j = 3; j > 0; j--) { // for each row
-          row(j);
-        }
-      }
-      break;
-    case 37:
-      for (i = 0; i <= 3; i++) { // for each row
-        var col = goingLeft(i);
-        for (j = 0; j < 3; j++) { // for each column
-          col(j);
-        }
-      }
-      break;
-    case 39:
-      for (i = 0; i <= 3; i++) { // for each row
-        var col = goingRight(i);
-        for (j = 3; j > 0; j--) { // for each column
-          col(j);
-        }
-      }
-      break;
   }
 }
 
