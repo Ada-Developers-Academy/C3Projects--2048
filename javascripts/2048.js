@@ -52,11 +52,10 @@ Board.prototype.move = function(direction) {
   // var condensedBoard = reorientedBoard.forEach(this.condense); // not 100% certain about this syntax
 };
 
-// board.split()
+// board.reorient() reorients the board into arrays based on direction
 Board.prototype.reorient = function(direction) {
-  // splits the board into arrays based on direction
-  // this should have access to the direction from board.update();
   var method;
+
   if (direction == "left" || direction == "right")
     method = "leftReorient";
   else // "up" || "down"
@@ -86,6 +85,16 @@ Board.prototype.downReorient = function() {
 };
 
 // board.condense()
-Board.prototype.condense = function() {
-  // condensing the array (removing empty spaces / 0s)
+Board.prototype.condense = function(colOrRow) {
+  var condensedColOrRow = [];
+
+  for (i = 0; i < colOrRow.length; i++) {
+    if (colOrRow[i] == "0") {
+      continue;
+    } else {
+      condensedColOrRow.push(colOrRow[i]);
+    }
+  }
+
+  return condensedColOrRow;
 }
