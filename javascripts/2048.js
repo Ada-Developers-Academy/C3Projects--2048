@@ -9,10 +9,14 @@ $(document).ready(function() {
     console.log('ready!');
     board[3][0] = "2";
     board[1][0] = "2";
+    board[2][0] = "2";
+    board[0][0] = "2";
     board[2][1] = "2";
     board[3][1] = "2";
     board[0][2] = "2";
     board[3][2] = "2";
+    board[2][3] = "2";
+    board[3][3] = "2";
   }
 
   begin();
@@ -46,56 +50,84 @@ function empty(location) {
   return answer;
 }
 
-function mergeTile(tile) {
-  var new_tile_value = tile.attr("data-val") * 2;
-  tile.attr("data-val", new_tile_value);
-  tile.text(new_tile_value);
-}
+// function mergeTile(tile) {
+//   var new_tile_value = tile.attr("data-val") * 2;
+//   tile.attr("data-val", new_tile_value);
+//   tile.text(new_tile_value);
+// }
 
 function moveTiles(direction) {
 
   function goingUp(y) {
     return function(x) {
-      var count = x
+      var count = x;
       while (empty(board[x][y]) && count < 3) {
         if (!empty(board[count + 1][y])) {
           board[x][y] = board[count + 1][y];
           board[count + 1][y] = undefined;
-          // var old_row = ".tile[data-row=r" + (count + 1) + "]"
-          // var tile = $(old_row);
-          // var new_row = "r" + (x);
-          // tile.attr("data-row", new_row);
-          reassigningTileAttr("row", (count + 1), x)
+          reassigningTileAttr("row", (count + 1), x);
         }
-        count++
+        count++;
+      }
+    }
+  }
+
+  function goingDown(y) {
+    return function(x) {
+      var count = x;
+      while (empty(board[x][y]) && count > 0) {
+        console.log("y" + y + "x" + x + "count" + count);
+        if (!empty(board[count - 1][y])) {
+          board[x][y] = board[count - 1][y];
+          board[count - 1][y] = undefined;
+          reassigningTileAttr("row", (count - 1), x);
+        }
+        count--;
+      }
+    }
+  }
+
+  function goingLeft(x) {
+    return function(y) {
+      var count = y;
+      while (empty(board[x][y]) && count < 3) {
+        console.log(count);
+        if (!empty(board[x][count + 1])) {
+          board[x][y] = board[x][count + 1];
+          board[x][count + 1] = undefined;
+          reassigningTileAttr("col", (count + 1), y);
+        }
+        count++;
+      }
+    }
+  }
+
+  function goingRight(x) {
+    return function(y) {
+      var count = y;
+      while (empty(board[x][y]) && count > 0) {
+        if (!empty(board[x][count - 1])) {
+          board[x][y] = board[x][count - 1];
+          board[x][count - 1] = undefined;
+
+          var attri = "data-col";
+          var old_location = ".tile[data-col=c" + (count - 1) + "]"
+          var tile = $(old_location);
+          var new_location = "c" + y;
+          tile.attr(attri, new_location);
+          // reassigningTileAttr("col", (count - 1), y);
+        }
+        count--;
       }
     }
   }
 
   function reassigningTileAttr(dataType, old_num, new_num) {
     var attri = "data-" + dataType
-    var old_location = ".tile[" + attri + "=r" + old_num + "]"
+    var old_location = ".tile[" + attri + "=" + dataType[0] + old_num + "]"
     var tile = $(old_location);
     var new_location = dataType[0] + new_num;
     tile.attr(attri, new_location);
-  }
-
-  function goingDown(y) {
-    return function(x) {
-      var count = x
-      while (empty(board[x][y]) && count > 0) {
-        if (!empty(board[count - 1][y])) {
-          board[x][y] = board[count - 1][y];
-          board[count - 1][y] = undefined;
-          // var old_row = ".tile[data-row=r" + (count - 1) + "]"
-          // var tile = $(old_row);
-          // var new_row = "r" + (x);
-          // tile.attr("data-row", new_row);
-          reassigningTileAttr("row", (count - 1), x)
-        }
-        count--
-      }
-    }
   }
 
   // for (y = 0; y < 3; y++) {
@@ -103,8 +135,8 @@ function moveTiles(direction) {
   // }
   switch(direction) {
     case 38:
-      for (i = 0; i < 3; i++) { // for each column
-        row = goingUp(i);
+      for (i = 0; i <= 3; i++) { // for each column
+        var row = goingUp(i);
         for (j = 0; j < 3; j++) { // for each row
           row(j);
         }
@@ -115,10 +147,26 @@ function moveTiles(direction) {
       // a(2);
       break;
     case 40:
-      for (i = 0; i < 3; i++) { // for each column
-        row = goingDown(i);
+      for (i = 0; i <= 3; i++) { // for each column
+        var row = goingDown(i);
         for (j = 3; j > 0; j--) { // for each row
           row(j);
+        }
+      }
+      break;
+    case 37:
+      for (i = 0; i <= 3; i++) { // for each row
+        var col = goingLeft(i);
+        for (j = 0; j < 3; j++) { // for each column
+          col(j);
+        }
+      }
+      break;
+    case 39:
+      for (i = 0; i <= 3; i++) { // for each row
+        var col = goingRight(i);
+        for (j = 3; j > 0; j--) { // for each column
+          col(j);
         }
       }
       break;
