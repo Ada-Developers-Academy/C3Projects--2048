@@ -34,6 +34,7 @@ function moveTile(tile, direction) {
 
 var Board = function(boardArray) { // board constructor
   this.board = boardArray;
+  this.boardLength = 4; // board is a square, so this is the same going both ways
 };
 
 board = new Board([
@@ -47,7 +48,7 @@ console.log(board.board);
 
 Board.prototype.move = function(direction) {
   // this is the movement function
-  var reorientedBoard = this.split(direction);
+  var reorientedBoard = this.reorient(direction);
   console.log(reorientedBoard);
   // var condensedBoard = reorientedBoard.forEach(this.condense); // not 100% certain about this syntax
 };
@@ -71,10 +72,10 @@ Board.prototype.leftReorient = function() {
 Board.prototype.downReorient = function() {
   var reorientedBoard = [];
 
-  for (var oldCol = 0; oldCol < 4; oldCol++) {
+  for (var oldCol = 0; oldCol < this.boardLength; oldCol++) {
     var newRow = [];
 
-    for (var oldRow = 0; oldRow < 4; oldRow++) {
+    for (var oldRow = 0; oldRow < this.boardLength; oldRow++) {
       newRow.push(this.board[oldRow][oldCol]);
     };
 
