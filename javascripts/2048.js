@@ -2,6 +2,7 @@ var rows = ['r0', 'r1', 'r2', 'r3'];
 var cols = ['c0', 'c1', 'c2', 'c3'];
 var newTileLevel2 = [ 2, 4 ];
 var newTileLevel1 = [ 2 ];
+var score = 0;
 
 $(document).ready(function() {
   initializeGame();
@@ -94,18 +95,20 @@ function moveUp() {
 
 function combineUpOrLeft(gridElement) {
   for (var i = 1; i < gridElement.length; i++) {
-    console.log("for-loop start: " + i);
     if (gridElement[i].attr('data-val') === gridElement[i - 1].attr('data-val')) {
       // combine!
-      var value = gridElement[i].attr('data-val');
-      gridElement[i].attr('data-val', (value * 2));
-      gridElement[i].text(value * 2);
+      var added = gridElement[i].attr('data-val') * 2;
+      gridElement[i].attr('data-val', added);
+      gridElement[i].text(added);
+      pop(gridElement[i]);
+
+      // add to score var
+      score += added;
+      console.log(score);
 
       gridElement[i - 1].remove();
       gridElement.splice(i - 1, 1);
-      console.log("for-loop / if before increment: " + i);
       i += 1;
-      console.log("for-loop / if after increment: " + i);
     }
   }
   return gridElement;
@@ -114,10 +117,15 @@ function combineUpOrLeft(gridElement) {
 function combineRightOrDown(gridElement) {
   for (var i = gridElement.length - 2; i >= 0; i--) {
     if (gridElement[i].attr('data-val') === gridElement[i + 1].attr('data-val')) {
-      var value = gridElement[i].attr('data-val');
-      gridElement[i].attr('data-val', (value * 2));
-      gridElement[i].text(value * 2);
+      // combine!
+      var added = gridElement[i].attr('data-val') * 2;
+      gridElement[i].attr('data-val', added);
+      gridElement[i].text(added);
       pop(gridElement[i]);
+
+      // add to score var
+      score += added;
+      console.log(score);
 
       gridElement[i + 1].remove();
       gridElement.splice(i + 1, 1);
