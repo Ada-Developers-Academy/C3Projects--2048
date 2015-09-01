@@ -66,7 +66,6 @@ function moveTile(tile, direction) {
       case 38: //up
         // tile.attr("data-row","r0");
         var rowValue = spacesTaken[i][0][1]; // "3"
-        // (rowValue == 0) ? rowValue = 1 : rowValue
         var newRowValue = (rowValue + 1).toString();
         tile.attr("data-row", "r" + newRowValue);
         break;
