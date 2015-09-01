@@ -6,7 +6,7 @@ $(document).ready(function() {
     if(arrow_keys.indexOf(event.which) > -1) {
       var tile = $('.tile');
       moveTile(tile, event.which);
-      createTile(filled_space);
+      createTile();
       event.preventDefault();
     }
   })
@@ -38,24 +38,27 @@ function createTile() {
   // Check for empty spaces before creating
 
   // Create new div element with tile class, location attributes, and value attribute
-  var new_column = rando_num();
-  var new_row = rando_num();
+  if (filled_space.length < 16) {
+    var new_column = rando_num();
+    var new_row = rando_num();
 
 
-  var result = checkLocation(new_column, new_row);
-  console.log(result);
+    var result = checkLocation(new_column, new_row);
+    console.log(result);
 
-  var column = result[0];
-  var row = result[1];
+    var column = result[0];
+    var row = result[1];
 
-  var newTile = $( '<div= class="tile">2</div>');
-  newTile.attr("data-row", 'r' + row);
-  newTile.attr("data-col", 'c' + column);
-  newTile.attr("data-val", "2");
-  $('#gameboard').append(newTile);
+    var newTile = $( '<div= class="tile">2</div>');
+    newTile.attr("data-row", 'r' + row);
+    newTile.attr("data-col", 'c' + column);
+    newTile.attr("data-val", "2");
+    $('#gameboard').append(newTile);
 
-  filled_space.push([column, row]);
-
+    filled_space.push([column, row]);
+  } else {
+    console.log("spaces full");
+  }
 
   // Maybe assign unique tile identifier
 
