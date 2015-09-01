@@ -43,6 +43,7 @@ $(document).ready(function() {
       // console.log(tile[1]);
       // empty(tile);
       moveTiles(event.which);
+      matched(event.which);
       event.preventDefault();
     }
   })
@@ -71,7 +72,7 @@ function randomizeLocation() {
     Math.random() *(BOARDCEILING - MINBOARDLOCALE) + MINBOARDLOCALE );
 
   // need to check if slot is empty
-  while !empty(board[row][col]) {  // can probably refactor this
+  while (!empty(board[row][col])) {  // can probably refactor this
     var row = Math.floor(
       Math.random() *(BOARDCEILING - MINBOARDLOCALE) + MINBOARDLOCALE );
     var col = Math.floor(
@@ -83,26 +84,59 @@ function randomizeLocation() {
   return col;
 }
 
-function matched(location, direction) {
+function matched(direction) {
   // board[1][1], up, opposite would be down
   // want to check board[0][1]
   switch(direction) {
     case 38: //up
-      var opposite: 'down';
-      // start from r[0]
-      // increment rows
+      var start = 0;
+
+      for(x=0; x<4; x++) { //colm incrementing
+        for(y=start; y<3; y++) { //row incrementing
+          if (board[y][x] == board[y + 1][x]) {
+            console.log(board[y][x] + 'matches' + board[y + 1][x]);
+            console.log('matched!');
+            return true;
+          } // if
+        } // y
+      } // x
       break;
     case 40: //down
-      var opposite: 'up';
-      // start from r[3]
-      // decrement rows
+      var start = 3
+
+      for(x=0; x<4; x++) { //colm incrementing
+        for(y=start; y<0; y--) { //row decrementing
+          if (board[y][x] == board[y - 1][x]) {
+            console.log(board[y][x] + 'matches' + board[y - 1][x]);
+            console.log('matched!');
+            return true;
+          } // if
+        } // y
+      } // x
       break;
     case 37: //left
-      var opposite: 'right';
+
+      var start = 0
+
+      for(x=start; x<4; x++) { //colm incrementing
+        for(y=0; y<3; y++) { //row incrementing
+          if (board[y][x] == board[y + 1][x]) {
+            console.log(board[y][x] + 'matches'+ board[y + 1][x]);
+            console.log('matched!');
+            return true;
+          } // if
+        } // y
+      } // x
+      // var opposite: 'right';
+      // var start = board[0][0];
+      // increment colums
       break;
     case 39: //right
-      var opposite: 'left';
+      // var opposite: 'left';
+      // var start = board[0][3];
+      // decrease columns
       break;
+  };
 }
 
 function mergeTile(tile) {
