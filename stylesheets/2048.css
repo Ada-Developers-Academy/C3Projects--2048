@@ -40,7 +40,7 @@ html {
 
 .popper {
   animation: pop .2s;
-  animation-delay: .3s;
+  animation-delay: .2s;
 }
 
 .scaleIn {
