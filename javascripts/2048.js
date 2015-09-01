@@ -49,6 +49,14 @@ function occupyCell(openCells, usedCells, cellSpace) {
   usedCells.push(cellSpace);
 }
 
+function merge(tile1, tile2) {
+  var value = $(tile1).val();
+  if (value == $(tile2).val()) {
+    $(tile1).val(value * 2);
+    deleteTile(tile2);
+  }
+}
+
 function moveTile(tile, direction) {
   //only be user * 2 if the tiles merged
   var new_tile_value = tile.attr("data-val") * 2;
