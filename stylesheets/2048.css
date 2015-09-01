@@ -2,6 +2,28 @@ html {
   font: normal normal 30px/1 "Clear Sans", "Helvetica Neue", Arial, sans-serif;
 }
 
+h1 {
+  display: inline-block;
+  text-align: center;
+}
+
+.heading {
+  text-align: center;
+}
+
+.scoreboard {
+  display: inline-block;
+  text-align: center;
+  margin: 0 1em;
+}
+
+.score {
+  padding: .5em;
+  margin: 0;
+  background-color: rgba(238, 228, 218, 0.35);
+  display: inline-block;
+}
+
 #gameboard {
   background: #bbada0;
   border-radius: 0.5rem;
