@@ -99,38 +99,17 @@ Board.prototype.condense = function(colOrRow) {
 
 //board.compareAndResolve()
 Board.prototype.compareAndResolve = function(condensedColOrRow, direction) {
-  // var method;
-  //
-  // if (direction == "left" || direction == "right")
-  //   method = "horizontalReorient";
-  // else // "up" || "down"
-  //   method = "verticalReorient";
-  //
-  // return this[method].call(this);
-
-  var resolvedColOrRow = [];
-
   if (direction == "up" || direction == "left") {
   // up & left -> starts at the beginning of the array, moves forward
-
+    return this.moveForward(condensedColOrRow);
   } else {
   // down & right -> starts at the end of the array, moves backward
-    for (i = condensedColOrRow.length - 1; i >= 0; i--) {
-      if (condensedColOrRow[i] == condensedColOrRow[i - 1]) {
-        // COLLIDE!
-        var newValue = condensedColOrRow[i] + condensedColOrRow[i - 1];
-        resolvedColOrRow.unshift(newValue); // adds to beginning of array
-        i -= 1; // this will increment by two
-      } else {
-        resolvedColOrRow.unshift(condensedColOrRow[i]);
-      }
-    }
+    return this.moveBackward(condensedColOrRow);
   }
-
-  return resolvedColOrRow;
 }
 
-Board.prototype.moveVertically = function(condensedColOrRow) {
+Board.prototype.moveForward = function(condensedColOrRow) {
+  var resolvedColOrRow = [];
   for (i = 0; i < condensedColOrRow.length; i++) {
     if (condensedColOrRow[i] == condensedColOrRow[i + 1]) {
       //COLLIDE!
@@ -141,4 +120,22 @@ Board.prototype.moveVertically = function(condensedColOrRow) {
       resolvedColOrRow.push(condensedColOrRow[i]);
     }
   }
+
+  return resolvedColOrRow;
+}
+
+Board.prototype.moveBackward = function(condensedColOrRow) {
+  var resolvedColOrRow = [];
+  for (i = condensedColOrRow.length - 1; i >= 0; i--) {
+    if (condensedColOrRow[i] == condensedColOrRow[i - 1]) {
+      // COLLIDE!
+      var newVal = condensedColOrRow[i] + condensedColOrRow[i - 1];
+      resolvedColOrRow.unshift(newVal); // adds to beginning of array
+      i -= 1; // this will increment by two
+    } else {
+      resolvedColOrRow.unshift(condensedColOrRow[i]);
+    }
+  }
+
+  return resolvedColOrRow;
 }
