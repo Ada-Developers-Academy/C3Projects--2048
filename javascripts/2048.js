@@ -54,7 +54,7 @@ function addTile(){
 }
 
 function moveTile(tile, direction) {
-  var new_tile_value = tile.attr("data-val") * 2;
+  var new_tile_value = tile.attr("data-val");
   tile.attr("data-val", new_tile_value);
   tile.text(new_tile_value);
 
@@ -100,7 +100,7 @@ function tilePlacement(position) {
 }
 
 function randomTileNumber() {
-  var randomValue = Math.random() < 0.8 ? 2 : 4;
+  var randomValue = Math.random() < 0.9 ? 2 : 4;
   return randomValue;
 }
 
@@ -110,3 +110,7 @@ function endGame() {
     console.log("Game over")
   }
 }
+
+// function addValue() {
+//   if()
+// }
