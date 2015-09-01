@@ -93,8 +93,12 @@ function moveTile(tile, direction) {
       console.log(occupants);
 
 
-      // determine vacancies from subtracting "occupants" from board size
-      // shift "occupant(s)" to furthest available "vacancy"
+
+      // shift "occupant(s)" in direction pressed if next tile is empty else
+      // stop moving in that direction.
+
+
+
       // check for movement path for stacking, merging possibility
 
       // generate new tile after move completion
