@@ -12,26 +12,63 @@ $(document).ready(function() {
 
 function moveTiles(direction) {
   var moveInDirection = makeMovement(direction);
-  var tiles = $(".tile");
-  for (i = 0; i < tiles.length; i++) {
-    moveInDirection(tiles[i]);
+  var tiles = $(".tile"); // in order by the html
+
+  // order tiles correctly
+  function orderTiles() {
+    // check if movement is up/down (row) or right/left (col)
+    var type = rowOrColumn(direction);
+    // check if movement makes values get smaller (up/left) or bigger (down/right)
+    var magnitude = parseInt(farthestValue(direction));
+    // store type of non-movement dimension
+    var oppositeType = (type == "data-row") ? "data-col" : "data-row";
+
+    // split into groups by type
+    var typeA = [];
+    var typeB = [];
+    var typeC = [];
+    var typeD = [];
+
+    var upLeftOrder = [1, 2, 3, 4];
+    var downRightOrder = [4, 3, 2, 1];
+
+    var order = (direction == 38 || direction == 37) ? upLeftOrder : downRightOrder;
+
+    for (var i = 0; i < tiles.length; i++) {
+      if (tiles[i].getAttribute(type) == order[0]) {
+        typeA.push(tiles[i]);
+      } else if (tiles[i].getAttribute(type) == order[1]) {
+        typeB.push(tiles[i]);
+      } else if (tiles[i].getAttribute(type) == order[2]) {
+        typeC.push(tiles[i]);
+      } else if (tiles[i].getAttribute(type) == order[3]) {
+        typeD.push(tiles[i]);
+      }
+    }
+
+    var allTypes = [typeA, typeB, typeC, typeD];
+    // sort each group
+    for (var i = 0; i < allTypes.length; i++) {
+      allTypes[i].sort(function(a, b) {
+        var oppositeValueA = parseInt(a.getAttribute(oppositeType));
+        var oppositeValueB = parseInt(b.getAttribute(oppositeType));
+        return (magnitude == 1) ? oppositeValueA < oppositeValueB : oppositeValueA > oppositeValueB;
+      })
+    }
+    // join each sorted group
+    var sortedTiles = [];
+    sortedTiles = sortedTiles.concat.apply(sortedTiles, allTypes);
+    // return
+    return sortedTiles;
+  }
+
+  var sortedTiles = orderTiles();
+
+  for (var i = 0; i < sortedTiles.length; i++) {
+    moveInDirection(sortedTiles[i]);
   }
 }
 
-// function moveTile(tile, direction) {
-//   // determine if tiles are moving across rows or columns
-//   var type = rowOrColumn(direction);
-
-//   // determine if you are moving in positive or negative direction
-//   var farthestValue = farthestValue(direction);
-
-//   // works for up and left
-//   var secondFarthest = parseInt(farthestValue) + 1;
-//   // look through col1 row2
-
-
-//   // tile.setAttribute(type, value);
-// }
 
 function rowOrColumn(direction) {
   var type = "";
