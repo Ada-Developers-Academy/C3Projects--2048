@@ -34,14 +34,13 @@ function placeFirstTiles() {
           "data-col" : new_col,
           "data-val" : "2"
       });
-      new_tile.html("2");
-      // add tile to board
+    new_tile.html("2");
+    // add tile to board
     $("#gameboard").append(new_tile);
   }
 }
 
 function moveTile(tile, direction) {
-
   switch(direction) {
     case 38: //up
 
@@ -59,7 +58,7 @@ function moveTile(tile, direction) {
 
           // starting at that tile's row position, check each possible move 'up' (decreasing row #)
           for(k = data_row_num ; k >= 0; k--) {
-            var next_row_num = k - 1; 
+            var next_row_num = k - 1;
             var next_tile = $('.tile[data-row="r' + next_row_num + '"][data-col="c' + data_col_num + '"]');
 
             // if next_tile doesn't exist and it is within the board bounds, move active_tile to that position
@@ -69,7 +68,7 @@ function moveTile(tile, direction) {
             // if next_tile does exist and has same data-val as active_tile, combine them
             } else if ( parseInt(next_tile.attr('data-val')) == data_val ) {
               var new_tile_value = data_val * 2;
-              
+
               // update next_tile's val
               next_tile.attr('data-val', new_tile_value);
               next_tile.text(new_tile_value);
@@ -98,17 +97,17 @@ function moveTile(tile, direction) {
 
           // starting at that tile's row position, check each possible move 'down' (incr row #)
           for(k = data_row_num ; k <= 3; k++) {
-            var next_row_num = k + 1; 
+            var next_row_num = k + 1;
             var next_tile = $('.tile[data-row="r' + next_row_num + '"][data-col="c' + data_col_num + '"]');
 
             // if next_tile doesn't exist and it is within the board bounds, move active_tile to that position
             if (next_tile.length == 0 && next_row_num >= 0 && next_row_num <= 3) {
               $(active_tile).attr('data-row', "r" + next_row_num);
-            
+
             // if next_tile does exist and has same data-val as active_tile, combine them
             } else if ( parseInt(next_tile.attr('data-val')) == data_val ) {
               var new_tile_value = data_val * 2;
-              
+
               // update next_tile's val
               next_tile.attr('data-val', new_tile_value);
               next_tile.text(new_tile_value);
@@ -138,17 +137,17 @@ function moveTile(tile, direction) {
 
           // starting at that tile's col position, check each possible move 'left' (decr col #)
           for(k = data_col_num ; k >= 0; k--) {
-            var next_col_num = k - 1; 
+            var next_col_num = k - 1;
             var next_tile = $('.tile[data-row="r' + data_row_num + '"][data-col="c' + next_col_num + '"]');
 
             // if next_tile doesn't exist and it is within the board bounds, move active_tile to that position
-            if (next_tile.length == 0 && next_col_num >= 0 && next_col_num <= 3) { 
+            if (next_tile.length == 0 && next_col_num >= 0 && next_col_num <= 3) {
               $(active_tile).attr('data-col', "c" + next_col_num);
 
             // if next_tile does exist and has same data-val as active_tile, combine them
             } else if ( parseInt(next_tile.attr('data-val')) == data_val ) {
               var new_tile_value = data_val * 2;
-              
+
               // update next_tile's val
               next_tile.attr('data-val', new_tile_value);
               next_tile.text(new_tile_value);
@@ -178,16 +177,16 @@ function moveTile(tile, direction) {
 
           // starting at that tile's col position, get coordinates for next move 'right' (incr col #)
           for(k = data_col_num ; k <= 3; k++) {
-            var next_col_num = k + 1; 
+            var next_col_num = k + 1;
             var next_tile = $('.tile[data-row="r' + data_row_num + '"][data-col="c' + next_col_num + '"]');
 
-            console.log('COMPARISON 1...');
-            console.log('next_tile.length: ' + next_tile.length);
-            console.log('next_col_num: ' + next_col_num);
-
-            console.log('COMPARISON 2 & 3...');
-            console.log('next_tile data-val: ' + parseInt(next_tile.attr('data-val')));
-            console.log('data_val: ' + data_val);
+            // console.log('COMPARISON 1...');
+            // console.log('next_tile.length: ' + next_tile.length);
+            // console.log('next_col_num: ' + next_col_num);
+            //
+            // console.log('COMPARISON 2 & 3...');
+            // console.log('next_tile data-val: ' + parseInt(next_tile.attr('data-val')));
+            // console.log('data_val: ' + data_val);
 
             // if next_tile doesn't exist and the space is within bounds, move active_tile to that position
             if (next_tile.length == 0 && next_col_num >= 0 && next_col_num <= 3) {
@@ -196,7 +195,7 @@ function moveTile(tile, direction) {
             // if there is a tile there and it IS a match, combine them
             } else if ( parseInt(next_tile.attr('data-val')) == data_val ) {
               var new_tile_value = data_val * 2;
-              
+
               // update next_tile's val
               next_tile.attr('data-val', new_tile_value);
               next_tile.text(new_tile_value);
@@ -204,14 +203,21 @@ function moveTile(tile, direction) {
               // active_tile disappears
               active_tile.remove();
             }
-          } 
-        } 
+          }
+        }
       } // end column loop
 
       break;
   } // end switch
 
-  addTile();
+  // if board is full, see if tile combinations are possible
+  // if not full, add another tile after move
+  console.log($(".tile").length);
+  if ( $(".tile").length > 15 ) {
+    checkPossibleMoves();
+  } else {
+    addTile();
+  }
 
 } // end moveTile
 
@@ -256,9 +262,8 @@ function addTile() {
         "data-col" : new_col,
         "data-val" : "2"
     });
-    new_tile.html("2");
-    // add tile to board
-
+  new_tile.html("2");
+  // add tile to board
   $("#gameboard").append(new_tile);
 } // end addTile
 
@@ -268,3 +273,50 @@ function addTile() {
 function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+function checkPossibleMoves() {
+  var present_tiles = $(".tile"); // find all tiles
+  // iterate through all tiles
+  for (i = 0; i < present_tiles.length; i++) {
+    var tile = present_tiles[i];
+    var row = tile.getAttribute("data-row"); // "r1"
+    var col = tile.getAttribute("data-col"); // "c2"
+    var val = tile.getAttribute("data-val"); // "2"
+
+    var row_num = parseInt(row.slice(-1)); // 2
+    var col_num = parseInt(col.slice(-1)); // 1
+
+    // do math on that tile's value to obtain all valid positions adjacent to it
+    var tile_above = $('.tile[data-row="r' + (row_num - 1) + '"][data-col="c' + col_num + '"]');
+    var tile_below = $('.tile[data-row="r' + (row_num + 1) + '"][data-col="c' + col_num + '"]');
+    var tile_right = $('.tile[data-row="r' + row_num + '"][data-col="c' + (col_num + 1) + '"]');
+    var tile_left = $('.tile[data-row="r' + row_num + '"][data-col="c' + (col_num - 1) + '"]');
+
+    // check data values of all tiles in those positions
+    // if adjascent tile's values match current tile, a move is still possible
+    // so break out of loop
+    // if selector is invalid (like "r-1") it will be an array of length 0
+    if ((tile_above.length > 0) && (tile_above.attr("data-val") == val)) {
+      console.log("there are still moves up");
+      // $("#message").text("there are still moves up");
+      return;
+    } else if ((tile_below.length > 0) && (tile_below.attr("data-val") == val)) {
+      console.log("there are still moves down");
+      // $("#message").text("there are still moves down");
+      return;
+    } else if ((tile_right.length > 0) && (tile_right.attr("data-val") == val)) {
+      console.log("there are still moves right");
+      // $("#message").text("there are still moves right");
+      return;
+    } else if ((tile_left.length > 0) && (tile_left.attr("data-val") == val)) {
+      console.log("there are still moves left");
+      // $("#message").text("there are still moves left");
+      return;
+    }
+
+  } // end for loop
+
+  console.log("you lose!");
+  $("#message").text("GAME OVER");
+  
+} // end checkPossibleMoves
