@@ -96,3 +96,32 @@ function moveTile(tile, direction) {
       break;
   }
 }
+var filled_space = [[0, 1], [1, 3], [2, 3], [1, 1]];
+  function sortToMove() {
+      var zero_array = [];
+      var one_array = [];
+      var two_array = [];
+      var three_array = [];
+    for(var i=0; i < filled_space.length; i++) {
+      if (filled_space[i][0] == 0) {
+        zero_array.push([filled_space[i]]);
+      } else if (filled_space[i][0] == 1) {
+          one_array.push([filled_space[i]]);
+      } else if (filled_space[i][0] == 2) {
+          two_array.push([filled_space[i]]);
+      } else if (filled_space[i][0] == 3) {
+          three_array.push([filled_space[i]]);
+      } else {
+        console.log("you broke it");
+      }
+    }
+    zero_array.sort();
+    one_array.sort();
+    two_array.sort();
+    three_array.sort();
+  }
+}
+    // console.log(zero_array);
+    // console.log(one_array);
+    // console.log(two_array);
+    // console.log(three_array);
