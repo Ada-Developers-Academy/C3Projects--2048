@@ -132,7 +132,7 @@ function matched(direction) {
       var colmStart = 3 // colmStart
 
       for(c=colmStart; c>0; c--) { //colm decrementing
-        for(r=0; r>4; r++) { //row incrementing
+        for(r=0; r<4; r++) { //row incrementing
           if (board[r][c] == board[r][c - 1]) {
             console.log(board[r][c] + 'matches'+ board[r][c - 1]);
             console.log('matched!');
