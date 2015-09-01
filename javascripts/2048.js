@@ -34,6 +34,10 @@ function generateRandomTile() {
   return newTileTemplate;
 }
 
+function compareTiles(existingTile, newTile){
+  return existingTile.attr("data-row") === newTile.attr("data-row") && existingTile.attr("data-col") === newTile.attr("data-col") && existingTile.attr("data-val") === newTile.attr("data-val");
+}
+
 function generateRandomBoard(){
   var tilesAdded = 0;
   var tilesNum = 2;
@@ -54,10 +58,10 @@ function generateRandomBoard(){
       // Grab existing tile
       var existingTile = $(".tile").first();
       // Check if new tile and existing tile are the same
+      compareTiles(existingTile, newTile);
+      console.log(compareTiles(existingTile, newTile));
       // While they are the same
-      while (newTile === existingTile){
-        newTile = generateRandomTile();
-      }
+
     }
 
     // Insert new tile
