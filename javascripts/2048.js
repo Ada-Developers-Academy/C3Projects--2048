@@ -88,11 +88,20 @@ function position(){
 
 function tilePlacement(position) {
   var tileDiv =  $("<div class='tile'></div>");
-  tileDiv.text(2);
+  var tileNumber = randomTileNumber();
+  tileDiv.text(tileNumber);
   tileDiv.attr("data-row", position[0]);
   tileDiv.attr("data-col", position[1]);
-  tileDiv.attr("data-val",  '2');
+  tileDiv.attr("data-val",  tileNumber);
 
   $("#gameboard").append(tileDiv);
   console.log(tileDiv);
 }
+
+function randomTileNumber() {
+  var randomValue = Math.random() < 0.8 ? 2 : 4;
+  return randomValue;
+}
+
+var smth = randomTileNumber();
+console.log(smth);

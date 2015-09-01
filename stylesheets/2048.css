@@ -3,22 +3,24 @@ html {
 }
 
 #scoreboard {
-
+  position: relative;
   background: #bbada0;
   font-size: 25px;
-  height: 100px;
+  height: 80px;
   font-weight: bold;
   border-radius: 3px;
-  width: 100px;
+  width: 80px;
+  float: right;
 }
 
 #score {
   width: 100%;
   text-transform: uppercase;
-  font-size: 13px;
+  font-size: 15px;
   text-align: center;
   color: #eee4da;
-  padding-top: 10px;
+  margin-bottom: 7px;
+  /*padding-top: 2px;*/
 }
 
 #score_number {
