@@ -35,6 +35,7 @@ function moveTile(tile, direction) {
 var Board = function(boardArray) { // board constructor
   this.board = boardArray;
   this.boardLength = 4; // board is a square, so this is the same going both ways
+  this.emptyTile = 0;
 };
 
 board = new Board([ // this is an example board for us to play with during testing
@@ -46,8 +47,7 @@ board = new Board([ // this is an example board for us to play with during testi
 
 Board.prototype.move = function(direction) {
   // this is the movement function
-  var reorientedBoard = this.reorient(direction);
-  // var condensedBoard = reorientedBoard.forEach(this.condense); // not 100% certain about this syntax
+  // var reorientedBoard = this.reorient(direction);
 };
 
 // board.reorient() reorients the board into arrays based on direction
@@ -63,16 +63,16 @@ Board.prototype.reorient = function(direction) {
 };
 
 Board.prototype.horizontalReorient = function() {
-  return this.board; // or do we want to modify the board in place?
-};
+  return this.board.slice(); // slice() will make a copy for us.
+}; // or do we want to modify the board in place?
 
 Board.prototype.verticalReorient = function() {
   var reorientedBoard = [];
 
-  for (var oldCol = 0; oldCol < this.boardLength; oldCol++) {
+  for (var oldCol = this.emptyTile; oldCol < this.boardLength; oldCol++) {
     var newRow = [];
 
-    for (var oldRow = 0; oldRow < this.boardLength; oldRow++) {
+    for (var oldRow = this.emptyTile; oldRow < this.boardLength; oldRow++) {
       newRow.push(this.board[oldRow][oldCol]);
     };
 
@@ -87,7 +87,7 @@ Board.prototype.condense = function(colOrRow) {
   var condensedColOrRow = [];
 
   for (i = 0; i < colOrRow.length; i++) {
-    if (colOrRow[i] == "0") {
+    if (colOrRow[i] == this.emptyTile) {
       continue;
     } else {
       condensedColOrRow.push(colOrRow[i]);
@@ -100,11 +100,12 @@ Board.prototype.condense = function(colOrRow) {
 //------------ UP example --------------
 
 // before reorient UP move
-// [2, 4,  32, 512]
-// [2, 4,  32, 256]
-// [0, 4, 128, 256]
-// [0, 2,  64,  32]
-
+board2 = new Board([
+  [2, 4,  32, 512],
+  [2, 4,  32, 256],
+  [0, 4, 128, 256],
+  [0, 2,  64,  32]
+]);
 // after reorient, before condense / resolve UP:
 //   [  2,   2,   0,   0]
 //   [  4,   4,   4,   2]
@@ -166,20 +167,46 @@ var condensedDown = [
 // [4, 2,  64,  32]
 
 Board.prototype.build = function(condensedArrays, direction) {
-  var rebuild = function(array) {
-    while (array.length < 4) {
-      if (direction == "left" || direction == "up")
-        array.push(0);
-      else // "right" || "down"
-        array.unshift(0);
-    }
-  }
+  var emptySpots = []; // this will eventually be a set of [row, column] positions for all the 0s / empty spots
+  var boardLength = this.boardLength;
+  var emptyTile = this.emptyTile;
 
-  var direction = "left";
-  condensedArrays.forEach(rebuild);
-  condensedArrays.reorient(direction);
+  var rebuild = function(array, currentRow) { // currentRow is for emptySpots positions
+    while (array.length < boardLength) {
+      if (direction == "left" || direction == "up") {
+        // [2, 4] & we're about to push in this.emptyTile at index 2
+        currentColumn = array.length; // currentColumn is for emptySpots positions
+        array.push(emptyTile);
+      } else { // "right" || "down"
+        // [2, 4] & we're about to unshift in this.emptyTile at eventual index 1 (4 - 2 - 1 == 1)
+        currentColumn = boardLength - array.length - 1; // currentColumn is for emptySpots positions
+        array.unshift(emptyTile);
+      }; // see ya, if
+
+      emptySpots.push([currentRow, currentColumn]); // tell emptySpots where we just filled in an empty tile
+    } // see ya, while
+    return array;
+  } // see ya, rebuild()
+
+  extendedArrays = [];
+  for (var currentRow = 0; currentRow < boardLength; currentRow++) {
+    var extendedRow = rebuild(condensedArrays[currentRow], currentRow); // this reminds me of ruby's .each_with_index...
+    extendedArrays.push(extendedRow);
+  } // see ya, for
+
+  this.board = condensedArrays; // NOTE this is mutating the original board
+
+  // call new tile event here
+  // NOTE this needs to happen BEFORE the board is reoriented, because the
+  // positions created above are based on the current orientation
+  board2.newTile(emptySpots);
+
+  // twisting the board back to its original orientation
+  this.board = this.reorient(direction); // NOTE this is mutating the original board
 }
 
-console.log(condensed);
-build(condensed);
-console.log(condensed);
+Board.prototype.newTile = function(emptySpots) {
+  // handling for newTile here
+  // var randomIndex = Math.floor(Math.random() * this.boardLength);
+  // newTileLocation = emptySpots[randomIndex];
+}
