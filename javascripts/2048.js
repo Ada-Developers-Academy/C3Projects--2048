@@ -83,16 +83,19 @@ function randomizeLocation() {
 }
 
 function matched(direction) {
+  console.log('board: ' + board);
   switch(direction) {
     case 38: //up
       var rowStart = 0; //rowstart
 
       for(c=0; c<4; c++) { //colm incrementing
         for(r=rowStart; r<3; r++) { //row incrementing
+          if (isNaN(board[r][c])) { break;} // will do check if value is a number
           if (board[r][c] == board[r + 1][c]) {
             console.log(board[r][c] + 'matches' + board[r + 1][c]);
             console.log('matched!');
-            return true;
+            tileLevelUp(r, c, board[r][c]);
+            board[r + 1][c] = undefined;
           } // if
         } // r
       } // c
@@ -137,6 +140,10 @@ function matched(direction) {
       } // c
       break;
   };
+}
+
+function tileLevelUp(row, column, value) {
+  board[row][column] = 2 * value;
 }
 
 function mergeTile(tile) {
