@@ -96,31 +96,43 @@ function moveTile(tile, direction) {
       break;
   }
 }
-var filled_space = [[0, 1], [1, 3], [2, 3], [1, 1]];
-  function sortToMove() {
-      var zero_array = [];
-      var one_array = [];
-      var two_array = [];
-      var three_array = [];
-    for(var i=0; i < filled_space.length; i++) {
-      if (filled_space[i][0] == 0) {
-        zero_array.push([filled_space[i]]);
-      } else if (filled_space[i][0] == 1) {
-          one_array.push([filled_space[i]]);
-      } else if (filled_space[i][0] == 2) {
-          two_array.push([filled_space[i]]);
-      } else if (filled_space[i][0] == 3) {
-          three_array.push([filled_space[i]]);
-      } else {
-        console.log("you broke it");
-      }
-    }
-    zero_array.sort();
-    one_array.sort();
-    two_array.sort();
-    three_array.sort();
-  }
-}
+//   function sortToMove() {
+//       var zero_array = [];
+//       var one_array = [];
+//       var two_array = [];
+//       var three_array = [];
+//     for(var i=0; i < filled_space.length; i++) {
+//       if (filled_space[i][0] == 0) {
+//         zero_array.push([filled_space[i]]);
+//       } else if (filled_space[i][0] == 1) {
+//           one_array.push([filled_space[i]]);
+//       } else if (filled_space[i][0] == 2) {
+//           two_array.push([filled_space[i]]);
+//       } else if (filled_space[i][0] == 3) {
+//           three_array.push([filled_space[i]]);
+//       } else {
+//         console.log("you broke it");
+//       }
+//     }
+//     zero_array.sort();
+//     one_array.sort();
+//     two_array.sort();
+//     three_array.sort();
+//
+//
+//
+//   }
+// }
+//
+// var tile_num = zero_array.length;
+// zero_array = zero_result.slice(0, tile_num);
+//
+// var zero_result =  [[0,0][0,1][0,2][0,3]];
+// var one_result =   [[1,0][1,1][1,2][1,3]];
+// var two_result =   [[2,0][2,1][2,2][2,3]];
+// var three_result = [[3,0][3,1][3,2][3,3]];
+
+// var filled_space = [[0, 1], [1, 3], [2, 3], [1, 1]];
     // console.log(zero_array);
     // console.log(one_array);
     // console.log(two_array);
