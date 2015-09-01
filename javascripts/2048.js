@@ -1,4 +1,5 @@
 var board = []
+
 $(document).ready(function() {
 
   function begin() {
@@ -65,7 +66,7 @@ function moveTiles(direction) {
         if (!empty(board[count + 1][y])) {
           board[x][y] = board[count + 1][y];
           board[count + 1][y] = undefined;
-          reassigningTileAttr("row", (count + 1), x);
+          reassigningTileAttr((count + 1), x, y, y);
         }
         count++;
       }
@@ -80,7 +81,7 @@ function moveTiles(direction) {
         if (!empty(board[count - 1][y])) {
           board[x][y] = board[count - 1][y];
           board[count - 1][y] = undefined;
-          reassigningTileAttr("row", (count - 1), x);
+          reassigningTileAttr((count - 1), x, y, y);
         }
         count--;
       }
@@ -95,7 +96,7 @@ function moveTiles(direction) {
         if (!empty(board[x][count + 1])) {
           board[x][y] = board[x][count + 1];
           board[x][count + 1] = undefined;
-          reassigningTileAttr("col", (count + 1), y);
+          reassigningTileAttr(x, x, (count + 1), y);
         }
         count++;
       }
@@ -122,12 +123,14 @@ function moveTiles(direction) {
     }
   }
 
-  function reassigningTileAttr(dataType, old_num, new_num) {
-    var attri = "data-" + dataType
-    var old_location = ".tile[" + attri + "=" + dataType[0] + old_num + "]"
-    var tile = $(old_location);
-    var new_location = dataType[0] + new_num;
-    tile.attr(attri, new_location);
+  function reassigningTileAttr(oldRow, newRow, oldCol, newCol) {
+    var oldLocation = ".tile[data-row=r" + oldRow + "][data-col=c" + oldCol + "]";
+    var tile = $(oldLocation); // .tile[data-row=r1]
+    //****** .tile[data-col=c1]
+    var newRowLocation = "r" + newRow;
+    var newColLocation = "c" + newCol;
+    tile.attr("data-row", newRowLocation);
+    tile.attr("data-col", newColLocation);
   }
 
   // for (y = 0; y < 3; y++) {
@@ -171,28 +174,29 @@ function moveTiles(direction) {
       }
       break;
   }
+}
 
+  // STUFF BRANDI DOESN'T WANT TO DELETE YET (MAY NEED TO REFERENCE)
   // switch(direction) {
-  //   case 38: //up
-  //     // for (y = 0; y <= 3; y++) { // for each column
-  //       for (x = 0; x < 3; x++) { // don't want to move a non-existant row up
-  //         console.log("round" + x)
-  //         if (empty(board[x][0])) {
-  //           // console.log("x also is" + x)
-  //           // console.log("boo" + empty(board[x][0]))
-  //           board[x][0] = board[x+1][0];
-  //           // console.log("space check" + board[x][0])
-  //           // console.log("space move" + board[x+1][0])
-  //           board[x+1][0] = undefined;
-  //           // console.log("space checK" + board[x+1][0])
-  //           var old_row = ".tile[data-row=r" + (x + 1) + "]"
-  //           var tile = $(old_row);
-  //           var new_row = "r" + (x);
-  //           tile.attr("data-row", new_row);
-  //         }
-  //       }
-  //     // }
-  //     break;
+    // case 38: //up
+    //   // for (y = 0; y <= 3; y++) { // for each column
+    //     for (x = 0; x < 3; x++) { // don't want to move a non-existant row up
+    //       if (empty(board[x][0])) {
+    //         // console.log("x also is" + x)
+    //         // console.log("boo" + empty(board[x][0]))
+    //         board[x][0] = board[x+1][0];
+    //         // console.log("space check" + board[x][0])
+    //         // console.log("space move" + board[x+1][0])
+    //         board[x+1][0] = undefined;
+    //         // console.log("space checK" + board[x+1][0])
+    //         var old_row = ".tile[data-row=r" + (x + 1) + "]"
+    //         var tile = $(old_row);
+    //         var new_row = "r" + (x);
+    //         tile.attr("data-row", new_row);
+    //       }
+    //     }
+    //   // }
+    //   break;
     // case 40: //down
     //   // for (y = 0; y <= 3; y++) { // for each column
     //     for (x = 3; x > 0; x--) { // don't want to move a non-existant row up
@@ -273,4 +277,3 @@ function moveTiles(direction) {
     //   }
     //   break;
   // }
-}
