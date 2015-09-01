@@ -180,13 +180,13 @@ function moveTile(tile, direction) {
             var next_col_num = k + 1;
             var next_tile = $('.tile[data-row="r' + data_row_num + '"][data-col="c' + next_col_num + '"]');
 
-            console.log('COMPARISON 1...');
-            console.log('next_tile.length: ' + next_tile.length);
-            console.log('next_col_num: ' + next_col_num);
-
-            console.log('COMPARISON 2 & 3...');
-            console.log('next_tile data-val: ' + parseInt(next_tile.attr('data-val')));
-            console.log('data_val: ' + data_val);
+            // console.log('COMPARISON 1...');
+            // console.log('next_tile.length: ' + next_tile.length);
+            // console.log('next_col_num: ' + next_col_num);
+            //
+            // console.log('COMPARISON 2 & 3...');
+            // console.log('next_tile data-val: ' + parseInt(next_tile.attr('data-val')));
+            // console.log('data_val: ' + data_val);
 
             // if next_tile doesn't exist and the space is within bounds, move active_tile to that position
             if (next_tile.length == 0 && next_col_num >= 0 && next_col_num <= 3) {
@@ -299,23 +299,24 @@ function checkPossibleMoves() {
     if ((tile_above.length > 0) && (tile_above.attr("data-val") == val)) {
       console.log("there are still moves up");
       // $("#message").text("there are still moves up");
-      break;
+      return;
     } else if ((tile_below.length > 0) && (tile_below.attr("data-val") == val)) {
       console.log("there are still moves down");
       // $("#message").text("there are still moves down");
-      break;
+      return;
     } else if ((tile_right.length > 0) && (tile_right.attr("data-val") == val)) {
       console.log("there are still moves right");
       // $("#message").text("there are still moves right");
-      break;
+      return;
     } else if ((tile_left.length > 0) && (tile_left.attr("data-val") == val)) {
       console.log("there are still moves left");
       // $("#message").text("there are still moves left");
-      break;
-    } else {
-      console.log("you lose!");
-      $("#message").text("GAME OVER");
+      return;
     }
 
   } // end for loop
+
+  console.log("you lose!");
+  $("#message").text("GAME OVER");
+  
 } // end checkPossibleMoves
