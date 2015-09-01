@@ -48,7 +48,7 @@ Board.prototype.split() {
   // splits the board into arrays based on direction
 }
 
-// board.condense()
+// board.condense(columnOrRow)
 Board.prototype.condense = function(colOrRow) {
   var condensedColOrRow = [];
 
@@ -63,6 +63,10 @@ Board.prototype.condense = function(colOrRow) {
   return condensedColOrRow;
 }
 
+//board.compareAndResolve()
+Board.prototype.compareAndResolve = function() {
+
+}
 
 
 
