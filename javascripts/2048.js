@@ -34,8 +34,10 @@ function generateRandomTile() {
   return newTileTemplate;
 }
 
-function compareTiles(existingTile, newTile){
-  return existingTile.attr("data-row") === newTile.attr("data-row") && existingTile.attr("data-col") === newTile.attr("data-col") && existingTile.attr("data-val") === newTile.attr("data-val");
+function tilesInSameLocation(existingTile, newTile){
+  return existingTile.attr("data-row") === newTile.attr("data-row") && existingTile.attr("data-col") === newTile.attr("data-col");
+  // removed last comparison because technically a 2 and 4 would return
+  // false even if location was the same because they have two diff values.
 }
 
 function generateRandomBoard(){
@@ -53,21 +55,23 @@ function generateRandomBoard(){
     // save 1st tile to variable
     // do not allow append until new value is different than 1st
 
+    var badTile = false;
+
     // If there's already a tile
     if (tilesAdded === 1){
       // Grab existing tile
       var existingTile = $(".tile").first();
       // Check if new tile and existing tile are the same
-      compareTiles(existingTile, newTile);
-      console.log(compareTiles(existingTile, newTile));
-      // While they are the same
-
+      badTile = tilesInSameLocation(existingTile, newTile);
+      console.log(tilesInSameLocation(existingTile, newTile));
     }
 
     // Insert new tile
-    $("#gameboard").append(newTile);
-
-    tilesAdded++;
+    if (!badTile)
+    {
+      $("#gameboard").append(newTile);
+      tilesAdded++;
+    }
   }
 }
 
