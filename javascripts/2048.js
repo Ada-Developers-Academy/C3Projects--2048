@@ -85,29 +85,26 @@ function moveTile(direction) {
 function moveUp() {
   var starterBoard = board.toString();
   // traversal starting point = y0, x0
-  for(y = 0; y < boardSize; y++) {
+  removeZero("up");
+  for(y = 3; y >= 0; y--) {
     for(x = 0; x < boardSize; x++) {
       // check if blank
-      if (board[y][x] != 0) {
-        // do something
+      // if (board[y][x] != 0) {
+      //   // do something
         var next = checkNext(y, x, "up");
         if (next == 0) {
-          // move it
-          board[y + 1][x] = board[y][x];
-          board[y][x]     = 0;
         }
         else if (next == board[y][x]) {
           // collapse it
-          board[y + 1 ][x] += board[y][x];
-          board[y][x]       = 0;
-
+          board[y][x] += board[y-1][x];
+          board[y-1][x]       = 0;
         }
+      //   else {
+      //     // do nothing probably dont need this. we'll see
+      //   }
+      // }
         else {
-          // do nothing probably dont need this. we'll see
         }
-      }
-      else {
-      }
     }
   }
   if (board.toString() != starterBoard){
@@ -212,12 +209,26 @@ function moveRight() {
   }
 }
 
+function removeZero(direction) {
+  if(direction == "up") {
+    for(y=3; y >= 0; y--){
+      for(x=0; x<boardSize; x++){
+        if(y - 1 >= 0){
+          if(board[y][x] == 0){
+            board[y][x] = board[y - 1][x];
+            board[y - 1][x] = 0;
+          }
+        }
+      }
+    }
+  }
+}
 
 function checkNext(y, x, direction) {
   // this is for up condition
   if(direction == "up"){
-    if(y + 1 <= 3) {
-    return board[y + 1][x];
+    if(y - 1 >= 0) {
+    return board[y - 1][x];
     }
     else {
       return null;
