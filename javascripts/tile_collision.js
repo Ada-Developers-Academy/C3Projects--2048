@@ -29,9 +29,9 @@ function orderTiles(keystroke) {
   // determines which index to use to organize the tiles
   // tile = `[row, column]`
   var index = function() {
-    if (start.splice(0, 1) === "r") {
+    if (direction[0].splice(0, 1) === "r") {
       return 0; // filters by row
-    } else if (start.splice(0, 1) === "c") {
+    } else if (direction[0].splice(0, 1) === "c") {
       return 1; // filters by columns
     }
   };
@@ -64,5 +64,5 @@ function orderTiles(keystroke) {
 function tileCollision(keystroke) {
   var orderedTiles = orderTiles(keystroke);
 
-  
+
 }
