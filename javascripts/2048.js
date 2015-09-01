@@ -1,11 +1,11 @@
+const MAXSTARTINGTILE = 4;
+const MINSTARTINGTILE = 2;
+const MINBOARDLOCALE = 0;
+const BOARDCEILING = 4; // anything less than 4 is valid
+// Constants -----------------
 var board = []
 
 $(document).ready(function() {
-  const MAXSTARTINGTILE = 4;
-  const MINSTARTINGTILE = 2;
-  const MINBOARDLOCALE = 0;
-  const BOARDCEILING = 4; // anything less than 4 is valid
-  // Constants -----------------
 
   function begin() {
     for (i = 0; i < 4; i++) {
@@ -13,16 +13,16 @@ $(document).ready(function() {
       console.log(board);
     }
     console.log('ready!');
-    board[3][0] = "2";
-    board[1][0] = "2";
-    board[2][0] = "2";
-    board[0][0] = "2";
-    board[2][1] = "2";
-    board[3][1] = "2";
-    board[0][2] = "2";
-    board[3][2] = "2";
-    board[2][3] = "2";
-    board[3][3] = "2";
+    board[3][0] = 2;
+    board[1][0] = 2;
+    board[2][0] = 2;
+    board[0][0] = 2;
+    board[2][1] = 2;
+    board[3][1] = 2;
+    board[0][2] = 2;
+    board[3][2] = 2;
+    board[2][3] = 2;
+    board[3][3] = 2;
   }
 
   begin();
@@ -43,6 +43,7 @@ $(document).ready(function() {
       // console.log(tile[1]);
       // empty(tile);
       moveTiles(event.which);
+      createTile();
       event.preventDefault();
     }
   })
@@ -83,33 +84,25 @@ function randomizeLocation() {
 }
 
 function createTile() {
-  //randomizeLocation()
-  //ranodmizeValue()
-  //empty()
-
-  // 1. search for empty spaces (what spaces are empty)
-  // 2. find a random empty space
-  // 3. generate a (random) tile in that empty space
-  //    a. make sure it gets added to the board
-  //    b. make sure it adds a visual reassigningTileAttr
-
   var location = randomizeLocation()
   var row = location[0];
   var col = location[1];
   var value = randomizeValue();
   board[row][col] = value;
   createVisualTile(row, col, value);
+}
 
-  function createVisualTile(row, col, value) {
-    var rowLocation = "r" + row;
-    var colLocation = "c" + col;
-    var tile = $("<div></div>");
-    tile.addClass("tile");
-    tile.text = value;
-    tile.attr("data-val", value);
-    tile.attr("data-row", rowLocation);
-    tile.attr("data-col", colLocation);
-  }
+function createVisualTile(row, col, value) {
+  var rowLocation = "r" + row;
+  var colLocation = "c" + col;
+  var tile = $("<div></div>");
+  tile.addClass("tile");
+  tile.text(value);
+  tile.attr("data-val", value);
+  tile.attr("data-row", rowLocation);
+  tile.attr("data-col", colLocation);
+  $("#gameboard").append(tile);
+  tile.addClass("spawning").on("animationend", function() { $(this).removeClass("spawning") });
 }
 
 function mergeTile(tile) {
