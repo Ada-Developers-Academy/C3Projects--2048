@@ -123,6 +123,7 @@ function makeMovement(direction) {
     // console.log(relevantAttributeValue);
     var newAttributeValue = parseInt(relevantAttributeValue) + magnitude;
 
+    // if already on the furthest edge, do not reassign value
     if (newAttributeValue > 4) {
       newAttributeValue = 4;
     } else if (newAttributeValue < 1) {
