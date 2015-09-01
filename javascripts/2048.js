@@ -89,13 +89,29 @@ function moveTile(tile, direction) {
       // start with checking all tile.attr for items containing data-col === c0
       // getElementby get all objects with data-col === c0
 
-      var occupants = $("[data-col='c0']").size();
-      console.log(occupants);
+      // get the tile
+      var occupants = $("[data-col='c0']");
+      // console.log(occupants);
 
+      // check its upstairs neighbor
+      var occupantRow = occupants.attr("data-row");
+      var neighborRow = (occupantRow.replace("r","") - 1);
+
+      $("[data-col='c0', data-row='neighborRow']").size();
+      // how do we interpolate neighborRow???
+      // while next cell is empty
+        // move up
 
 
       // shift "occupant(s)" in direction pressed if next tile is empty else
+
+
+      // check next cell
+      // move or stop
+
       // stop moving in that direction.
+
+
 
 
 
