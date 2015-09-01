@@ -68,19 +68,15 @@ function moveTile(direction) {
   switch(direction) {
     case 38: //up
       moveUp();
-      // tile.attr("data-row","y3");
       break;
     case 40: //down
       moveDown();
-      // tile.attr("data-row","y0");
       break;
     case 37: //left
       moveLeft();
-      // tile.attr("data-col","x0");
       break;
     case 39: //right
       moveRight();
-      // tile.attr("data-col","x3");
       break;
   }
   displayBoard();
@@ -152,6 +148,35 @@ function moveDown () {
 
 function moveLeft() {
   // traversal starting point = y0, x3
+  starterBoard = board.toString();
+  // traversal starting point = y3, x0
+  for(y = 0; y < boardSize; y++) {
+    for(x = 3; x >= 0; x--) {
+      // check if blank
+      if (board[y][x] != 0) {
+        // do something
+        var next = checkNext(y, x, "left");
+        if (next == 0) {
+          // move it
+          board[y][x - 1] = board[y][x];
+          board[y][x]     = 0;
+        }
+        else if (next == board[y][x]) {
+          // collapse it
+          board[y][x - 1] += board[y][x];
+          board[y][x]       = 0;
+        }
+        else {
+          // do nothing probably dont need this. we'll see
+        }
+      }
+      else {
+      }
+    }
+  }
+  if (board.toString() != starterBoard){
+    assignRandoTiles();
+  }
 }
 
 function moveRight() {
@@ -171,6 +196,14 @@ function checkNext(y, x, direction) {
   else if(direction == "down"){
     if(y - 1 >= 0) {
       return board[y - 1][x];
+    }
+    else {
+      return null;
+    }
+  }
+  else if(direction == "left") {
+    if(x - 1 >= 0) {
+      return board[y][x -1];
     }
     else {
       return null;
