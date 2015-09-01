@@ -8,6 +8,7 @@ $(document).ready(function() {
       event.preventDefault();
     }
   addTile();
+  endGame();
   })
 
   // Assign position of first 2 tiles
@@ -103,5 +104,9 @@ function randomTileNumber() {
   return randomValue;
 }
 
-var smth = randomTileNumber();
-console.log(smth);
+function endGame() {
+  var takenSpace = locateTiles();
+  if(takenSpace.length === 16){
+    console.log("Game over")
+  }
+}
