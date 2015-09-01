@@ -11,7 +11,10 @@ function tileInventory() {
   return takenSpaces;
 }
 
-function orderTiles(keystroke, tiles) {
+function orderTiles(keystroke) {
+  // collect all the tile locations
+  var tiles = tileInventory();
+
   // the reaction of tiles colliding happens in the order opposite
   // of the keystroke (e.g. up key evalautes the bottom row first)
   var direction = function() {
@@ -48,10 +51,10 @@ function orderTiles(keystroke, tiles) {
       result.concat(filterByLocation(direction[i]));
     }
 
-    // a fat array of all the tiles in opposite order
-    // of the keystroke
     return result;
   };
 
+  // a fat array of all the tiles in opposite order
+  // of the keystroke
   return organizedTiles;
 }
