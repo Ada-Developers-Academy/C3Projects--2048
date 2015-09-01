@@ -40,7 +40,11 @@ html {
 
 .popper {
   animation: pop .2s;
-  animation-delay: .3s;
+  animation-delay: .2s;
+}
+
+.scaleIn {
+  animation: scaleIn .3s;
 }
 
 .tile[data-row=r0] { top: 0; }
@@ -72,6 +76,21 @@ html {
 
   50% {
     transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes scaleIn {
+  0% {
+    transform: scale(0);
+  }
+
+  /* This adds a sort of delay so that the tile does not appear prior to tiles around it shifting. */
+  50% {
+    transform: scale(0);
   }
 
   100% {

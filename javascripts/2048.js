@@ -38,9 +38,17 @@ function generateTile(array) {
   if ($('[data-row=' + rows[randomRow] + '][data-col=' + cols[randomCol] + ']').length === 0) {
 
     $('#gameboard').append(tile);
+    scaleIn(tile);
   } else {
     generateTile(array);
   }
+}
+
+function scaleIn(tile) {
+  tile.addClass('scaleIn')
+  .on('animationend',
+    function () { $(this).removeClass('scaleIn'); }
+  );
 }
 
 function pop(tile) {
