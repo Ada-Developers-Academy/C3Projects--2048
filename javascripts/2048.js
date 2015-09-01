@@ -1,7 +1,7 @@
 $(document).ready(function() {
   console.log('ready!');
 
-  placeFirstTiles();
+  // placeFirstTiles();
 
   $('body').keydown(function(event){
     var arrow_keys = [37, 38, 39, 40];
@@ -34,8 +34,8 @@ function placeFirstTiles() {
           "data-col" : new_col,
           "data-val" : "2"
       });
-      new_tile.html("2");
-      // add tile to board
+    new_tile.html("2");
+    // add tile to board
     $("#gameboard").append(new_tile);
   }
 }
@@ -99,7 +99,14 @@ function moveTile(tile, direction) {
       break;
   } // end switch
 
-  addTile();
+  // if board is full, see if tile combinations are possible
+  // if not full, add another tile after move
+  console.log($(".tile").length);
+  if ( $(".tile").length > 15 ) {
+    checkPossibleMoves();
+  } else {
+    // addTile();
+  }
 
 } // end moveTile
 
@@ -144,9 +151,8 @@ function addTile() {
         "data-col" : new_col,
         "data-val" : "2"
     });
-    new_tile.html("2");
-    // add tile to board
-
+  new_tile.html("2");
+  // add tile to board
   $("#gameboard").append(new_tile);
 } // end addTile
 
@@ -156,3 +162,43 @@ function addTile() {
 function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+function checkPossibleMoves() {
+  var present_tiles = $(".tile"); // find all tiles
+  // iterate through all tiles
+  for (i = 0; i < present_tiles.length; i++) {
+    var tile = present_tiles[i];
+    var row = tile.getAttribute("data-row"); // "r1"
+    var col = tile.getAttribute("data-col"); // "c2"
+    var val = tile.getAttribute("data-val"); // "2"
+
+    var row_num = parseInt(row.slice(-1)); // 2
+    var col_num = parseInt(col.slice(-1)); // 1
+
+    // do math on that tile's value to obtain all valid positions adjacent to it
+    var tile_above = $('.tile[data-row="r' + (row_num - 1) + '"][data-col="c' + col_num + '"]');
+    var tile_below = $('.tile[data-row="r' + (row_num + 1) + '"][data-col="c' + col_num + '"]');
+    var tile_right = $('.tile[data-row="r' + row_num + '"][data-col="c' + (col_num + 1) + '"]');
+    var tile_left = $('.tile[data-row="r' + row_num + '"][data-col="c' + (col_num - 1) + '"]');
+
+    // check data values of all tiles in those positions
+    // if adjascent tile's values match current tile, a move is still possible
+    // so break out of loop
+    if ((tile_above.length > 0) && (tile_above.attr("data-val") == val)) {
+      console.log("there are still moves up");
+      break;
+    } else if ((tile_below.length > 0) && (tile_below.attr("data-val") == val)) {
+      console.log("there are still moves down");
+      break;
+    } else if ((tile_right.length > 0) && (tile_right.attr("data-val") == val)) {
+      console.log("there are still moves right");
+      break;
+    } else if ((tile_left.length > 0) && (tile_left.attr("data-val") == val)) {
+      console.log("there are still moves left");
+      break;
+    } else {
+      console.log("you lose!");
+    }
+
+  } // end for loop
+} // end checkPossibleMoves
