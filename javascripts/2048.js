@@ -24,6 +24,7 @@ function startGame() {
     var rowIndex = Math.floor(Math.random() * rows.length);
     var colIndex = Math.floor(Math.random() * cols.length);
 
+    // TODO: refactor with newTile(); this is copy-pasta'd code
     var tile = $("<div class='tile'></div>");
     tile.attr({"data-row":rows[rowIndex], "data-col":cols[colIndex]});
     tile.attr("data-val", 2); // brownie pts = randomly mix in 4s
