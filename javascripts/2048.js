@@ -30,3 +30,40 @@ function moveTile(tile, direction) {
       break;
   }
 }
+
+
+// board = new Board([]);
+var Board = function(boardArray) { // board constructor
+  this.board = boardArray;
+}
+
+Board.protoype.update(direction) {
+  // this is the movement function
+  // var reorientedBoard = this.split();
+  // this.condense();
+}
+
+// board.split()
+Board.prototype.split() {
+  // splits the board into arrays based on direction
+}
+
+// board.condense()
+Board.prototype.condense() {
+  // condensing the array (removing empty spaces / 0s)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//
