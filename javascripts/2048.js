@@ -1,5 +1,8 @@
 $(document).ready(function() {
   console.log('ready!');
+
+  placeFirstTiles();
+
   $('body').keydown(function(event){
     var arrow_keys = [37, 38, 39, 40];
 
@@ -10,6 +13,32 @@ $(document).ready(function() {
     }
   });
 });
+
+function placeFirstTiles() {
+  var grid_options = ["r0,c0", "r0,c1", "r0,c2", "r0,c3", "r1,c0", "r1,c1", "r1,c2", "r1,c3", "r2,c0", "r2,c1", "r2,c2", "r2,c3", "r3,c0", "r3,c1", "r3,c2", "r3,c3"];
+
+  // place 2 tiles to start game
+  for (i = 0; i < 2; i++) {
+    // pick random value
+    var random_index = getRandomIntInclusive(0, grid_options.length - 1);
+    var new_tile_position = grid_options[random_index]; // "r0,c0"
+    var new_row = new_tile_position.split(",")[0]; // "r0"
+    var new_col = new_tile_position.split(",")[1]; // "c0"
+    // remove from array
+    grid_options.remove(new_tile_position);
+    // assign to div
+    var new_tile = $("<div>");
+    new_tile.addClass("tile");
+    new_tile.attr({
+          "data-row" : new_row,
+          "data-col" : new_col,
+          "data-val" : "2"
+      });
+      new_tile.html("2");
+      // add tile to board
+    $("#gameboard").append(new_tile);
+  }
+}
 
 function moveTile(tile, direction) {
   // var new_tile_value = tile.attr("data-val") * 2;
@@ -106,7 +135,6 @@ function addTile() {
   var new_tile_position = grid_options[random_index]; // "r0,c0"
   var new_row = new_tile_position.split(",")[0]; // "r0"
   var new_col = new_tile_position.split(",")[1]; // "c0"
-  console.log(new_row + ", " + new_col);
 
   // plug those values into a newly created div's attributes
   var new_tile = $("<div>");
