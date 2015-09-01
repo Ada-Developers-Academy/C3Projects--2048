@@ -122,6 +122,9 @@ function tileCollision(keystroke) {
     var adjacentTile = adjacentSpace(direction);
 
     if (adjacentTile > -1) {
+      // this order is super important!
+      // first should be the tile we're on in the iteration
+      // second should be the tile adjacent to it
       merge(tile, orderedTiles[adjacentTile]);
     } else {
       moveOne();
