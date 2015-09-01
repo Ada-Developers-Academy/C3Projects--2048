@@ -14,7 +14,8 @@ $(document).ready(function() {
 })
 
  //keeps track of where on the board has a tile
-  var filled_space = [];
+
+  var tile_array = [];
 
 function initializeGame() {
   createTile();
@@ -27,10 +28,10 @@ function rando_num(){
 
 
 function checkLocation(column, row) {
-  for(var i = 0; i < filled_space.length; i++) {
-    if (filled_space[i][0] == column && filled_space[i][1] == row) {
-      column = rando_num();
-      row = rando_num();
+  for(var i = 0; i < tile_array.length; i++) {
+    if (tile_array[i].attr('data-col') == column && tile_array[i].attr('data-row') == row) {
+      column = 'c' + rando_num();
+      row = 'r' + rando_num();
       checkLocation(column, row);
     }
   }
@@ -40,10 +41,9 @@ function checkLocation(column, row) {
 function createTile() {
 
   // Check for empty spaces before creating
-
-  if (filled_space.length < 16) {
-    var new_column = rando_num();
-    var new_row = rando_num();
+  if (tile_array.length < 16) {
+    var new_column = 'c' +rando_num();
+    var new_row = 'r' + rando_num();
 
     var result = checkLocation(new_column, new_row);
 
@@ -52,12 +52,13 @@ function createTile() {
 
     // Create new div element with tile class, location attributes, and value attribute
     var newTile = $( '<div= class="tile">2</div>');
-    newTile.attr("data-row", 'r' + row);
-    newTile.attr("data-col", 'c' + column);
+    newTile.attr("data-col", column);
+    newTile.attr("data-row", row);
     newTile.attr("data-val", "2");
     $('#gameboard').append(newTile);
 
-    filled_space.push([column, row]);
+    tile_array.push(newTile);
+
   } else {
     console.log("spaces full");
   }
@@ -83,7 +84,8 @@ function moveTile(tile, direction) {
   // needs conditionals to check for occupied grids spaces
   switch(direction) {
     case 38: //up
-      tile.attr("data-row","r0");
+      //tile.attr("data-row","r0");
+      moveUp();
       break;
     case 40: //down
       tile.attr("data-row","r3");
@@ -96,44 +98,81 @@ function moveTile(tile, direction) {
       break;
   }
 }
-//   function sortToMove() {
-//       var zero_array = [];
-//       var one_array = [];
-//       var two_array = [];
-//       var three_array = [];
-//     for(var i=0; i < filled_space.length; i++) {
-//       if (filled_space[i][0] == 0) {
-//         zero_array.push([filled_space[i]]);
-//       } else if (filled_space[i][0] == 1) {
-//           one_array.push([filled_space[i]]);
-//       } else if (filled_space[i][0] == 2) {
-//           two_array.push([filled_space[i]]);
-//       } else if (filled_space[i][0] == 3) {
-//           three_array.push([filled_space[i]]);
-//       } else {
-//         console.log("you broke it");
-//       }
-//     }
-//     zero_array.sort();
-//     one_array.sort();
-//     two_array.sort();
-//     three_array.sort();
-//
-//
-//
-//   }
-// }
-//
+
+
+  function moveUp(){
+
+   for(var i = 0; i < tile_array.length; i++) {
+    console.log("I'm here");
+    var tile = tile_array[i];
+    checkUp(tile);
+      }
+    }
+
+    function checkUp(tile) {
+      console.log(tile);
+       // => [data-col: c0, data-row: r3]
+      var column = tile.attr('data-col');// data-col: 'c0'
+      var row = tile.attr('data-row');
+      if (row != 'r0') {
+        var row_num = +(row.slice(1, 2));
+        var next_row = 'r' + (row_num - 1);
+          for(i = 0; i < tile_array.length; i++) {
+            if(tile_array[i].attr('data-col') == column) {
+              if (tile_array[i].attr('data-row') != next_row) {
+                tile.attr("data-row", next_row);
+              }
+            }
+          }
+        }
+        }
+
+
+    //tile.attr("data-row","r0") if no tile exists with data-col 0, rows 2, 1, 0
+
+
+
+
+  // move to 'r0' if tile_array.attr('data-row') !=
+
+
+
+  // function sortToMove() {
+  //     var zero_array = [];
+  //     var one_array = [];
+  //     var two_array = [];
+  //     var three_array = [];
+  //   for(var i=0; i < filled_space.length; i++) {
+  //     if (filled_space[i][0] == 0) {
+  //       zero_array.push([filled_space[i]]);
+  //     } else if (filled_space[i][0] == 1) {
+  //         one_array.push([filled_space[i]]);
+  //     } else if (filled_space[i][0] == 2) {
+  //         two_array.push([filled_space[i]]);
+  //     } else if (filled_space[i][0] == 3) {
+  //         three_array.push([filled_space[i]]);
+  //     } else {
+  //       console.log("you broke it");
+  //     }
+  //   }
+  //   zero_array.sort();
+  //   one_array.sort();
+  //   two_array.sort();
+  //   three_array.sort();
+
+  // }
+
+
 // var tile_num = zero_array.length;
 // zero_array = zero_result.slice(0, tile_num);
-//
+
 // var zero_result =  [[0,0][0,1][0,2][0,3]];
 // var one_result =   [[1,0][1,1][1,2][1,3]];
 // var two_result =   [[2,0][2,1][2,2][2,3]];
 // var three_result = [[3,0][3,1][3,2][3,3]];
 
 // var filled_space = [[0, 1], [1, 3], [2, 3], [1, 1]];
-    // console.log(zero_array);
-    // console.log(one_array);
-    // console.log(two_array);
-    // console.log(three_array);
+//     console.log(zero_array);
+//     console.log(one_array);
+//     console.log(two_array);
+//     console.log(three_array);
