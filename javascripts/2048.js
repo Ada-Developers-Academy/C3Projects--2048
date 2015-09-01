@@ -68,5 +68,45 @@ function moveTile(tile, direction) {
     case 39: //right
       tile.attr("data-col","c3");
       break;
+  } // end switch
+
+  addTile();
+
+} // end moveTile
+
+// extend ability to remove values from arrays, because reasons
+Array.prototype.remove = function(value) {
+  console.log(this.indexOf(value));
+    if (this.indexOf(value)!== -1) {
+       this.splice(this.indexOf(value), 1);
+       return true;
+   } else {
+      return false;
+   }
+};
+
+function addTile() {
+  var present_tiles = (document.getElementsByClassName("tile")); // find all tiles
+  var positions = [];
+  for (var i = 0; i < present_tiles.length; i++) { // pull each tile position into array pair ["r0", "c0"]
+    var row = present_tiles[i].getAttribute("data-row");
+    var col = present_tiles[i].getAttribute("data-col");
+    var position_pair = [row, col];
+    positions.push(position_pair); // push into 2D array [["r0", "c0"], ["r0", "c1"]]
+  } // now have positions of all present tiles (changes after each move)
+
+
+  var grid_options = [["r0", "c0"], ["r0", "c0"], ["r0", "c0"], ["r0", "c0"], ["r1", "c1"], ["r1", "c1"], ["r1", "c1"], ["r1", "c1"], ["r2", "c2"], ["r2", "c2"], ["r2", "c2"], ["r2", "c2"], ["r3", "c3"], ["r3", "c3"], ["r3", "c3"], ["r3", "c3"]];
+
+  // iterate through list of all possible positions, remove those currently on board
+  for (var j = 0; j < positions.length; j++) {
+    // console.log(positions[j]);
+    grid_options.remove(positions[j]); // this isn't working
   }
+
+  console.log(grid_options.length);
+
+  // randomly pick a position to place a tile from remaining array
+  // plug those values into a newly created div's attributes
+
 }
