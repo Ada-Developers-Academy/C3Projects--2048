@@ -1,8 +1,8 @@
 $(document).ready(function() {
   const MAXSTARTINGTILE = 4;
   const MINSTARTINGTILE = 2;
-  const MINBOARDLOCALE = 3;
-  const MAXBOARDLOCALE = 0;
+  const MINBOARDLOCALE = 0;
+  const MAXBOARDLOCALE = 4;
   // Constants -----------------
 
   var board = []
@@ -42,7 +42,7 @@ $(document).ready(function() {
 function empty(location) {
   // input will be board location
   // check if board array location is undefined
-  var answer = location == undefined ? true : false;
+  var answer = (location == undefined) ? true : false;
   console.log('location: '+ location);
   console.log('answer: ' + answer);
   return answer;
@@ -61,7 +61,16 @@ function randomizeLocation() {
     Math.random() *(MAXBOARDLOCALE - MINBOARDLOCALE) + MINBOARDLOCALE );
   var col = Math.floor(
     Math.random() *(MAXBOARDLOCALE - MINBOARDLOCALE) + MINBOARDLOCALE );
+
   // need to check if slot is empty
+  while !empty(board[row][col]) {  // can probably refactor this
+    var row = Math.floor(
+      Math.random() *(MAXBOARDLOCALE - MINBOARDLOCALE) + MINBOARDLOCALE );
+    var col = Math.floor(
+      Math.random() *(MAXBOARDLOCALE - MINBOARDLOCALE) + MINBOARDLOCALE );
+    // need to check if slot is empty
+
+  }
   return row;
   return col;
 }
