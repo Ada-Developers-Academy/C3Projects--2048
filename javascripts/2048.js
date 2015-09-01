@@ -18,10 +18,18 @@ function moveTiles(direction) {
 }
 
 function moveTile(tile, direction) {
+  // determine if tiles are moving across rows or columns
   var type = rowOrColumn(direction);
-  var value = farthestValue(direction);
 
-  tile.setAttribute(type, value);
+  // determine if you are moving in positive or negative direction
+  var farthestValue = farthestValue(direction);
+
+  // works for up and left
+  var secondFarthest = parseInt(farthestValue) + 1;
+  // look through col1 row2
+
+
+  // tile.setAttribute(type, value);
 }
 
 function rowOrColumn(direction) {
@@ -37,11 +45,26 @@ function rowOrColumn(direction) {
 
 function farthestValue(direction) {
   var value = "";
+  // if moving left or up
   if (direction == 37 || direction == 38) {
-    value = "1";
+    value = "-1";
+  // if moving down or right
   } else if (direction == 39 || direction == 40) {
-    value = "4";
+    value = "1";
   }
 
   return value;
+}
+
+
+function makeMovement(direction) {
+  var moveTile = function(tile) {
+    // set the positive or negative according to direction
+
+    // set row or column (type)
+    // check if tile can move
+    // if tile can move, move the tile one space
+    // if tile can't move, do nothing
+  }
+  return moveTile;
 }
