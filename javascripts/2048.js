@@ -81,16 +81,17 @@ function moveTile(tile, direction) {
   // tile.text(new_tile_value);
 
   // checkForVacancies -- if this returns false, move to the next column
-  function checkForVacancies(columnNum) {
+  function anyVacancies(columnNum) {
     var occupants = $("[data-col='c" + columnNum + "']").size();
     var vacancies = (4 - occupants);
     return vacancies > 0;
   }
 
-  function hasVacancy(tile){
+  function noNeighbor(tile){
     var occupantRow = tile.getAttribute("data-row");
     var neighborRow = (occupantRow.replace("r","") - 1);
-    var neighborCount = $("[data-row='r" + neighborRow + "'][data-col='c0']").size();
+    var neighborCol = tile.getAttribute("data-col");
+    var neighborCount = $("[data-row='r" + neighborRow + "'][data-col='" + neighborCol + "']").size();
     return neighborCount === 0;
 }
 
@@ -110,10 +111,10 @@ function moveTile(tile, direction) {
          console.log(occupants.length);
           //for each tile
 
-        // hasVacancy
+        // noNeighbor
           for (j = 0; j < occupants.length; j++){
             var tile = occupants[j];
-            console.log(" hasVacancy: " + hasVacancy(tile));
+            console.log(" noNeighbor: " + noNeighbor(tile));
             console.log(" noWall: " + noWall(tile));
 
           }
