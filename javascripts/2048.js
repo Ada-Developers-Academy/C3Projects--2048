@@ -82,7 +82,7 @@ Board.prototype.verticalReorient = function() {
   return reorientedBoard;
 };
 
-// board.condense()
+// board.condense(columnOrRow)
 Board.prototype.condense = function(colOrRow) {
   var condensedColOrRow = [];
 
@@ -95,4 +95,63 @@ Board.prototype.condense = function(colOrRow) {
   }
 
   return condensedColOrRow;
+}
+
+//board.compareAndResolve()
+Board.prototype.compareAndResolve = function(condensedColOrRow, direction) {
+  if (direction == "up" || direction == "left") {
+  // up & left -> starts at the beginning of the array, moves forward
+    return this.moveForward(condensedColOrRow);
+  } else {
+  // down & right -> starts at the end of the array, moves backward
+    return this.moveBackward(condensedColOrRow);
+  }
+}
+
+Board.prototype.moveForward = function(condensedColOrRow) {
+  var resolvedColOrRow = [];
+
+  for (i = 0; i < condensedColOrRow.length; i++) {
+    var currentTileValue = condensedColOrRow[i];
+    var nextTileValue = condensedColOrRow[i + 1];
+
+    if (currentTileValue == nextTileValue) {
+      var newTileValue = currentTileValue * 2;
+
+      resolvedColOrRow.push(newTileValue);
+      this.updateScore(newTileValue);
+
+      i += 1; // this will increment by two (once here and once as defined by for loop)
+    } else {
+      resolvedColOrRow.push(condensedColOrRow[i]);
+    }
+  }
+
+  return resolvedColOrRow;
+}
+
+Board.prototype.moveBackward = function(condensedColOrRow) {
+  var resolvedColOrRow = [];
+
+  for (i = condensedColOrRow.length - 1; i >= 0; i--) {
+    var currentTileValue = condensedColOrRow[i];
+    var nextTileValue = condensedColOrRow[i - 1];
+
+    if (currentTileValue == nextTileValue) {
+      var newTileValue = currentTileValue * 2;
+
+      resolvedColOrRow.unshift(newTileValue); // adds to beginning of array
+      this.updateScore(newTileValue);
+
+      i -= 1; // this will increment by two (once here and once as defined by for loop)
+    } else {
+      resolvedColOrRow.unshift(condensedColOrRow[i]);
+    }
+  }
+
+  return resolvedColOrRow;
+}
+
+Board.prototype.updateScore = function(points) {
+  // this will somehow update the total score the player has going
 }
