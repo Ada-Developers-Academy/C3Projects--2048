@@ -10,9 +10,9 @@ $(document).ready(function() {
   function begin() {
     for (i = 0; i < 4; i++) {
       board[i] = new Array(4);
-      console.log(board);
+      // console.log(board);
     }
-    console.log('ready!');
+    // console.log('ready!');
     board[3][0] = "2";
     board[1][0] = "2";
     board[2][0] = "2";
@@ -53,8 +53,6 @@ function empty(location) {
   // input will be board location
   // check if board array location is undefined
   var answer = (location == undefined) ? true : false;
-  console.log('location: '+ location);
-  console.log('answer: ' + answer);
   return answer;
 }
 
@@ -89,52 +87,59 @@ function matched(direction) {
   // want to check board[0][1]
   switch(direction) {
     case 38: //up
-      var start = 0;
+      var rowStart = 0; //rowstart
 
-      for(x=0; x<4; x++) { //colm incrementing
-        for(y=start; y<3; y++) { //row incrementing
-          if (board[y][x] == board[y + 1][x]) {
-            console.log(board[y][x] + 'matches' + board[y + 1][x]);
+      for(c=0; c<4; c++) { //colm incrementing
+        for(r=rowStart; r<3; r++) { //row incrementing
+          if (board[r][c] == board[r + 1][c]) {
+            console.log(board[r][c] + 'matches' + board[r + 1][c]);
             console.log('matched!');
             return true;
           } // if
-        } // y
-      } // x
+        } // r
+      } // c
       break;
     case 40: //down
-      var start = 3
+      var rowStart = 3
 
-      for(x=0; x<4; x++) { //colm incrementing
-        for(y=start; y<0; y--) { //row decrementing
-          if (board[y][x] == board[y - 1][x]) {
-            console.log(board[y][x] + 'matches' + board[y - 1][x]);
+      for(c=0; c<4; c++) { //colm incrementing
+        for(r=rowStart; r>0; r--) { //row decrementing
+          if (board[r][c] == board[r - 1][c]) {
+            console.log(board[r][c] + 'matches' + board[r - 1][c]);
             console.log('matched!');
             return true;
           } // if
-        } // y
-      } // x
+        } // r
+      } // c
       break;
     case 37: //left
+      var colStart = 0
 
-      var start = 0
-
-      for(x=start; x<4; x++) { //colm incrementing
-        for(y=0; y<3; y++) { //row incrementing
-          if (board[y][x] == board[y + 1][x]) {
-            console.log(board[y][x] + 'matches'+ board[y + 1][x]);
+      for(c=colStart; c<3; c++) { //colm incrementing
+        for(r=0; r<3; r++) { //row incrementing
+          if (board[r][c] == board[r][c + 1]) {
+            console.log(board[r][c] + 'matches'+ board[r][c + 1]);
             console.log('matched!');
             return true;
           } // if
-        } // y
-      } // x
+        } // r
+      } // c
       // var opposite: 'right';
       // var start = board[0][0];
       // increment colums
       break;
     case 39: //right
-      // var opposite: 'left';
-      // var start = board[0][3];
-      // decrease columns
+      var colmStart = 3 // colmStart
+
+      for(c=colmStart; c>0; c--) { //colm decrementing
+        for(r=0; r>4; r++) { //row incrementing
+          if (board[r][c] == board[r][c - 1]) {
+            console.log(board[r][c] + 'matches'+ board[r][c - 1]);
+            console.log('matched!');
+            return true;
+          } // if
+        } // r
+      } // c
       break;
   };
 }
