@@ -37,7 +37,6 @@ function initializeBoard() {
     var x = Math.floor(Math.random() * (boardSize));
     if(board[y][x] == 0) {
       var rando = Math.random();
-      console.log(rando);
       if(rando < .75) {
         board[y][x] = 2;
       }
@@ -88,6 +87,7 @@ function moveTile(direction) {
 }
 
 function moveUp() {
+  var starterBoard = board.toString();
   // traversal starting point = y0, x0
   for(y = 0; y < boardSize; y++) {
     for(x = 0; x < boardSize; x++) {
@@ -95,7 +95,6 @@ function moveUp() {
       if (board[y][x] != 0) {
         // do something
         var next = checkNext(y, x);
-        console.log(next);
         if (next == 0) {
           // move it
           board[y + 1][x] = board[y][x];
@@ -113,6 +112,9 @@ function moveUp() {
       else {
       }
     }
+  }
+  if (board.toString() != starterBoard){
+    assignRandoTiles();
   }
 }
 
