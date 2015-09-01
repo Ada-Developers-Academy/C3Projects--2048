@@ -1,6 +1,7 @@
 var rows = ['r0', 'r1', 'r2', 'r3'];
 var cols = ['c0', 'c1', 'c2', 'c3'];
-var startValues = [ 2, 4 ];
+var newTileLevel2 = [ 2, 4 ];
+var newTileLevel1 = [ 2 ];
 
 $(document).ready(function() {
   initializeGame();
@@ -12,14 +13,15 @@ $(document).ready(function() {
       var tile = $('.tile');
       moveTiles(tile, event.which);
       event.preventDefault();
+      generateTile(newTileLevel2);  // later pass in newTileLevel1 or newTileLevel2 depending on score
     }
   });
 });
 
 function initializeGame() {
   // randomly pick two positions and start values
-  generateTile(startValues);
-  generateTile(startValues);
+  generateTile(newTileLevel2);
+  generateTile(newTileLevel2);
 }
 
 function generateTile(array) {
@@ -34,10 +36,19 @@ function generateTile(array) {
   tile.text(array[randomValue]);
 
   if ($('[data-row=' + rows[randomRow] + '][data-col=' + cols[randomCol] + ']').length === 0) {
+
     $('#gameboard').append(tile);
   } else {
     generateTile(array);
   }
+}
+
+function pop(tile) {
+  $(tile)
+  .addClass("popper")
+  .on("animationend",
+    function() { $(this).removeClass("popper"); }
+  );
 }
 
 function moveTiles(tile, direction) {
@@ -61,26 +72,6 @@ function moveRight() {
   for (var i = 0; i < rows.length; i++) {
     shiftRightOrDown(combineRightOrDown(generateRow(i)), 'row');
   }
-}
-
-function combineRightOrDown(gridElement) {
-  for (var i = gridElement.length - 2; i >= 0; i--) {
-    console.log("right after start of for loop i is" + i);
-    if (gridElement[i].attr('data-val') === gridElement[i + 1].attr('data-val')) {
-      // combine!
-      var value = gridElement[i].attr('data-val');
-      gridElement[i].attr('data-val', (value * 2));
-      gridElement[i].text(value * 2);
-
-      gridElement[i + 1].remove();
-      gridElement.splice(i + 1, 1);
-      console.log("in if before extra decrement i is" + i);
-      i -= 1;
-      console.log("in if after extra decrement i is" + i);
-
-    }
-  }
-  return gridElement;
 }
 
 function moveLeft() {
@@ -115,6 +106,22 @@ function combineUpOrLeft(gridElement) {
       console.log("for-loop / if before increment: " + i);
       i += 1;
       console.log("for-loop / if after increment: " + i);
+    }
+  }
+  return gridElement;
+}
+
+function combineRightOrDown(gridElement) {
+  for (var i = gridElement.length - 2; i >= 0; i--) {
+    if (gridElement[i].attr('data-val') === gridElement[i + 1].attr('data-val')) {
+      var value = gridElement[i].attr('data-val');
+      gridElement[i].attr('data-val', (value * 2));
+      gridElement[i].text(value * 2);
+      pop(gridElement[i]);
+
+      gridElement[i + 1].remove();
+      gridElement.splice(i + 1, 1);
+      i -= 1;
     }
   }
   return gridElement;
