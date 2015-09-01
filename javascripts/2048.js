@@ -110,12 +110,18 @@ Board.prototype.compareAndResolve = function(condensedColOrRow, direction) {
 
 Board.prototype.moveForward = function(condensedColOrRow) {
   var resolvedColOrRow = [];
+
   for (i = 0; i < condensedColOrRow.length; i++) {
-    if (condensedColOrRow[i] == condensedColOrRow[i + 1]) {
-      //COLLIDE!
-      var newVal = condensedColOrRow[i] + condensedColOrRow[i + 1];
-      resolvedColOrRow.push(newVal);
-      i += 1; // this will increment by two
+    var currentTileValue = condensedColOrRow[i];
+    var nextTileValue = condensedColOrRow[i + 1];
+
+    if (currentTileValue == nextTileValue) {
+      var newTileValue = currentTileValue * 2;
+
+      resolvedColOrRow.push(newTileValue);
+      this.updateScore(newTileValue);
+
+      i += 1; // this will increment by two (once here and once as defined by for loop)
     } else {
       resolvedColOrRow.push(condensedColOrRow[i]);
     }
@@ -126,16 +132,26 @@ Board.prototype.moveForward = function(condensedColOrRow) {
 
 Board.prototype.moveBackward = function(condensedColOrRow) {
   var resolvedColOrRow = [];
+
   for (i = condensedColOrRow.length - 1; i >= 0; i--) {
-    if (condensedColOrRow[i] == condensedColOrRow[i - 1]) {
-      // COLLIDE!
-      var newVal = condensedColOrRow[i] + condensedColOrRow[i - 1];
-      resolvedColOrRow.unshift(newVal); // adds to beginning of array
-      i -= 1; // this will increment by two
+    var currentTileValue = condensedColOrRow[i];
+    var nextTileValue = condensedColOrRow[i - 1];
+
+    if (currentTileValue == nextTileValue) {
+      var newTileValue = currentTileValue * 2;
+
+      resolvedColOrRow.unshift(newTileValue); // adds to beginning of array
+      this.updateScore(newTileValue);
+
+      i -= 1; // this will increment by two (once here and once as defined by for loop)
     } else {
       resolvedColOrRow.unshift(condensedColOrRow[i]);
     }
   }
 
   return resolvedColOrRow;
+}
+
+Board.prototype.updateScore = function(points) {
+  // this will somehow update the total score the player has going
 }
