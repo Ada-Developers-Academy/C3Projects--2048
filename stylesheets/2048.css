@@ -38,15 +38,15 @@ html {
   width: 4rem;
 }
 
-.tile[data-row=r0] { top: 0; }
-.tile[data-row=r1] { top: 4.5rem; }
-.tile[data-row=r2] { top: 9rem; }
-.tile[data-row=r3] { top: 13.5rem; }
+.tile[data-row="1"] { top: 0; }
+.tile[data-row="2"] { top: 4.5rem; }
+.tile[data-row="3"] { top: 9rem; }
+.tile[data-row="4"] { top: 13.5rem; }
 
-.tile[data-col=c0] { left: 0; }
-.tile[data-col=c1] { left: 4.5rem; }
-.tile[data-col=c2] { left: 9rem; }
-.tile[data-col=c3] { left: 13.5rem; }
+.tile[data-col="1"] { left: 0; }
+.tile[data-col="2"] { left: 4.5rem; }
+.tile[data-col="3"] { left: 9rem; }
+.tile[data-col="4"] { left: 13.5rem; }
 
 .tile[data-val="2"]    { color: #776e65; background-color: #eee4da; }
 .tile[data-val="4"]    { color: #776e65; background-color: #ede0c8; }
