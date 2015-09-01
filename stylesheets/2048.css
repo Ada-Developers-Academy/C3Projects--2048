@@ -39,8 +39,8 @@ html {
 }
 
 .popper {
-  animation: pop .3s;
-  animation-delay: 2s;
+  animation: pop .2s;
+  animation-delay: .3s;
 }
 
 .tile[data-row=r0] { top: 0; }
