@@ -131,6 +131,7 @@ function makeMovement(direction) {
 
     if (okayToMove(tile)) {
       tile.setAttribute(type, newAttributeValue);
+      moveTile(tile);
     }
     // if tile can't move, do nothing
   }
