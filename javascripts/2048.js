@@ -49,24 +49,63 @@ function occupyCell(openCells, usedCells, cellSpace) {
   usedCells.push(cellSpace);
 }
 
-function moveTile(tile, direction) {
-  //only be user * 2 if the tiles merged
-  var new_tile_value = tile.attr("data-val") * 2;
-  tile.attr("data-val", new_tile_value);
-  tile.text(new_tile_value);
+// function moveTile(tile, direction) {
+//   //only be user * 2 if the tiles merged
+//   var new_tile_value = tile.attr("data-val") * 2;
+//   tile.attr("data-val", new_tile_value);
+//   tile.text(new_tile_value);
+//
+//   switch(direction) {
+//     case 38: //up
+//       tile.attr("data-row","r0");
+//       break;
+//     case 40: //down
+//       tile.attr("data-row","r3");
+//       break;
+//     case 37: //left
+//       tile.attr("data-col","c0");
+//       break;
+//     case 39: //right
+//       tile.attr("data-col","c3");
+//       break;
+//   }
+// }
 
+function moveTile(tile, openCells, usedCells, direction) {
   switch(direction) {
-    case 38: //up
-      tile.attr("data-row","r0");
-      break;
-    case 40: //down
-      tile.attr("data-row","r3");
-      break;
-    case 37: //left
-      tile.attr("data-col","c0");
-      break;
-    case 39: //right
-      tile.attr("data-col","c3");
-      break;
+      case 38: //up
+        moveUp(openCells, usedCells, direction);
+        break;
   }
+}
+
+function moveUp(openCells, usedCells, direction) {
+  for (i = 0; i < 4; i++) {
+    // filters cells for column for each loop
+    var openCol = openCells.filter(function(array) { return array[1] == "c" + i });
+    var usedCol = usedCells.filter(function(array) { return array[1] == "c" + i});
+    // is either open or used cells == 4, there is nothing to move
+    if (openCol.length != 4 && usedCol.length != 4) {
+      // gives array with row # and column coordinates sorted by row #
+      var openArr = sortArray(openCol);
+      var usedArr = sortArray(usedCol);
+      if (openArr[0] < usedArr [0]) {
+        var fullCoord = ["r" + openArr[0], openArr[1]];
+        occupyCell(openCells, usedCells, fullCoord);
+        moveUp(openCells, usedCells, direction);
+      }
+    } else {
+      newTile(openCells, usedCells);
+    }
+  }
+}
+
+function sortArray(arrayCol) {
+  var newArr = [];
+  for (j = 0; j < arrayCol.length; j++) {
+    // returns the coordinate # of the row
+    var coordPos = arrayCol[j][0].split('')[1];
+    newArr.push([coordPos, arrayCol[j][1]]);
+  }
+  newArr.sort(array[0]);
 }
