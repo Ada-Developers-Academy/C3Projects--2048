@@ -57,6 +57,12 @@ function merge(tile1, tile2) {
   }
 }
 
+function deleteTile(tile) {
+  // var row = $(tile).attr("data-row");
+  // var col = $(tile).attr("data-col");
+  $(tile).remove();
+}
+
 function moveTile(tile, direction) {
   //only be user * 2 if the tiles merged
   var new_tile_value = tile.attr("data-val") * 2;
