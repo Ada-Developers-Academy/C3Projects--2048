@@ -63,7 +63,7 @@ function generateRandomBoard(){
       var existingTile = $(".tile").first();
       // Check if new tile and existing tile are the same
       badTile = tilesInSameLocation(existingTile, newTile);
-      console.log(tilesInSameLocation(existingTile, newTile));
+      // console.log(tilesInSameLocation(existingTile, newTile));
     }
 
     // Insert new tile
@@ -85,6 +85,14 @@ function moveTile(tile, direction) {
       // tile.attr("data-row","r0");
 
       // check columns in order from left to right for "occupants"
+
+      // start with checking all tile.attr for items containing data-col === c0
+      // getElementby get all objects with data-col === c0
+
+      var occupants = $("[data-col='c0']").size();
+      console.log(occupants);
+
+
       // determine vacancies from subtracting "occupants" from board size
       // shift "occupant(s)" to furthest available "vacancy"
       // check for movement path for stacking, merging possibility
