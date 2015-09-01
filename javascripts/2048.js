@@ -36,7 +36,14 @@ function initializeBoard() {
     var y = Math.floor(Math.random() * (boardSize));
     var x = Math.floor(Math.random() * (boardSize));
     if(board[y][x] == 0) {
-      board[y][x] = 2;
+      var rando = Math.random();
+      console.log(rando);
+      if(rando < .75) {
+        board[y][x] = 2;
+      }
+      else{
+        board[y][x] = 4;
+      }
     }
     else {
       assignRandoTiles();
