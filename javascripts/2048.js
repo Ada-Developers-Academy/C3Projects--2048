@@ -78,11 +78,21 @@ function generateRandomBoard(){
 function moveTile(tile, direction) {
   var new_tile_value = tile.attr("data-val") * 2;
   tile.attr("data-val", new_tile_value);
-  tile.text(new_tile_value);
+  // tile.text(new_tile_value);
 
   switch(direction) {
     case 38: //up
-      tile.attr("data-row","r0");
+      // tile.attr("data-row","r0");
+
+      // check columns in order from left to right for "vacancies"
+      // shift "occupant(s)" to furthest available "vacancy"
+      // check for movement path for stacking, merging possibility
+
+      // generate new tile after move completion
+
+
+
+
       break;
     case 40: //down
       tile.attr("data-row","r3");
