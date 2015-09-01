@@ -41,16 +41,16 @@ function moveTile(tile, direction) {
 
       // for each row
       for (i = 3; i >= 0; i--) {
-        var tiles = $('.tile[data-row="r' + i);
+        var tiles = $('.tile[data-row="r' + i + '"]');
 
-        for (i = 0; i < tiles.length; i ++) {
-          var active_tile = tiles[i];
+        for (j = 0; j < tiles.length; j ++) {
+          var active_tile = tiles[j];
 
           var data_row_num = parseInt(active_tile.getAttribute('data-row')[1]);
           var data_col_num = parseInt(active_tile.getAttribute('data-col')[1]);
 
-          for(j = data_row_num ; j < 4; j++) {
-            var next_row_num = j + 1;
+          for(k = data_row_num ; k < 4; k++) {
+            var next_row_num = k + 1;
             var next_tile = $('.tile[data-row="r' + next_row_num + '"][data-col="c' + data_col_num + '"]');
 
             if (next_tile.length === 0 && next_row_num >= 0 && next_row_num <= 3) { // so the next tile doesn't exist
