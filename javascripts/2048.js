@@ -87,16 +87,16 @@ function moveTile(tile, direction) {
     return vacancies > 0;
   }
 
-  function checkNeighbor(tile){
+  function hasVacancy(tile){
     var occupantRow = tile.getAttribute("data-row");
     var neighborRow = (occupantRow.replace("r","") - 1);
     var neighborCount = $("[data-row='r" + neighborRow + "'][data-col='c0']").size();
-    return neighborCount > 0;
+    return neighborCount === 0;
 }
 
-  function checkWall(tile){
+  function noWall(tile){
     var topWall = "r0";
-    return tile.getAttribute("data-row") === topWall;
+    return tile.getAttribute("data-row") != topWall;
   }
 
   switch(direction) {
@@ -105,21 +105,19 @@ function moveTile(tile, direction) {
       // for each column
       for (i = 0; i < 4; i++){
 
-        checkForVacancies(i);
-
         // collectOccupants -- Array of tiles
         var occupants = $("[data-col='c" + i + "']");
          console.log(occupants.length);
           //for each tile
 
-        // checkNeighbor
+        // hasVacancy
           for (j = 0; j < occupants.length; j++){
             var tile = occupants[j];
-            console.log(" Neighbor: " + checkNeighbor(tile));
-            console.log(" Wall: " + checkWall(tile));
+            console.log(" hasVacancy: " + hasVacancy(tile));
+            console.log(" noWall: " + noWall(tile));
+
           }
 
-                // OR
             // checkWall
 
             // while checks return false
