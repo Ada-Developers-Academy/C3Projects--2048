@@ -71,7 +71,7 @@ function moveTile(tile, direction) {
       for (i = 0; i <= 3; i++) {
         var tiles = $('.tile[data-col="c' + i +'"]');
 
-        for (j = 0; j < tiles.length; j ++) {
+        for (j = 0; j < tiles.length; j++) {
           var active_tile = tiles[j];
 
           var data_row_num = parseInt(active_tile.getAttribute('data-row')[1]);
@@ -88,12 +88,31 @@ function moveTile(tile, direction) {
         }
       }
 
-      // tile.attr("data-col","c0");
       break;
+
     case 39: //right
 
+      // for each col (starting at the right)
+      for (i = 3; i >= 0; i--) {
+        var tiles = $('.tile[data-col="c' + i +'"]');
 
-      // tile.attr("data-col","c3");
+        for (j = 0; j < tiles.length; j++) {
+          var active_tile = tiles[j];
+
+          var data_row_num = parseInt(active_tile.getAttribute('data-row')[1]);
+          var data_col_num = parseInt(active_tile.getAttribute('data-col')[1]);
+
+          for(k = data_col_num ; k <= 3; k++) {
+            var next_col_num = k + 1; 
+            var next_tile = $('.tile[data-row="r' + data_row_num + '"][data-col="c' + next_col_num + '"]');
+
+            if (next_tile.length == 0 && next_col_num >= 0 && next_col_num <= 3) { // so the next tile doesn't exist
+              $(active_tile).attr('data-col', "c" + next_col_num); // move the tile to that position
+            }
+          }
+        }
+      }
+
       break;
   }
 }
