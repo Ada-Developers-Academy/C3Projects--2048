@@ -2,7 +2,7 @@ $(document).ready(function() {
   const MAXSTARTINGTILE = 4;
   const MINSTARTINGTILE = 2;
   const MINBOARDLOCALE = 0;
-  const MAXBOARDLOCALE = 4;
+  const BOARDCEILING = 4; // anything less than 4 is valid
   // Constants -----------------
 
   var board = []
@@ -58,16 +58,16 @@ function randomizeValue() {
 function randomizeLocation() {
   // floor rounds down for an integer
   var row = Math.floor(
-    Math.random() *(MAXBOARDLOCALE - MINBOARDLOCALE) + MINBOARDLOCALE );
+    Math.random() *(BOARDCEILING - MINBOARDLOCALE) + MINBOARDLOCALE );
   var col = Math.floor(
-    Math.random() *(MAXBOARDLOCALE - MINBOARDLOCALE) + MINBOARDLOCALE );
+    Math.random() *(BOARDCEILING - MINBOARDLOCALE) + MINBOARDLOCALE );
 
   // need to check if slot is empty
   while !empty(board[row][col]) {  // can probably refactor this
     var row = Math.floor(
-      Math.random() *(MAXBOARDLOCALE - MINBOARDLOCALE) + MINBOARDLOCALE );
+      Math.random() *(BOARDCEILING - MINBOARDLOCALE) + MINBOARDLOCALE );
     var col = Math.floor(
-      Math.random() *(MAXBOARDLOCALE - MINBOARDLOCALE) + MINBOARDLOCALE );
+      Math.random() *(BOARDCEILING - MINBOARDLOCALE) + MINBOARDLOCALE );
     // need to check if slot is empty
 
   }
