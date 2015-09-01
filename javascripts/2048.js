@@ -53,9 +53,9 @@ function moveTile(tile, direction) {
         for (j = 0; j < tiles.length; j++) {
           var active_tile = tiles[j];
 
-          var data_row_num = parseInt(active_tile.getAttribute('data-row')[1]);
-          var data_col_num = parseInt(active_tile.getAttribute('data-col')[1]);
-          var data_val = parseInt(active_tile.getAttribute('data-val'));
+          var data_row_num  = parseInt(active_tile.getAttribute('data-row')[1]);
+          var data_col_num  = parseInt(active_tile.getAttribute('data-col')[1]);
+          var data_val      = parseInt(active_tile.getAttribute('data-val'));
 
           // starting at that tile's row position, check each possible move 'up' (decreasing row #)
           for(k = data_row_num ; k >= 0; k--) {
@@ -66,16 +66,13 @@ function moveTile(tile, direction) {
             if (next_tile.length == 0 && next_row_num >= 0 && next_row_num <= 3) {
               $(active_tile).attr('data-row', "r" + next_row_num);
 
-            // if next_tile does exist and has same data-val as active_tile, combine them
-            } else if ( parseInt(next_tile.attr('data-val')) == data_val ) {
-              var new_tile_value = data_val * 2;
-              
-              // update next_tile's val
-              next_tile.attr('data-val', new_tile_value);
-              next_tile.text(new_tile_value);
+            // if next_tile exists and is not the same, stop checking for moves
+            // } else if ( parseInt(next_tile.attr('data-val')) != data_val ) {
+            //   return false;
 
-              // active_tile disappears
-              active_tile.remove();
+            // if next_tile exists and is the same, combine them
+            } else if ( parseInt(next_tile.attr('data-val')) == data_val ) {              
+              combineTiles(active_tile, next_tile);
             }
           }
         }
@@ -92,9 +89,9 @@ function moveTile(tile, direction) {
         for (j = 0; j < tiles.length; j++) {
           var active_tile = tiles[j];
 
-          var data_row_num = parseInt(active_tile.getAttribute('data-row')[1]);
-          var data_col_num = parseInt(active_tile.getAttribute('data-col')[1]);
-          var data_val = parseInt(active_tile.getAttribute('data-val'));
+          var data_row_num  = parseInt(active_tile.getAttribute('data-row')[1]);
+          var data_col_num  = parseInt(active_tile.getAttribute('data-col')[1]);
+          var data_val      = parseInt(active_tile.getAttribute('data-val'));
 
           // starting at that tile's row position, check each possible move 'down' (incr row #)
           for(k = data_row_num ; k <= 3; k++) {
@@ -107,14 +104,7 @@ function moveTile(tile, direction) {
             
             // if next_tile does exist and has same data-val as active_tile, combine them
             } else if ( parseInt(next_tile.attr('data-val')) == data_val ) {
-              var new_tile_value = data_val * 2;
-              
-              // update next_tile's val
-              next_tile.attr('data-val', new_tile_value);
-              next_tile.text(new_tile_value);
-
-              // active_tile disappears
-              active_tile.remove();
+              combineTiles(active_tile, next_tile);
             }
           }
         }
@@ -132,9 +122,9 @@ function moveTile(tile, direction) {
         for (j = 0; j < tiles.length; j++) {
           var active_tile = tiles[j];
 
-          var data_row_num = parseInt(active_tile.getAttribute('data-row')[1]);
-          var data_col_num = parseInt(active_tile.getAttribute('data-col')[1]);
-          var data_val = parseInt(active_tile.getAttribute('data-val'));
+          var data_row_num  = parseInt(active_tile.getAttribute('data-row')[1]);
+          var data_col_num  = parseInt(active_tile.getAttribute('data-col')[1]);
+          var data_val      = parseInt(active_tile.getAttribute('data-val'));
 
           // starting at that tile's col position, check each possible move 'left' (decr col #)
           for(k = data_col_num ; k >= 0; k--) {
@@ -147,14 +137,7 @@ function moveTile(tile, direction) {
 
             // if next_tile does exist and has same data-val as active_tile, combine them
             } else if ( parseInt(next_tile.attr('data-val')) == data_val ) {
-              var new_tile_value = data_val * 2;
-              
-              // update next_tile's val
-              next_tile.attr('data-val', new_tile_value);
-              next_tile.text(new_tile_value);
-
-              // active_tile disappears
-              active_tile.remove();
+              combineTiles(active_tile, next_tile);
             }
           }
         }
@@ -172,9 +155,9 @@ function moveTile(tile, direction) {
         for (j = 0; j < tiles.length; j++) {
           var active_tile = tiles[j];
 
-          var data_row_num = parseInt(active_tile.getAttribute('data-row')[1]);
-          var data_col_num = parseInt(active_tile.getAttribute('data-col')[1]);
-          var data_val = parseInt(active_tile.getAttribute('data-val'));
+          var data_row_num  = parseInt(active_tile.getAttribute('data-row')[1]);
+          var data_col_num  = parseInt(active_tile.getAttribute('data-col')[1]);
+          var data_val      = parseInt(active_tile.getAttribute('data-val'));
 
           // starting at that tile's col position, get coordinates for next move 'right' (incr col #)
           for(k = data_col_num ; k <= 3; k++) {
@@ -195,14 +178,7 @@ function moveTile(tile, direction) {
 
             // if there is a tile there and it IS a match, combine them
             } else if ( parseInt(next_tile.attr('data-val')) == data_val ) {
-              var new_tile_value = data_val * 2;
-              
-              // update next_tile's val
-              next_tile.attr('data-val', new_tile_value);
-              next_tile.text(new_tile_value);
-
-              // active_tile disappears
-              active_tile.remove();
+              combineTiles(active_tile, next_tile);
             }
           } 
         } 
@@ -214,6 +190,19 @@ function moveTile(tile, direction) {
   addTile();
 
 } // end moveTile
+
+function combineTiles(active_tile, next_tile) {
+  var new_tile_value = parseInt(next_tile.attr('data-val'))* 2;
+
+  // update next_tile's val
+  next_tile.attr('data-val', new_tile_value);
+  next_tile.text(new_tile_value);
+
+  // active_tile disappears
+  active_tile.remove();
+
+}
+
 
 // extend ability to remove values from arrays, because reasons
 Array.prototype.remove = function(value) {
