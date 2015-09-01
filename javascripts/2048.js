@@ -64,8 +64,10 @@ Board.prototype.condense = function(colOrRow) {
 }
 
 //board.compareAndResolve()
-Board.prototype.compareAndResolve = function() {
+Board.prototype.compareAndResolve = function(condensedColOrRow, direction) {
+  var resolvedColOrRow = [];
 
+  return resolvedColOrRow;
 }
 
 
