@@ -1,7 +1,7 @@
 $(document).ready(function() {
   console.log('ready!');
 
-  // placeFirstTiles();
+  placeFirstTiles();
 
   $('body').keydown(function(event){
     var arrow_keys = [37, 38, 39, 40];
@@ -41,10 +41,6 @@ function placeFirstTiles() {
 }
 
 function moveTile(tile, direction) {
-  // var new_tile_value = tile.attr("data-val") * 2;
-  // tile.attr("data-val", new_tile_value);
-  // tile.text(new_tile_value);
-
   switch(direction) {
     case 38: //up
       var tiles = $('.tile');
@@ -105,7 +101,7 @@ function moveTile(tile, direction) {
   if ( $(".tile").length > 15 ) {
     checkPossibleMoves();
   } else {
-    // addTile();
+    addTile();
   }
 
 } // end moveTile
@@ -184,20 +180,26 @@ function checkPossibleMoves() {
     // check data values of all tiles in those positions
     // if adjascent tile's values match current tile, a move is still possible
     // so break out of loop
+    // if selector is invalid (like "r-1") it will be an array of length 0
     if ((tile_above.length > 0) && (tile_above.attr("data-val") == val)) {
       console.log("there are still moves up");
+      // $("#message").text("there are still moves up");
       break;
     } else if ((tile_below.length > 0) && (tile_below.attr("data-val") == val)) {
       console.log("there are still moves down");
+      // $("#message").text("there are still moves down");
       break;
     } else if ((tile_right.length > 0) && (tile_right.attr("data-val") == val)) {
       console.log("there are still moves right");
+      // $("#message").text("there are still moves right");
       break;
     } else if ((tile_left.length > 0) && (tile_left.attr("data-val") == val)) {
       console.log("there are still moves left");
+      // $("#message").text("there are still moves left");
       break;
     } else {
       console.log("you lose!");
+      $("#message").text("GAME OVER");
     }
 
   } // end for loop
