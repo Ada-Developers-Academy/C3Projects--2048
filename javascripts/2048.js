@@ -94,7 +94,7 @@ function moveUp() {
       // check if blank
       if (board[y][x] != 0) {
         // do something
-        var next = checkNext(y, x);
+        var next = checkNext(y, x, "up");
         if (next == 0) {
           // move it
           board[y + 1][x] = board[y][x];
@@ -119,7 +119,35 @@ function moveUp() {
 }
 
 function moveDown () {
+  starterBoard = board.toString();
   // traversal starting point = y3, x0
+  for(y = 3; y >= 0; y--) {
+    for(x = 0; x < boardSize; x++) {
+      // check if blank
+      if (board[y][x] != 0) {
+        // do something
+        var next = checkNext(y, x, "down");
+        if (next == 0) {
+          // move it
+          board[y - 1][x] = board[y][x];
+          board[y][x]     = 0;
+        }
+        else if (next == board[y][x]) {
+          // collapse it
+          board[y - 1 ][x] += board[y][x];
+          board[y][x]       = 0;
+        }
+        else {
+          // do nothing probably dont need this. we'll see
+        }
+      }
+      else {
+      }
+    }
+  }
+  if (board.toString() != starterBoard){
+    assignRandoTiles();
+  }
 }
 
 function moveLeft() {
@@ -130,12 +158,22 @@ function moveRight() {
   // traversal starting point = y0, x0
 }
 
-function checkNext(y, x) {
+function checkNext(y, x, direction) {
   // this is for up condition
-  if(y + 1 <= 3) {
-  return board[y + 1][x];
+  if(direction == "up"){
+    if(y + 1 <= 3) {
+    return board[y + 1][x];
+    }
+    else {
+      return null;
+    }
   }
-  else {
-    return null;
+  else if(direction == "down"){
+    if(y - 1 >= 0) {
+      return board[y - 1][x];
+    }
+    else {
+      return null;
+    }
   }
 }
