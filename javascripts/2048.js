@@ -71,7 +71,7 @@ function randomizeLocation() {
     Math.random() *(BOARDCEILING - MINBOARDLOCALE) + MINBOARDLOCALE );
 
   // need to check if slot is empty
-  while !empty(board[row][col]) {  // can probably refactor this
+  while (!empty(board[row][col])) {  // can probably refactor this
     var row = Math.floor(
       Math.random() *(BOARDCEILING - MINBOARDLOCALE) + MINBOARDLOCALE );
     var col = Math.floor(
@@ -79,8 +79,37 @@ function randomizeLocation() {
     // need to check if slot is empty
 
   }
-  return row;
-  return col;
+  return [row, col];
+}
+
+function createTile() {
+  //randomizeLocation()
+  //ranodmizeValue()
+  //empty()
+
+  // 1. search for empty spaces (what spaces are empty)
+  // 2. find a random empty space
+  // 3. generate a (random) tile in that empty space
+  //    a. make sure it gets added to the board
+  //    b. make sure it adds a visual reassigningTileAttr
+
+  var location = randomizeLocation()
+  var row = location[0];
+  var col = location[1];
+  var value = randomizeValue();
+  board[row][col] = value;
+  createVisualTile(row, col, value);
+
+  function createVisualTile(row, col, value) {
+    var rowLocation = "r" + row;
+    var colLocation = "c" + col;
+    var tile = $("<div></div>");
+    tile.addClass("tile");
+    tile.text = value;
+    tile.attr("data-val", value);
+    tile.attr("data-row", rowLocation);
+    tile.attr("data-col", colLocation);
+  }
 }
 
 function mergeTile(tile) {
