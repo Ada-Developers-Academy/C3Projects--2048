@@ -70,12 +70,26 @@ Board.prototype.compareAndResolve = function(condensedColOrRow, direction) {
   if (direction == "up" || direction == "left") {
   // up & left -> starts at the beginning of the array, moves forward
     for (i = 0; i < condensedColOrRow.length; i++) {
-
+      if (condensedColOrRow[i] == condensedColOrRow[i + 1]) {
+        //COLLIDE!
+        var newVal = condensedColOrRow[i] + condensedColOrRow[i + 1];
+        resolvedColOrRow.push(newVal);
+        i += 1; // this will increment by two
+      } else {
+        resolvedColOrRow.push(condensedColOrRow[i]);
+      }
     }
   } else {
   // down & right -> starts at the end of the array, moves backward
     for (i = condensedColOrRow.length - 1; i >= 0; i--) {
-
+      if (condensedColOrRow[i] == condensedColOrRow[i - 1]) {
+        // COLLIDE!
+        var newValue = condensedColOrRow[i] + condensedColOrRow[i - 1];
+        resolvedColOrRow.unshift(newValue); // adds to beginning of array
+        i -= 1; // this will increment by two
+      } else {
+        resolvedColOrRow.unshift(condensedColOrRow[i]);
+      }
     }
   }
 
