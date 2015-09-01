@@ -39,7 +39,7 @@ function locateTiles(){
   return tilePositions;
 }
 
-// Add a tile with evert key press
+// Add a tile with every key press
 function addTile(){
   var takenSpace = locateTiles();
 

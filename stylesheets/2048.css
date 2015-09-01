@@ -2,6 +2,34 @@ html {
   font: normal normal 30px/1 "Clear Sans", "Helvetica Neue", Arial, sans-serif;
 }
 
+#scoreboard {
+
+  background: #bbada0;
+  font-size: 25px;
+  height: 100px;
+  font-weight: bold;
+  border-radius: 3px;
+  width: 100px;
+}
+
+#score {
+  width: 100%;
+  text-transform: uppercase;
+  font-size: 13px;
+  text-align: center;
+  color: #eee4da;
+  padding-top: 10px;
+}
+
+#score_number {
+  width: 100%;
+  text-transform: uppercase;
+  font-size: 35px;
+  text-align: center;
+  color: white;
+  margin: 0 auto;
+}
+
 #gameboard {
   background: #bbada0;
   border-radius: 0.5rem;
