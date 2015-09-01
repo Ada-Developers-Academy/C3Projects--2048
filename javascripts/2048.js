@@ -63,10 +63,24 @@ function makeMovement(direction) {
     // set the positive or negative according to direction
     var magnitude = parseInt(farthestValue(direction));
 
+    function okayToMove(tile) {
+      var okay = true;
+      var oppositeType = (type == "data-row") ? "data-col" : "data-row";
+      var oppositeValue = tile.getAttribute(oppositeType);
+      var blockerText = ".tile[" + type + "=\"" + newAttributeValue + "\"][" + oppositeType + "=\"" + oppositeValue + "\"]";
+      var blocker = $(blockerText);
+
+
+      if (blocker.length > 0) {
+        okay = false;
+      }
+      return okay;
+      // return true/false
+    }
+
     // set row or column (type)
     var type = rowOrColumn(direction);
 
-    // NOTE do elsewhere!! check if tile can move
     // move the tile one space
     var relevantAttributeValue = tile.getAttribute(type);
     // console.log(relevantAttributeValue);
@@ -78,9 +92,12 @@ function makeMovement(direction) {
       newAttributeValue = 1;
     }
 
-    tile.setAttribute(type, newAttributeValue);
+    if (okayToMove(tile)) {
+      tile.setAttribute(type, newAttributeValue);
+    }
     // if tile can't move, do nothing
-    // NOTE new attribute value going above 4 or below 1
   }
   return moveTile;
 }
+
+// NOTE do elsewhere!! check if tile can move
