@@ -63,36 +63,89 @@ Board.prototype.condense = function(colOrRow) {
   return condensedColOrRow;
 }
 
-// before condense / resolve LEFT:
+//------------ UP example --------------
+
+// before reorient UP move
+// [2, 4,  32, 512]
+// [2, 4,  32, 256]
+// [0, 4, 128, 256]
+// [0, 2,  64,  32]
+
+// after reorient, before condense / resolve UP:
 //   [  2,   2,   0,   0]
 //   [  4,   4,   4,   2]
 //   [ 32,  32, 128,  64]
 //   [512, 256, 256,  32]
 
-// after:
-// var condensed = [
-//   [4],
-//   [8, 4, 2],
-//   [64, 128, 64],
-//   [512, 512, 32]
-// ];
+// after condense & resolve -- now ready for build:
+var condensed = [
+  [4],
+  [8, 4, 2],
+  [64, 128, 64],
+  [512, 512, 32]
+];
 
-// after rebuild
+// after rebuild step
 // [  4,   0,  0, 0]
 // [  8,   4,  2, 0]
 // [ 64, 128, 64, 0]
 // [512, 512, 32, 0]
 
-Board.prototype.build = function(condensedArrays) {
+// after reorient step, READY FOR NEW TILE! :)
+// [4, 8,  64, 512]
+// [0, 4, 128, 512]
+// [0, 2,  64,  32]
+// [0, 0,   0,   0]
+
+//------------ DOWN example --------------
+
+// before reorient DOWN move
+// [2, 4,  32, 512]
+// [2, 4,  32, 256]
+// [0, 4, 128, 256]
+// [0, 2,  64,  32]
+
+// after reorient, before condense / resolve DOWN:
+//   [  2,   2,   0,   0]
+//   [  4,   4,   4,   2]
+//   [ 32,  32, 128,  64]
+//   [512, 256, 256,  32]
+
+// after condense & resolve -- now ready for build:
+var condensed = [
+  [4],
+  [4, 8, 2],
+  [64, 128, 64],
+  [512, 512, 32]
+];
+
+// after rebuild step
+// [0,   0,   0,  4]
+// [0,   4,   8,  2]
+// [0,  64, 128, 64]
+// [0, 512, 512, 32]
+
+// after reorient step, READY FOR NEW TILE! :)
+// [0, 0,   0,   0]
+// [0, 4,  64, 512]
+// [0, 8, 128, 512]
+// [4, 2,  64,  32]
+
+Board.prototype.build = function(condensedArrays, direction) {
   var rebuild = function(array) {
     while (array.length < 4) {
-      array.push(0);
+      if (direction == "left" || direction == "up")
+        array.push(0);
+      else // "right" || "down"
+        array.unshift(0);
     }
   }
 
+  var direction = "left";
   condensedArrays.forEach(rebuild);
+  condensedArrays.reorient(direction);
 }
 
-// console.log(condensed);
-// build(condensed);
-// console.log(condensed);
+console.log(condensed);
+build(condensed);
+console.log(condensed);
