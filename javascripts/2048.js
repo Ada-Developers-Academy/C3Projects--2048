@@ -106,6 +106,11 @@ function makeTurn(direction) {
         var currentVal = parseInt(sortedTiles[i].getAttribute("data-val"));
         sortedTiles[i].setAttribute("data-val", (currentVal * 2));
         sortedTiles[i].innerHTML = (currentVal * 2);
+        var neighborIndex = sortedTiles.indexOf(neighbor);
+        // so sorry
+        sortedTiles = sortedTiles.splice(0,neighborIndex).concat(
+           sortedTiles.splice(1, sortedTiles.length-1)
+           );
         neighbor.remove();
       }
     }
