@@ -54,23 +54,34 @@ function addTile(){
 }
 
 function moveTile(tile, direction) {
+  var spacesTaken = locateTiles(); //=>[["r3", "c0"], ["r3", "c1"]]
+
   var new_tile_value = tile.attr("data-val");
   tile.attr("data-val", new_tile_value);
   tile.text(new_tile_value);
 
-  switch(direction) {
-    case 38: //up
-      tile.attr("data-row","r0");
-      break;
-    case 40: //down
-      tile.attr("data-row","r3");
-      break;
-    case 37: //left
-      tile.attr("data-col","c0");
-      break;
-    case 39: //right
-      tile.attr("data-col","c3");
-      break;
+
+  for(var i = 0; i < spacesTaken.length; i++) {
+    switch(direction) {
+      case 38: //up
+        // tile.attr("data-row","r0");
+        var rowValue = spacesTaken[i][0][1]; // "3"
+        // (rowValue == 0) ? rowValue = 1 : rowValue
+        var newRowValue = (rowValue + 1).toString();
+        tile.attr("data-row", "r" + newRowValue);
+        break;
+      case 40: //down
+        tile.attr("data-row","r3");
+        break;
+      case 37: //left
+        tile.attr("data-col","c0");
+        var colValue = spacesTaken[i][1][1]; // "c0"
+        break;
+      case 39: //right
+        tile.attr("data-col","c3");
+        break;
+    }
+
   }
 }
 
@@ -96,7 +107,6 @@ function tilePlacement(position) {
   tileDiv.attr("data-val",  tileNumber);
 
   $("#gameboard").append(tileDiv);
-  console.log(tileDiv);
 }
 
 function randomTileNumber() {
