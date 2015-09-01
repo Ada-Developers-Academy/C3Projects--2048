@@ -116,8 +116,6 @@ function makeTurn(direction) {
     }
   }
 
-
-
   function rowOrColumn() {
     var type = "";
     if (direction == 38 || direction == 40) {
@@ -184,5 +182,5 @@ function makeTurn(direction) {
 
   moveTiles();
   mergeTiles();
-  // moveTiles();
+  moveTiles();
 }
