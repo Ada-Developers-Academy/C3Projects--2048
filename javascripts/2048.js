@@ -75,6 +75,28 @@ function randomizeLocation() {
   return col;
 }
 
+function matched(location, direction) {
+  // board[1][1], up, opposite would be down
+  // want to check board[0][1]
+  switch(direction) {
+    case 38: //up
+      var opposite: 'down';
+      // start from r[0]
+      // increment rows
+      break;
+    case 40: //down
+      var opposite: 'up';
+      // start from r[3]
+      // decrement rows
+      break;
+    case 37: //left
+      var opposite: 'right';
+      break;
+    case 39: //right
+      var opposite: 'left';
+      break;
+}
+
 function moveTile(tile, direction) {
   var new_tile_value = tile.attr("data-val") * 2;
   tile.attr("data-val", new_tile_value);
