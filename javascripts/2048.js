@@ -78,6 +78,7 @@ function makeTurn(direction) {
     var sortedTiles = orderTiles();
 
     function mergeableTile(tile) {
+      var dataVal = tile.getAttribute("data-val");
       // look at opposite type value
       var typeValue = tile.getAttribute(type);
       var oppositeValue = tile.getAttribute(oppositeType);
@@ -89,7 +90,10 @@ function makeTurn(direction) {
       var neighbor = $(neighborText);
 
       if (neighbor.length > 0) {
-        return neighbor[0];
+        neighbor = neighbor[0];
+        if (neighbor.getAttribute("data-val") == dataVal) {
+          return neighbor;
+        }
       } else {
         return null;
       }
