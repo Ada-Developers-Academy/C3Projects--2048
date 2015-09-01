@@ -1,5 +1,5 @@
+var board = []
 $(document).ready(function() {
-  var board = []
 
   function begin() {
     for (i = 0; i < 4; i++) {
@@ -7,7 +7,8 @@ $(document).ready(function() {
       console.log(board);
     }
     console.log('ready!');
-
+    board[1][0] = "2";
+    board[2][0] = "2";
   }
 
   begin();
@@ -22,23 +23,21 @@ $(document).ready(function() {
   $('body').keydown(function(event){
     var arrow_keys = [37, 38, 39, 40];
     if(arrow_keys.indexOf(event.which) > -1) {
-      var tile = $('.tile');
-      console.log(tile);
-      console.log(tile.length);
-      console.log(tile[1]);
-      empty(tile);
-      moveTile(tile, event.which);
+      // var tile = $('.tile');
+      // console.log(tile);
+      // console.log(tile.length);
+      // console.log(tile[1]);
+      // empty(tile);
+      moveTiles(event.which);
       event.preventDefault();
     }
   })
 })
 
-
 function empty(location) {
   // input will be board location
   // check if board array location is undefined
   var answer = location == undefined ? true : false;
-  console.log(location);
   console.log(answer);
   return answer;
 }
@@ -49,23 +48,69 @@ function mergeTile(tile) {
   tile.text(new_tile_value);
 }
 
-function moveTile(tile, direction) {
-
-
-
-
+function moveTiles(direction) {
   switch(direction) {
     case 38: //up
-      tile.attr("data-row","r0");
+      // for (y = 0; y <= 3; y++) { // for each column
+        for (x = 0; x < 3; x++) { // don't want to move a non-existant row up
+          console.log("round" + x)
+          if (empty(board[x][0])) {
+            // console.log("x also is" + x)
+            // console.log("boo" + empty(board[x][0]))
+            board[x][0] = board[x+1][0];
+            // console.log("space check" + board[x][0])
+            // console.log("space move" + board[x+1][0])
+            board[x+1][0] = undefined;
+            // console.log("space checK" + board[x+1][0])
+            var old_row = ".tile[data-row=r" + (x + 1) + "]"
+            var tile = $(old_row);
+            var new_row = "r" + (x);
+            tile.attr("data-row", new_row);
+          }
+        }
+      // }
       break;
     case 40: //down
-      tile.attr("data-row","r3");
+      // for (y = 0; y <= 3; y++) { // for each column
+        for (x = 3; x > 0; x--) { // don't want to move a non-existant row up
+          if (empty(board[x][0])) {
+            board[x][0] = board[x-1][0];
+            board[x-1][0] = undefined;
+            var old_row = ".tile[data-row=r" + (x - 1) + "]"
+            var tile = $(old_row);
+            var new_row = "r" + (x);
+            tile.attr("data-row", new_row);
+          }
+        }
+      // }
       break;
     case 37: //left
-      tile.attr("data-col","c0");
+      for (x = 0; x <= 3; x++) { // for each row
+        for (y = 0; y < 3; y++) { // don't want to move a non-existant column up
+          if (empty(board[x][y])) {
+            board[x][y] = board[x][y+1];
+            board[x][y+1] = undefined;
+            var old_column = ".tile[data-row=c" + (y + 1) + "]"
+            var tile = $(old_column);
+            var new_column = "c" + y;
+            tile.attr("data-col", new_column);
+          }
+        }
+      }
       break;
     case 39: //right
-      tile.attr("data-col","c3");
+      for (x = 0; x <= 3; x++) { // for each row
+        for (y = 3; y > 0; y--) { // don't want to move a non-existant column up
+          if (empty(board[x][y])) {
+            board[x][y] = board[x][y-1];
+            board[x][y-1] = undefined;
+            var old_column = ".tile[data-row=c" + (y - 1) + "]"
+            var tile = $(old_column);
+            var new_column = "c" + y;
+            tile.attr("data-col", new_column);
+          }
+        }
+      }
       break;
   }
 }
