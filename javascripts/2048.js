@@ -24,9 +24,9 @@ function rando_num(){
 
 function checkLocation(column, row) {
   for(var i = 0; i < filled_space.length; i++) {
-    if (filled_space[i] == column + row) {
-      column = 'c' + rando_num();
-      row = 'r' + rando_num();
+    if (filled_space[i][0] == column && filled_space[i][1] == row) {
+      column = rando_num();
+      row = rando_num();
       checkLocation(column, row);
     }
   }
@@ -38,8 +38,8 @@ function createTile() {
   // Check for empty spaces before creating
 
   // Create new div element with tile class, location attributes, and value attribute
-  var new_column = 'c' + rando_num();
-  var new_row = 'r' + rando_num();
+  var new_column = rando_num();
+  var new_row = rando_num();
 
 
   var result = checkLocation(new_column, new_row);
@@ -49,12 +49,12 @@ function createTile() {
   var row = result[1];
 
   var newTile = $( '<div= class="tile">2</div>');
-  newTile.attr("data-row", row);
-  newTile.attr("data-col", column);
+  newTile.attr("data-row", 'r' + row);
+  newTile.attr("data-col", 'c' + column);
   newTile.attr("data-val", "2");
   $('#gameboard').append(newTile);
 
-  filled_space.push(column + row);
+  filled_space.push([column, row]);
 
 
   // Maybe assign unique tile identifier
