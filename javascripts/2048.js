@@ -63,17 +63,36 @@ Board.prototype.condense = function(colOrRow) {
   return condensedColOrRow;
 }
 
+// before condense / resolve LEFT:
+//   [  2,   2,   0,   0]
+//   [  4,   4,   4,   2]
+//   [ 32,  32, 128,  64]
+//   [512, 256, 256,  32]
 
+// after:
+// var condensed = [
+//   [4],
+//   [8, 4, 2],
+//   [64, 128, 64],
+//   [512, 512, 32]
+// ];
 
+// after rebuild
+// [  4,   0,  0, 0]
+// [  8,   4,  2, 0]
+// [ 64, 128, 64, 0]
+// [512, 512, 32, 0]
 
+Board.prototype.build = function(condensedArrays) {
+  var rebuild = function(array) {
+    while (array.length < 4) {
+      array.push(0);
+    }
+  }
 
+  condensedArrays.forEach(rebuild);
+}
 
-
-
-
-
-
-
-
-
-//
+// console.log(condensed);
+// build(condensed);
+// console.log(condensed);
