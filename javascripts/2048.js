@@ -94,6 +94,11 @@ function moveTile(tile, direction) {
     return neighborCount > 0;
 }
 
+  function checkWall(tile){
+    var topWall = "r0";
+    return tile.getAttribute("data-row") === topWall;
+  }
+
   switch(direction) {
     case 38: //up
 
@@ -107,11 +112,13 @@ function moveTile(tile, direction) {
          console.log(occupants.length);
           //for each tile
 
+        // checkNeighbor
           for (j = 0; j < occupants.length; j++){
-            console.log(checkNeighbor(occupants[j]));
+            var tile = occupants[j];
+            console.log(" Neighbor: " + checkNeighbor(tile));
+            console.log(" Wall: " + checkWall(tile));
           }
 
-            // checkNeighbor
                 // OR
             // checkWall
 
@@ -121,14 +128,6 @@ function moveTile(tile, direction) {
 
       }
   // --- old code----------
-
-        // get a collection of tiles
-      // var occupants = $("[data-col='c0']");
-      //
-      // // for  each tile...
-      // for (i = 0; i < occupants.length; i++) {
-      //   // check if they're next to a wall
-      //   var topWall = "r0"
 
       //   if (neighborCount === 0 && tile.attr("data-row") != "topWall"){
       //     var currentPosition = tile.attr("data-row"); // r3
