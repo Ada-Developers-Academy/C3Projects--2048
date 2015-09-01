@@ -67,13 +67,13 @@ Board.prototype.condense = function(colOrRow) {
 Board.prototype.compareAndResolve = function(condensedColOrRow, direction) {
   var resolvedColOrRow = [];
 
-  if (direction == -1) {
-  // up & left (direction = -1) -> starts at the beginning of the array, moves forward
+  if (direction == "up" || direction == "left") {
+  // up & left -> starts at the beginning of the array, moves forward
     for (i = 0; i < condensedColOrRow.length; i++) {
 
     }
   } else {
-  // down & right (direction = +1) -> starts at the end of the array, moves backward
+  // down & right -> starts at the end of the array, moves backward
     for (i = condensedColOrRow.length - 1; i >= 0; i--) {
 
     }
