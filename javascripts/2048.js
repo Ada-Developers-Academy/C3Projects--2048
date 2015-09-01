@@ -41,7 +41,6 @@ function checkLocation(column, row) {
 function createTile() {
 
   // Check for empty spaces before creating
-
   if (tile_array.length < 16) {
     var new_column = 'c' +rando_num();
     var new_row = 'r' + rando_num();
@@ -59,7 +58,7 @@ function createTile() {
     $('#gameboard').append(newTile);
 
     tile_array.push(newTile);
-    console.log(tile_array);
+
   } else {
     console.log("spaces full");
   }
@@ -85,7 +84,8 @@ function moveTile(tile, direction) {
   // needs conditionals to check for occupied grids spaces
   switch(direction) {
     case 38: //up
-      tile.attr("data-row","r0");
+      //tile.attr("data-row","r0");
+      moveUp();
       break;
     case 40: //down
       tile.attr("data-row","r3");
@@ -100,12 +100,40 @@ function moveTile(tile, direction) {
 }
 
 
-for(i = 0; i < tile_array.length; i++) {
-    var value = 'r2';
-    if (tile_array[0].attr('data-row') == value && tile_array[0].attr('data-col') == 'c0') {
-      console.log("is this working???");
+  function moveUp(){
+
+   for(var i = 0; i < tile_array.length; i++) {
+    console.log("I'm here");
+    var tile = tile_array[i];
+    checkUp(tile);
+      }
     }
-  }
+
+    function checkUp(tile) {
+      console.log(tile);
+       // => [data-col: c0, data-row: r3]
+      var column = tile.attr('data-col');// data-col: 'c0'
+      var row = tile.attr('data-row');
+      if (row != 'r0') {
+        var row_num = +(row.slice(1, 2));
+        var next_row = 'r' + (row_num - 1);
+          for(i = 0; i < tile_array.length; i++) {
+            if(tile_array[i].attr('data-col') == column) {
+              if (tile_array[i].attr('data-row') != next_row) {
+                tile.attr("data-row", next_row);
+              }
+            }
+          }
+        }
+        }
+
+
+    //tile.attr("data-row","r0") if no tile exists with data-col 0, rows 2, 1, 0
+
+
+
+
+  // move to 'r0' if tile_array.attr('data-row') !=
 
 
 
