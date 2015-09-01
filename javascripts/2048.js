@@ -84,7 +84,8 @@ function moveTile(tile, direction) {
     case 38: //up
       // tile.attr("data-row","r0");
 
-      // check columns in order from left to right for "vacancies"
+      // check columns in order from left to right for "occupants"
+      // determine vacancies from subtracting "occupants" from board size
       // shift "occupant(s)" to furthest available "vacancy"
       // check for movement path for stacking, merging possibility
 
