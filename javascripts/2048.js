@@ -1,8 +1,8 @@
 $(document).ready(function() {
-  var MAXSTARTINGTILE = 4;
-  var MINSTARTINGTILE = 2;
-  var MINBOARDLOCALE = 3;
-  var MAXBOARDLOCALE = 0;
+  const MAXSTARTINGTILE = 4;
+  const MINSTARTINGTILE = 2;
+  const MINBOARDLOCALE = 3;
+  const MAXBOARDLOCALE = 0;
   // Constants -----------------
 
   var board = []
@@ -43,8 +43,8 @@ function empty(location) {
   // input will be board location
   // check if board array location is undefined
   var answer = location == undefined ? true : false;
-  console.log(location);
-  console.log(answer);
+  console.log('location: '+ location);
+  console.log('answer: ' + answer);
   return answer;
 
 }
@@ -57,12 +57,14 @@ function randomizeValue() {
 
 function randomizeLocation() {
   // floor rounds down for an integer
-  var row = Math.floor(Math.random() *(MAXBOARDLOCALE - MINBOARDLOCALE) + MINBOARDLOCALE );
-  var col = Math.floor(Math.random() *(MAXBOARDLOCALE - MINBOARDLOCALE) + MINBOARDLOCALE );
+  var row = Math.floor(
+    Math.random() *(MAXBOARDLOCALE - MINBOARDLOCALE) + MINBOARDLOCALE );
+  var col = Math.floor(
+    Math.random() *(MAXBOARDLOCALE - MINBOARDLOCALE) + MINBOARDLOCALE );
+  // need to check if slot is empty
   return row;
   return col;
 }
-
 
 function moveTile(tile, direction) {
   var new_tile_value = tile.attr("data-val") * 2;
