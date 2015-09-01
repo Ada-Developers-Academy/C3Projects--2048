@@ -80,35 +80,54 @@ function moveTile(tile, direction) {
   tile.attr("data-val", new_tile_value);
   // tile.text(new_tile_value);
 
+  function checkForVacancies(columnNum) {
+    var occupants = $("[data-col='c" + columnNum + "']").size();
+    var vacancies = (4 - occupants);
+    return vacancies > 0;
+  }
+
   switch(direction) {
     case 38: //up
-      // tile.attr("data-row","r0");
 
-      // check columns in order from left to right for "occupants"
+      // for each column
+      for (i = 0; i < 4; i++){
 
-      // start with checking all tile.attr for items containing data-col === c0
-      // getElementby get all objects with data-col === c0
+        console.log(checkForVacancies(i));
 
-      // get a collection of tiles
-      var occupants = $("[data-col='c0']");
+        // checkForVacancies -- if this returns false, move to the next column
+        // collectOccupants -- Array of tiles
+          //for each tile
+            // checkNeighbor
+                // OR
+            // checkWall
 
-      // for  each tile...
-      for (i = 0; i < occupants.length; i++) {
-        // check if they're next to a wall
-        var topWall = "r0"
-        // check if it has upstairs neighbor
-        var occupantRow = occupants.attr("data-row");
-        var neighborRow = (occupantRow.replace("r","") - 1);
-        var neighborCount = $("[data-row='r" + neighborRow + "'][data-col='c0']").size();
+            // while checks return false
+            // moveTile
 
-        if (neighborCount === 0 && tile.attr("data-row") != "topWall"){
-          var currentPosition = tile.attr("data-row"); // r3
-          var positionNum = currentPosition.replace("r","");
-          // movement (go up one cell)
-          tile.attr("data-row", "r" + (positionNum - 1) );
-          // move forward one
-        }
+
       }
+  // --- old code----------
+
+        // get a collection of tiles
+      // var occupants = $("[data-col='c0']");
+      //
+      // // for  each tile...
+      // for (i = 0; i < occupants.length; i++) {
+      //   // check if they're next to a wall
+      //   var topWall = "r0"
+      //   // check if it has upstairs neighbor
+      //   var occupantRow = occupants.attr("data-row");
+      //   var neighborRow = (occupantRow.replace("r","") - 1);
+      //   var neighborCount = $("[data-row='r" + neighborRow + "'][data-col='c0']").size();
+      //
+      //   if (neighborCount === 0 && tile.attr("data-row") != "topWall"){
+      //     var currentPosition = tile.attr("data-row"); // r3
+      //     var positionNum = currentPosition.replace("r","");
+      //     // movement (go up one cell)
+      //     tile.attr("data-row", "r" + (positionNum - 1) );
+      //     // move forward one
+      //   }
+      // }
 
 
 
