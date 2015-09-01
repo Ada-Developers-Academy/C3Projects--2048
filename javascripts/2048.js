@@ -83,8 +83,6 @@ function randomizeLocation() {
 }
 
 function matched(direction) {
-  // board[1][1], up, opposite would be down
-  // want to check board[0][1]
   switch(direction) {
     case 38: //up
       var rowStart = 0; //rowstart
@@ -124,9 +122,6 @@ function matched(direction) {
           } // if
         } // r
       } // c
-      // var opposite: 'right';
-      // var start = board[0][0];
-      // increment colums
       break;
     case 39: //right
       var colmStart = 3 // colmStart
