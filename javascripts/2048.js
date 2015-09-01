@@ -10,9 +10,9 @@ $(document).ready(function() {
   function begin() {
     for (i = 0; i < 4; i++) {
       board[i] = new Array(4);
-      console.log(board);
+      // console.log(board);
     }
-    console.log('ready!');
+    // console.log('ready!');
     board[3][0] = "2";
     board[1][0] = "2";
     board[2][0] = "2";
@@ -43,6 +43,7 @@ $(document).ready(function() {
       // console.log(tile[1]);
       // empty(tile);
       moveTiles(event.which);
+      matched(event.which);
       event.preventDefault();
     }
   })
@@ -52,8 +53,6 @@ function empty(location) {
   // input will be board location
   // check if board array location is undefined
   var answer = (location == undefined) ? true : false;
-  console.log('location: '+ location);
-  console.log('answer: ' + answer);
   return answer;
 }
 
@@ -71,7 +70,7 @@ function randomizeLocation() {
     Math.random() *(BOARDCEILING - MINBOARDLOCALE) + MINBOARDLOCALE );
 
   // need to check if slot is empty
-  while !empty(board[row][col]) {  // can probably refactor this
+  while (!empty(board[row][col])) {  // can probably refactor this
     var row = Math.floor(
       Math.random() *(BOARDCEILING - MINBOARDLOCALE) + MINBOARDLOCALE );
     var col = Math.floor(
@@ -81,6 +80,68 @@ function randomizeLocation() {
   }
   return row;
   return col;
+}
+
+function matched(direction) {
+  // board[1][1], up, opposite would be down
+  // want to check board[0][1]
+  switch(direction) {
+    case 38: //up
+      var rowStart = 0; //rowstart
+
+      for(c=0; c<4; c++) { //colm incrementing
+        for(r=rowStart; r<3; r++) { //row incrementing
+          if (board[r][c] == board[r + 1][c]) {
+            console.log(board[r][c] + 'matches' + board[r + 1][c]);
+            console.log('matched!');
+            return true;
+          } // if
+        } // r
+      } // c
+      break;
+    case 40: //down
+      var rowStart = 3
+
+      for(c=0; c<4; c++) { //colm incrementing
+        for(r=rowStart; r>0; r--) { //row decrementing
+          if (board[r][c] == board[r - 1][c]) {
+            console.log(board[r][c] + 'matches' + board[r - 1][c]);
+            console.log('matched!');
+            return true;
+          } // if
+        } // r
+      } // c
+      break;
+    case 37: //left
+      var colStart = 0
+
+      for(c=colStart; c<3; c++) { //colm incrementing
+        for(r=0; r<3; r++) { //row incrementing
+          if (board[r][c] == board[r][c + 1]) {
+            console.log(board[r][c] + 'matches'+ board[r][c + 1]);
+            console.log('matched!');
+            return true;
+          } // if
+        } // r
+      } // c
+      // var opposite: 'right';
+      // var start = board[0][0];
+      // increment colums
+      break;
+    case 39: //right
+      var colmStart = 3 // colmStart
+
+      for(c=colmStart; c>0; c--) { //colm decrementing
+        for(r=0; r<4; r++) { //row incrementing
+          if (board[r][c] == board[r][c - 1]) {
+            console.log(board[r][c] + 'matches'+ board[r][c - 1]);
+            console.log('matched!');
+            return true;
+          } // if
+        } // r
+      } // c
+      break;
+  };
 }
 
 function mergeTile(tile) {
