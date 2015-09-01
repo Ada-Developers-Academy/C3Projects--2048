@@ -46,9 +46,22 @@ board = new Board([ // this is an example board for us to play with during testi
 
 Board.prototype.move = function(direction) {
   // this is the movement function
+  // 1. reorient function => array of arrays in columns or rows
   var reorientedBoard = this.reorient(direction);
-  // var condensedBoard = reorientedBoard.forEach(this.condense); // not 100% certain about this syntax
-};
+
+  var resolvedBoard = reorientedBoard.map(function(currentRow) {
+    // 2. each row/column condense function (LOOP)
+    var condensedRow = this.condense(currentRow, direction);
+    // 3. each row/column => compare function (LOOP)
+    return this.compareAndResolve(condensedRow, direction);
+  });
+
+  // 4. build new board from results (takes in array of condensed arrays, returns array of uncondensed arrays)
+  this.build(resolvedBoard, direction); // NOTE build in its current form mutates the original board
+
+  // 5. display board};
+  // this.display();
+}
 
 // board.reorient() reorients the board into arrays based on direction
 Board.prototype.reorient = function(direction) {
@@ -154,4 +167,9 @@ Board.prototype.moveBackward = function(condensedColOrRow) {
 
 Board.prototype.updateScore = function(points) {
   // this will somehow update the total score the player has going
+}
+
+Board.prototype.display = function() {
+  // code to display the board here
+  console.log(this.board);
 }
