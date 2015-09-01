@@ -80,11 +80,19 @@ function moveTile(tile, direction) {
   tile.attr("data-val", new_tile_value);
   // tile.text(new_tile_value);
 
+  // checkForVacancies -- if this returns false, move to the next column
   function checkForVacancies(columnNum) {
     var occupants = $("[data-col='c" + columnNum + "']").size();
     var vacancies = (4 - occupants);
     return vacancies > 0;
   }
+
+  function checkNeighbor(tile){
+    var occupantRow = tile.getAttribute("data-row");
+    var neighborRow = (occupantRow.replace("r","") - 1);
+    var neighborCount = $("[data-row='r" + neighborRow + "'][data-col='c0']").size();
+    return neighborCount > 0;
+}
 
   switch(direction) {
     case 38: //up
@@ -92,11 +100,17 @@ function moveTile(tile, direction) {
       // for each column
       for (i = 0; i < 4; i++){
 
-        console.log(checkForVacancies(i));
+        checkForVacancies(i);
 
-        // checkForVacancies -- if this returns false, move to the next column
         // collectOccupants -- Array of tiles
+        var occupants = $("[data-col='c" + i + "']");
+         console.log(occupants.length);
           //for each tile
+
+          for (j = 0; j < occupants.length; j++){
+            console.log(checkNeighbor(occupants[j]));
+          }
+
             // checkNeighbor
                 // OR
             // checkWall
@@ -115,11 +129,7 @@ function moveTile(tile, direction) {
       // for (i = 0; i < occupants.length; i++) {
       //   // check if they're next to a wall
       //   var topWall = "r0"
-      //   // check if it has upstairs neighbor
-      //   var occupantRow = occupants.attr("data-row");
-      //   var neighborRow = (occupantRow.replace("r","") - 1);
-      //   var neighborCount = $("[data-row='r" + neighborRow + "'][data-col='c0']").size();
-      //
+
       //   if (neighborCount === 0 && tile.attr("data-row") != "topWall"){
       //     var currentPosition = tile.attr("data-row"); // r3
       //     var positionNum = currentPosition.replace("r","");
@@ -142,15 +152,9 @@ function moveTile(tile, direction) {
       // stop moving in that direction.
 
 
-
-
-
       // check for movement path for stacking, merging possibility
 
       // generate new tile after move completion
-
-
-
 
       break;
     case 40: //down
