@@ -72,6 +72,12 @@ function makeMovement(direction) {
     // console.log(relevantAttributeValue);
     var newAttributeValue = parseInt(relevantAttributeValue) + magnitude;
 
+    if (newAttributeValue > 4) {
+      newAttributeValue = 4;
+    } else if (newAttributeValue < 1) {
+      newAttributeValue = 1;
+    }
+
     tile.setAttribute(type, newAttributeValue);
     // if tile can't move, do nothing
     // NOTE new attribute value going above 4 or below 1
