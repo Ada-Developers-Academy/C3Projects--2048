@@ -93,7 +93,7 @@ function combineRightOrDown(row) {
 
 function moveLeft() {
   for (var i = 0; i < rows.length; i++) {
-    shiftLeftOrUp(generateRow(i), 'row');
+    shiftLeftOrUp(combineUpOrLeft(generateRow(i)), 'row');
   }
 }
 
@@ -105,8 +105,27 @@ function moveDown() {
 
 function moveUp() {
   for (var i = 0; i < cols.length; i++) {
-    shiftLeftOrUp(generateCol(i), 'col');
+    shiftLeftOrUp(combineUpOrLeft(generateCol(i)), 'col');
   }
+}
+
+function combineUpOrLeft(gridElement) {
+  for (var i = 1; i < gridElement.length; i++) {
+    console.log("for-loop start: " + i);
+    if (gridElement[i].attr('data-val') === gridElement[i - 1].attr('data-val')) {
+      // combine!
+      var value = gridElement[i].attr('data-val');
+      gridElement[i].attr('data-val', (value * 2));
+      gridElement[i].text(value * 2);
+
+      gridElement[i - 1].remove();
+      gridElement.splice(i - 1, 1);
+      console.log("for-loop / if before increment: " + i);
+      i += 1;
+      console.log("for-loop / if after increment: " + i);
+    }
+  }
+  return gridElement;
 }
 
 function shiftRightOrDown(tile_array, type) {
