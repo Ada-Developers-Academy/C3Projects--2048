@@ -32,21 +32,55 @@ function moveTile(tile, direction) {
 }
 
 
-// board = new Board([]);
 var Board = function(boardArray) { // board constructor
   this.board = boardArray;
-}
+  this.boardLength = 4; // board is a square, so this is the same going both ways
+};
 
-Board.protoype.update(direction) {
+board = new Board([ // this is an example board for us to play with during testing
+  [2,     2,   0,   0], // [2,   4,  16, 512],
+  [4,     8,   4,   2], // [2,   8,  32, 256],
+  [16,   32, 128,  64], // [0,   4, 128, 128],
+  [512, 256, 128,  32] //  [0,   2,  64,  32]
+]);
+
+Board.prototype.move = function(direction) {
   // this is the movement function
-  // var reorientedBoard = this.split();
-  // this.condense();
-}
+  var reorientedBoard = this.reorient(direction);
+  // var condensedBoard = reorientedBoard.forEach(this.condense); // not 100% certain about this syntax
+};
 
-// board.split()
-Board.prototype.split() {
-  // splits the board into arrays based on direction
-}
+// board.reorient() reorients the board into arrays based on direction
+Board.prototype.reorient = function(direction) {
+  var method;
+
+  if (direction == "left" || direction == "right")
+    method = "horizontalReorient";
+  else // "up" || "down"
+    method = "verticalReorient";
+
+  return this[method].call(this); // execute the method in the current context
+};
+
+Board.prototype.horizontalReorient = function() {
+  return this.board; // or do we want to modify the board in place?
+};
+
+Board.prototype.verticalReorient = function() {
+  var reorientedBoard = [];
+
+  for (var oldCol = 0; oldCol < this.boardLength; oldCol++) {
+    var newRow = [];
+
+    for (var oldRow = 0; oldRow < this.boardLength; oldRow++) {
+      newRow.push(this.board[oldRow][oldCol]);
+    };
+
+    reorientedBoard.push(newRow);
+  };
+
+  return reorientedBoard;
+};
 
 // board.condense(columnOrRow)
 Board.prototype.condense = function(colOrRow) {
@@ -65,20 +99,20 @@ Board.prototype.condense = function(colOrRow) {
 
 //board.compareAndResolve()
 Board.prototype.compareAndResolve = function(condensedColOrRow, direction) {
+  // var method;
+  //
+  // if (direction == "left" || direction == "right")
+  //   method = "horizontalReorient";
+  // else // "up" || "down"
+  //   method = "verticalReorient";
+  //
+  // return this[method].call(this);
+
   var resolvedColOrRow = [];
 
   if (direction == "up" || direction == "left") {
   // up & left -> starts at the beginning of the array, moves forward
-    for (i = 0; i < condensedColOrRow.length; i++) {
-      if (condensedColOrRow[i] == condensedColOrRow[i + 1]) {
-        //COLLIDE!
-        var newVal = condensedColOrRow[i] + condensedColOrRow[i + 1];
-        resolvedColOrRow.push(newVal);
-        i += 1; // this will increment by two
-      } else {
-        resolvedColOrRow.push(condensedColOrRow[i]);
-      }
-    }
+
   } else {
   // down & right -> starts at the end of the array, moves backward
     for (i = condensedColOrRow.length - 1; i >= 0; i--) {
@@ -96,17 +130,15 @@ Board.prototype.compareAndResolve = function(condensedColOrRow, direction) {
   return resolvedColOrRow;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
+Board.prototype.moveVertically = function(condensedColOrRow) {
+  for (i = 0; i < condensedColOrRow.length; i++) {
+    if (condensedColOrRow[i] == condensedColOrRow[i + 1]) {
+      //COLLIDE!
+      var newVal = condensedColOrRow[i] + condensedColOrRow[i + 1];
+      resolvedColOrRow.push(newVal);
+      i += 1; // this will increment by two
+    } else {
+      resolvedColOrRow.push(condensedColOrRow[i]);
+    }
+  }
+}
