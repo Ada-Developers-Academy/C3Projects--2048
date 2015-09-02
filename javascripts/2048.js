@@ -28,7 +28,7 @@ function moveTile(tile, direction) {
       tile.attr("data-row","r3");
       break;
     case 37: //left
-      moveLeft();
+      moveLeft(tile);
       // tile.attr("data-col","c0");
       break;
     case 39: //right
@@ -37,34 +37,44 @@ function moveTile(tile, direction) {
   }
 }
 
-function moveLeft() {
+function moveLeft(tile) {
   var row0 = [];
   var row1 = [];
   var row2 = [];
   var row3 = [];
 
-  var tiles = $(".tile");
-  for (var i = 0; i < tiles.length; i++) {
-      if (tiles[i].getAttribute("data-row") == "r0") {
-        // var tileCol = tiles[i].getAttribute("data-col");
+  // var tiles = $(".tile");
+  for (var i = 0; i < tile.length; i++) {
+      if (tile[i].getAttribute("data-row") == "r0") {
+        // var tileCol = tile[i].getAttribute("data-col");
         // tileCol = tileCol.substr(1);
-        row0.push(tiles[i]);
+        row0.push(tile[i]);
         // put into row0 array in the position of the col
-      } else if (tiles[i].getAttribute("data-row") == "r1") {
-        row1.push(tiles[i]);
-      } else if (tiles[i].getAttribute("data-row") == "r2") {
-        row2.push(tiles[i]);
-      } else if (tiles[i].getAttribute("data-row") == "r3") {
-        row3.push(tiles[i]);
+      } else if (tile[i].getAttribute("data-row") == "r1") {
+        row1.push(tile[i]);
+      } else if (tile[i].getAttribute("data-row") == "r2") {
+        row2.push(tile[i]);
+      } else if (tile[i].getAttribute("data-row") == "r3") {
+        row3.push(tile[i]);
       }
     }
-    
-  for(var i = 0; i < 5; i++) {
-      row0[i] = $(".tile").attr("[data-row=r" + 0 + "][data-col=c" + i + "]");   
-      row1[i] = $(".tile").attr("[data-row=r" + 1 + "][data-col=c" + i + "]");
-      row2[i] = $(".tile").attr("[data-row=r" + 2 + "][data-col=c" + i + "]");
-      row3[i] = $(".tile").attr("[data-row=r" + 3 + "][data-col=c" + i + "]");
-  }
+
+  for(var i = 0; i < row0.length; i++) {
+      row0[i].setAttribute("data-col", ("c" + i));
+    }
+
+  for(var i = 0; i < row1.length; i++) {
+      row1[i].setAttribute("data-col", ("c" + i));
+    }
+
+  for(var i = 0; i < row2.length; i++) {
+      row2[i].setAttribute("data-col", ("c" + i));
+    }
+
+  for(var i = 0; i < row3.length; i++) {
+      row3[i].setAttribute("data-col", ("c" + i));
+    }
+
 }
 
 function tilesCollide(direction) {
@@ -144,15 +154,15 @@ function gameStart() {
   addTile();
 }
 
-// function playTurn() {
-//   if ($("#gameboard .tile").length == 0) {
-//     gameStart();
-//   } else {
-//     gameWon();
-//     gameLost();
-//
-//   }
-// }
+function playTurn() {
+  if ($("#gameboard .tile").length == 0) {
+    gameStart();
+  } else {
+    gameWon();
+    gameLost();
+
+  }
+}
 
 // pseudo:
 // when game starts: two random tiles populate board
