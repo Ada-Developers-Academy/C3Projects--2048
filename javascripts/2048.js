@@ -17,7 +17,7 @@ function makeTurn(direction) {
   var type = rowOrColumn();
   var oppositeType = (type == "data-row") ? "data-col" : "data-row";
   // set the positive or negative according to direction
-  var magnitude = parseInt(farthestValue());
+  var magnitude = parseInt(getMagnitude());
   var score = parseInt($("#score").attr("data-score"));
 
   var updateScore = function(points) {
@@ -41,7 +41,7 @@ function makeTurn(direction) {
   function orderTiles() {
     // check if movement is up/down (row) or right/left (col)
     // check if movement makes values get smaller (up/left) or bigger (down/right)
-    var magnitude = parseInt(farthestValue(direction));
+    var magnitude = parseInt(getMagnitude(direction));
     // store type of non-movement dimension
 
     // split into groups by type
@@ -83,45 +83,48 @@ function makeTurn(direction) {
     return sortedTiles;
   }
 
+  function findMergeableTile(tile, type, magnitude) {
+    var dataVal = tile.getAttribute("data-val");
+    // look at opposite type value
+    var typeValue = tile.getAttribute(type);
+    var oppositeValue = tile.getAttribute(oppositeType);
+    // find neighbor value ( if c1,r1 and moving up, neighbor is c1, r2)
+    var neighborValue = parseInt(typeValue) - magnitude;
+    // nasty block text stuff
+    var neighborText = ".tile[" + type + "=\"" + neighborValue + "\"][" + oppositeType + "=\"" + oppositeValue + "\"]";
+    // use block text to check if neighbor exists
+    var neighbor = $(neighborText);
+
+    if (neighbor.length > 0) {
+      neighbor = neighbor[0];
+      if (neighbor.getAttribute("data-val") == dataVal) {
+        return neighbor;
+      }
+    } else {
+      return null;
+    }
+  }
+
   function mergeTiles() {
     var sortedTiles = orderTiles();
 
-    function mergeableTile(tile) {
-      var dataVal = tile.getAttribute("data-val");
-      // look at opposite type value
-      var typeValue = tile.getAttribute(type);
-      var oppositeValue = tile.getAttribute(oppositeType);
-      // find neighbor value ( if c1,r1 and moving up, neighbor is c1, r2)
-      var neighborValue = parseInt(typeValue) - magnitude;
-      // nasty block text stuff
-      var neighborText = ".tile[" + type + "=\"" + neighborValue + "\"][" + oppositeType + "=\"" + oppositeValue + "\"]";
-      // use block text to check if neighbor exists
-      var neighbor = $(neighborText);
-
-      if (neighbor.length > 0) {
-        neighbor = neighbor[0];
-        if (neighbor.getAttribute("data-val") == dataVal) {
-          return neighbor;
-        }
-      } else {
-        return null;
-      }
-    }
 
     for (var i = 0; i < sortedTiles.length; i++) {
-      var neighbor = mergeableTile(sortedTiles[i]);
+      var neighbor = findMergeableTile(sortedTiles[i], type, magnitude);
       // if neighbor exists, then double current tile's value and delete neighbor tile
       if (neighbor) {
         var currentVal = parseInt(sortedTiles[i].getAttribute("data-val"));
-        sortedTiles[i].setAttribute("data-val", (currentVal * 2));
-        updateScore(currentVal*2);
-        sortedTiles[i].innerHTML = (currentVal * 2);
+        var newVal = currentVal * 2;
+        sortedTiles[i].setAttribute("data-val", (newVal));
+        updateScore(newVal);
+        sortedTiles[i].innerHTML = (newVal);
         var neighborIndex = sortedTiles.indexOf(neighbor);
         // so sorry
         sortedTiles = sortedTiles.splice(0,neighborIndex).concat(
            sortedTiles.splice(1, sortedTiles.length-1)
            );
         neighbor.remove();
+        checkWin(newVal);
       }
     }
   }
@@ -137,7 +140,7 @@ function makeTurn(direction) {
     return type;
   }
 
-  function farthestValue() {
+  function getMagnitude() {
     var value = "";
     // if moving left or up
     if (direction == 37 || direction == 38) {
@@ -190,18 +193,15 @@ function makeTurn(direction) {
     return moveTile;
   }
 
-  function addTile() {
-    var tile = $("<div data-row='' data-col='' data-val=''></div>");
-    var dataVal = Math.random() < 0.04 ? 4 : 2;
-
+  function collectEmptySpaces() {
     var emptySpaces = [];
     var row = null;
     var col = null;
     var tileLocation = null;
     // figure out all empty spots
-    for (var i = 1; i < 5; i++) {
+    for (var i = 1; i < 5; i++) { // loop through rows
       row = i;
-      for (var j = 1; j < 5; j++) {
+      for (var j = 1; j < 5; j++) { // loop through cols
         col = j;
         tileLocation = $(tileSelectorText(row, col));
         if (tileLocation.length == 0) {
@@ -209,10 +209,17 @@ function makeTurn(direction) {
         }
       }
     }
+    return emptySpaces;
+  }
 
-    function tileSelectorText(row, col) {
-      return ".tile[data-row=\"" + row + "\"][data-col=\"" + col + "\"]";
-    }
+  function tileSelectorText(row, col) {
+    return ".tile[data-row=\"" + row + "\"][data-col=\"" + col + "\"]";
+  }
+
+  function addTile() {
+    var tile = $("<div data-row='' data-col='' data-val=''></div>");
+    var dataVal = Math.random() < 0.04 ? 4 : 2;
+    var emptySpaces = collectEmptySpaces();
 
     // function to pick row and column number
     var randomLocation = emptySpaces[Math.floor(Math.random() * emptySpaces.length)];
@@ -226,8 +233,53 @@ function makeTurn(direction) {
     $("#gameboard").append(tile);
   }
 
+  function checkWin(score) {
+    var winningScore = 32;
+    if (score == winningScore) {
+      alert("Yay! You won!");
+    }
+  }
+
+  function checkLoss() {
+    // condition 1: board is completely full
+    // -- just got new tile
+    // condition 2: no merges possible
+    // -- tries to merge
+
+    // count empty spaces, if 0 continue
+    var emptySpaces = collectEmptySpaces();
+    var lost = true;
+    if (emptySpaces.length == 0) {
+      // for every tile
+      // check merge in every direction
+      var tiles = $(".tile");
+      for (var i = 0; i < tiles.length; i++) { // loop through each tile
+        if (lost == false) {
+          break;
+        } else {
+          for (var direction = 37; direction < 41; direction++) { // loop through each direction
+            var type = rowOrColumn();
+            var magnitude = getMagnitude();
+            var mergeableTile = findMergeableTile(tiles[i], type, magnitude);
+            if (mergeableTile) {
+              // stop checking
+              lost = false;
+              break;
+            }
+          }
+        }
+      }
+      
+      if (lost == true) {
+        alert("You have lost. Refresh to play again.");
+      }
+    }
+
+  }
+
   moveTiles();
   mergeTiles(); // scoring happens here
   moveTiles();
   addTile();
+  checkLoss();
 }
