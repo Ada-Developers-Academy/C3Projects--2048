@@ -2,10 +2,11 @@ const MAXSTARTINGTILE = 4;
 const MINSTARTINGTILE = 2;
 const MINBOARDLOCALE = 0;
 const BOARDCEILING = 4; // anything less than 4 is valid
-const WINNING_TILE = 2048;
+const WINNING_TILE = 16;
 // Constants -----------------
 var board = []
 var score = 0;
+var alreadyWon = false;
 
 $(document).ready(function() {
 
@@ -56,9 +57,15 @@ $(document).ready(function() {
       moveTiles(event.which);
       matched(event.which);
       moveTiles(event.which);
-      createTile();
-      if (hasWon()) {
+      if (!isBoardFull()) {
+        createTile();
+      }
+
+      if (!alreadyWon && hasWon()) {
         alert("YOU HAVE WOOOOOON!!!");
+        alreadyWon = true;
+      } else if (alreadyWon && hasLost()) {
+        alert("Congrats on winning!\nBut there are no more moves for you to make.\nPlease start a new game.")
       } else if (hasLost()) {
         alert("YOU HAVE FAILED! D:");
       }
@@ -95,7 +102,7 @@ function randomizeLocation() {
     var col = Math.floor(
       Math.random() *(BOARDCEILING - MINBOARDLOCALE) + MINBOARDLOCALE );
     // need to check if slot is empty
-
+    console.log("TEST");
   }
   return [row, col];
 }
@@ -348,6 +355,7 @@ function isBoardFull() {
       }
     }
   }
+  // "the length " + $('.tile').length >= 16
   return true;
 }
 
