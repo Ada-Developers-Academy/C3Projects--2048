@@ -139,9 +139,14 @@ function moveTile(tile, direction) {
       var neighborCol = occupantCol;
       var neighbor = $("[data-col='" + neighborCol + "'][data-row='r" + neighborRowNum + "']");
       var neighborVal = neighbor.attr("data-val");
-      return neighborVal == occupantVal
+      return neighborVal == occupantVal;
 
     } else if (direction == "down"){
+      var neighborRowNum = occupantRowNum + 1;
+      var neighborCol = occupantCol;
+      var neighbor = $("[data-col='" + neighborCol + "'][data-row='r" + neighborRowNum + "']");
+      var neighborVal = neighbor.attr("data-val");
+      return neighborVal == occupantVal;
 
     } else if (direction == "right"){
 
@@ -194,10 +199,9 @@ function moveTile(tile, direction) {
             tile.setAttribute("data-row", "r" + (positionNum - 1) );
           }
 
-          // Merge Check
+          // Merge Check if there's a neighbor
           if (noNeighborVert(tile, "up") == false){
-            console.log(mergeCheck(tile, "up"));
-            // mergeCheck(tile, "up");
+            mergeCheck(tile, "up");
           }
         }
       }
@@ -229,8 +233,14 @@ function moveTile(tile, direction) {
             // THIS IS THE LINE that does the up (row - 1)
             tile.setAttribute("data-row", "r" + (positionNum + 1) );
           }
+
+          if (noNeighborVert(tile, "down") == false){
+            mergeCheck(tile, "down");
+          }
         }
       }
+
+
 
       // Add new random tile to board, unless it is full
       addNewTile();
