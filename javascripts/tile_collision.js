@@ -78,20 +78,23 @@ function tileCollision(keystroke) {
   // returns index of the adjacent tile (in regards to orderedTiles)
   // or -1 if the tile does not exist
   function adjacentSpace(direction, rowsIndex, columnsIndex){
-
     if (direction === "up") {
+      // columnsIndex is 0 'cause we don't care about it for this direction
       var rowUp = rows[rowsIndex - 1]; if (rowsIndex > 0);
       return $.inArray([rowUp, sameColumn], orderedTiles);
 
     } else if (direction === "down") {
+      // columnsIndex is 0 'cause we don't care about it for this direction
       var rowDown = rows[rowsIndex + 1]; if (rowsIndex < 3);
       return $.inArray([rowDown, sameColumn], orderedTiles);
 
     } else if (direction === "left") {
+      // rowsIndex is 0 'cause we don't care about it for this direction
       var colLeft = columns[columnsIndex - 1]; if (columnsIndex > 0);
       return $.inArray([colLeft, sameRow], orderedTiles);
 
     } else if (direction === "right") {
+      // rowsIndex is 0 'cause we don't care about it for this direction
       var colRight = columns[columnsIndex + 1]; if (columnsIndex < 3);
       return $.inArray([colRight, sameRow], orderedTiles);
     }
@@ -118,9 +121,21 @@ function tileCollision(keystroke) {
       var sameRow = tile[0];
     }
 
-    // returns adjacent tile's index
+    // returns adjacent tile's index in orderedTiles
     // or -1 if the adjacent space isn't occupied
     var adjacentTile = adjacentSpace(direction, rowsIndex, columnsIndex);
+    // NOTE: Right now it's always returning -1, but we think that might be
+    // because we haven't implemented all the logic
+
+
+    if (adjacentTile > -1) {
+      // the order is super important!
+      // first should be the tile we're on in the iteration
+      // second should be the tile adjacent to it
+      merge(tile, adjacentTile);
+    } else {
+      moveOne();
+    }
   }
 }
 
