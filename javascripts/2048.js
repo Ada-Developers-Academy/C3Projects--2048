@@ -47,6 +47,7 @@ $(document).ready(function() {
   // right = 39
   // down = 40
   $('#newgame').click(function () {
+    clearBoard();
     begin();
   });
 
@@ -336,7 +337,7 @@ function hasLost() {
 }
 
 function isBoardFull() {
-// make a loop, call empty on each tile
+  // make a loop, call empty on each tile
   for (r = 0; r < 4; r++) { // for each row
     for (c = 0; c < 4; c++) { // for each col
       if (empty(board[r][c])) {
@@ -364,4 +365,9 @@ function noMovesAvailable() {
     }
   }
   return (moves == 0);
+}
+
+function clearBoard() {
+  var divs = $('.tile');
+  divs.remove();
 }
