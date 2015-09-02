@@ -72,8 +72,6 @@ function generateRandomBoard() {
 }
 
 function moveTile(tile, direction) {
-  var new_tile_value = tile.attr("data-val");
-  tile.attr("data-val", new_tile_value);
 
   function noNeighborVert(tile, direction){
     var occupantRow = tile.getAttribute("data-row");
@@ -154,9 +152,9 @@ function moveTile(tile, direction) {
       var newNeighborValue = neighborValue * 2;
       neighbor.attr("data-val", newNeighborValue);
       neighbor.text(newNeighborValue);
+      neighbor = null;
+      tile.remove();
     }
-    // we got the neighbor
-    // Update the value of the tile on the corresponding side
     // Remove the obsolete tile HTML
   }
 
