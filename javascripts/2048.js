@@ -91,19 +91,20 @@ function moveUp() {
       array.push(board[y][x]);
     }
   removeZero(array);
-  // array.filter(notZero);
-  console.log(array);
   }
+  // next we need to figure out how to push the return from removeZero
+  // back into the board per the arrow direction
+
   for(y = 3; y >= 0; y--) {
     for(x = 0; x < boardSize; x++) {
       var next = checkNext(y, x, "up");
       if (next == board[y][x]) {
-        // collapse it
-        board[y][x]  += board[y - 1][x];
+        board[y][x]  += board[y - 1][x]; // collapse it
         board[y - 1][x] = 0;
       }
     }
   }
+
   if (board.toString() != starterBoard){
     assignRandoTiles();
   }
@@ -198,48 +199,13 @@ function moveRight() {
 }
 
  function removeZero(arr){
-   var temp = arr.filter(notZero);
-   return temp;
-   console.log(temp)
-  //  for(x = 0; x < arr.length; x++){
-  //    if(arr[x] == 0){
-  //     }
-  //     return arr;
-  //     console.log(arr);
-  //   }
- }
-
- function notZero(value){
-   return value > 0;
- }
-
- function removeZero(arr){
-    for(var i=arr.length - 1; i >= 0; i-- )
-    {
-      if(arr[i]=== 0){
+    for(var i=arr.length - 1; i >= 0; i-- ) {
+      if(arr[i] === 0) {
           arr.splice(i,1);
       }
-      console.log(arr);
     }
+    console.log(arr);
   }
-// function removeZero(direction) {
-//   if(direction == "up") {
-//     for(x = 0; x < boardSize; x++){
-//         }
-//       }
-//     }
-//   }
-//   else if(direction == "down") {
-//     for(y = 0; y < boardSize; y++){
-//       for(x = 0; x < boardSize; x++){
-//         if(board[y][x] == 0){
-//           board[y][x]     = board[y + 1][x];
-//           board[y + 1][x] = 0;
-//         }
-//       }
-//     }
-//   }
-// }
 
 function checkNext(y, x, direction) {
   // this is for up condition
