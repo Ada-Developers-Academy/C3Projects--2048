@@ -115,7 +115,6 @@ function moveLeft() {
   starterBoard = board.toString();
   setupTempBoard("left");
   // traversal starting point = y0, x3
-  // WIP
   for(x = 0; x < boardSize; x++) {
     for(y = 0; y < boardSize; y++) {
       var next = checkNext(y, x, "left");
@@ -131,29 +130,15 @@ function moveLeft() {
 }
 
 function moveRight() {
-  // traversal starting point = y0, x0
   starterBoard = board.toString();
-  for(y = 0; y < boardSize; y++) {
-    for(x = 0; x < boardSize; x++) {
-      // check if blank
-      if (board[y][x] != 0) {
-        // do something
-        var next = checkNext(y, x, "right");
-        if (next == 0) {
-          // move it
-          board[y][x + 1] = board[y][x];
-          board[y][x]     = 0;
-        }
-        else if (next == board[y][x]) {
-          // collapse it
-          board[y][x + 1] += board[y][x];
-          board[y][x]      = 0;
-        }
-        else {
-          // do nothing probably dont need this. we'll see
-        }
-      }
-      else {
+  setupTempBoard("right");
+  // traversal starting point = y0, x3
+  for(x = 3; x >= 0; x--) {
+    for(y = 0; y < boardSize; y++) {
+      var next = checkNext(y, x, "right");
+      if(next == board[y][x]) {
+        board[y][x]    += board[y][x - 1]; // collapse it
+        board[y][x - 1] = 0;
       }
     }
   }
@@ -201,15 +186,25 @@ function setupTempBoard(direction) {
         array.push(board[y][x]);
       }
       var tempRow = removeZero(array);
-      // console.log(tempRow); this stuff works (its being pushed in
-      // and 0s removed correctly)
       while(tempRow.length < boardSize) {
         tempRow.push(0);
       }
       newBoard.push(tempRow);
-      // console.log(newBoard.toString()); this stuff also works!
     }
-    // console.log(newBoard);
+  }
+
+  else if(direction == "right"){
+    for(y = 0; y < boardSize; y++) {
+      array = [];
+      for(x = 0; x < boardSize; x++) {
+        array.push(board[y][x]);
+      }
+      var tempRow = removeZero(array);
+      while(tempRow.length < boardSize) {
+        tempRow.unshift(0);
+      }
+      newBoard.push(tempRow);
+    }
   }
   replaceBoard(newBoard, direction);
 }
@@ -243,11 +238,15 @@ function setupTempBoard(direction) {
       }
     }
     if(direction == "left"){
-      // console.log(array);
       for(y = 0; y < boardSize; y++) {
         for(x = 0; x < boardSize; x++) {
-          // console.log(typeof array[y][x]);
-          // console.log(typeof board[y][x]);
+          board[y][x] = array[y][x];
+        }
+      }
+    }
+    if(direction == "right"){
+      for(y = 0; y < boardSize; y++) {
+        for(x = 3; x >= 0; x--) {
           board[y][x] = array[y][x];
         }
       }
