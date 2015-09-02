@@ -96,8 +96,7 @@ function tileCollision(keystroke) {
       var colRight = columns[columnsIndex + 1]; if (columnsIndex < 3);
       space = [sameRow, colRight].join();
     }
-      console.log("Space " + space);
-      console.log(orderedTiles);
+
     var emptyArray = [];
     for (var i = 0; i < orderedTiles.length; i++) {
       emptyArray.push(orderedTiles[i].join());
@@ -129,9 +128,7 @@ function tileCollision(keystroke) {
 
     // returns adjacent tile's index in orderedTiles
     // or -1 if the adjacent space isn't occupied
-    console.log("tile " + tile);
     var adjacentTile = adjacentSpace(direction, rowsIndex, columnsIndex);
-    console.log(adjacentTile);
     // NOTE: Right now it's always returning -1, but we think that might be
     // because we haven't implemented all the logic
 
@@ -139,7 +136,7 @@ function tileCollision(keystroke) {
       // the order is super important!
       // first should be the tile we're on in the iteration
       // second should be the tile adjacent to it
-      merge(tile, adjacentTile, direction);
+      merge(tile, adjacentTile, direction, orderedTiles);
     } else {
       moveOne(tile, direction);
     }
@@ -155,7 +152,9 @@ function grabTile(coordinates) {
 
 
 // determines if tiles can merge or not
-function merge(space1, space2, direction) {
+function merge(space1, spaceIndex, direction, orderedTiles) {
+  var space2 = orderedTiles[spaceIndex];
+
   var tile1 = grabTile(space1);
   var tile2 = grabTile(space2);
   var tile1Value = tile1.val();
