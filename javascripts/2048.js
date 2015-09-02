@@ -67,11 +67,12 @@ function emptyCell(openCells, usedCells, cellSpace) {
 }
 
 
-function merge(tile1, tile2, direction) {
+function merge(tile1, tile2, direction, openCells, usedCells) {
   if (direction == "up") {
     if (tile1[0][1] > tile2[0][1]) {
+      var temp = tile1
       tile1 = tile2;
-      tile2 = tile1;
+      tile2 = temp;
     }
 
     var findTile1 = $("div[data-row=" + tile1[0] + "][data-col=" + tile1[1] + "]");
@@ -79,15 +80,17 @@ function merge(tile1, tile2, direction) {
     var value = $(findTile1).text();
     if (value == $(findTile2).text()) {
       $(findTile1).text(value * 2);
-      deleteTile(findTile2);
+      deleteTile(findTile2, openCells, usedCells);
     }
   }
 }
 
-function deleteTile(tile) {
-  // var row = $(tile).attr("data-row");
-  // var col = $(tile).attr("data-col");
+function deleteTile(tile, openCells, usedCells) {
+  var row = $(tile).attr("data-row");
+  var col = $(tile).attr("data-col");
   $(tile).remove();
+  emptyCell(openCells, usedCells, [row, col]);
+
 }
 
 // function moveTile(tile, direction) {
@@ -142,7 +145,7 @@ function moveUp(tile, openCells, usedCells, direction) {
       var usedArr = sortArray(usedCol);
       // loop through used array and always compare to position 0 of open array
       for (j = 0; j < usedArr.length; j++) {
-        if (openArr[0][0][1] < usedArr[j][0][1]) {
+        if (openArr[0][0][1] < usedArr[j][0][1] && usedArr.length >= 1) {
           // var fullCoord = "r" + openArr[0][0];
           var col = "c" + i;
           // usedArr[j][0] = "r" + usedArr[j][0]
@@ -154,10 +157,10 @@ function moveUp(tile, openCells, usedCells, direction) {
           occupyCell(openArr, usedArr, [openArr[0][0], openArr[0][1]]);
           sortArray(usedArr);
           sortArray(openArr);
-
-        } if (usedCol.length > 1) {
-          merge(usedArr[j], usedArr[j+1], "up");
+        } if (usedCol.length > 1 && usedArr[j+1] != undefined) {
+          merge(usedArr[j], usedArr[j+1], "up", openCells, usedCells);
         }
+
       }
     }
   }
@@ -165,10 +168,10 @@ function moveUp(tile, openCells, usedCells, direction) {
 
 function sortArray(arrayCol) {
   var newArr = [];
-  for (j = 0; j < arrayCol.length; j++) {
+  for (k = 0; k < arrayCol.length; k++) {
     // returns the coordinate # of the row
-    var coordPos = arrayCol[j][0];
-    newArr.push([coordPos, arrayCol[j][1]]);
+    var coordPos = arrayCol[k][0];
+    newArr.push([coordPos, arrayCol[k][1]]);
   }
   return newArr.sort(newArr[0][1]);
 }
