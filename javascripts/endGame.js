@@ -1,6 +1,6 @@
 function checkWin() {
-  // win var is currently set to win at 8 for testing! Change to 2048 for true win.
-  if ($("[data-val=8]").length > 0) {
+  var winningTiles = $("[data-val=" + winningTileValue + "]");
+  if (winningTiles.length > 0) {
     priorWin = true;
     endGame('win');
   } else { return false;}
