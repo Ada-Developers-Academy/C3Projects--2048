@@ -2,6 +2,11 @@ html {
   font: normal normal 30px/1 "Clear Sans", "Helvetica Neue", Arial, sans-serif;
 }
 
+h1 {
+  text-align: center;
+  margin: 5px;
+}
+
 #gameboard {
   background: #bbada0;
   border-radius: 0.5rem;
@@ -14,9 +19,28 @@ html {
 #scoreboard {
   border-radius: 0.5rem;
   background: #bbada0;
-  width: 18.5rem;
+  width: 7rem;
   color: #776e65;
+  margin: auto;
+}
 
+#score {
+  text-align: center;
+  padding-bottom: 7px;
+}
+
+#newgame {
+  border-radius: 0.5rem;
+  background: #bbada0;
+  width: 7rem;
+  color: #776e65;
+  margin: auto;
+}
+
+p {
+  padding-top: 7px;
+  margin-bottom: 5px;
+  text-align: center;
 }
 
 .cell {

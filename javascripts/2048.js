@@ -4,18 +4,21 @@ const MINBOARDLOCALE = 0;
 const BOARDCEILING = 4; // anything less than 4 is valid
 // Constants -----------------
 var board = []
-var score = 0;
+var score;
 
 $(document).ready(function() {
 
   function begin() {
+    board = [];
     for (i = 0; i < 4; i++) {
       board[i] = new Array(4);
-      // console.log(board);
     }
-      createTile();
-      createTile();
-    console.log('ready!');
+    createTile();
+    createTile();
+    score = 0;
+    changeDisplayedScore();
+    console.log('Ready!');
+
     // board[3][0] = 1;
     // board[1][0] = 2;
     // board[2][0] = 3;
@@ -43,6 +46,9 @@ $(document).ready(function() {
   // up = 38
   // right = 39
   // down = 40
+  $('#newgame').click(function () {
+    begin();
+  });
 
   $('body').keydown(function(event){
     var arrow_keys = [37, 38, 39, 40];
