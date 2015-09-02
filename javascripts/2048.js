@@ -58,27 +58,12 @@ function moveLeft() {
         row3.push(tiles[i]);
       }
     }
-
-  for (var i = 0; i < row0.length; i++) {
-    if (row0[i].getAttribute("data-col") == "c1") {
-      for (var j = 0; j < row0.length; j++) {
-        if ((row0[i] != row0[j]) && (row0[j].getAttribute("data-col") != "c0")) {
-          row0[i].setAttribute("data-col", "c0");
-        }
-      };
-    } else if (row0[i].getAttribute("data-col") == "c2") {
-        for (var j = 0; j < row0.length; j++) {
-          if ((row0[i] != row0[j]) && (row0[j].getAttribute("data-col") != "c1")) {
-            row0[i].setAttribute("data-col", "c1");
-          }
-        };
-    } else if (row0[i].getAttribute("data-col") == "c3") {
-      for (var j = 0; j < row0.length; j++) {
-        if ((row0[i] != row0[j]) && (row0[j].getAttribute("data-col") != "c2")) {
-          row0[i].setAttribute("data-col", "c2");
-        }
-      };
-    }
+    
+  for(var i = 0; i < 5; i++) {
+      row0[i] = $(".tile").attr("[data-row=r" + 0 + "][data-col=c" + i + "]");   
+      row1[i] = $(".tile").attr("[data-row=r" + 1 + "][data-col=c" + i + "]");
+      row2[i] = $(".tile").attr("[data-row=r" + 2 + "][data-col=c" + i + "]");
+      row3[i] = $(".tile").attr("[data-row=r" + 3 + "][data-col=c" + i + "]");
   }
 }
 
