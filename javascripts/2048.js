@@ -12,6 +12,8 @@ $(document).ready(function() {
       board[i] = new Array(4);
       // console.log(board);
     }
+      createTile();
+      createTile();
     console.log('ready!');
     // board[3][0] = 2;
     // board[1][0] = 2;
