@@ -53,8 +53,39 @@ function addTile(){
   tilePlacement(newTile);
 }
 
+// Array.prototype.diff = function(a) {
+//     return this.filter(function(i) {return a.indexOf(i) < 0;});
+// };
+
+function findEmptySpaces() {
+  var allSpaces = [['r0', 'c0'], ['r0', 'c1'], ['r0', 'c2'], ['r0', 'c3'], ['r1', 'c0'], ['r1', 'c1'], ['r1', 'c2'], ['r1', 'c3'], ['r2', 'c0'], ['r2', 'c1'], ['r2', 'c2'], ['r2', 'c3'], ['r3', 'c0'], ['r3', 'c1'], ['r3', 'c2'], ['r3', 'c3']];
+
+  var taken = locateTiles();
+
+  function isNotTaken(position) {
+    var empty = true;
+    for(var i = 0; i < taken.length; i++) {
+      var element = position.join(); // ['r0', 'c0'] => 'r0, c0'
+      var took = taken[i].join();
+      if (element == took) {
+        empty = false;
+      }
+    }
+    return empty;
+  }
+  return allSpaces.filter(isNotTaken);
+}
+
+
 function moveTile(tile, direction) {
   var spacesTaken = locateTiles(); //=>[["r3", "c0"], ["r3", "c1"]]
+  // if(arrow_keys.indexOf(event.which) > -1) {
+  //   var tile = $('.tile');
+  //   moveTile(tile, event.which);
+  //   event.preventDefault();
+  // }
+
+
 
   var new_tile_value = tile.attr("data-val");
   tile.attr("data-val", new_tile_value);
