@@ -10,8 +10,11 @@ $(document).ready(function() {
   addTile();
   locateTiles();
   console.log(locateTiles());
-  findEmptySpaces();
-  console.log(findEmptySpaces());
+  // findEmptySpaces();
+  // console.log(findEmptySpaces());
+  position();
+  console.log("position " + position());
+
   endGame();
   })
 
@@ -39,20 +42,20 @@ function locateTiles(){
 
   var tilePositions = [];
   for (var i=0; i < tileRowPositions.length; i++){
-    tilePositions[i] = [tileRowPositions[i], tileColPositions[i]];
+    tilePositions[i] = tileRowPositions[i] + ", " + tileColPositions[i]; // ["r3, c0", "r0, c1", "r2, c2"]
   }
   return tilePositions;
+  console.log(tilePositions)
 }
 
 // Add a tile with every key press
 function addTile(){
   var takenSpace = locateTiles();
 
-  var newTile = position();
   for (var i=0; i < takenSpace.length; i++) {
-    while (newTile[i] === takenSpace[i]) {
+    do {
       newTile = position();
-    }
+    } while (newTile[0] === takenSpace[i])
   }
   return tilePlacement(newTile);
 }
@@ -61,23 +64,23 @@ function addTile(){
 //     return this.filter(function(i) {return a.indexOf(i) < 0;});
 // };
 
-function findEmptySpaces() {
-  var allSpaces = [['r0', 'c0'], ['r0', 'c1'], ['r0', 'c2'], ['r0', 'c3'], ['r1', 'c0'], ['r1', 'c1'], ['r1', 'c2'], ['r1', 'c3'], ['r2', 'c0'], ['r2', 'c1'], ['r2', 'c2'], ['r2', 'c3'], ['r3', 'c0'], ['r3', 'c1'], ['r3', 'c2'], ['r3', 'c3']];
-
-  var taken = locateTiles();
-  function isNotTaken(position) {
-    var empty = true;
-    for(var i = 0; i < taken.length; i++) {
-      var element = position.join(); // ['r0', 'c0'] => 'r0, c0'
-      var took = taken[i].join();
-      if (element == took) {
-        empty = false;
-      }
-    }
-    return empty;
-  }
-  return allSpaces.filter(isNotTaken);
-}
+// function findEmptySpaces() {
+//   // var allSpaces = ['r0,c0', 'r0,c1', 'r0,c2', ['r0', 'c3'], ['r1', 'c0'], ['r1', 'c1'], ['r1', 'c2'], ['r1', 'c3'], ['r2', 'c0'], ['r2', 'c1'], ['r2', 'c2'], ['r2', 'c3'], ['r3', 'c0'], ['r3', 'c1'], ['r3', 'c2'], ['r3', 'c3']];
+//
+//   var taken = locateTiles();
+//   function isNotTaken(position) {
+//     var empty = true;
+//     for(var i = 0; i < taken.length; i++) {
+//       var element = position.join(); // ['r0', 'c0'] => 'r0, c0'
+//       var took = taken[i].join();
+//       if (element == took) {
+//         empty = false;
+//       }
+//     }
+//     return empty;
+//   }
+//   return allSpaces.filter(isNotTaken);
+// }
 
 function moveTile(tile, direction) {
   var spacesTaken = locateTiles(); //=>[["r3", "c0"], ["r3", "c1"]]
@@ -168,7 +171,7 @@ function position(){
   var randomRow = Math.floor(Math.random() * (rowCoordinates.length));
   var randomColumn = Math.floor(Math.random() * (columnCoordinates.length));
 
-  var position = [rowCoordinates[randomRow], columnCoordinates[randomColumn]];
+  var position = rowCoordinates[randomRow] + ", " + columnCoordinates[randomColumn];
 
   return position;
 }
@@ -177,8 +180,8 @@ function tilePlacement(position) {
   var tileDiv =  $("<div class='tile'></div>");
   var tileNumber = randomTileNumber();
   tileDiv.text(tileNumber);
-  tileDiv.attr("data-row", position[0]);
-  tileDiv.attr("data-col", position[1]);
+  tileDiv.attr("data-row", position.substr(0, 2));
+  tileDiv.attr("data-col", position.substr(4, 2));
   tileDiv.attr("data-val",  tileNumber);
 
   $("#gameboard").append(tileDiv);
