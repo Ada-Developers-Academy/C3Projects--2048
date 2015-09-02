@@ -1,3 +1,31 @@
+// from stack overflow:
+// http://stackoverflow.com/questions/7837456/comparing-two-arrays-in-javascript
+Array.prototype.equals = function (array) {
+  // if the other array is a falsy value, return
+  if (!array) {
+    return false;
+  }
+
+  // compare lengths - can save a lot of time 
+  if (this.length != array.length) {
+    return false;
+  }
+
+  for (var i = 0, l=this.length; i < l; i++) {
+    // Check if we have nested arrays
+    if (this[i] instanceof Array && array[i] instanceof Array) {
+      // recurse into the nested arrays
+      if (!this[i].equals(array[i])) {
+        return false;       
+      } else if (this[i] != array[i]) {
+        // Warning - two different object instances will never be equal: {x:20} != {x:20}
+        return false;   
+      }  
+    }       
+  }
+  return true;
+}
+
 $(document).ready(function() {
   console.log('ready!');
   // setupScoreboard();
@@ -14,11 +42,39 @@ $(document).ready(function() {
 
 function makeTurn(direction) {
   var tiles = $(".tile"); // in order by the html
-  var type = rowOrColumn();
-  var oppositeType = (type == "data-row") ? "data-col" : "data-row";
-  // set the positive or negative according to direction
-  var magnitude = parseInt(getMagnitude());
+  var turnType = rowOrColumn(direction);
+  var turnOppositeType = (turnType == "data-row") ? "data-col" : "data-row";
+  // set the positive or negative magnitude according to direction
+  var turnMagnitude = parseInt(getMagnitude(direction));
   var score = parseInt($("#score").attr("data-score"));
+
+  // take snapshot of board at start of turn
+  var startingGameboard = gameboardSnapshot($(".tile"));
+
+  function gameboardSnapshot(tiles) {
+    var gameboard = [];
+    var tileProperties = [];
+
+    for (var i = 0; i < tiles.length; i++) {
+      var row = tiles[i].getAttribute("data-row");
+      var col = tiles[i].getAttribute("data-col");
+      var val = tiles[i].getAttribute("data-val");
+      tileProperties.push(row, col, val);
+      gameboard.push(tileProperties);
+    }
+    return gameboard;
+  }
+
+  function validMove() {
+    var validity = true;
+    var currentGameboard = gameboardSnapshot($(".tile"));
+
+    if (startingGameboard.equals(currentGameboard)) {
+      validity = false;
+    }
+    console.log("validity: " + validity);
+    return validity;
+  }
 
   var updateScore = function(points) {
     score += points;
@@ -56,13 +112,13 @@ function makeTurn(direction) {
     var order = (direction == 38 || direction == 37) ? upLeftOrder : downRightOrder;
 
     for (var i = 0; i < tiles.length; i++) {
-      if (tiles[i].getAttribute(type) == order[0]) {
+      if (tiles[i].getAttribute(turnType) == order[0]) {
         typeA.push(tiles[i]);
-      } else if (tiles[i].getAttribute(type) == order[1]) {
+      } else if (tiles[i].getAttribute(turnType) == order[1]) {
         typeB.push(tiles[i]);
-      } else if (tiles[i].getAttribute(type) == order[2]) {
+      } else if (tiles[i].getAttribute(turnType) == order[2]) {
         typeC.push(tiles[i]);
-      } else if (tiles[i].getAttribute(type) == order[3]) {
+      } else if (tiles[i].getAttribute(turnType) == order[3]) {
         typeD.push(tiles[i]);
       }
     }
@@ -71,8 +127,8 @@ function makeTurn(direction) {
     // sort each group
     for (var i = 0; i < allTypes.length; i++) {
       allTypes[i].sort(function(a, b) {
-        var oppositeValueA = parseInt(a.getAttribute(oppositeType));
-        var oppositeValueB = parseInt(b.getAttribute(oppositeType));
+        var oppositeValueA = parseInt(a.getAttribute(turnOppositeType));
+        var oppositeValueB = parseInt(b.getAttribute(turnOppositeType));
         return (magnitude == 1) ? oppositeValueA < oppositeValueB : oppositeValueA > oppositeValueB;
       })
     }
@@ -84,24 +140,29 @@ function makeTurn(direction) {
   }
 
   function findMergeableTile(tile, type, magnitude) {
-    var dataVal = tile.getAttribute("data-val");
-    // look at opposite type value
-    var typeValue = tile.getAttribute(type);
-    var oppositeValue = tile.getAttribute(oppositeType);
+    // down: type = data-row, magnitude = 1
+    // this gets the value of the tile passed in
+    var dataVal = tile.getAttribute("data-val"); // 2
+    // this gets the value of the type (row for up/down, col for right/left)
+    var typeValue = tile.getAttribute(type); // 1
+    // this gets the value of the opposite type (col for up/down, row for R/L)
+    var oppositeType = (type == "data-row") ? "data-col" : "data-row";
+    var oppositeValue = tile.getAttribute(oppositeType); // 1
     // find neighbor value ( if c1,r1 and moving up, neighbor is c1, r2)
-    var neighborValue = parseInt(typeValue) - magnitude;
+    var neighborValue = parseInt(typeValue) - magnitude; // 0
     // nasty block text stuff
+    // ".tile[data-row="0"][data-col="1"]"
     var neighborText = ".tile[" + type + "=\"" + neighborValue + "\"][" + oppositeType + "=\"" + oppositeValue + "\"]";
     // use block text to check if neighbor exists
-    var neighbor = $(neighborText);
+    var neighbor = $(neighborText); // [tile]
 
-    if (neighbor.length > 0) {
-      neighbor = neighbor[0];
-      if (neighbor.getAttribute("data-val") == dataVal) {
+    if (neighbor.length > 0) { // true
+      neighbor = neighbor[0]; // = tile
+      if (neighbor.getAttribute("data-val") == dataVal) { // false
         return neighbor;
       }
     } else {
-      return null;
+      return null; // null
     }
   }
 
@@ -110,7 +171,7 @@ function makeTurn(direction) {
 
 
     for (var i = 0; i < sortedTiles.length; i++) {
-      var neighbor = findMergeableTile(sortedTiles[i], type, magnitude);
+      var neighbor = findMergeableTile(sortedTiles[i], turnType, turnMagnitude);
       // if neighbor exists, then double current tile's value and delete neighbor tile
       if (neighbor) {
         var currentVal = parseInt(sortedTiles[i].getAttribute("data-val"));
@@ -129,7 +190,7 @@ function makeTurn(direction) {
     }
   }
 
-  function rowOrColumn() {
+  function rowOrColumn(direction) {
     var type = "";
     if (direction == 38 || direction == 40) {
       type = "data-row";
@@ -140,7 +201,7 @@ function makeTurn(direction) {
     return type;
   }
 
-  function getMagnitude() {
+  function getMagnitude(direction) {
     var value = "";
     // if moving left or up
     if (direction == 37 || direction == 38) {
@@ -159,9 +220,9 @@ function makeTurn(direction) {
 
       function okayToMove(tile) {
         var okay = true;
-        var oppositeType = (type == "data-row") ? "data-col" : "data-row";
-        var oppositeValue = tile.getAttribute(oppositeType);
-        var blockerText = ".tile[" + type + "=\"" + newAttributeValue + "\"][" + oppositeType + "=\"" + oppositeValue + "\"]";
+        // var oppositeType = (turnType == "data-row") ? "data-col" : "data-row";
+        var oppositeValue = tile.getAttribute(turnOppositeType);
+        var blockerText = ".tile[" + turnType + "=\"" + newAttributeValue + "\"][" + turnOppositeType + "=\"" + oppositeValue + "\"]";
         var blocker = $(blockerText);
 
 
@@ -173,9 +234,9 @@ function makeTurn(direction) {
       }
 
       // move the tile one space
-      var relevantAttributeValue = tile.getAttribute(type);
+      var relevantAttributeValue = tile.getAttribute(turnType);
       // console.log(relevantAttributeValue);
-      var newAttributeValue = parseInt(relevantAttributeValue) + magnitude;
+      var newAttributeValue = parseInt(relevantAttributeValue) + turnMagnitude;
 
       // if already on the furthest edge, do not reassign value
       if (newAttributeValue > 4) {
@@ -185,7 +246,7 @@ function makeTurn(direction) {
       }
 
       if (okayToMove(tile)) {
-        tile.setAttribute(type, newAttributeValue);
+        tile.setAttribute(turnType, newAttributeValue);
         moveTile(tile);
       }
       // if tile can't move, do nothing
@@ -219,7 +280,7 @@ function makeTurn(direction) {
   function addTile() {
     var tile = $("<div data-row='' data-col='' data-val=''></div>");
     var dataVal = Math.random() < 0.04 ? 4 : 2;
-    var emptySpaces = collectEmptySpaces();
+    var emptySpaces = collectEmptySpaces(); // guard for if no empty spaces?
 
     // function to pick row and column number
     var randomLocation = emptySpaces[Math.floor(Math.random() * emptySpaces.length)];
@@ -234,18 +295,13 @@ function makeTurn(direction) {
   }
 
   function checkWin(score) {
-    var winningScore = 32;
+    var winningScore = 2048;
     if (score == winningScore) {
       alert("Yay! You won!");
     }
   }
 
   function checkLoss() {
-    // condition 1: board is completely full
-    // -- just got new tile
-    // condition 2: no merges possible
-    // -- tries to merge
-
     // count empty spaces, if 0 continue
     var emptySpaces = collectEmptySpaces();
     var lost = true;
@@ -257,9 +313,11 @@ function makeTurn(direction) {
         if (lost == false) {
           break;
         } else {
-          for (var direction = 37; direction < 41; direction++) { // loop through each direction
-            var type = rowOrColumn();
-            var magnitude = getMagnitude();
+          for (var j = 0; j < 4; j++) { // loop through each direction
+            var directions = [38, 40, 37, 39];
+            var direction = directions[j];
+            var type = rowOrColumn(direction);
+            var magnitude = getMagnitude(direction);
             var mergeableTile = findMergeableTile(tiles[i], type, magnitude);
             if (mergeableTile) {
               // stop checking
@@ -269,17 +327,19 @@ function makeTurn(direction) {
           }
         }
       }
-      
+
       if (lost == true) {
         alert("You have lost. Refresh to play again.");
       }
     }
-
   }
 
   moveTiles();
   mergeTiles(); // scoring happens here
-  moveTiles();
-  addTile();
-  checkLoss();
+  // var validMove = checkForMovement(); // check if anything moved or merged
+  if (validMove()) {
+    moveTiles();
+    addTile();
+    checkLoss();
+  }
 }
