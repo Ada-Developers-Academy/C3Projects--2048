@@ -53,6 +53,7 @@ function addTileFromCoordinate(coordinate, data_val) {
   new_tile.html(data_val);
   // add tile to board
   $("#gameboard").append(new_tile);
+  new_tile.attr('combined','false');
   pop(new_tile);
 }
 
@@ -99,8 +100,8 @@ function checkNextSpace(active_tile, direction) {
 
     checkNextSpace(active_tile,direction);
 
-  // if next_tile exists and is the same as active_tile, combine them
-  } else if ( parseInt(next_tile.attr('data-val')) == data_val ) {
+  // if next_tile exists and is the same as active_tile, combine them 
+  } else if ( parseInt(next_tile.attr('data-val')) == data_val && next_tile.attr('combined') == "false") {              
     var new_tile_value = combineTiles(active_tile, next_tile);
 
     // check for win
@@ -148,6 +149,8 @@ function moveTile(tile, direction) {
   } else {
     addTile();
   }
+
+  $('.tile').attr('combined','false');          // reset combined to false for next round of checks
 }
 
 function combineTiles(active_tile, next_tile) {
@@ -155,6 +158,7 @@ function combineTiles(active_tile, next_tile) {
 
   // update next_tile's val
   next_tile.attr('data-val', new_tile_value);
+  next_tile.attr('combined', 'true');
   next_tile.text(new_tile_value);
 
   // active_tile disappears
