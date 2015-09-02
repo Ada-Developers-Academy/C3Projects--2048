@@ -57,10 +57,9 @@ function initializeBoard() {
         cell.text(board[y][x]);
         if(y == newTile[0] && x == newTile[1]){
           // cell.addClass("popper"); or whatever
-          // animationend(function (e){
+          // cell.one("animationend",function (e) {
           // removeClass("popper"); or whatever
-          // })
-
+          // });
         }
       }
     }
