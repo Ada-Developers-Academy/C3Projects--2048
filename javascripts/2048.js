@@ -132,12 +132,15 @@ function moveTile(tile, direction) {
     var occupantRow = tile.getAttribute("data-row");
     var occupantRowNum = Number(occupantRow.replace("r", ""));
     var occupantCol = tile.getAttribute("data-col");
+    var occupantVal = tile.getAttribute("data-val");
     // Know which direction you're heading
     if (direction == "up"){
       var neighborRowNum = occupantRowNum - 1;
       var neighborCol = occupantCol;
       var neighbor = $("[data-col='" + neighborCol + "'][data-row='r" + neighborRowNum + "']");
-      console.log(neighbor);
+      var neighborVal = neighbor.attr("data-val");
+      return neighborVal == occupantVal
+
     } else if (direction == "down"){
 
     } else if (direction == "right"){
@@ -177,12 +180,13 @@ function moveTile(tile, direction) {
         });
         //for each tile
 
-        // noNeighbor
         for (j = 0; j < sortedOccupants.length; j++) {
           var tile = sortedOccupants[j];
 
           if (noNeighborVert(tile, "up") == false){
-            mergeCheck(tile, "up");
+            console.log(mergeCheck(tile, "up"));
+            // mergeCheck(tile, "up");
+
           }
 
           while (noWallVert(tile, "up") && noNeighborVert(tile, "up")){
