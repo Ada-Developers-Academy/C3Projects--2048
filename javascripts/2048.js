@@ -308,8 +308,8 @@ function isBoardFull() {
 
 function noMovesAvailable() {
   var moves = 0;
-  for (r = 0; r < 4; r++) {
-    for (c = 0; c < 4; c++) {
+  for (r = 0; r < 4; r++) { // for each row
+    for (c = 0; c < 4; c++) { // for each col
       // compares tile to the right of the tile
       if (board[r][c] == board[r][c + 1]) {
         moves++;
