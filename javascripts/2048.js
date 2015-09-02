@@ -49,18 +49,20 @@ function makeTurn(direction) {
   var score = parseInt($("#score").attr("data-score"));
 
   // take snapshot of board at start of turn
-  var startingGameboard = [];
-  for (var i = 0; i < tiles.length; i++) {
-    startingGameboard.push(tiles[i]);
+  var startingGameboard = gameboardSnapshot();
+
+  function gameboardSnapshot() {
+    var gameboard = [];
+    var tiles = $(".tile");
+    for (var i = 0; i < tiles.length; i++) {
+      gameboard.push(tiles[i]);
+    }
+    return gameboard;
   }
 
   function validMove() {
     var validity = true;
-    var currentGameboard = [];
-    var currentTiles = $(".tile");
-    for (var i = 0; i < currentTiles.length; i++) {
-      currentGameboard.push(currentTiles[i]);
-    }
+    var currentGameboard = gameboardSnapshot();
 
     if (startingGameboard.equals(currentGameboard)) {
       validity = false;
