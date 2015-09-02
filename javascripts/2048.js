@@ -8,7 +8,7 @@ $(document).ready(function() {
     if(arrow_keys.indexOf(event.which) > -1) {
       var tile = $('.tile');
       moveTile(event.which);
-      createTile();
+      // createTile();
       event.preventDefault();
     }
   })
@@ -29,6 +29,8 @@ function arrayInitialize(){
 }
 
 function initializeGame() {
+  createTile();
+  createTile();
   createTile();
   createTile();
 }
@@ -97,12 +99,12 @@ function moveTile(direction) {
     case 38: //up
       //tile.attr("data-row","r0");
       var zero = moveUp(0);
-      var one = moveUp(1);
-      var two = moveUp(2);
-      var three = moveUp(3);
+      // var one = moveUp(1);
+      // var two = moveUp(2);
+      // var three = moveUp(3);
       break;
     case 40: //down
-      tile.attr("data-row","r3");
+      // tile.attr("data-row","r3");
       // var zero = moveDown(0);
       // var one = moveDown(1);
       // var two = moveDown(2);
@@ -110,13 +112,39 @@ function moveTile(direction) {
 
       break;
     case 37: //left
-      tile.attr("data-col","c0");
+    var zero = getRow(0);
+    // var one = getRow(1);
+    // var two = getRow(2);
+    // var three = getRow(3);
+    // console.log(zero);
+    // console.log(one);
+    // console.log(two);
+    // console.log(three);
+      // tile.attr("data-col","c0");
       break;
     case 39: //right
-      tile.attr("data-col","c3");
+      // tile.attr("data-col","c3");
       break;
   }
 }
+
+  function getRow(row) {
+    var row = [];
+    for(var i = 0; i < tile_array.length; i++) {
+      if (tile_array[i][row] == tile_array[i][row]) {
+        console.log(tile_array[i][row]);
+        // for (var j = 0; j < tile_array[i].length; j++) {
+        //   if (tile_array[i][j] !== undefined) {
+        //   row.push(tile_array[i][j]);
+        //   index = tile_array[i][j];
+        // //   tile_array[i][j] = undefined;
+        //  }
+        // }
+      }
+    }
+    return row;
+  }
+
 
   function getColumn(col){
     var column = [];
