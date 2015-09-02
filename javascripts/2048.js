@@ -1,11 +1,3 @@
-var SCORE = 0;
-var ALL_GRID_POSITIONS = ["r0,c0", "r0,c1", "r0,c2", "r0,c3", "r1,c0", "r1,c1", "r1,c2", "r1,c3", "r2,c0", "r2,c1", "r2,c2", "r2,c3", "r3,c0", "r3,c1", "r3,c2", "r3,c3"];
-
-function cloneGridPositions() {
-  var clone = ALL_GRID_POSITIONS.slice(0);
-  return clone;
-}
-
 $(document).ready(function() {
   console.log('ready!');
 
@@ -22,32 +14,46 @@ $(document).ready(function() {
   });
 });
 
+// global variables
+var score = 0;
+var ALL_GRID_POSITIONS = ["r0,c0", "r0,c1", "r0,c2", "r0,c3", "r1,c0", "r1,c1", "r1,c2", "r1,c3", "r2,c0", "r2,c1", "r2,c2", "r2,c3", "r3,c0", "r3,c1", "r3,c2", "r3,c3"];
 
+// cloning grid positions necessary to prevent mutating original varibale
+function cloneGridPositions() {
+  var clone = ALL_GRID_POSITIONS.slice(0);
+  return clone;
+}
 
 function placeFirstTiles() {
   var grid_options = cloneGridPositions();
 
   // place 2 tiles to start game
   for (i = 0; i < 2; i++) {
-    // pick random value
+    // pick random coordinate
     var random_index = getRandomIntInclusive(0, grid_options.length - 1);
     var new_tile_position = grid_options[random_index]; // "r0,c0"
-    var new_row = new_tile_position.split(",")[0]; // "r0"
-    var new_col = new_tile_position.split(",")[1]; // "c0"
+
+    addTileFromCoordinate(new_tile_position, 2);
+
     // remove from array
     grid_options.remove(new_tile_position);
-    // assign to div
-    var new_tile = $("<div>");
-    new_tile.addClass("tile");
-    new_tile.attr({
-          "data-row" : new_row,
-          "data-col" : new_col,
-          "data-val" : "2"
-      });
-    new_tile.html("2");
-    // add tile to board
-    $("#gameboard").append(new_tile);
   }
+}
+
+function addTileFromCoordinate(coordinate, data_val) {
+  var new_row = coordinate.split(",")[0]; // "r0"
+  var new_col = coordinate.split(",")[1]; // "c0"
+  var new_tile = $("<div>");
+  new_tile.addClass("tile");
+  new_tile.attr({
+        "data-row" : new_row,
+        "data-col" : new_col,
+        "data-val" : data_val
+    });
+  new_tile.html(data_val);
+  // add tile to board
+  $("#gameboard").append(new_tile);
+  pop(new_tile);
 }
 
 function findTile(row_position, col_position) {
@@ -93,8 +99,8 @@ function checkNextSpace(active_tile, direction) {
 
     checkNextSpace(active_tile,direction);
 
-  // if next_tile exists and is the same as active_tile, combine them 
-  } else if ( parseInt(next_tile.attr('data-val')) == data_val ) {              
+  // if next_tile exists and is the same as active_tile, combine them
+  } else if ( parseInt(next_tile.attr('data-val')) == data_val ) {
     var new_tile_value = combineTiles(active_tile, next_tile);
 
     // check for win
@@ -125,7 +131,7 @@ function moveTile(tile, direction) {
     break;
 
     case 40: case 39:                           // down & right use decremental loop
-      for (i = 2; i >= 0; i--) {                
+      for (i = 2; i >= 0; i--) {
         var tiles = $(tile_accessor + i +'"]');
 
         for (j = 0; j < tiles.length; j++) {
@@ -162,8 +168,8 @@ function combineTiles(active_tile, next_tile) {
 }
 
 function incrementScore(new_tile_value) {
-  SCORE += new_tile_value;
-  $("#score").text(SCORE);
+  score += new_tile_value;
+  $("#score").text(score);
 }
 
 
@@ -197,23 +203,11 @@ function addTile() {
   // randomly pick a position to place a tile from remaining array
   var random_index = getRandomIntInclusive(0, grid_options.length - 1);
   var new_tile_position = grid_options[random_index]; // "r0,c0"
-  var new_row = new_tile_position.split(",")[0]; // "r0"
-  var new_col = new_tile_position.split(",")[1]; // "c0"
 
-  // plug those values into a newly created div's attributes
-  var new_tile = $("<div>");
-  new_tile.addClass("tile");
   // new tile has 10% chance of being a 4 instead of 2
   var random_tile_value = (getRandomIntInclusive(1, 10) < 10) ? "2" : "4";
-  new_tile.attr({
-        "data-row" : new_row,
-        "data-col" : new_col,
-        "data-val" : random_tile_value
-    });
-  new_tile.html(random_tile_value);
-  // add tile to board
-  $("#gameboard").append(new_tile);
-  pop(new_tile);
+
+  addTileFromCoordinate(new_tile_position, random_tile_value);
 } // end addTile
 
 function pop(tile) {
