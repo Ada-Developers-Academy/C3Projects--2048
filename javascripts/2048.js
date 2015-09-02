@@ -95,6 +95,21 @@ function moveTile(tile, direction) {
     return neighborCount === 0;
 }
 
+function noNeighborSideways(tile, direction){
+
+  var occupantCol = tile.getAttribute("data-col");
+
+  if (direction == "left"){
+    var neighborCol = (occupantCol.replace("c","") - 1);
+  } else if (direction == "right") {
+    var neighborCol = (occupantCol.replace("c","") + 1);
+  }
+  var neighborRow = tile.getAttribute("data-row");
+  var neighborCount = $("[data-col='c" + neighborCol + "'][data-row='" + neighborRow + "']").size();
+  return neighborCount === 0;
+  }
+
+
   function noWall(tile){
     var topWall = "r0";
     return tile.getAttribute("data-row") != topWall;
@@ -105,9 +120,7 @@ function moveTile(tile, direction) {
     if (direction == "left"){
       var leftWall = "c0";
       return tile.getAttribute("data-col") != leftWall;
-    }
-
-    if (direction == "right") {
+    } else if (direction == "right") {
       var rightWall = "c3";
       return tile.getAttribute("data-col") != rightWall;
     }
@@ -193,15 +206,13 @@ function moveTile(tile, direction) {
           for (j = 0; j < occupants.length; j++){
             var tile = occupants[j];
 
-            console.log(noWallSideways(tile, "left"));
+            while (noWallSideways(tile, "left") && noNeighborSideways(tile, "left")){
 
-            // while (noWallSideways(tile, "left") && noNeighbor(tile)){
-            //
-            //   // move left
-            //   var currentPosition = tile.getAttribute("data-col");
-            //   var positionNum = currentPosition.replace("r","");
-            //   tile.setAttribute("data-col", "r" + (positionNum + 1) );
-            // }
+              // move left
+              var currentPosition = tile.getAttribute("data-col");
+              var positionNum = currentPosition.replace("r","");
+              tile.setAttribute("data-col", "r" + (positionNum - 1) );
+            }
           }
         }
 
