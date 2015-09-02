@@ -24,21 +24,21 @@ function orderTiles(keystroke) {
     if (keystroke === 40) { return ["r0", "r1", "r2", "r3"]; } // down
     if (keystroke === 37) { return ["c3", "c2", "c1", "c0"]; } // left
     if (keystroke === 39) { return ["c0", "c1", "c2", "c3"]; } // right
-  };
+  }(); // these parens executes the function and saves the result to the variable
 
   // determines which index to use to organize the tiles
   // tile = `[row, column]`
   var index = function() {
-    if (direction[0].splice(0, 1) === "r") {
+    if (direction[0].slice(0, 1) === "r") {
       return 0; // filters by row
-    } else if (direction[0].splice(0, 1) === "c") {
+    } else if (direction[0].slice(0, 1) === "c") {
       return 1; // filters by columns
     }
-  };
+  }();
 
   // select the tiles occupying the selected row/column
   function filterByLocation(pointer) {
-    var section = tiles.filter(function(){
+    var section = tiles.filter(function(tile){
       if (tile[index] === pointer) { return tile; }
     });
 
@@ -50,13 +50,11 @@ function orderTiles(keystroke) {
   var organizedTiles = function(){
     var result = [];
     for(var i = 0; i < direction.length; i++) {
-      result.concat(filterByLocation(direction[i]));
+      result = result.concat(filterByLocation(direction[i]));
     }
-
     return result;
   };
-
-  return organizedTiles;
+  return organizedTiles();
 }
 
 // move through the tiles one by one
@@ -64,6 +62,7 @@ function orderTiles(keystroke) {
 function tileCollision(keystroke) {
   var orderedTiles = orderTiles(keystroke);
 
+//  console.log(orderedTiles);
   var direction = function() {
     switch(keystroke) {
     case 38:
@@ -75,7 +74,7 @@ function tileCollision(keystroke) {
     case 39:
       return "right";
     }
-  };
+  }();
 
   // returns index of the adjacent tile (in regards to orderedTiles)
   // or -1 if the tile does not exist
@@ -97,6 +96,10 @@ function tileCollision(keystroke) {
       return $.inArray([colRight, sameRow], orderedTiles);
     }
   }
+  console.log(adjacentSpace("up"));
+  console.log(adjacentSpace("down"));
+  console.log(adjacentSpace("left"));
+  console.log(adjacentSpace("right");
 
   // iterates through every tile to determine it's action
   // on this single keystroke

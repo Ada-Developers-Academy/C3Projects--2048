@@ -10,6 +10,7 @@ $(document).ready(function() {
     if(arrow_keys.indexOf(event.which) > -1) {
       var tile = $('.tile');
       moveTile(tile, event.which);
+      tileCollision(event.which);
       event.preventDefault();
     }
   });
