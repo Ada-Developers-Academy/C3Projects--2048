@@ -24,17 +24,46 @@ h1 {
   margin: auto;
 }
 
+.increasescore {
+  animation: popscore 0.1s;
+}
+
+@keyframes popscore {
+  0% {
+    transform: scale(1);
+  }
+  75% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 #score {
   text-align: center;
   padding-bottom: 7px;
 }
 
 #newgame {
+  border: 4px solid #776e65;
   border-radius: 0.5rem;
-  background: #bbada0;
+  box-shadow: 2px 2px grey;
+  background: #ede0c8;
   width: 7rem;
+  text-align: center;
   color: #776e65;
   margin: auto;
+}
+
+#newgame:hover {
+  background-color: #bbada0;
+  cursor: pointer;
+}
+
+#newgame:active {
+  background-color: #f2b179;
+  cursor: pointer;
 }
 
 p {

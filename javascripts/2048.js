@@ -38,14 +38,7 @@ $(document).ready(function() {
   }
 
   begin();
-  console.log('score: ' + score);
 
-  // {key: starting position}
-  // {37: c0, 38: r0, 39: c3, 40: r3}
-  // left = 37
-  // up = 38
-  // right = 39
-  // down = 40
   $('#newgame').click(function () {
     clearBoard();
     begin();
@@ -128,6 +121,13 @@ function createVisualTile(row, col, value) {
 
 function changeDisplayedScore() {
   var scoreDiv = $('#score')
+  //animation to ba-dump scoreboard
+  $('#scoreboard').addClass('increasescore');
+
+  // remove animation class
+  $('#scoreboard').on('animationend', function() {
+    $(this).removeClass('increasescore');
+  })
   scoreDiv.text(score);
 }
 
