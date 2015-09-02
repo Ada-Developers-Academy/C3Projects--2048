@@ -1,7 +1,8 @@
 function checkWin() {
-  // win var is currently set to win at 8 for testing! Change to 2048 for true win.
-  if ($("[data-val=8]").length > 0) {
+  var winningTiles = $("[data-val=" + winningTileValue + "]");
+  if (winningTiles.length > 0) {
     priorWin = true;
+    winnerTile(winningTiles);
     endGame('win');
   } else { return false;}
 }
@@ -44,8 +45,10 @@ function endGame(status) {
     overlay.append(contButton);
 
     message.text('You won!');
+    delayFadeIn(overlay);
   } else if (status == 'lose') {
     message.text('Game over!');
+    scaleIn(overlay);
   } else {
     message.text('Sorry! Unexpected error!');
     console.log('ERROR!');
@@ -53,6 +56,4 @@ function endGame(status) {
 
   // display overlay
   $('#gameboard').append(overlay);
-  scaleIn(overlay);
-
 }

@@ -7,6 +7,9 @@ var score = 0;
 var priorWin = false;
 var gameOver = false;
 
+// win var is currently set to win at 8 for testing! Change to 2048 for true win.
+var winningTileValue = '8';
+
 $(document).ready(function() {
   initializeGame();
 
