@@ -113,30 +113,16 @@ function moveDown () {
 }
 
 function moveLeft() {
-  // traversal starting point = y0, x3
   starterBoard = board.toString();
-  // traversal starting point = y3, x0
-  for(y = 0; y < boardSize; y++) {
-    for(x = 3; x >= 0; x--) {
-      // check if blank
-      if (board[y][x] != 0) {
-        // do something
-        var next = checkNext(y, x, "left");
-        if (next == 0) {
-          // move it
-          board[y][x - 1] = board[y][x];
-          board[y][x]     = 0;
-        }
-        else if (next == board[y][x]) {
-          // collapse it
-          board[y][x - 1] += board[y][x];
-          board[y][x]       = 0;
-        }
-        else {
-          // do nothing probably dont need this. we'll see
-        }
-      }
-      else {
+  setupTempBoard("left");
+  // traversal starting point = y0, x3
+  // WIP
+  for(x = 0; x < boardSize; x++) {
+    for(y = 0; y < boardSize; y++) {
+      var next = checkNext(y, x, "left");
+      if(next == board[y][x]) {
+        board[y][x]    += board[y][x + 1]; // collapse it
+        board[y][x + 1] = 0;
       }
     }
   }
@@ -208,6 +194,23 @@ function setupTempBoard(direction){
       newBoard.push(tempColumn);
     }
   }
+
+  else if(direction == "left"){
+    for(y = 0; y < boardSize; y++) {
+      array = [];
+      for(x = 3; x >= 0; x--) {
+        array.push(board[y][x]);
+      }
+      console.log(array);
+      var tempColumn = removeZero(array);
+      console.log(tempColumn);
+      while(tempColumn.length <= boardSize - 1) {
+        tempColumn.push(0);
+      }
+      newBoard.push(tempColumn);
+    }
+  }
+
   replaceBoard(newBoard, direction);
 }
 
@@ -236,6 +239,13 @@ function setupTempBoard(direction){
         for(y = 0; y < boardSize; y++) {
           board[y][x] = array[x][tempY];
           tempY -= 1;
+        }
+      }
+    }
+    if(direction == "left"){
+      for(y = 0; y < boardSize; y++) {
+        for(x = 0; x < boardSize; x++) {
+          board[y][x] = array[x][y];
         }
       }
     }
