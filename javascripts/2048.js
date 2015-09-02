@@ -8,8 +8,10 @@ $(document).ready(function() {
       event.preventDefault();
     }
   addTile();
-  var location = locateTiles();
-  console.log(location);
+  locateTiles();
+  console.log(locateTiles());
+  findEmptySpaces();
+  console.log(findEmptySpaces());
   endGame();
   })
 
@@ -52,7 +54,7 @@ function addTile(){
       newTile = position();
     }
   }
-  tilePlacement(newTile);
+  return tilePlacement(newTile);
 }
 
 // Array.prototype.diff = function(a) {
@@ -63,7 +65,6 @@ function findEmptySpaces() {
   var allSpaces = [['r0', 'c0'], ['r0', 'c1'], ['r0', 'c2'], ['r0', 'c3'], ['r1', 'c0'], ['r1', 'c1'], ['r1', 'c2'], ['r1', 'c3'], ['r2', 'c0'], ['r2', 'c1'], ['r2', 'c2'], ['r2', 'c3'], ['r3', 'c0'], ['r3', 'c1'], ['r3', 'c2'], ['r3', 'c3']];
 
   var taken = locateTiles();
-
   function isNotTaken(position) {
     var empty = true;
     for(var i = 0; i < taken.length; i++) {
@@ -77,7 +78,6 @@ function findEmptySpaces() {
   }
   return allSpaces.filter(isNotTaken);
 }
-
 
 function moveTile(tile, direction) {
   var spacesTaken = locateTiles(); //=>[["r3", "c0"], ["r3", "c1"]]
@@ -107,11 +107,10 @@ function moveTile(tile, direction) {
         // tile.attr("data-row","r0");
         // var rowValue = spacesTaken[i][1][1]; // "3"
         // console.log(rowValue);
-
-        var r0 = jQuery.inArray("r0", spacesTaken); // TRUE: 0, FALSE: -1
-        var r1 = jQuery.inArray("r1", spacesTaken);
-        var r2 = jQuery.inArray("r2", spacesTaken);
-        var r3 = jQuery.inArray("r3", spacesTaken);
+        var r0 = jQuery.inArray("r0", spacesTaken[i]); // TRUE: 0, FALSE: -1
+        var r1 = jQuery.inArray("r1", spacesTaken[i]);
+        var r2 = jQuery.inArray("r2", spacesTaken[i]);
+        var r3 = jQuery.inArray("r3", spacesTaken[i]);
         var newRowValue;
 
         console.log("spacesTaken[i][0]: " + spacesTaken[i][0]);
@@ -121,7 +120,6 @@ function moveTile(tile, direction) {
         console.log("r2:" + r2);
         console.log("r3:" + r3);
 
-        //
         if(spacesTaken[i][0] == "r0"){
           newRowValue = "r0";
         }else if (spacesTaken[i][0] == "r1" && r0 < 0 ){
