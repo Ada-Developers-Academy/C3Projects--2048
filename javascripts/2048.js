@@ -233,7 +233,7 @@ function noNeighborSideways(tile, direction){
           for (j = 0; j < occupants.length; j++){
             var tile = occupants[j];
 
-            if (noWallSideways(tile, "right") && noNeighborSideways(tile, "right")){
+            while (noWallSideways(tile, "right") && noNeighborSideways(tile, "right")){
 
               // move right
               var currentPosition = tile.getAttribute("data-col");
