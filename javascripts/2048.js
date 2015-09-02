@@ -145,7 +145,7 @@ function matched(direction) {
       var colStart = 0
 
       for(c=colStart; c<3; c++) { //colm incrementing
-        for(r=0; r<3; r++) { //row incrementing
+        for(r=0; r<4; r++) { //row incrementing
           if (isNaN(board[r][c])) { continue;} // will do check if value is a number
           var neighbor = board[r][c + 1];
           if (board[r][c] == neighbor) {
