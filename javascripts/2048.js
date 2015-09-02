@@ -74,84 +74,60 @@ function findEmptySpaces() { // Returns all empty spaces in array => ['r0, c1', 
   return allSpaces.filter(isNotTaken);
 }
 
+function extractNum(tileDiv, data) {
+  var coordinate = $('.tile').attr(data) // => "r3"
+  var stringNum = coordinate.match(/\d+/) // => "3"
+  return parseInt(stringNum);
+}
+
+function findEmptyRowCol(coordinate, RowCol) { // => 'r3' or 'c2'
+  var emptyTiles = findEmptySpaces();
+  
+  function isEmpty(position) {
+    if (RowCol == 'row') {
+      return position.substr(0, 2) == coordinate;
+    } else {
+      return position.substr(4, 2) == coordinate;
+    }
+  }
+  return emptyTiles.filter(isEmpty)
+}
+
 function moveTile(tile, direction) {
-  var spacesTaken = locateTiles(); //=>[["r3", "c0"], ["r3", "c1"]]
-  // if(arrow_keys.indexOf(event.which) > -1) {
-  //   var tile = $('.tile');
-  //   moveTile(tile, event.which);
-  //   event.preventDefault();
-  // }
-
-
-
-  // var flattened=[];
-  // for (var i=0; i<spacesTaken.length; ++i) {
-  //   var current = spacesTaken[i];
-  //   for (var j=0; j<current.length; ++j)
-  //     flattened.push(current[j]);
-  //   }
-    // console.log(flattened);
-
-  var new_tile_value = tile.attr("data-val");
+  var new_tile_value = tile.attr("data-val") * 2;
   tile.attr("data-val", new_tile_value);
   tile.text(new_tile_value);
+ 
+  var rowValue = extractNum(tile, 'data-row'); // => 3
+  var colValue = extractNum(tile, 'data-col'); // => 2
+  var rowCoordinate = tile.attr('data-row') // => 'r2'
+  var colCoordinate = tile.attr('data-col') // => 'c3'
 
-  for(var i = 0; i < spacesTaken.length; i++) {
-    switch(direction) {
-      case 38: //up
-        // tile.attr("data-row","r0");
-        // var rowValue = spacesTaken[i][1][1]; // "3"
-        // console.log(rowValue);
-        var r0 = jQuery.inArray("r0", spacesTaken[i]); // TRUE: 0, FALSE: -1
-        var r1 = jQuery.inArray("r1", spacesTaken[i]);
-        var r2 = jQuery.inArray("r2", spacesTaken[i]);
-        var r3 = jQuery.inArray("r3", spacesTaken[i]);
-        var newRowValue;
+  switch(direction) {
+    case 38: //up 'r3, c2'
+      var emptyCol = findEmptyRowCol(coordinate, 'column')
 
-        // console.log("spacesTaken[i][0]: " + spacesTaken[i][0]);
-        // console.log("spacesTaken: " + spacesTaken);
-        // console.log("r0:" + r0);
-        // console.log("r1:" + r1);
-        // console.log("r2:" + r2);
-        // console.log("r3:" + r3);
+      // $(" '.tile[data-row="' + (rowValue - 1) + '"])'
+      // var test = $(".tile[data-row=" + (rowValue - 1) + "]")
+      // console.log(test);
 
-        if(spacesTaken[i][0] == "r0"){
-          newRowValue = "r0";
-        }else if (spacesTaken[i][0] == "r1" && r0 < 0 ){
-          newRowValue = "r0";
-        }else if (spacesTaken[i][0] == "r1" && r0 > - 1){
-          newRowValue = "r1";
-        }else if (spacesTaken[i][0] == "r2" && r1 < 0 && r0 < 0){
-          newRowValue = "r0";
-        }else if (spacesTaken[i][0] == "r2" && r1 < 0){
-          newRowValue = "r1";
-        }else if (spacesTaken[i][0] == "r2" && r1 > -1){
-          newRowValue = "r2";
-        }else if (spacesTaken[i][0] == "r3" && r2 < 0 && r1 < 0 && r0 < 0){
-          newRowValue = "r0";
-        }else if (spacesTaken[i][0] == "r3" && r2 < 0 && r1 < 0){
-          newRowValue = "r1";
-        }else if (spacesTaken[i][0] == "r3" && r2 < 0){
-          newRowValue = "r2";
-        }else{
-          newRowValue = "r3";
-        }
+      // Find all tiles => array ['r0, c0', 'r3, c2', 'r1, c3', 'r2, c2']
+      // Loop through array
+          // does div exist with these attributes?
+              // if empty, length = 0, assign values to div
+              // \
 
-        // tile.attr("data-row", newRowValue);
-        console.log(newRowValue);
-          tile.attr("data-row", newRowValue);
-        break;
-      case 40: //down
-        tile.attr("data-row","r3");
-        break;
-      case 37: //left
-        tile.attr("data-col","c0");
-        var colValue = spacesTaken[i][1][1]; // "c0"
-        break;
-      case 39: //right
-        tile.attr("data-col","c3");
-        break;
-    }
+      // tile.attr("data-row","r0");
+      break;
+    case 40: //down
+      tile.attr("data-row","r3");
+      break;
+    case 37: //left
+      tile.attr("data-col","c0");
+      break;
+    case 39: //right
+      tile.attr("data-col","c3");
+      break;
   }
 }
 
