@@ -78,7 +78,8 @@ function tileCollision(keystroke) {
 
   // returns index of the adjacent tile (in regards to orderedTiles)
   // or -1 if the tile does not exist
-  function adjacentSpace(direction){
+  function adjacentSpace(direction, rowsIndex, columnsIndex){
+
     if (direction === "up") {
       var rowUp = rows[rowsIndex - 1]; if (rowsIndex > 0);
       return $.inArray([rowUp, sameColumn], orderedTiles);
@@ -96,42 +97,36 @@ function tileCollision(keystroke) {
       return $.inArray([colRight, sameRow], orderedTiles);
     }
   }
-  console.log(adjacentSpace("up"));
-  console.log(adjacentSpace("down"));
-  console.log(adjacentSpace("left"));
-  console.log(adjacentSpace("right");
+  //console.log(adjacentSpace("up"));
+  //console.log(adjacentSpace("down"));
+  //console.log(adjacentSpace("left"));
+  //console.log(adjacentSpace("right"));
 
   // iterates through every tile to determine it's action
   // on this single keystroke
-  for (var i = 0; i < orderedTiles; i++) {
+  for (var i = 0; i < orderedTiles.length; i++) {
     var tile = orderedTiles[i];
     var rows = ["r0","r1", "r2", "r3"];
     var columns = ["c0","c1", "c2", "c3"];
+    var rowsIndex = 0;
+    var columnsIndex = 0;
 
     // prepares variables to check the adjacent tile
     if(direction === "up" || direction === "down") {
       var tileRow = tile[0];
-      var rowsIndex = rows.indexOf(tileRow); // index of the row that the tile is in
+      rowsIndex = rows.indexOf(tileRow); // index of the row that the tile is in
       var sameColumn = tile[1];
 
     } else if(direction ==="left" || direction === "right") {
       var tileColumn = tile[1];
-      var columnsIndex = columns.indexOf(tileColumn);
+      columnsIndex = columns.indexOf(tileColumn);
       var sameRow = tile[0];
     }
 
     // returns adjacent tile's index
     // or -1 if the adjacent space isn't occupied
-    var adjacentTile = adjacentSpace(direction);
 
-    if (adjacentTile > -1) {
-      // this order is super important!
-      // first should be the tile we're on in the iteration
-      // second should be the tile adjacent to it
-      merge(tile, orderedTiles[adjacentTile]);
-    } else {
-      moveOne();
-    }
+    var adjacentTile = adjacentSpace(direction, rowsIndex, columnsIndex);
   }
 }
 
