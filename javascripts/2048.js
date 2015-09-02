@@ -100,13 +100,13 @@ function checkNextSpace(active_tile, direction) {
 
     checkNextSpace(active_tile,direction);
 
-  // if next_tile exists and is the same as active_tile, combine them 
-  } else if ( parseInt(next_tile.attr('data-val')) == data_val && next_tile.attr('combined') == "false") {              
+  // if next_tile exists and is the same as active_tile, combine them
+  } else if ( parseInt(next_tile.attr('data-val')) == data_val && next_tile.attr('combined') == "false") {
     var new_tile_value = combineTiles(active_tile, next_tile);
 
     // check for win
     if (new_tile_value >= 2048) {
-      $("#message").text("you win!");
+      $("#message").text("YOU WIN!");
     }
   }
 
@@ -251,25 +251,16 @@ function checkPossibleMoves() {
     // return from the function-- no need to continue checking possible moves
     // if selector is invalid (like "r-1") it will be an array of length 0
     if ((tile_above.length > 0) && (tile_above.attr("data-val") == val)) {
-      console.log("there are still moves up");
-      // $("#message").text("there are still moves up");
       return;
     } else if ((tile_below.length > 0) && (tile_below.attr("data-val") == val)) {
-      console.log("there are still moves down");
-      // $("#message").text("there are still moves down");
       return;
     } else if ((tile_right.length > 0) && (tile_right.attr("data-val") == val)) {
-      console.log("there are still moves right");
-      // $("#message").text("there are still moves right");
       return;
     } else if ((tile_left.length > 0) && (tile_left.attr("data-val") == val)) {
-      console.log("there are still moves left");
-      // $("#message").text("there are still moves left");
       return;
     }
   } // end for loop
 
-  console.log("you lose!");
   $("#message").text("GAME OVER");
   $("#message").css("color", "#644B4B");
 
