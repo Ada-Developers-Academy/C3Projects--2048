@@ -15,16 +15,22 @@ $(document).ready(function() {
       createTile();
       createTile();
     console.log('ready!');
-    // board[3][0] = 2;
+    // board[3][0] = 1;
     // board[1][0] = 2;
-    // board[2][0] = 2;
-    // board[0][0] = 2;
-    // board[2][1] = 2;
-    // board[3][1] = 2;
-    // board[0][2] = 2;
-    // board[3][2] = 2;
-    // board[2][3] = 2;
-    // board[3][3] = 2;
+    // board[2][0] = 3;
+    // board[0][0] = 4;
+    // board[0][1] = 5;
+    // board[1][1] = 6;
+    // board[2][1] = 7;
+    // board[3][1] = 8;
+    // board[0][2] = 9;
+    // board[1][2] = 10;
+    // board[2][2] = 11;
+    // board[3][2] = 12;
+    // board[0][3] = 13;
+    // board[3][3] = 14;
+    // board[2][3] = 15;
+    // board[1][3] = 16;
   }
 
   begin();
@@ -48,6 +54,9 @@ $(document).ready(function() {
       matched(event.which);
       moveTiles(event.which);
       createTile();
+      if (hasLost()) {
+        alert("YOU HAVE FAILED! D:");
+      }
       event.preventDefault();
     }
   })
@@ -300,4 +309,39 @@ function moveTiles(direction) {
     tile.attr("data-row", newRowLocation);
     tile.attr("data-col", newColLocation);
   }
+}
+
+function hasLost() {
+  return (isBoardFull() && noMovesAvailable());
+}
+
+function isBoardFull() {
+// make a loop, call empty on each tile
+  for (r = 0; r < 4; r++) { // for each row
+    for (c = 0; c < 4; c++) { // for each col
+      if (empty(board[r][c])) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+function noMovesAvailable() {
+  var moves = 0;
+  for (r = 0; r < 4; r++) { // for each row
+    for (c = 0; c < 4; c++) { // for each col
+      // compares tile to the right of the tile
+      if ((c + 1)== BOARDCEILING) {
+      } else if (board[r][c] == board[r][c + 1]) {
+        moves++;
+      }
+      // compares tile to the tile below
+      if ((r + 1)== BOARDCEILING) {
+      } else if (board[r][c] == board[r + 1][c]) {
+        moves++;
+      }
+    }
+  }
+  return (moves == 0);
 }
