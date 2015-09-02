@@ -40,6 +40,53 @@ function placeFirstTiles() {
   }
 }
 
+function checkNextSpace(active_tile, direction) {
+  var data_row_num  = parseInt(active_tile.getAttribute('data-row')[1]);
+  var data_col_num  = parseInt(active_tile.getAttribute('data-col')[1]);
+  var data_val      = parseInt(active_tile.getAttribute('data-val'));
+
+  switch(direction) {
+    case 38: // up
+      var next_row_num = data_row_num -- ;
+      var next_tile = $('.tile[data-row="r' + next_row_num + '"][data-col="c' + data_col_num + '"]');
+    break;
+
+    case 40: // down
+      var next_row_num = data_row_num ++ ;
+      var next_tile = $('.tile[data-row="r' + next_row_num + '"][data-col="c' + data_col_num + '"]');
+    break;
+
+    case 37: // left
+      var next_col_num = data_col_num -- ;
+      var next_tile = $('.tile[data-row="r' + data_row_num + '"][data-col="c' + next_col_num + '"]');
+    break;
+
+    case 39: // right
+      var next_col_num = data_col_num ++ ;
+      var next_tile = $('.tile[data-row="r' + data_row_num + '"][data-col="c' + next_col_num + '"]');
+    break;
+  }
+
+  // if next_tile doesn't exist and it is within the board bounds, move active_tile to that position
+  // check for new moves again
+  if (next_tile.length == 0 && next_row_num >= 0 && next_row_num <= 3) {
+    $(active_tile).attr('data-row', "r" + next_row_num);
+    checkNextSpace(active_tile,direction);
+
+  // if next_tile exists and is NOT the same, stay put
+  // stop checking for moves
+  } else if ( parseInt(next_tile.attr('data-val')) != data_val && next_row_num >= 0 && next_row_num <= 3) {
+    return(false);
+
+  // if next_tile exists and is the same, combine them 
+  // stop checking for moves
+  } else if ( parseInt(next_tile.attr('data-val')) == data_val ) {              
+    combineTiles(active_tile, next_tile);
+    return(false);
+  }
+
+}
+
 function moveTile(tile, direction) {
 
   switch(direction) {
@@ -53,26 +100,39 @@ function moveTile(tile, direction) {
         for (j = 0; j < tiles.length; j++) {
           var active_tile = tiles[j];
 
+          // checkNextSpace(active_tile, direction);
+
           var data_row_num  = parseInt(active_tile.getAttribute('data-row')[1]);
           var data_col_num  = parseInt(active_tile.getAttribute('data-col')[1]);
           var data_val      = parseInt(active_tile.getAttribute('data-val'));
 
           // starting at that tile's row position, check each possible move 'up' (decreasing row #)
-          for(k = data_row_num ; k >= 0; k--) {
+          for(k = data_row_num ; k > 0; k--) {
             var next_row_num = k - 1; 
             var next_tile = $('.tile[data-row="r' + next_row_num + '"][data-col="c' + data_col_num + '"]');
+
+            console.log('--------------');
+            console.log('data cell= ' + data_row_num + "," + data_col_num);
+            console.log('COMPARISON 1...');
+            console.log('next_tile.length: ' + next_tile.length);
+            console.log('next_row_num: ' + next_row_num);
+
+            console.log('COMPARISON 2 & 3...');
+            console.log('next_tile data-val: ' + parseInt(next_tile.attr('data-val')));
+            console.log('data_val: ' + data_val);
 
             // if next_tile doesn't exist and it is within the board bounds, move active_tile to that position
             if (next_tile.length == 0 && next_row_num >= 0 && next_row_num <= 3) {
               $(active_tile).attr('data-row', "r" + next_row_num);
 
             // if next_tile exists and is not the same, stop checking for moves
-            // } else if ( parseInt(next_tile.attr('data-val')) != data_val ) {
-            //   return false;
+            } else if ( parseInt(next_tile.attr('data-val')) != data_val && next_row_num >= 0 && next_row_num <= 3) {
+              break;
 
             // if next_tile exists and is the same, combine them
             } else if ( parseInt(next_tile.attr('data-val')) == data_val ) {              
               combineTiles(active_tile, next_tile);
+              break;
             }
           }
         }
@@ -101,10 +161,15 @@ function moveTile(tile, direction) {
             // if next_tile doesn't exist and it is within the board bounds, move active_tile to that position
             if (next_tile.length == 0 && next_row_num >= 0 && next_row_num <= 3) {
               $(active_tile).attr('data-row', "r" + next_row_num);
-            
+
+            // if next_tile exists and is not the same, stop checking for moves
+            } else if ( parseInt(next_tile.attr('data-val')) != data_val && next_row_num >= 0 && next_row_num <= 3) {
+              break;
+
             // if next_tile does exist and has same data-val as active_tile, combine them
             } else if ( parseInt(next_tile.attr('data-val')) == data_val ) {
               combineTiles(active_tile, next_tile);
+              break;
             }
           }
         }
@@ -135,9 +200,14 @@ function moveTile(tile, direction) {
             if (next_tile.length == 0 && next_col_num >= 0 && next_col_num <= 3) { 
               $(active_tile).attr('data-col', "c" + next_col_num);
 
+            // if next_tile exists and is not the same, stop checking for moves
+            } else if ( parseInt(next_tile.attr('data-val')) != data_val && next_row_num >= 0 && next_row_num <= 3) {
+              break;
+
             // if next_tile does exist and has same data-val as active_tile, combine them
             } else if ( parseInt(next_tile.attr('data-val')) == data_val ) {
               combineTiles(active_tile, next_tile);
+              break;
             }
           }
         }
@@ -164,21 +234,18 @@ function moveTile(tile, direction) {
             var next_col_num = k + 1; 
             var next_tile = $('.tile[data-row="r' + data_row_num + '"][data-col="c' + next_col_num + '"]');
 
-            console.log('COMPARISON 1...');
-            console.log('next_tile.length: ' + next_tile.length);
-            console.log('next_col_num: ' + next_col_num);
-
-            console.log('COMPARISON 2 & 3...');
-            console.log('next_tile data-val: ' + parseInt(next_tile.attr('data-val')));
-            console.log('data_val: ' + data_val);
-
             // if next_tile doesn't exist and the space is within bounds, move active_tile to that position
             if (next_tile.length == 0 && next_col_num >= 0 && next_col_num <= 3) {
               $(active_tile).attr('data-col', "c" + next_col_num);
 
+            // if next_tile exists and is not the same, stop checking for moves
+            } else if ( parseInt(next_tile.attr('data-val')) != data_val && next_row_num >= 0 && next_row_num <= 3) {
+              break;
+
             // if there is a tile there and it IS a match, combine them
             } else if ( parseInt(next_tile.attr('data-val')) == data_val ) {
               combineTiles(active_tile, next_tile);
+              break;
             }
           } 
         } 
