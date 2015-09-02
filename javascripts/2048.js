@@ -10,6 +10,14 @@ $(document).ready(function() {
   })
 })
 
+function pop(tile) {
+  $(tile)
+  .addClass("popper")
+  .on("animationend",
+    function() { $(this).removeClass("popper"); }
+  );
+}
+
 function moveTile(tile, direction) {
   var new_tile_value = tile.attr("data-val") * 2;
   tile.attr("data-val", new_tile_value);
