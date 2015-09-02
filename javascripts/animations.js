@@ -1,14 +1,14 @@
-function scaleIn(tile) {
-  tile.addClass('scaleIn')
-  .on('animationend',
-    function () { $(this).removeClass('scaleIn'); }
-  );
+function scaleIn(obj) {
+  addRemoveClass(obj, 'scaleIn');
 }
 
-function pop(tile) {
-  $(tile)
-  .addClass("popper")
-  .on("animationend",
-    function() { $(this).removeClass("popper"); }
-  );
+function pop(obj) {
+  addRemoveClass(obj, 'popper');
+}
+
+function addRemoveClass(obj, className) {
+  obj.addClass(className)
+  .on('animationend', function() {
+    $(this).removeClass('delayFadeIn');
+  });
 }
