@@ -108,7 +108,9 @@ function moveTile(tile, direction) {
 
         // collectOccupants -- Array of tiles
         var occupants = $("[data-col='c" + i + "']");
-         console.log(occupants.length);
+        var sortedOccupants = occupants.sort(function(a, b) {
+          return $(b).attr("data-row") - $(a).attr("data-row");
+        });
           //for each tile
 
         // noNeighbor
@@ -117,6 +119,13 @@ function moveTile(tile, direction) {
             console.log(" noNeighbor: " + noNeighbor(tile));
             console.log(" noWall: " + noWall(tile));
 
+            while (noWall(tile) && noNeighbor(tile)){
+
+              // move forward
+              var currentPosition = tile.getAttribute("data-row");
+              var positionNum = currentPosition.replace("r","");
+              tile.setAttribute("data-row", "r" + (positionNum - 1) );
+            }
           }
 
             // checkWall
@@ -129,10 +138,7 @@ function moveTile(tile, direction) {
   // --- old code----------
 
       //   if (neighborCount === 0 && tile.attr("data-row") != "topWall"){
-      //     var currentPosition = tile.attr("data-row"); // r3
-      //     var positionNum = currentPosition.replace("r","");
-      //     // movement (go up one cell)
-      //     tile.attr("data-row", "r" + (positionNum - 1) );
+
       //     // move forward one
       //   }
       // }
