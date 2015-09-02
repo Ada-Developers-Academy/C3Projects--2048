@@ -4,7 +4,7 @@ $(document).ready(function() {
                    ["r2", "c1"], ["r2", "c2"], ["r2", "c3"], ["r2", "c0"],
                    ["r3", "c1"], ["r3", "c2"], ["r3", "c3"], ["r3", "c0"],
                    ["r0", "c1"], ["r0", "c2"], ["r0", "c3"], ["r0", "c0"]];
-  var usedCells = []
+  var usedCells = [];
   newTile(openCells, usedCells);
   newTile(openCells, usedCells);
 
@@ -12,7 +12,6 @@ $(document).ready(function() {
     var arrow_keys = [37, 38, 39, 40];
     if(arrow_keys.indexOf(event.which) > -1) {
       var tile = $('.tile');
-      // newTile(openCells, usedCells);
       playGame(tile, openCells, usedCells, event.which);
       event.preventDefault();
 
@@ -68,11 +67,20 @@ function emptyCell(openCells, usedCells, cellSpace) {
 }
 
 
-function merge(tile1, tile2) {
-  var value = $(tile1).val();
-  if (value == $(tile2).val()) {
-    $(tile1).val(value * 2);
-    deleteTile(tile2);
+function merge(tile1, tile2, direction) {
+  if (direction == "up") {
+    if (tile1[0][1] > tile2[0][1]) {
+      tile1 = tile2;
+      tile2 = tile1;
+    }
+
+    var findTile1 = $("div[data-row=" + tile1[0] + "][data-col=" + tile1[1] + "]");
+    var findTile2 = $("div[data-row=" + tile2[0] + "][data-col=" + tile2[1] + "]");
+    var value = $(findTile1).text();
+    if (value == $(findTile2).text()) {
+      $(findTile1).text(value * 2);
+      deleteTile(findTile2);
+    }
   }
 }
 
@@ -82,11 +90,12 @@ function deleteTile(tile) {
   $(tile).remove();
 }
 
-function moveTile(tile, direction) {
-  //only be user * 2 if the tiles merged
-  var new_tile_value = tile.attr("data-val") * 2;
-  tile.attr("data-val", new_tile_value);
-  tile.text(new_tile_value);
+// function moveTile(tile, direction) {
+//   //only be user * 2 if the tiles merged
+//   var new_tile_value = tile.attr("data-val") * 2;
+//   tile.attr("data-val", new_tile_value);
+//   tile.text(new_tile_value);
+// }
 
 // function moveTile(tile, direction) {
 //   //only be user * 2 if the tiles merged
@@ -133,14 +142,21 @@ function moveUp(tile, openCells, usedCells, direction) {
       var usedArr = sortArray(usedCol);
       // loop through used array and always compare to position 0 of open array
       for (j = 0; j < usedArr.length; j++) {
-        if (openArr[0][0] < usedArr[j][0]) {
-          var fullCoord = "r" + openArr[0][0];
+        if (openArr[0][0][1] < usedArr[j][0][1]) {
+          // var fullCoord = "r" + openArr[0][0];
           var col = "c" + i;
-          usedArr[j][0] = "r" + usedArr[j][0]
+          // usedArr[j][0] = "r" + usedArr[j][0]
           oneTile = $("div[data-row=" + usedArr[j][0] + "][data-col=" + col + "]");
-          $(oneTile).attr("data-row", fullCoord);
+          $(oneTile).attr("data-row", openArr[0][0]);
           emptyCell(openCells, usedCells, usedArr[j]);
-          occupyCell(openCells, usedCells, [fullCoord, openArr[0][1]]);
+          emptyCell(openArr, usedArr, usedArr[j]);
+          occupyCell(openCells, usedCells, [openArr[0][0], openArr[0][1]]);
+          occupyCell(openArr, usedArr, [openArr[0][0], openArr[0][1]]);
+          sortArray(usedArr);
+          sortArray(openArr);
+
+        } if (usedCol.length > 1) {
+          merge(usedArr[j], usedArr[j+1], "up");
         }
       }
     }
@@ -151,8 +167,8 @@ function sortArray(arrayCol) {
   var newArr = [];
   for (j = 0; j < arrayCol.length; j++) {
     // returns the coordinate # of the row
-    var coordPos = arrayCol[j][0].split('')[1];
+    var coordPos = arrayCol[j][0];
     newArr.push([coordPos, arrayCol[j][1]]);
   }
-  return newArr.sort(newArr[0]);
+  return newArr.sort(newArr[0][1]);
 }
