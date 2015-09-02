@@ -185,20 +185,19 @@ function moveTile(tile, direction) {
         for (j = 0; j < sortedOccupants.length; j++) {
           var tile = sortedOccupants[j];
 
-          if (noNeighborVert(tile, "up") == false){
-            console.log(mergeCheck(tile, "up"));
-            // mergeCheck(tile, "up");
-
-          }
-
           while (noWallVert(tile, "up") && noNeighborVert(tile, "up")){
-
             // move forward
             var currentPosition = tile.getAttribute("data-row");
             var positionNum = Number(currentPosition.replace("r",""));
             // THIS IS THE LINE that does the up (row - 1)
             // Down is row + 1, left is col - 1, right is col + 1
             tile.setAttribute("data-row", "r" + (positionNum - 1) );
+          }
+
+          // Merge Check
+          if (noNeighborVert(tile, "up") == false){
+            console.log(mergeCheck(tile, "up"));
+            // mergeCheck(tile, "up");
           }
         }
       }
