@@ -2,6 +2,10 @@ html {
   font: normal normal 30px/1 "Clear Sans", "Helvetica Neue", Arial, sans-serif;
 }
 
+body {
+  background: #faf8ef;
+}
+
 #gameboard {
   background: #bbada0;
   border-radius: 0.5rem;
@@ -11,9 +15,37 @@ html {
   width: 18.5rem;
 }
 
-#message {
+.container {
   text-align: center;
-  color: red;
+  margin: 0 auto;
+}
+
+#message {
+  display: inline-block;
+  vertical-align: middle;
+  background: #bbada0;
+  padding: 15px 25px;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  color: #eee4da;
+  font-size: 0.75rem;
+  line-height: 1.5rem;
+}
+
+#scoreboard {
+  display: inline-block;
+  vertical-align: middle;
+  background: #bbada0;
+  padding: 15px 25px;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  color: #eee4da;
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+}
+
+#score {
+  color: white;
 }
 
 .cell {

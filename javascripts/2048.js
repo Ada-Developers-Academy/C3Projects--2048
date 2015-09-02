@@ -1,3 +1,5 @@
+var score = 0;
+
 $(document).ready(function() {
   console.log('ready!');
 
@@ -145,7 +147,15 @@ function combineTiles(active_tile, next_tile) {
   // active_tile disappears
   active_tile.remove();
 
+  // increment score
+  incrementScore(new_tile_value);
+
   return new_tile_value;
+}
+
+function incrementScore(new_tile_value) {
+  score += new_tile_value;
+  $("#score").text(score);
 }
 
 
@@ -185,12 +195,14 @@ function addTile() {
   // plug those values into a newly created div's attributes
   var new_tile = $("<div>");
   new_tile.addClass("tile");
+  // new tile has 10% chance of being a 4 instead of 2
+  var random_tile_value = (getRandomIntInclusive(1, 10) < 10) ? "2" : "4";
   new_tile.attr({
         "data-row" : new_row,
         "data-col" : new_col,
-        "data-val" : "2"
+        "data-val" : random_tile_value
     });
-  new_tile.html("2");
+  new_tile.html(random_tile_value);
   // add tile to board
   $("#gameboard").append(new_tile);
   pop(new_tile);
@@ -199,7 +211,7 @@ function addTile() {
 function pop(tile) {
   $(tile)
   .addClass('popper')
-  .on('animationend', function() { $(this).removeClass('popper');})
+  .on('animationend', function() { $(this).removeClass('popper');});
 }
 
 // for picking random cell to place a new tile
@@ -253,5 +265,6 @@ function checkPossibleMoves() {
 
   console.log("you lose!");
   $("#message").text("GAME OVER");
+  $("#message").css("color", "#644B4B");
 
 } // end checkPossibleMoves
