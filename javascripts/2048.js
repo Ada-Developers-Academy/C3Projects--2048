@@ -104,7 +104,11 @@ function moveDown () {
   for(y = 0; y < boardSize; y++) {
     for(x = 0; x < boardSize; x++) {
       var next = checkNext(y, x, "down");
-      if(next == board[y][x]) {
+      if(board[y][x] == 0 && next != null) {
+        board[y][x]     = board[y + 1][x];
+        board[y + 1][x] = 0;
+      }
+      else if(next == board[y][x]) {
         board[y][x]    += board[y + 1][x]; // collapse it
         board[y + 1][x] = 0;
       }
@@ -122,7 +126,11 @@ function moveLeft() {
   for(x = 0; x < boardSize; x++) {
     for(y = 0; y < boardSize; y++) {
       var next = checkNext(y, x, "left");
-      if(next == board[y][x]) {
+      if(board[y][x] == 0 && next != null) {
+        board[y][x]     = board[y][x + 1];
+        board[y][x + 1] = 0;
+      }
+      else if(next == board[y][x]) {
         board[y][x]    += board[y][x + 1]; // collapse it
         board[y][x + 1] = 0;
       }
@@ -140,7 +148,11 @@ function moveRight() {
   for(x = 3; x >= 0; x--) {
     for(y = 0; y < boardSize; y++) {
       var next = checkNext(y, x, "right");
-      if(next == board[y][x]) {
+      if(board[y][x] == 0 && next != null) {
+        board[y][x]     = board[y][x - 1];
+        board[y][x - 1] = 0;
+      }
+      else if(next == board[y][x]) {
         board[y][x]    += board[y][x - 1]; // collapse it
         board[y][x - 1] = 0;
       }
