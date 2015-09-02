@@ -11,6 +11,14 @@ html {
   width: 18.5rem;
 }
 
+#scoreboard {
+  border-radius: 0.5rem;
+  background: #bbada0;
+  width: 18.5rem;
+  color: #776e65;
+
+}
+
 .cell {
   background: rgba(238, 228, 218, 0.35);
   border-radius: 0.5rem;

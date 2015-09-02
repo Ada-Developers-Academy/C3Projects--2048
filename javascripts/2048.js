@@ -119,6 +119,11 @@ function createVisualTile(row, col, value) {
   tile.addClass("spawning").on("animationend", function() { $(this).removeClass("spawning") });
 }
 
+function changeDisplayedScore() {
+  var scoreDiv = $('#score')
+  scoreDiv.text(score);
+}
+
 function matched(direction) {
   switch(direction) {
     case 38: //up
@@ -317,6 +322,7 @@ function moveTiles(direction) {
 
 function incrementScore(value) {
   score += value;
+  changeDisplayedScore();
 }
 
 function hasLost() {
