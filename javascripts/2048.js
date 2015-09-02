@@ -174,6 +174,8 @@ function moveTile(tile, direction) {
 
         // collectOccupants -- Array of tiles
         var occupants = $("[data-col='c" + i + "']");
+        // We know that the sortedOccupants variable is unnecessary, since
+        // occupants gets mutated. However keeping for clarity for now.
         var sortedOccupants = occupants.sort(function(a, b) {
            return $(a).attr("data-row").replace("r","") - $(b).attr("data-row").replace("r","");
           // return $(a).attr("data-row") - $(b).attr("data-row");
