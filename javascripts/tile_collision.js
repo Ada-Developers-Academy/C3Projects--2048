@@ -129,8 +129,7 @@ function tileCollision(keystroke) {
     // returns adjacent tile's index in orderedTiles
     // or -1 if the adjacent space isn't occupied
     var adjacentTile = adjacentSpace(direction, rowsIndex, columnsIndex);
-    // NOTE: Right now it's always returning -1, but we think that might be
-    // because we haven't implemented all the logic
+
 
     if (adjacentTile > -1) {
       // the order is super important!
@@ -189,38 +188,40 @@ function moveOne(coordinates, direction){
     var tile = "";
     var i = "";
 
-    if (direction === "up" || direction === "down") {
-      if(direction === "up") {
+    switch(direction) {
+      case "up":
         for(i = rowIndex; i < rows.length; i++) {
           tile = $("div[data-col|='" + cols[colIndex] + "'][data-row|='" + rows[i] + "']");
           tiles.push(tile);
         }
-      } else if (direction === "down") {
+        return tiles;
+
+      case "down":
         for(i = rowIndex; i > -1; i--) {
           tile = $("div[data-col|='" + cols[colIndex] + "'][data-row|='" + rows[i] + "']");
           tiles.push(tile);
         }
-      }
-    } else if (direction === "left" || direction === "right") {
-      if(direction === "left") {
+        return tiles;
+
+      case "left":
         for(i = colIndex; i < cols.length; i++) {
           tile = $("div[data-col|='" + cols[i] + "'][data-row|='" + rows[rowIndex] + "']");
           tiles.push(tile);
         }
-      } else if (direction === "right") {
+        return tiles;
+        
+      case "right":
         for(i = colIndex; i > -1; i--) {
           tile = $("div[data-col|='" + cols[i] + "'][data-row|='" + rows[rowIndex] + "']");
           tiles.push(tile);
         }
-      }
+        return tiles;
     }
-
-    return tiles;
   }();
 
   switch(direction) {
     // change the tile's coordinates
-    // guard against tiles on the top edge
+    // guard against tiles on the edge
     case "up":
       if (rows[rowIndex] != "r0") { tile.attr("data-row", rows[rowIndex - 1]); }
       break;
