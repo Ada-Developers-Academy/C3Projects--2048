@@ -139,9 +139,9 @@ function moveTile(tile, direction) {
       var neighborCol = occupantCol;
       var neighbor = $("[data-col='" + neighborCol + "'][data-row='r" + neighborRowNum + "']");
       var neighborVal = neighbor.attr("data-val");
-      return neighborVal == occupantVal;
-
-      console.log(mergeTiles(neighbor));
+      // return neighborVal == occupantVal;
+        if (neighborVal == occupantVal){
+          mergeTiles(tile, neighbor, direction);}
     } else if (direction == "down"){
       var neighborRowNum = occupantRowNum + 1;
       var neighborCol = occupantCol;
@@ -155,8 +155,13 @@ function moveTile(tile, direction) {
 
     }
 
-    function mergeTiles(neighbor){
-      return neighbor;
+    function mergeTiles(tile, neighbor, direction){
+      if (direction == "up"){
+        var neighborValue = Number(neighbor.attr("data-val"));
+        var newNeighborValue = neighborValue * 2;
+        neighbor.attr("data-val", newNeighborValue);
+        neighbor.text(newNeighborValue);
+      }
       // we got the neighbor
       // Update the value of the tile on the corresponding side
       // Remove the obsolete tile HTML
