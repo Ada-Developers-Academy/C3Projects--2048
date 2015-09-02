@@ -50,7 +50,6 @@ Board.prototype.move = function(direction) {
 
   // 1. reorient function => array of arrays in columns or rows
   var reorientedBoard = this.reorient(direction);
-  console.log(reorientedBoard);
 
   var resolvedBoard = reorientedBoard.map(function(currentRow) {
     // 2. each row/column condense function (LOOP)
@@ -59,14 +58,11 @@ Board.prototype.move = function(direction) {
     return that.compareAndResolve(condensedRow, direction);
   });
 
-  console.log(resolvedBoard);
-
   // 4. build new board from results (takes in array of condensed arrays, returns array of uncondensed arrays)
   this.build(resolvedBoard, direction); // NOTE build in its current form mutates the original board
-  console.log(this.board);
 
   // 5. display board};
-  // this.display();
+  this.display(); // NOTE display is currently just console.log(this.board)
 }
 
 // board.reorient() reorients the board into arrays based on direction
