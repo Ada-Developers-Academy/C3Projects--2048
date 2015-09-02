@@ -5,15 +5,20 @@ $(document).ready(function() {
     if(arrow_keys.indexOf(event.which) > -1) {
       var tile = $('.tile');
       moveTile(tile, event.which);
+      addTile();
       event.preventDefault();
     }
   })
 })
 
 function moveTile(tile, direction) {
-  var new_tile_value = tile.attr("data-val") * 2;
-  tile.attr("data-val", new_tile_value);
-  tile.text(new_tile_value);
+  if (tilesCollide == true) {
+    var new_tile_value = tile.attr("data-val") * 2;
+    tile.attr("data-val", new_tile_value);
+    tile.text(new_tile_value); // then also moves to next available position
+  } else {
+    // they do not merge, they slide into the next available position
+  }
 
   switch(direction) {
     case 38: //up
@@ -31,7 +36,11 @@ function moveTile(tile, direction) {
   }
 }
 
-function game_Lost(){
+function tilesCollide() {
+
+}
+
+function gameLost(){
   var gameLost = false;
 
   if (($("#gameboard .tile").length == 16) ) {  // && (no collisions possible)
@@ -41,18 +50,24 @@ function game_Lost(){
  return gameLost;
 }
 
-function game_Won(){
+function gameWon(){
   var gameWon = false;
 
   var gameBoard = $("#gameboard .tile")
   for (var i = 0; i < gameBoard; i++){  // loop through all the tiles, check value
      if (gameBoard[i].attr("data-val") >= 2048) {    // if tile with value "2048", gameWon true
-
         gameWon = true;
       }
     }
-
-return gameWon;
+  if (gameWon == true) {
+    // $('body').keydown(function(event){
+    //   var arrow_keys = [37, 38, 39, 40];
+    //   if(arrow_keys.indexOf(event.which) > -1) {
+    //     $("body").fadeOut("slow");
+    //     event.preventDefault();
+    //   }
+    // });
+  }
 }
 
 function freeSpot() {
@@ -91,7 +106,20 @@ function addTile(){
 
 }
 
+function gameStart() {
+  addTile();
+  addTile();
+}
 
+// function playTurn() {
+//   if ($("#gameboard .tile").length == 0) {
+//     gameStart();
+//   } else {
+//     gameWon();
+//     gameLost();
+//
+//   }
+// }
 
 // pseudo:
 // when game starts: two random tiles populate board
