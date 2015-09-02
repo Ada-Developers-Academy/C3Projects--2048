@@ -127,30 +127,66 @@ function tileCollision(keystroke) {
     // NOTE: Right now it's always returning -1, but we think that might be
     // because we haven't implemented all the logic
 
-
     if (adjacentTile > -1) {
       // the order is super important!
       // first should be the tile we're on in the iteration
       // second should be the tile adjacent to it
-      merge(tile, adjacentTile);
+      merge(tile, adjacentTile, direction);
     } else {
-      moveOne();
+      moveOne(tile, direction);
     }
   }
 }
 
+function grabTile(coordinates) {
+  var row = coordinates[0];
+  var col = coordinates[1];
+  var tile = $("div[data-row|='" + row + "'][data-col|='" + col + "']");
+  return tile;
+}
+
+
 // determines if tiles can merge or not
-function merge(space1, space2) {
-  var tile1 = $("div[data-row|='" + space1[0] + "'][data-col|='" + space1[1] + "']");
-  var tile2 = $("div[data-row|='" + space2[0] + "'][data-col|='" + space2[1] + "']");
+function merge(space1, space2, direction) {
+  console.log("hey!");
+  var tile1 = grabTile(space1);
+  var tile2 = grabTile(space2);
   var tile1Value = tile1.val();
   var tile2Value = tile2.val();
 
   if (tile1Value === tile2Value) {
-    // tile closer to the edge gets it's value updated
-    // tiler farther from the edge gets deleted? - brownie pts
+    // moves tile1 under tile2
+    if (direction === "up" || direction === "down"){ tile1.attr("data-row", space2[0]); }
+    if (direction === "left" || direction === "right") { tile1.attr("data-col", space2[1]); }
+
+    // tile2 gets it's value updated
+    tile2.attr("data-val", tile1Value * 2);
+
+    // tile1 gets deleted
+    $("#gameboard").removeChild(tile1);
+
     // update score
-  } else {
-    // the tile does not move at all
+  }
+}
+
+function moveOne(coordinates, direction){
+  var rows = ["r0", "r1", "r2", "r3"];
+  var cols = ["c0", "c1", "c2", "c3"];
+  var rowIndex = rows.indexOf(coordinates[0]);
+  var colIndex = cols.indexOf(coordinates[1]);
+  var tile = grabTile(coordinates);
+
+  switch(direction) {
+    case "up":
+      // change the tile's coordinates
+      // guard against tiles on the top edge
+      if (rows[rowIndex] != "r0") {
+        // to be one row up
+        tile.attr("data-row", rows[rowIndex - 1]);
+      }
+      break;
+    case "down":
+    case "left":
+    case "right":
   }
 }
