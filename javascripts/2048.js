@@ -59,7 +59,7 @@ Board.prototype.move = function(direction) {
   });
 
   // 4. build new board from results (takes in array of condensed arrays, returns array of uncondensed arrays)
-  this.build(resolvedBoard, direction); // NOTE build in its current form mutates the original board
+  this.build(resolvedBoard, direction, reorientedBoard); // NOTE build in its current form mutates the original board
 
   // 5. display board};
   this.display(); // NOTE display is currently just console.log(this.board)
@@ -240,7 +240,7 @@ var condensedDown = [
 // [0, 8, 128, 512]
 // [4, 2,  64,  32]
 
-Board.prototype.build = function(condensedArrays, direction) {
+Board.prototype.build = function(condensedArrays, direction, oldBoard) {
   // all this emptySpots stuff is setup for the new tile event function
   var emptySpots = []; // this will eventually be a set of [row, column] positions for all the 0s / empty spots
   var boardLength = this.boardLength;
@@ -274,16 +274,27 @@ Board.prototype.build = function(condensedArrays, direction) {
   // call new tile event here
   // NOTE this needs to happen BEFORE the board is reoriented, because the
   // positions created above are based on the current orientation
-  board2.newTile(emptySpots);
+  if (oldBoard.toString() != this.board.toString()) {
+    this.newTile(emptySpots);
+  };
 
   // twisting the board back to its original orientation
   this.board = this.reorient(direction); // NOTE this is mutating the original board
 }
 
 Board.prototype.newTile = function(emptySpots) {
-  // handling for newTile here
-  // var randomIndex = Math.floor(Math.random() * this.boardLength);
-  // newTileLocation = emptySpots[randomIndex];
+  // pick a location to insert the new tile at
+  var randomIndex = Math.floor(Math.random() * (emptySpots.length));
+  newTileLocation = emptySpots[randomIndex];
+  newTileRow = newTileLocation[0];
+  newTileColumn = newTileLocation[1];
+
+  // pick what new tile to insert
+  var chanceOfFour = 0.15; // 15% chance of four
+  var diceRoll = Math.random();
+  var newTileValue = (diceRoll > chanceOfFour) ? 2 : 4;
+
+  this.board[newTileRow][newTileColumn] = newTileValue;
 }
 
 Board.prototype.display = function() {
