@@ -1,5 +1,7 @@
 $(document).ready(function() {
   console.log('ready!');
+  initializeGame();
+  endGame();
   $('body').keydown(function(event){
     var arrow_keys = [37, 38, 39, 40];
     if(arrow_keys.indexOf(event.which) > -1) {
@@ -7,35 +9,29 @@ $(document).ready(function() {
       moveTile(tile, event.which);
       event.preventDefault();
     }
-  addTile();
-  locateTiles();
-  console.log(locateTiles());
-  // findEmptySpaces();
-  // console.log(findEmptySpaces());
-  position();
-  console.log("position " + position());
-
-  endGame();
+    addTile();
   })
+})
 
+// Score is zero at the start of the game;
+var score = 0;
+
+function initializeGame() {  
   // Assign position of first 2 tiles
-  var tile1 = position();
-  var tile2 = position();
+  var tile1 = position(); //=> 'r3, c0'
+  var tile2 = position(); //=> 'r2, c1'
 
   // if tiles are set to the same position
-  while (tile1[0] === tile2[0] && tile1[1] === tile2[1]) {
+  while (tile1.substr(0, 2) === tile2.substr(0, 2) && tile1.substr(4, 2) === tile2.substr(4, 2)) {
     tile2 = position();
   }
 
   // Place tiles on gameboard
   tilePlacement(tile1);
   tilePlacement(tile2);
-})
+}
 
-// Score is zero at the start of the game;
-var score = 0;
-
-// Find positions of all tiles on board =>[["r3", "c0"], ["r3", "c1"]]
+// Find positions of all tiles on board => ["r3, c0", "r3, c1"]
 function locateTiles(){
   var tileRowPositions = $(".tile").map(function() {return $(this).attr("data-row");}).get();
   var tileColPositions = $(".tile").map(function() {return $(this).attr("data-col");}).get();
@@ -45,42 +41,38 @@ function locateTiles(){
     tilePositions[i] = tileRowPositions[i] + ", " + tileColPositions[i]; // ["r3, c0", "r0, c1", "r2, c2"]
   }
   return tilePositions;
-  console.log(tilePositions)
 }
 
 // Add a tile with every key press
 function addTile(){
-  var takenSpace = locateTiles();
+  var emptySpace = findEmptySpaces();
+  var newTile = position();
 
-  for (var i=0; i < takenSpace.length; i++) {
-    do {
+  if (emptySpace.indexOf(newTile) > -1) {
+    return tilePlacement(newTile);
+  } else {
+    do { 
       newTile = position();
-    } while (newTile[0] === takenSpace[i])
+    } while (emptySpace.indexOf(newTile) == -1)
+    return tilePlacement(newTile);
   }
-  return tilePlacement(newTile);
 }
 
-// Array.prototype.diff = function(a) {
-//     return this.filter(function(i) {return a.indexOf(i) < 0;});
-// };
+function findEmptySpaces() { // Returns all empty spaces in array => ['r0, c1', 'r3, c2']
+  var allSpaces = ['r0, c0', 'r0, c1', 'r0, c2', 'r0, c3', 'r1, c0', 'r1, c1', 'r1, c2', 'r1, c3', 'r2, c0', 'r2, c1', 'r2, c2', 'r2, c3', 'r3, c0', 'r3, c1', 'r3, c2', 'r3, c3'];
+  var taken = locateTiles();
 
-// function findEmptySpaces() {
-//   // var allSpaces = ['r0,c0', 'r0,c1', 'r0,c2', ['r0', 'c3'], ['r1', 'c0'], ['r1', 'c1'], ['r1', 'c2'], ['r1', 'c3'], ['r2', 'c0'], ['r2', 'c1'], ['r2', 'c2'], ['r2', 'c3'], ['r3', 'c0'], ['r3', 'c1'], ['r3', 'c2'], ['r3', 'c3']];
-//
-//   var taken = locateTiles();
-//   function isNotTaken(position) {
-//     var empty = true;
-//     for(var i = 0; i < taken.length; i++) {
-//       var element = position.join(); // ['r0', 'c0'] => 'r0, c0'
-//       var took = taken[i].join();
-//       if (element == took) {
-//         empty = false;
-//       }
-//     }
-//     return empty;
-//   }
-//   return allSpaces.filter(isNotTaken);
-// }
+  function isNotTaken(position) {
+    var empty = true;
+    for(var i = 0; i < taken.length; i++) {
+      if (position == taken[i]) {
+        empty = false;
+      }
+    }
+    return empty;
+  }
+  return allSpaces.filter(isNotTaken);
+}
 
 function moveTile(tile, direction) {
   var spacesTaken = locateTiles(); //=>[["r3", "c0"], ["r3", "c1"]]
@@ -116,12 +108,12 @@ function moveTile(tile, direction) {
         var r3 = jQuery.inArray("r3", spacesTaken[i]);
         var newRowValue;
 
-        console.log("spacesTaken[i][0]: " + spacesTaken[i][0]);
-        console.log("spacesTaken: " + spacesTaken);
-        console.log("r0:" + r0);
-        console.log("r1:" + r1);
-        console.log("r2:" + r2);
-        console.log("r3:" + r3);
+        // console.log("spacesTaken[i][0]: " + spacesTaken[i][0]);
+        // console.log("spacesTaken: " + spacesTaken);
+        // console.log("r0:" + r0);
+        // console.log("r1:" + r1);
+        // console.log("r2:" + r2);
+        // console.log("r3:" + r3);
 
         if(spacesTaken[i][0] == "r0"){
           newRowValue = "r0";
@@ -163,7 +155,7 @@ function moveTile(tile, direction) {
   }
 }
 
-// generates a random grid postion =>["r3", "c0"]
+// generates a random grid postion =>"r3, c0"
 function position(){
   var rowCoordinates = ["r0", "r1", "r2", "r3"];
   var columnCoordinates = ["c0", "c1", "c2", "c3"];
