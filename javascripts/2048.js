@@ -1,3 +1,31 @@
+// from stack overflow:
+// http://stackoverflow.com/questions/7837456/comparing-two-arrays-in-javascript
+Array.prototype.equals = function (array) {
+  // if the other array is a falsy value, return
+  if (!array) {
+    return false;
+  }
+
+  // compare lengths - can save a lot of time 
+  if (this.length != array.length) {
+    return false;
+  }
+
+  for (var i = 0, l=this.length; i < l; i++) {
+    // Check if we have nested arrays
+    if (this[i] instanceof Array && array[i] instanceof Array) {
+      // recurse into the nested arrays
+      if (!this[i].equals(array[i])) {
+        return false;       
+      } else if (this[i] != array[i]) {
+        // Warning - two different object instances will never be equal: {x:20} != {x:20}
+        return false;   
+      }  
+    }       
+  }
+  return true;
+}
+
 $(document).ready(function() {
   console.log('ready!');
   // setupScoreboard();
@@ -19,6 +47,27 @@ function makeTurn(direction) {
   // set the positive or negative magnitude according to direction
   var turnMagnitude = parseInt(getMagnitude(direction));
   var score = parseInt($("#score").attr("data-score"));
+
+  // take snapshot of board at start of turn
+  var startingGameboard = [];
+  for (var i = 0; i < tiles.length; i++) {
+    startingGameboard.push(tiles[i]);
+  }
+
+  function validMove() {
+    var validity = true;
+    var currentGameboard = [];
+    var currentTiles = $(".tile");
+    for (var i = 0; i < currentTiles.length; i++) {
+      currentGameboard.push(currentTiles[i]);
+    }
+
+    if (startingGameboard.equals(currentGameboard)) {
+      validity = false;
+    }
+    console.log("validity: " + validity);
+    return validity;
+  }
 
   var updateScore = function(points) {
     score += points;
@@ -164,9 +213,9 @@ function makeTurn(direction) {
 
       function okayToMove(tile) {
         var okay = true;
-        var oppositeType = (turnType == "data-row") ? "data-col" : "data-row";
-        var oppositeValue = tile.getAttribute(oppositeType);
-        var blockerText = ".tile[" + turnType + "=\"" + newAttributeValue + "\"][" + oppositeType + "=\"" + oppositeValue + "\"]";
+        // var oppositeType = (turnType == "data-row") ? "data-col" : "data-row";
+        var oppositeValue = tile.getAttribute(turnOppositeType);
+        var blockerText = ".tile[" + turnType + "=\"" + newAttributeValue + "\"][" + turnOppositeType + "=\"" + oppositeValue + "\"]";
         var blocker = $(blockerText);
 
 
@@ -224,7 +273,7 @@ function makeTurn(direction) {
   function addTile() {
     var tile = $("<div data-row='' data-col='' data-val=''></div>");
     var dataVal = Math.random() < 0.04 ? 4 : 2;
-    var emptySpaces = collectEmptySpaces();
+    var emptySpaces = collectEmptySpaces(); // guard for if no empty spaces?
 
     // function to pick row and column number
     var randomLocation = emptySpaces[Math.floor(Math.random() * emptySpaces.length)];
@@ -253,7 +302,6 @@ function makeTurn(direction) {
       // for every tile
       // check merge in every direction
       var tiles = $(".tile");
-      // NOTE MAYBE NEED TO SORT TILES??
       for (var i = 0; i < tiles.length; i++) { // loop through each tile
         if (lost == false) {
           break;
@@ -281,7 +329,10 @@ function makeTurn(direction) {
 
   moveTiles();
   mergeTiles(); // scoring happens here
-  moveTiles();
-  addTile();
-  checkLoss();
+  // var validMove = checkForMovement(); // check if anything moved or merged
+  if (validMove()) {
+    moveTiles();
+    addTile();
+    checkLoss();
+  }
 }
