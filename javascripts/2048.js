@@ -185,24 +185,10 @@ function makeTurn(direction) {
     var dataVal = Math.random() < 0.04 ? 4 : 2;
 
     // figure out all empty spots
-    // function to pick row and column number
-    function pickLocation() {
-      function getRandomInt(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-      }
-      var row = getRandomInt(1, 4);
-      var col = getRandomInt(1, 4);
-
-      var newLocationText = ".tile[data-row=\"" + row + "\"][data-col=\"" + col + "\"]";
-      var newLocation = $(newLocationText);
-
-    // while tile exists, keep reassigning new numbers
-      while (newLocation.length > 0) {
-        pickLocation();
-      }
-
-      return [row, col];
+    for (i = 1; i < 5; i++) {
+      
     }
+    // function to pick row and column number
 
     // var rowCol = pickLocation();
 
