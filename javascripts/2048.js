@@ -89,10 +89,18 @@ function moveTile(tile, direction) {
     return vacancies > 0;
   }
 
-  function noNeighbor(tile){
+  function noNeighborVert(tile, direction){
     var occupantRow = tile.getAttribute("data-row");
     var occupantRowNum = Number(occupantRow.replace("r", ""));  // 2
-    var neighborRow = occupantRowNum - 1;
+
+    // If up, go to the higher rows
+    if (direction == "up"){
+      var neighborRow = occupantRowNum - 1;
+    // If down, go to the lower rows
+    } else if (direction == "down") {
+      var neighborRow = occupantRowNum + 1;
+    }
+
     var neighborCol = tile.getAttribute("data-col");
     var neighborCount = $("[data-row='r" + neighborRow + "'][data-col='" + neighborCol + "']").size();
     return neighborCount === 0;
@@ -113,9 +121,16 @@ function noNeighborSideways(tile, direction){
   }
 
 
-  function noWall(tile){
-    var topWall = "r0";
-    return tile.getAttribute("data-row") != topWall;
+  function noWallVert(tile, direction){
+
+    if (direction == "up"){
+      var topWall = "r0";
+      return tile.getAttribute("data-row") != topWall;
+    } else if (direction == "down") {
+      var bottomWall = "r3";
+      return tile.getAttribute("data-row") != bottomWall;
+    }
+
   }
 
   function noWallSideways(tile, direction){
@@ -147,11 +162,8 @@ function noNeighborSideways(tile, direction){
         // noNeighbor
         for (j = 0; j < sortedOccupants.length; j++) {
           var tile = sortedOccupants[j];
-          console.log(tile.getAttribute("data-row"));
-          console.log(" noNeighbor: " + noNeighbor(tile));
-          console.log(" noWall: " + noWall(tile));
 
-          while (noWall(tile) && noNeighbor(tile)){
+          while (noWallVert(tile, "up") && noNeighborVert(tile, "up")){
 
             // move forward
             var currentPosition = tile.getAttribute("data-row");
@@ -177,7 +189,40 @@ function noNeighborSideways(tile, direction){
 
       break;
     case 40: //down
-      tile.attr("data-row","r3");
+
+      for (i = 0; i < 4; i++) {
+
+        // collectOccupants -- Array of tiles
+        var occupants = $("[data-col='c" + i + "']");
+        var sortedOccupants = occupants.sort(function(a, b) {
+           return $(b).attr("data-row").replace("r","") - $(a).attr("data-row").replace("r","");
+        });
+        //for each tile
+
+        // noNeighborVert
+        for (j = 0; j < sortedOccupants.length; j++) {
+          var tile = sortedOccupants[j];
+
+          while (noWallVert(tile, "down") && noNeighborVert(tile, "down")){
+
+            // move forward
+            var currentPosition = tile.getAttribute("data-row");
+            var positionNum = Number(currentPosition.replace("r",""));
+            // THIS IS THE LINE that does the up (row - 1)
+            tile.setAttribute("data-row", "r" + (positionNum + 1) );
+          }
+        }
+      }
+
+      // generate new tile after move completion
+      // if the board is full, newTile will be null and we don't try
+      // to append anything
+      var newTile = generateRandomTile();
+      if (newTile !== null) {
+        $("#gameboard").append(newTile);
+      }
+
+
       break;
     case 37: //left
 
