@@ -102,11 +102,11 @@ function moveTile(direction) {
       var three = moveUp(3);
       break;
     case 40: //down
-      tile.attr("data-row","r3");
-      // var zero = moveDown(0);
-      // var one = moveDown(1);
-      // var two = moveDown(2);
-      // var three = moveDown(3);
+     // tile.attr("data-row","r3");
+      var zero = moveDown(0);
+      var one = moveDown(1);
+      var two = moveDown(2);
+      var three = moveDown(3);
 
       break;
     case 37: //left
@@ -119,55 +119,37 @@ function moveTile(direction) {
 }
 
   function getColumn(col){
-    var column = [];
-    for(var i = 0; i < tile_array.length; i++) {
-      if (tile_array[i] == tile_array[col]) {
-        for (var j = 0; j < tile_array[i].length; j++) {
-          if (tile_array[i][j] !== undefined) {
-          column.push(tile_array[i][j]);
-          index = tile_array[i][j];
-          tile_array[i][j] = undefined;
-         }
-        }
-      }
-    }
-    return column;
+   var column = tile_array[col];
+   var no_undef_column = [];
+   for(var i = 0; i < column.length; i++) {
+     if (column[i] !== undefined) {
+       no_undef_column.push(column[i]);
+         tile_array[col][i] = undefined;
+
+     }
+   }
+   return no_undef_column;
+ }
+
+ function moveUp(col) {
+   var column = getColumn(col);
+   for (var i = 0; i < column.length; i++ ) {
+       var row = ('r' + [i] );
+       tile_array[col][i] = column[i];
+       column[i].attr('data-row', row)
+     }
   }
 
-  function moveUp(col) {
+  function moveDown(col){
     var column = getColumn(col);
-    for (var i = 0; i < column.length; i++ ) {
-        var row = ('r' + [i] );
-        tile_array[col][i] = column[i];
-        column[i].attr('data-row', row)
-      }
+    var max = 3;
+      for (var i = column.length - 1; i >= 0; i-- ) {
+          var row = ('r' + max );
+          tile_array[col][max] = column[i];
+          column[i].attr('data-row', row);
+          max -= 1;
+        }
    }
-
-  // function getDownColumn(col){
-  //   var column = [];
-  //   var colnum = ('c' + col); //=> col = c0
-  //   for(var i = 0; i < tile_array.length; i++) {
-  //     if (tile_array[i].attr('data-col') == colnum ) {
-  //       // if tile_array[0] == 0 push
-  //       // if tile_array[1]== 0 push
-  //       column.push(tile_array[i]);
-  //     }
-  //   }
-  //   return column;
-  //   // return new array of tile objects
-  // }
-
-  // function moveDown(col){
-  //   var column = getDownColumn(col);
-  //   console.log("column below")
-  //   console.log(column);
-  //   // column == array of tile objects from the passed in col (0)
-  //   for (var i = 0; i < column.length; i++) {
-  //     var row = ('r' + [3]);
-  //     // r3, r2, r1
-  //     column[i].attr('data-row', row);
-  //   }
-  // }
 
 
 
