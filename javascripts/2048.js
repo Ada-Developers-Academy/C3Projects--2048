@@ -1,12 +1,13 @@
 $(document).ready(function() {
   console.log('ready!');
+  arrayInitialize();
   initializeGame();
   $('body').keydown(function(event){
     var arrow_keys = [37, 38, 39, 40];
 
     if(arrow_keys.indexOf(event.which) > -1) {
       var tile = $('.tile');
-      moveTile(tile, event.which);
+      moveTile(event.which);
       createTile();
       event.preventDefault();
     }
@@ -15,7 +16,17 @@ $(document).ready(function() {
 
  //keeps track of where on the board has a tile
 
-  var tile_array = [];
+var tile_array = [];
+//set up for 2D array
+function arrayInitialize(){
+  for(var i = 0; i < 4; i++) {
+    var first_array = [];
+    tile_array.push(first_array);
+    for(var j = 0; j < 4; j++) {
+      tile_array[i][j] = undefined;
+      }
+    }
+}
 
 function initializeGame() {
   createTile();
@@ -29,9 +40,9 @@ function rando_num(){
 
 function checkLocation(column, row) {
   for(var i = 0; i < tile_array.length; i++) {
-    if (tile_array[i].attr('data-col') == column && tile_array[i].attr('data-row') == row) {
-      column = 'c' + rando_num();
-      row = 'r' + rando_num();
+    if (tile_array[column][row] !== undefined) {
+      column = rando_num();
+      row = rando_num();
       checkLocation(column, row);
     }
   }
@@ -41,9 +52,9 @@ function checkLocation(column, row) {
 function createTile() {
 
   // Check for empty spaces before creating
-  if (tile_array.length < 16) {
-    var new_column = 'c' +rando_num();
-    var new_row = 'r' + rando_num();
+  // if (tile_array.length < 16) {
+    var new_column = rando_num();
+    var new_row = rando_num();
 
     var result = checkLocation(new_column, new_row);
 
@@ -52,16 +63,16 @@ function createTile() {
 
     // Create new div element with tile class, location attributes, and value attribute
     var newTile = $( '<div= class="tile">2</div>');
-    newTile.attr("data-col", column);
-    newTile.attr("data-row", row);
+    newTile.attr("data-col", 'c' + column);
+    newTile.attr("data-row", 'r' + row);
     newTile.attr("data-val", "2");
     $('#gameboard').append(newTile);
 
-    tile_array.push(newTile);
+    tile_array[column][row] = newTile;
 
-  } else {
-    console.log("spaces full");
-  }
+  // } else {
+  //   console.log("spaces full");
+  // }
 
   // Maybe assign unique tile identifier
 }
@@ -80,15 +91,23 @@ function tileCollide(tile) {
   tile.text(new_tile_value);
 }
 
-function moveTile(tile, direction) {
+function moveTile(direction) {
   // needs conditionals to check for occupied grids spaces
   switch(direction) {
     case 38: //up
       //tile.attr("data-row","r0");
-      moveUp();
+      var zero = moveUp(0);
+      var one = moveUp(1);
+      var two = moveUp(2);
+      var three = moveUp(3);
       break;
     case 40: //down
       tile.attr("data-row","r3");
+      // var zero = moveDown(0);
+      // var one = moveDown(1);
+      // var two = moveDown(2);
+      // var three = moveDown(3);
+
       break;
     case 37: //left
       tile.attr("data-col","c0");
@@ -99,34 +118,94 @@ function moveTile(tile, direction) {
   }
 }
 
-
-  function moveUp(){
-
-   for(var i = 0; i < tile_array.length; i++) {
-    console.log("I'm here");
-    var tile = tile_array[i];
-    checkUp(tile);
+  function getColumn(col){
+    var column = [];
+    for(var i = 0; i < tile_array.length; i++) {
+      if (tile_array[i] == tile_array[col]) {
+        for (var j = 0; j < tile_array[i].length; j++) {
+          if (tile_array[i][j] !== undefined) {
+          column.push(tile_array[i][j]);
+          index = tile_array[i][j];
+          tile_array[i][j] = undefined;
+         }
+        }
       }
     }
+    return column;
+  }
 
-    function checkUp(tile) {
-      console.log(tile);
-       // => [data-col: c0, data-row: r3]
-      var column = tile.attr('data-col');// data-col: 'c0'
-      var row = tile.attr('data-row');
-      if (row != 'r0') {
-        var row_num = +(row.slice(1, 2));
-        var next_row = 'r' + (row_num - 1);
-          for(i = 0; i < tile_array.length; i++) {
-            if(tile_array[i].attr('data-col') == column) {
-              if (tile_array[i].attr('data-row') != next_row) {
-                tile.attr("data-row", next_row);
-              }
-            }
-          }
-        }
-        }
+  function moveUp(col) {
+    var column = getColumn(col);
+    for (var i = 0; i < column.length; i++ ) {
+        var row = ('r' + [i] );
+        tile_array[col][i] = column[i];
+        column[i].attr('data-row', row)
+      }
+   }
 
+  // function getDownColumn(col){
+  //   var column = [];
+  //   var colnum = ('c' + col); //=> col = c0
+  //   for(var i = 0; i < tile_array.length; i++) {
+  //     if (tile_array[i].attr('data-col') == colnum ) {
+  //       // if tile_array[0] == 0 push
+  //       // if tile_array[1]== 0 push
+  //       column.push(tile_array[i]);
+  //     }
+  //   }
+  //   return column;
+  //   // return new array of tile objects
+  // }
+
+  // function moveDown(col){
+  //   var column = getDownColumn(col);
+  //   console.log("column below")
+  //   console.log(column);
+  //   // column == array of tile objects from the passed in col (0)
+  //   for (var i = 0; i < column.length; i++) {
+  //     var row = ('r' + [3]);
+  //     // r3, r2, r1
+  //     column[i].attr('data-row', row);
+  //   }
+  // }
+
+
+
+
+
+  // function moveUp(){
+  //
+  //   for(var i = 0; i < tile_array.length; i++) {
+  //     var tile = tile_array[i];
+  //     checkUp(tile);
+  //   }
+  // }
+  //
+  // function checkUp(tile) {
+  //   var column = tile.attr('data-col');// data-col: 'c0'
+  //   var row = tile.attr('data-row'); //data-row: 'r1'
+  //   for(var j = 0; j < tile_array.length; j++) {
+  //     if (row == 'r0') {
+  //      console.log("done moving!");
+  //     } else {
+  //       var row_num = +(row.slice(1, 2)); //row-num: 1
+  //       var next_row = 'r' + (row_num - 1); //next_row: r0
+  //
+  //       if(tile_array[j].attr('data-col') == column) {
+  //         console.log(tile_array[j].attr('data-row'), next_row);
+  //         if (tile_array[j].attr('data-row') == next_row) {
+  //           console.log("I am not mutating");
+  //         } else {
+  //           tile.attr("data-row", next_row);
+  //         }
+  //       } else {
+  //         console.log("I am not in this column");
+  //       }
+  //     }
+  //   }
+  // }
+  //
+  //
 
     //tile.attr("data-row","r0") if no tile exists with data-col 0, rows 2, 1, 0
 
