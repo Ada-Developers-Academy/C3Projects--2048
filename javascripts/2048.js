@@ -4,6 +4,7 @@ const MINBOARDLOCALE = 0;
 const BOARDCEILING = 4; // anything less than 4 is valid
 // Constants -----------------
 var board = []
+var score = 0;
 
 $(document).ready(function() {
 
@@ -34,6 +35,7 @@ $(document).ready(function() {
   }
 
   begin();
+  console.log('score: ' + score);
 
   // {key: starting position}
   // {37: c0, 38: r0, 39: c3, 40: r3}
@@ -58,6 +60,7 @@ $(document).ready(function() {
         alert("YOU HAVE FAILED! D:");
       }
       event.preventDefault();
+      console.log('score: ' + score);
     }
   })
 })
@@ -191,6 +194,7 @@ function matched(direction) {
 
 function tileLevelUp(row, column, value) {
   board[row][column] = 2 * value;
+  incrementScore(board[row][column]);
 }
 
 function incrementVisualTile(row, col, value) {
@@ -309,6 +313,10 @@ function moveTiles(direction) {
     tile.attr("data-row", newRowLocation);
     tile.attr("data-col", newColLocation);
   }
+}
+
+function incrementScore(value) {
+  score += value;
 }
 
 function hasLost() {
