@@ -54,6 +54,9 @@ $(document).ready(function() {
       matched(event.which);
       moveTiles(event.which);
       createTile();
+      if (hasLost()) {
+        alert("YOU HAVE FAILED! D:");
+      }
       event.preventDefault();
     }
   })
@@ -308,16 +311,20 @@ function moveTiles(direction) {
   }
 }
 
+function hasLost() {
+  return (isBoardFull() && noMovesAvailable());
+}
+
 function isBoardFull() {
 // make a loop, call empty on each tile
   for (r = 0; r < 4; r++) { // for each row
-    for (c = 0; c < 4; c++) { // for each col()
-      empty(board[r][c]);
-      // collect all answers
-      // want all falses
-      // when empty is true, break
+    for (c = 0; c < 4; c++) { // for each col
+      if (empty(board[r][c])) {
+        return false;
+      }
     }
   }
+  return true;
 }
 
 function noMovesAvailable() {
