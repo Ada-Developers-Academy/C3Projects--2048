@@ -85,13 +85,23 @@ function moveTile(direction) {
 function moveUp() {
   var starterBoard = board.toString();
   // traversal starting point = y3, x0
+  var newBoard = [];
   for(x = 0; x < boardSize; x++){
     array = []
     for( y = 3; y >= 0 ; y--){
       array.push(board[y][x]);
     }
-  removeZero(array);
+    var tempColumn = removeZero(array);
+    while(tempColumn.length < boardSize){
+      tempColumn.push(0);
+    }
+    console.log(tempColumn);
+    newBoard.push(tempColumn);
+    replaceBoard(newBoard, "up");
   }
+  console.log(newBoard.toString());
+  // board = newBoard;
+  console.log(board.toString());
   // next we need to figure out how to push the return from removeZero
   // back into the board per the arrow direction
 
@@ -204,7 +214,23 @@ function moveRight() {
           arr.splice(i,1);
       }
     }
-    console.log(arr);
+    return arr;
+  }
+
+  function replaceBoard(array, direction) {
+    if(direction == "up"){
+      for(x = 0; x < boardSize; x++) {
+        var tempY = 0;
+        for(y = 3; y >= 0; y--) {
+          // console.log(tempY);
+          console.log(array)
+          // board[y][x] = array[x][tempY];
+          // tempY += 1;
+        }
+      }
+    }
+    return board;
+    console.log(board);
   }
 
 function checkNext(y, x, direction) {
