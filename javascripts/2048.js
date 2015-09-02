@@ -1,9 +1,9 @@
-const MAXSTARTINGTILE = 4;
 const MINSTARTINGTILE = 2;
-const MINBOARDLOCALE = 0;
-const MAXBOARDLOCALE = 4;
-const BOARDCEILING = 4; // anything less than 4 is valid
-const WINNING_TILE = 2048;
+const MAXSTARTINGTILE = 4;
+const MINBOARDLOCALE = 0; // starting array index
+const MAXBOARDLOCALE = 3; // highest array index
+const BOARDSIZE = 4; // anything less than 4 is valid
+const WINNINGTILE = 2048;
 // Constants -----------------
 var board;
 var score;
@@ -13,11 +13,20 @@ $(document).ready(function() {
 
   function begin() {
     board = []; // creates an empty board
-    for (i = 0; i < 4; i++) { // fills the board
-      board[i] = new Array(4);
+    // fills the board: creates a 2D array
+    for (i = 0; i < BOARDSIZE; i++) {
+      board[i] = new Array(BOARDSIZE);
     }
-    createTile();
-    createTile();
+    // createTile();
+    // createTile();
+
+    times(2, createTile);
+
+    function times(num, theFunction) {
+      for (i = 0; i < num; i++) {
+        theFunction();
+      }
+    }
     score = 0;
     changeDisplayedScore();
     console.log('Ready!');
@@ -69,16 +78,16 @@ function randomizeValue() {
 function randomizeLocation() {
   // floor rounds down for an integer
   var row = Math.floor(
-    Math.random() *(BOARDCEILING - MINBOARDLOCALE) + MINBOARDLOCALE );
+    Math.random() *(BOARDSIZE - MINBOARDLOCALE) + MINBOARDLOCALE );
   var col = Math.floor(
-    Math.random() *(BOARDCEILING - MINBOARDLOCALE) + MINBOARDLOCALE );
+    Math.random() *(BOARDSIZE - MINBOARDLOCALE) + MINBOARDLOCALE );
 
   // need to check if slot is empty
   while (!empty(board[row][col])) {  // can probably refactor this
     var row = Math.floor(
-      Math.random() *(BOARDCEILING - MINBOARDLOCALE) + MINBOARDLOCALE );
+      Math.random() *(BOARDSIZE - MINBOARDLOCALE) + MINBOARDLOCALE );
     var col = Math.floor(
-      Math.random() *(BOARDCEILING - MINBOARDLOCALE) + MINBOARDLOCALE );
+      Math.random() *(BOARDSIZE - MINBOARDLOCALE) + MINBOARDLOCALE );
     // need to check if slot is empty
   }
   return [row, col];
@@ -329,7 +338,7 @@ function incrementScore(value) {
 }
 
 function hasWon() {
-  var winningDataVal = "[data-val=" + WINNING_TILE + "]";
+  var winningDataVal = "[data-val=" + WINNINGTILE + "]";
   var winningTile = $(winningDataVal);
   // if a winning tile exists return true, else return false
   return (winningTile.length > 0);
@@ -357,12 +366,12 @@ function noMovesAvailable() {
   for (r = 0; r < 4; r++) { // for each row
     for (c = 0; c < 4; c++) { // for each col
       // compares tile to the right of the tile
-      if ((c + 1)== BOARDCEILING) {
+      if ((c + 1)== BOARDSIZE) {
       } else if (board[r][c] == board[r][c + 1]) {
         moves++;
       }
       // compares tile to the tile below
-      if ((r + 1)== BOARDCEILING) {
+      if ((r + 1)== BOARDSIZE) {
       } else if (board[r][c] == board[r + 1][c]) {
         moves++;
       }
