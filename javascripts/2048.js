@@ -107,6 +107,7 @@ function checkNextSpace(active_tile, direction) {
     // check for win
     if (new_tile_value >= 2048) {
       $("#message").text("YOU WIN!");
+      $("#message").css("color", "white");
     }
   }
 
