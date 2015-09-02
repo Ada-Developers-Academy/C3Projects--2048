@@ -102,7 +102,10 @@ function checkNextSpace(active_tile, direction) {
 
   // if next_tile exists and is the same as active_tile, combine them
   } else if ( parseInt(next_tile.attr('data-val')) == data_val && next_tile.attr('combined') == "false") {
-    var new_tile_value = combineTiles(active_tile, next_tile);
+
+    // force tile to move into same cell before combining (for visual flair)
+    $(active_tile).attr(attr_mod, attr_mod_val); // move
+    var new_tile_value = combineTiles(active_tile, next_tile); // combine
 
     // check for win
     if (new_tile_value >= 2048) {
@@ -163,10 +166,12 @@ function combineTiles(active_tile, next_tile) {
   next_tile.text(new_tile_value);
 
   // active_tile disappears
-  active_tile.remove();
+  $(active_tile).delay(425).queue(function() { // to *roughly* match move transition timing
+    $(this).remove();
 
-  // increment score
-  incrementScore(new_tile_value);
+    // increment score
+    incrementScore(new_tile_value);
+  });
 
   return new_tile_value;
 }
