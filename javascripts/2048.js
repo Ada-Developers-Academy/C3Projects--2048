@@ -233,16 +233,13 @@ function noNeighborSideways(tile, direction){
           for (j = 0; j < occupants.length; j++){
             var tile = occupants[j];
 
-            console.log("No sideways wall: " + noWallSideways(tile, "right"));
-            console.log("No Neighbor : " + noNeighborSideways(tile, "right"));
+            if (noWallSideways(tile, "right") && noNeighborSideways(tile, "right")){
 
-            // while (noWallSideways(tile, "right") && noNeighborSideways(tile, "right")){
-            //
-            //   // move right
-            //   var currentPosition = tile.getAttribute("data-col");
-            //   var positionNum = currentPosition.replace("c","");
-            //   tile.setAttribute("data-col", "c" + (positionNum + 1) );
-            // }
+              // move right
+              var currentPosition = tile.getAttribute("data-col");
+              var positionNum = Number(currentPosition.replace("c",""));
+              tile.setAttribute("data-col", "c" + (positionNum + 1) );
+            }
           }
         }
 
