@@ -80,7 +80,7 @@ function checkNextSpace(active_tile, direction) {
 
   // if no next_tile and the position is within bounds, move active_tile to that position
   // check for next moves again
-  if (next_tile.length == 0 && next_axis >= 0 && next_axis <= 3) {
+  if (next_tile.length === 0 && next_axis >= 0 && next_axis <= 3) {
     $(active_tile).attr(attr_mod, attr_mod_val);
 
     checkNextSpace(active_tile,direction);
