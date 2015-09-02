@@ -216,12 +216,13 @@ function setupTempBoard(direction){
       for( y = 3; y >= 0 ; y--){
         array.push(board[y][x]);
       }
+      var tempColumn = removeZero(array);
+      while(tempColumn.length <= boardSize){
+        tempColumn.push(0);
+        newBoard.push(tempColumn);
+      }
     }
-    var tempColumn = removeZero(array);
-    while(tempColumn.length <= boardSize){
-      tempColumn.push(0);
-      newBoard.push(tempColumn);
-    }
+    console.log(newBoard);
   }
   replaceBoard(newBoard, direction);
 }
