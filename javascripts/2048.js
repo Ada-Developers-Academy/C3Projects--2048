@@ -238,7 +238,7 @@ function checkPossibleMoves() {
 
     // check data values of all tiles in those positions
     // if adjacent tile's value matches current tile, a move is still possible
-    // so break out of loop
+    // return from the function-- no need to continue checking possible moves
     // if selector is invalid (like "r-1") it will be an array of length 0
     if ((tile_above.length > 0) && (tile_above.attr("data-val") == val)) {
       console.log("there are still moves up");
