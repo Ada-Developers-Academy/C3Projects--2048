@@ -191,22 +191,22 @@ function setupTempBoard(direction){
       }
       newBoard.push(tempColumn);
     }
-    console.log(newBoard);
   }
 
   else if(direction == "down"){
     for(x = 0; x < boardSize; x++) {
       array = [];
-      for(y = 0; y < boardSize; y++) {
+      for(y = 3; y >= 0; y--) {
         array.push(board[y][x]);
       }
+      console.log(array);
       var tempColumn = removeZero(array);
+      console.log(tempColumn);
       while(tempColumn.length <= boardSize - 1) {
         tempColumn.unshift(0);
       }
       newBoard.push(tempColumn);
     }
-    console.log(newBoard);
   }
   replaceBoard(newBoard, direction);
 }
