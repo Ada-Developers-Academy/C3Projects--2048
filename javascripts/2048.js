@@ -168,46 +168,87 @@ function moveTile(tile, direction) {
     }
   }
 
+  function moveVert(direction) {
+    // for each column
+    for (i = 0; i < 4; i++) {
+      // collectOccupants -- Array of tiles
+      var occupants = $("[data-col='c" + i + "']");
+      // We know that the sortedOccupants variable is unnecessary, since
+      // occupants gets mutated. However keeping for clarity for now.
+      if (direction == "up") {
+        var sortedOccupants = occupants.sort(function(a, b) {
+           return $(a).attr("data-row").replace("r","") - $(b).attr("data-row").replace("r","");
+        });
+      } else if (direction == "down") {
+        var sortedOccupants = occupants.sort(function(a, b) {
+           return $(b).attr("data-row").replace("r","") - $(a).attr("data-row").replace("r","");
+        });
+      }
+
+      //for each tile
+      for (j = 0; j < sortedOccupants.length; j++) {
+        var tile = sortedOccupants[j];
+
+        while (noWallVert(tile, direction) && noNeighborVert(tile, direction)){
+          // move forward
+          var currentPosition = tile.getAttribute("data-row");
+          var positionNum = Number(currentPosition.replace("r",""));
+
+          // Move the tiles vertically
+          if (direction == "up"){
+            tile.setAttribute("data-row", "r" + (positionNum - 1) );
+          } else if (direction == "down") {
+            tile.setAttribute("data-row", "r" + (positionNum + 1) );
+          }
+        }
+        // Merge Check if there's a neighbor
+        var neighbor = mergeCheckVert(tile, "up");
+        console.log(neighbor);
+
+        if (neighbor) {
+          mergeTiles(tile, neighbor, "up");
+        }
+      }
+    }
+  }
 
   switch(direction) {
     case 38: //up
 
       // for each column
-      for (i = 0; i < 4; i++) {
+      // for (i = 0; i < 4; i++) {
+      //
+      //   // collectOccupants -- Array of tiles
+      //   var occupants = $("[data-col='c" + i + "']");
+      //   // We know that the sortedOccupants variable is unnecessary, since
+      //   // occupants gets mutated. However keeping for clarity for now.
+      //   var sortedOccupants = occupants.sort(function(a, b) {
+      //      return $(a).attr("data-row").replace("r","") - $(b).attr("data-row").replace("r","");
+      //     // return $(a).attr("data-row") - $(b).attr("data-row");
+      //   });
+      //   //for each tile
+      //
+      //   for (j = 0; j < sortedOccupants.length; j++) {
+      //     var tile = sortedOccupants[j];
+      //
+      //     while (noWallVert(tile, "up") && noNeighborVert(tile, "up")){
+      //       // move forward
+      //       var currentPosition = tile.getAttribute("data-row");
+      //       var positionNum = Number(currentPosition.replace("r",""));
+      //       // THIS IS THE LINE that does the up (row - 1)
+      //       // Down is row + 1, left is col - 1, right is col + 1
+      //       tile.setAttribute("data-row", "r" + (positionNum - 1) );
+      //     }
 
-        // collectOccupants -- Array of tiles
-        var occupants = $("[data-col='c" + i + "']");
-        // We know that the sortedOccupants variable is unnecessary, since
-        // occupants gets mutated. However keeping for clarity for now.
-        var sortedOccupants = occupants.sort(function(a, b) {
-           return $(a).attr("data-row").replace("r","") - $(b).attr("data-row").replace("r","");
-          // return $(a).attr("data-row") - $(b).attr("data-row");
-        });
-        //for each tile
 
-        for (j = 0; j < sortedOccupants.length; j++) {
-          var tile = sortedOccupants[j];
 
-          while (noWallVert(tile, "up") && noNeighborVert(tile, "up")){
-            // move forward
-            var currentPosition = tile.getAttribute("data-row");
-            var positionNum = Number(currentPosition.replace("r",""));
-            // THIS IS THE LINE that does the up (row - 1)
-            // Down is row + 1, left is col - 1, right is col + 1
-            tile.setAttribute("data-row", "r" + (positionNum - 1) );
-          }
 
-          // Merge Check if there's a neighbor
-          var neighbor = mergeCheckVert(tile, "up");
 
-          if (neighbor) {
-            mergeTiles(tile, neighbor, "up");
-          }
-
-        }
-      }
+        // }
+      // }
 
       // Add new random tile to board, unless it is full
+      moveVert("up");
       addNewTile();
 
       break;
