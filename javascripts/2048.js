@@ -113,7 +113,7 @@ function matched(direction) {
       for(c=0; c<4; c++) { //colm incrementing
         for(r=rowStart; r<3; r++) { //row incrementing
           if (isNaN(board[r][c])) { continue;} // will do check if value is a number
-            var neighbor = board[r + 1][c];
+          var neighbor = board[r + 1][c];
           if (board[r][c] == neighbor) {
             console.log(board[r][c] + 'matches' + neighbor);
             tileLevelUp(r, c, board[r][c]);
