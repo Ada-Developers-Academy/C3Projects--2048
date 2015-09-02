@@ -1,6 +1,6 @@
 $(document).ready(function() {
   console.log('ready!');
-  $('body').keydown(function(event){ // invoking a keydown event
+  $('body').keydown(function(event){
     var arrow_keys = [37, 38, 39, 40];
     if(arrow_keys.indexOf(event.which) > -1) {
       var tile = $('.tile');
@@ -45,6 +45,8 @@ board = new Board([ // this is an example board for us to play with during testi
   [512, 256, 128,  32] //  [0,   2,  64,  32]
 ]);
 
+// board.move("left")
+// this is the movement controlling function that calls each step until a move is complete
 Board.prototype.move = function(direction) {
   var that = this; // make this, which is the board object .move is being called on, available to inner scopes
 
@@ -65,22 +67,27 @@ Board.prototype.move = function(direction) {
   this.display(); // NOTE display is currently just console.log(this.board)
 }
 
-// board.reorient() reorients the board into arrays based on direction
+// board.reorient("down")
+// reorients the board into arrays based on direction
 Board.prototype.reorient = function(direction) {
-  var method;
+  var function;
 
   if (direction == "left" || direction == "right")
-    method = "horizontalReorient";
+    function = "horizontalReorient";
   else // "up" || "down"
-    method = "verticalReorient";
+    function = "verticalReorient";
 
-  return this[method].call(this); // execute the method in the current context
+  return this[function].call(this); // execute the function in the current context
 };
 
+// board.horizontalReorient()
+// this function returns the board as is, since it's already oriented for left-right operations by default
 Board.prototype.horizontalReorient = function() {
   return this.board.slice(); // slice() will make a copy for us.
 }; // or do we want to modify the board in place?
 
+// board.verticalReorient()
+// this function returns the board twisted 90 degrees, so we can traverse up/down along individual arrays
 Board.prototype.verticalReorient = function() {
   var reorientedBoard = [];
 
@@ -97,7 +104,8 @@ Board.prototype.verticalReorient = function() {
   return reorientedBoard;
 };
 
-// board.condense(columnOrRow)
+// board.condense([2, 0, 0, 0]) // => [2]
+// this function condenses empty tiles out of a row
 Board.prototype.condense = function(colOrRow) {
   var condensedColOrRow = [];
 
@@ -112,7 +120,9 @@ Board.prototype.condense = function(colOrRow) {
   return condensedColOrRow;
 }
 
-//board.compareAndResolve()
+// board.compareAndResolve([2, 2, 4], "left") // => board.moveForward([2, 2, 4])
+// this function determines whether a row needs to be traversed forward or
+// backward and sends the row along to the function that will do the traversal.
 Board.prototype.compareAndResolve = function(condensedColOrRow, direction) {
   if (direction == "up" || direction == "left") {
   // up & left -> starts at the beginning of the array, moves forward
@@ -123,6 +133,8 @@ Board.prototype.compareAndResolve = function(condensedColOrRow, direction) {
   }
 }
 
+// board.moveForward([2, 4, 4, 4]) // => [2, 8, 4]
+// this function traverses through a row, collapsing same-number pairs along the way
 Board.prototype.moveForward = function(condensedColOrRow) {
   var resolvedColOrRow = [];
 
@@ -145,6 +157,8 @@ Board.prototype.moveForward = function(condensedColOrRow) {
   return resolvedColOrRow;
 }
 
+// board.moveBackward([2, 4, 4, 4]) // => [2, 4, 8]
+// this function traverses through a row, collapsing same-number pairs along the way
 Board.prototype.moveBackward = function(condensedColOrRow) {
   var resolvedColOrRow = [];
 
