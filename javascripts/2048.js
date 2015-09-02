@@ -210,8 +210,8 @@ function noNeighborSideways(tile, direction){
 
               // move left
               var currentPosition = tile.getAttribute("data-col");
-              var positionNum = currentPosition.replace("r","");
-              tile.setAttribute("data-col", "r" + (positionNum - 1) );
+              var positionNum = currentPosition.replace("c","");
+              tile.setAttribute("data-col", "c" + (positionNum - 1) );
             }
           }
         }
