@@ -94,7 +94,7 @@ function checkNextSpace(active_tile, direction) {
 
   // if no next_tile and the position is within bounds, move active_tile to that position
   // check for next moves again
-  if (next_tile.length == 0 && next_axis >= 0 && next_axis <= 3) {
+  if (next_tile.length === 0 && next_axis >= 0 && next_axis <= 3) {
     $(active_tile).attr(attr_mod, attr_mod_val);
 
     checkNextSpace(active_tile,direction);
@@ -224,26 +224,23 @@ function getRandomIntInclusive(min, max) {
 }
 
 function checkPossibleMoves() {
-  var present_tiles = $(".tile"); // find all tiles
-  // iterate through all tiles
-  for (i = 0; i < present_tiles.length; i++) {
+  var present_tiles = $(".tile");                           // find all tiles
+  
+  for (i = 0; i < present_tiles.length; i++) {              // iterate through all tiles
     var tile = present_tiles[i];
-    var row = tile.getAttribute("data-row"); // "r1"
-    var col = tile.getAttribute("data-col"); // "c2"
-    var val = tile.getAttribute("data-val"); // "2"
 
-    var row_num = parseInt(row.slice(-1)); // 2
-    var col_num = parseInt(col.slice(-1)); // 1
+    var row_num   = getPositionNum(tile, 'data-row');
+    var col_num   = getPositionNum(tile, 'data-col');
+    var val       = tile.getAttribute("data-val");
 
-    // do math on that tile's value to obtain all valid positions adjacent to it
-    var tile_above = $('.tile[data-row="r' + (row_num - 1) + '"][data-col="c' + col_num + '"]');
-    var tile_below = $('.tile[data-row="r' + (row_num + 1) + '"][data-col="c' + col_num + '"]');
-    var tile_right = $('.tile[data-row="r' + row_num + '"][data-col="c' + (col_num + 1) + '"]');
-    var tile_left = $('.tile[data-row="r' + row_num + '"][data-col="c' + (col_num - 1) + '"]');
+    var tile_above  = findTile(row_num - 1, col_num);
+    var tile_below  = findTile(row_num + 1, col_num);
+    var tile_right  = findTile(row_num, col_num + 1);
+    var tile_left   = findTile(row_num, col_num - 1);
 
     // check data values of all tiles in those positions
-    // if adjascent tile's values match current tile, a move is still possible
-    // so break out of loop
+    // if adjacent tile's value matches current tile, a move is still possible
+    // return from the function-- no need to continue checking possible moves
     // if selector is invalid (like "r-1") it will be an array of length 0
     if ((tile_above.length > 0) && (tile_above.attr("data-val") == val)) {
       console.log("there are still moves up");
@@ -262,7 +259,6 @@ function checkPossibleMoves() {
       // $("#message").text("there are still moves left");
       return;
     }
-
   } // end for loop
 
   console.log("you lose!");
