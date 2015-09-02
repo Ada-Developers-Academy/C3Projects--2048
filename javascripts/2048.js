@@ -1,7 +1,6 @@
 var rows = ['r0', 'r1', 'r2', 'r3'];
 var cols = ['c0', 'c1', 'c2', 'c3'];
-var newTileLevel2 = [ 2, 4 ];
-var newTileLevel1 = [ 2 ];
+var newTileValue = [ 2, 2, 2, 2, 4 ];
 var score = 0;
 
 $(document).ready(function() {
@@ -14,15 +13,15 @@ $(document).ready(function() {
       var tile = $('.tile');
       moveTiles(tile, event.which);
       event.preventDefault();
-      generateTile(newTileLevel2);  // later pass in newTileLevel1 or newTileLevel2 depending on score
+      generateTile(newTileValue);  
     }
   });
 });
 
 function initializeGame() {
   // randomly pick two positions and start values
-  generateTile(newTileLevel2);
-  generateTile(newTileLevel2);
+  generateTile(newTileValue);
+  generateTile(newTileValue);
 }
 
 function generateTile(array) {
@@ -187,11 +186,3 @@ function generateCol(num) {
 
   return col;
 }
-
-// partial code for keypress 39?
-  // var row0 = $('[data-row=r0]');  // not in order... need to fix
-  // for (var i = row0.length - 1; i >= 0; i--) {
-  //   if (row0[i].getAttribute('data-val') === row0[i - 1].getAttribute('data-val')) {
-  //     moveTiles(row0[i], event.which);
-  //   }
-  // }
