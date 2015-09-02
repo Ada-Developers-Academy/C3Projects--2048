@@ -98,20 +98,19 @@ function moveTile(tile, direction) {
     return neighborCount === 0;
   }
 
-function noNeighborSideways(tile, direction){
+  function noNeighborSideways(tile, direction){
 
-  var occupantCol = tile.getAttribute("data-col"); // c2
-  var occupantColNum = Number(occupantCol.replace("c", ""))  // 2
-  if (direction == "left"){
-    var neighborCol = (occupantColNum - 1);
-  } else if (direction == "right") {
-    var neighborCol = (occupantColNum + 1);
+    var occupantCol = tile.getAttribute("data-col"); // c2
+    var occupantColNum = Number(occupantCol.replace("c", ""))  // 2
+    if (direction == "left"){
+      var neighborCol = (occupantColNum - 1);
+    } else if (direction == "right") {
+      var neighborCol = (occupantColNum + 1);
+    }
+    var neighborRow = tile.getAttribute("data-row");
+    var neighborCount = $("[data-col='c" + neighborCol + "'][data-row='" + neighborRow + "']").size();
+    return neighborCount === 0;
   }
-  var neighborRow = tile.getAttribute("data-row");
-  var neighborCount = $("[data-col='c" + neighborCol + "'][data-row='" + neighborRow + "']").size();
-  return neighborCount === 0;
-  }
-
 
   function noWallVert(tile, direction){
 
@@ -122,7 +121,6 @@ function noNeighborSideways(tile, direction){
       var bottomWall = "r3";
       return tile.getAttribute("data-row") != bottomWall;
     }
-
   }
 
   function noWallSideways(tile, direction){
@@ -134,6 +132,18 @@ function noNeighborSideways(tile, direction){
       var rightWall = "c3";
       return tile.getAttribute("data-col") != rightWall;
     }
+  }
+
+  function mergeCheck(tile, direction){
+    // Know which direction you're heading
+    // Check for adjacent neighbor
+    // Check for value match
+    // Return a true or false saying if a merge in that direciton is possible
+  }
+
+  function mergeTiles(obsoleteTile, remainingTile){
+    // Update the value of the tile on the corresponding side
+    // Remove the obsolete tile HTML
   }
 
   function addNewTile(){
