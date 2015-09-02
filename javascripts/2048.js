@@ -109,13 +109,16 @@ function moveTile(tile, direction) {
         // collectOccupants -- Array of tiles
         var occupants = $("[data-col='c" + i + "']");
         var sortedOccupants = occupants.sort(function(a, b) {
-          return $(b).attr("data-row") - $(a).attr("data-row");
+           return $(a).attr("data-row").replace("r","") - $(b).attr("data-row").replace("r","");
+          // return $(a).attr("data-row") - $(b).attr("data-row");
         });
+        console.log(sortedOccupants)
           //for each tile
 
         // noNeighbor
-          for (j = 0; j < occupants.length; j++){
-            var tile = occupants[j];
+          for (j = 0; j < sortedOccupants.length; j++){
+            var tile = sortedOccupants[j];
+            console.log(tile.getAttribute("data-row"))
             console.log(" noNeighbor: " + noNeighbor(tile));
             console.log(" noWall: " + noWall(tile));
 
@@ -132,33 +135,14 @@ function moveTile(tile, direction) {
 
             // while checks return false
             // moveTile
+        // generate new tile after move completion
 
 
       }
   // --- old code----------
 
-      //   if (neighborCount === 0 && tile.attr("data-row") != "topWall"){
-
-      //     // move forward one
-      //   }
-      // }
-
-
-
-      // look for occupants that have a row value of neighborRow
-
-      // shift "occupant(s)" in direction pressed if next tile is empty else
-
-
-      // check next cell
-      // move or stop
-
-      // stop moving in that direction.
-
-
       // check for movement path for stacking, merging possibility
 
-      // generate new tile after move completion
 
       break;
     case 40: //down
