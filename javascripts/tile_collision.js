@@ -157,8 +157,8 @@ function merge(space1, spaceIndex, direction, orderedTiles) {
 
   var tile1 = grabTile(space1);
   var tile2 = grabTile(space2);
-  var tile1Value = tile1.val();
-  var tile2Value = tile2.val();
+  var tile1Value = parseInt($(tile1).text());
+  var tile2Value = parseInt($(tile2).text());
 
   if (tile1Value === tile2Value) {
     // moves tile1 under tile2
@@ -167,9 +167,11 @@ function merge(space1, spaceIndex, direction, orderedTiles) {
 
     // tile2 gets it's value updated
     tile2.attr("data-val", tile1Value * 2);
+    tile2.text(tile1Value * 2);
 
     // tile1 gets deleted
-    $("#gameboard").removeChild(tile1);
+    tile1.attr("id", "delete");
+    $("#delete").remove();
 
     // update score
   }
@@ -181,31 +183,55 @@ function moveOne(coordinates, direction){
   var rowIndex = rows.indexOf(coordinates[0]);
   var colIndex = cols.indexOf(coordinates[1]);
   var tile = grabTile(coordinates);
+  // grabs all the tiles in the same row/column behind the tile in question
+  var tilesBehind = function(){
+    var tiles = [];
+    var tile = "";
+    var i = "";
+
+    if (direction === "up" || direction === "down") {
+      if(direction === "up") {
+        for(i = rowIndex; i < rows.length; i++) {
+          tile = $("div[data-col|='" + cols[colIndex] + "'][data-row|='" + rows[i] + "']");
+          tiles.push(tile);
+        }
+      } else if (direction === "down") {
+        for(i = rowIndex; i > -1; i--) {
+          tile = $("div[data-col|='" + cols[colIndex] + "'][data-row|='" + rows[i] + "']");
+          tiles.push(tile);
+        }
+      }
+    } else if (direction === "left" || direction === "right") {
+      if(direction === "left") {
+        for(i = colIndex; i < cols.length; i++) {
+          tile = $("div[data-col|='" + cols[i] + "'][data-row|='" + rows[rowIndex] + "']");
+          tiles.push(tile);
+        }
+      } else if (direction === "right") {
+        for(i = colIndex; i > -1; i--) {
+          tile = $("div[data-col|='" + cols[i] + "'][data-row|='" + rows[rowIndex] + "']");
+          tiles.push(tile);
+        }
+      }
+    }
+
+    return tiles;
+  }();
 
   switch(direction) {
+    // change the tile's coordinates
+    // guard against tiles on the top edge
     case "up":
-      // change the tile's coordinates
-      // guard against tiles on the top edge
-      if (rows[rowIndex] != "r0") {
-        // to be one row up
-        tile.attr("data-row", rows[rowIndex - 1]);
-      }
+      if (rows[rowIndex] != "r0") { tile.attr("data-row", rows[rowIndex - 1]); }
       break;
     case "down":
-      if (rows[rowIndex] != "r3") {
-        // to be one row up
-        tile.attr("data-row", rows[rowIndex + 1]);
-      }
+      if (rows[rowIndex] != "r3") { tile.attr("data-row", rows[rowIndex + 1]); }
       break;
     case "left":
-      if (cols[colIndex] != "c0") {
-        tile.attr("data-col", cols[colIndex - 1]);
-      }
+      if (cols[colIndex] != "c0") { tile.attr("data-col", cols[colIndex - 1]); }
       break;
     case "right":
-      if (cols[colIndex] != "c3") {
-        tile.attr("data-col", cols[colIndex + 1]);
-      }
+      if (cols[colIndex] != "c3") { tile.attr("data-col", cols[colIndex + 1]); }
       break;
   }
 }
