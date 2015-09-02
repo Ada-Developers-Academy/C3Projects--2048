@@ -13,16 +13,16 @@ $(document).ready(function() {
       // console.log(board);
     }
     console.log('ready!');
-    board[3][0] = 2;
-    board[1][0] = 2;
-    board[2][0] = 2;
-    board[0][0] = 2;
-    board[2][1] = 2;
-    board[3][1] = 2;
-    board[0][2] = 2;
-    board[3][2] = 2;
-    board[2][3] = 2;
-    board[3][3] = 2;
+    // board[3][0] = 2;
+    // board[1][0] = 2;
+    // board[2][0] = 2;
+    // board[0][0] = 2;
+    // board[2][1] = 2;
+    // board[3][1] = 2;
+    // board[0][2] = 2;
+    // board[3][2] = 2;
+    // board[2][3] = 2;
+    // board[3][3] = 2;
   }
 
   begin();
@@ -44,6 +44,7 @@ $(document).ready(function() {
       // empty(tile);
       moveTiles(event.which);
       matched(event.which);
+      moveTiles(event.which);
       createTile();
       event.preventDefault();
     }
@@ -111,10 +112,14 @@ function matched(direction) {
 
       for(c=0; c<4; c++) { //colm incrementing
         for(r=rowStart; r<3; r++) { //row incrementing
-          if (board[r][c] == board[r + 1][c]) {
-            console.log(board[r][c] + 'matches' + board[r + 1][c]);
-            console.log('matched!');
-            return true;
+          if (isNaN(board[r][c])) { continue;} // will do check if value is a number
+            var neighbor = board[r + 1][c];
+          if (board[r][c] == neighbor) {
+            console.log(board[r][c] + 'matches' + neighbor);
+            tileLevelUp(r, c, board[r][c]);
+            board[r + 1][c] = undefined;
+            deleteVisualTile(r+1, c);
+            incrementVisualTile(r, c, board[r][c]);
           } // if
         } // r
       } // c
@@ -124,10 +129,14 @@ function matched(direction) {
 
       for(c=0; c<4; c++) { //colm incrementing
         for(r=rowStart; r>0; r--) { //row decrementing
-          if (board[r][c] == board[r - 1][c]) {
-            console.log(board[r][c] + 'matches' + board[r - 1][c]);
-            console.log('matched!');
-            return true;
+          if (isNaN(board[r][c])) { continue;} // will do check if value is a number
+          var neighbor = board[r - 1][c];
+          if (board[r][c] == neighbor) {
+            console.log(board[r][c] + 'matches' + neighbor);
+            tileLevelUp(r, c, board[r][c]);
+            board[r - 1][c] = undefined;
+            deleteVisualTile(r-1, c);
+            incrementVisualTile(r, c, board[r][c]);
           } // if
         } // r
       } // c
@@ -137,10 +146,14 @@ function matched(direction) {
 
       for(c=colStart; c<3; c++) { //colm incrementing
         for(r=0; r<3; r++) { //row incrementing
-          if (board[r][c] == board[r][c + 1]) {
-            console.log(board[r][c] + 'matches'+ board[r][c + 1]);
-            console.log('matched!');
-            return true;
+          if (isNaN(board[r][c])) { continue;} // will do check if value is a number
+          var neighbor = board[r][c + 1];
+          if (board[r][c] == neighbor) {
+            console.log(board[r][c] + 'matches'+ neighbor);
+            tileLevelUp(r, c, board[r][c]);
+            board[r][c + 1] = undefined;
+            deleteVisualTile(r, c+1);
+            incrementVisualTile(r, c, board[r][c]);
           } // if
         } // r
       } // c
@@ -150,10 +163,14 @@ function matched(direction) {
 
       for(c=colmStart; c>0; c--) { //colm decrementing
         for(r=0; r<4; r++) { //row incrementing
-          if (board[r][c] == board[r][c - 1]) {
-            console.log(board[r][c] + 'matches'+ board[r][c - 1]);
-            console.log('matched!');
-            return true;
+          if (isNaN(board[r][c])) { continue;} // will do check if value is a number
+          var neighbor = board[r][c - 1];
+          if (board[r][c] == neighbor) {
+            console.log(board[r][c] + 'matches'+ neighbor);
+            tileLevelUp(r, c, board[r][c]);
+            deleteVisualTile(r, c-1);
+            board[r][c - 1] = undefined;
+            incrementVisualTile(r, c, board[r][c]);
           } // if
         } // r
       } // c
@@ -161,10 +178,24 @@ function matched(direction) {
   };
 }
 
-function mergeTile(tile) {
-  var new_tile_value = tile.attr("data-val") * 2;
-  tile.attr("data-val", new_tile_value);
-  tile.text(new_tile_value);
+function tileLevelUp(row, column, value) {
+  board[row][column] = 2 * value;
+}
+
+function incrementVisualTile(row, col, value) {
+  // for css styles
+  var rowLocation = "r" + row;
+  var colLocation = "c" + col;
+  var tile = $("[data-row=" + rowLocation + "][data-col=" + colLocation + "]");
+  tile.text(value);
+  tile.attr("data-val", value);
+}
+
+function deleteVisualTile(row, col) {
+  var div = $('.tile')
+  var rowLocation = "r" + row;
+  var colLocation = "c" + col;
+  $("[data-row=" + rowLocation + "][data-col=" + colLocation + "]").remove();
 }
 
 function moveTiles(direction) {
