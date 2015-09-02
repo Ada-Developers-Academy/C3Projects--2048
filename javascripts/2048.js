@@ -85,18 +85,22 @@ function moveTile(direction) {
 function moveUp() {
   var starterBoard = board.toString();
   // traversal starting point = y3, x0
-  removeZero("up");
+  for(x = 0; x < boardSize; x++){
+    array = []
+    for( y = 3; y >= 0 ; y--){
+      array.push(board[y][x]);
+    }
+  removeZero(array);
+  // array.filter(notZero);
+  console.log(array);
+  }
   for(y = 3; y >= 0; y--) {
     for(x = 0; x < boardSize; x++) {
       var next = checkNext(y, x, "up");
-      if (next == 0) {
-      }
-      else if (next == board[y][x]) {
+      if (next == board[y][x]) {
         // collapse it
         board[y][x]  += board[y - 1][x];
         board[y - 1][x] = 0;
-      }
-      else {
       }
     }
   }
@@ -108,7 +112,7 @@ function moveUp() {
 function moveDown () {
   starterBoard = board.toString();
   // traversal starting point = y0, x0
-  removeZero("down");
+  // removeZero("down");
   for(y = 0; y < boardSize; y++) {
     for(x = 0; x < boardSize; x++) {
     var next = checkNext(y, x, "up");
@@ -193,24 +197,49 @@ function moveRight() {
   }
 }
 
-function removeZero(direction) {
-  if(direction == "up") {
-    for(x = 0; x < boardSize; x++){
-        }
+ function removeZero(arr){
+   var temp = arr.filter(notZero);
+   return temp;
+   console.log(temp)
+  //  for(x = 0; x < arr.length; x++){
+  //    if(arr[x] == 0){
+  //     }
+  //     return arr;
+  //     console.log(arr);
+  //   }
+ }
+
+ function notZero(value){
+   return value > 0;
+ }
+
+ function removeZero(arr){
+    for(var i=arr.length - 1; i >= 0; i-- )
+    {
+      if(arr[i]=== 0){
+          arr.splice(i,1);
       }
+      console.log(arr);
     }
   }
-  else if(direction == "down") {
-    for(y = 0; y < boardSize; y++){
-      for(x = 0; x < boardSize; x++){
-        if(board[y][x] == 0){
-          board[y][x]     = board[y + 1][x];
-          board[y + 1][x] = 0;
-        }
-      }
-    }
-  }
-}
+// function removeZero(direction) {
+//   if(direction == "up") {
+//     for(x = 0; x < boardSize; x++){
+//         }
+//       }
+//     }
+//   }
+//   else if(direction == "down") {
+//     for(y = 0; y < boardSize; y++){
+//       for(x = 0; x < boardSize; x++){
+//         if(board[y][x] == 0){
+//           board[y][x]     = board[y + 1][x];
+//           board[y + 1][x] = 0;
+//         }
+//       }
+//     }
+//   }
+// }
 
 function checkNext(y, x, direction) {
   // this is for up condition
