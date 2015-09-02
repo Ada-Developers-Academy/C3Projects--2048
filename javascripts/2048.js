@@ -14,10 +14,10 @@ $(document).ready(function() {
 
 function makeTurn(direction) {
   var tiles = $(".tile"); // in order by the html
-  var type = rowOrColumn();
+  var type = rowOrColumn(direction);
   var oppositeType = (type == "data-row") ? "data-col" : "data-row";
   // set the positive or negative according to direction
-  var magnitude = parseInt(getMagnitude());
+  var magnitude = parseInt(getMagnitude(direction));
   var score = parseInt($("#score").attr("data-score"));
 
   var updateScore = function(points) {
@@ -129,7 +129,7 @@ function makeTurn(direction) {
     }
   }
 
-  function rowOrColumn() {
+  function rowOrColumn(direction) {
     var type = "";
     if (direction == 38 || direction == 40) {
       type = "data-row";
@@ -140,7 +140,7 @@ function makeTurn(direction) {
     return type;
   }
 
-  function getMagnitude() {
+  function getMagnitude(direction) {
     var value = "";
     // if moving left or up
     if (direction == 37 || direction == 38) {
@@ -253,13 +253,16 @@ function makeTurn(direction) {
       // for every tile
       // check merge in every direction
       var tiles = $(".tile");
+      // NOTE MAYBE NEED TO SORT TILES??
       for (var i = 0; i < tiles.length; i++) { // loop through each tile
         if (lost == false) {
           break;
         } else {
-          for (var direction = 37; direction < 41; direction++) { // loop through each direction
-            var type = rowOrColumn();
-            var magnitude = getMagnitude();
+
+          for (var j = 0; j < 4; j++) { // loop through each direction
+            var directions = [38, 40, 37, 39];
+            var type = rowOrColumn(directions[j]);
+            var magnitude = getMagnitude(directions[j]);
             var mergeableTile = findMergeableTile(tiles[i], type, magnitude);
             if (mergeableTile) {
               // stop checking
@@ -269,7 +272,7 @@ function makeTurn(direction) {
           }
         }
       }
-      
+
       if (lost == true) {
         alert("You have lost. Refresh to play again.");
       }
