@@ -82,7 +82,11 @@ function moveUp() {
   for(y = 3; y >= 0; y--) {
     for(x = 0; x < boardSize; x++) {
       var next = checkNext(y, x, "up");
-      if(next == board[y][x]) {
+      if(board[y][x] == 0 && next != null) {
+        board[y][x]     = board[y - 1][x];
+        board[y - 1][x] = 0;
+      }
+      else if(next == board[y][x]) {
         board[y][x]    += board[y - 1][x]; // collapse it
         board[y - 1][x] = 0;
       }
