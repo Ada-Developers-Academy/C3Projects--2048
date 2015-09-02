@@ -12,6 +12,7 @@ $(document).ready(function() {
 
 var board     = [];
 var boardSize = 4;
+var newTile  = [];
 
 // sets up 2D array
 function initializeBoard() {
@@ -32,6 +33,7 @@ function initializeBoard() {
     var y = Math.floor(Math.random() * (boardSize));
     var x = Math.floor(Math.random() * (boardSize));
     if(board[y][x] == 0) {
+      newTile = [y,x];
       var rando = Math.random();
       if(rando < .75) {
         board[y][x] = 2;
@@ -52,6 +54,13 @@ function initializeBoard() {
         var cell = $(".tile[data-row=y" + y + "][data-col=x" + x);
         cell.attr("data-val", board[y][x]);
         cell.text(board[y][x]);
+        if(y == newTile[0] && x == newTile[1]){
+          // cell.addClass("popper"); or whatever
+          // animationend(function (e){
+          // removeClass("popper"); or whatever
+          // })
+
+        }
       }
     }
   }
