@@ -128,7 +128,7 @@ function moveTile(tile, direction) {
     }
   }
 
-  function mergeCheck(tile, direction){
+  function mergeCheckVert(tile, direction){
     var occupantRow = tile.getAttribute("data-row");
     var occupantRowNum = Number(occupantRow.replace("r", ""));
     var occupantCol = tile.getAttribute("data-col");
@@ -136,23 +136,15 @@ function moveTile(tile, direction) {
     // Know which direction you're heading
     if (direction == "up"){
       var neighborRowNum = occupantRowNum - 1;
-      var neighborCol = occupantCol;
-      var neighbor = $("[data-col='" + neighborCol + "'][data-row='r" + neighborRowNum + "']");
-      var neighborVal = neighbor.attr("data-val");
-      if (neighborVal == occupantVal) {
-        return neighbor;
-      }
     } else if (direction == "down"){
       var neighborRowNum = occupantRowNum + 1;
-      var neighborCol = occupantCol;
-      var neighbor = $("[data-col='" + neighborCol + "'][data-row='r" + neighborRowNum + "']");
-      var neighborVal = neighbor.attr("data-val");
-      return neighborVal == occupantVal;
+    }
 
-    } else if (direction == "right"){
-
-    } else if (direction == "left"){
-
+    var neighborCol = occupantCol;
+    var neighbor = $("[data-col='" + neighborCol + "'][data-row='r" + neighborRowNum + "']");
+    var neighborVal = neighbor.attr("data-val");
+    if (neighborVal == occupantVal) {
+      return neighbor;
     }
   }
 
@@ -206,7 +198,7 @@ function moveTile(tile, direction) {
           }
 
           // Merge Check if there's a neighbor
-          var neighbor = mergeCheck(tile, "up");
+          var neighbor = mergeCheckVert(tile, "up");
 
           if (neighbor) {
             mergeTiles(tile, neighbor, "up");
@@ -244,7 +236,7 @@ function moveTile(tile, direction) {
           }
 
           if (noNeighborVert(tile, "down") == false){
-            mergeCheck(tile, "down");
+            mergeCheckVert(tile, "down");
           }
         }
       }
