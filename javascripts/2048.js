@@ -84,21 +84,21 @@ function moveTile(tile, direction) {
     // tile.text(new_tile_value);
 
   tileCollision(direction);
-
-  switch(direction) {
-    case 38: // up
-      tile.attr("data-row","r0");
-      break;
-    case 40: // down
-      tile.attr("data-row","r3");
-      break;
-    case 37: // left
-      tile.attr("data-col","c0");
-      break;
-    case 39: // right
-      tile.attr("data-col","c3");
-      break;
-  }
+  //
+  // switch(direction) {
+  //   case 38: // up
+  //     tile.attr("data-row","r0");
+  //     break;
+  //   case 40: // down
+  //     tile.attr("data-row","r3");
+  //     break;
+  //   case 37: // left
+  //     tile.attr("data-col","c0");
+  //     break;
+  //   case 39: // right
+  //     tile.attr("data-col","c3");
+  //     break;
+  // }
 
   newTile();
 }

@@ -78,26 +78,32 @@ function tileCollision(keystroke) {
   // returns index of the adjacent tile (in regards to orderedTiles)
   // or -1 if the tile does not exist
   function adjacentSpace(direction, rowsIndex, columnsIndex){
+    var space = "";
+
     if (direction === "up") {
-      // columnsIndex is 0 'cause we don't care about it for this direction
       var rowUp = rows[rowsIndex - 1]; if (rowsIndex > 0);
-      return $.inArray([rowUp, sameColumn], orderedTiles);
+      space = [rowUp, sameColumn].join();
 
     } else if (direction === "down") {
-      // columnsIndex is 0 'cause we don't care about it for this direction
       var rowDown = rows[rowsIndex + 1]; if (rowsIndex < 3);
-      return $.inArray([rowDown, sameColumn], orderedTiles);
+      space = [rowDown, sameColumn].join();
 
     } else if (direction === "left") {
-      // rowsIndex is 0 'cause we don't care about it for this direction
       var colLeft = columns[columnsIndex - 1]; if (columnsIndex > 0);
-      return $.inArray([colLeft, sameRow], orderedTiles);
+      space = [sameRow, colLeft].join();
 
     } else if (direction === "right") {
-      // rowsIndex is 0 'cause we don't care about it for this direction
       var colRight = columns[columnsIndex + 1]; if (columnsIndex < 3);
-      return $.inArray([colRight, sameRow], orderedTiles);
+      space = [sameRow, colRight].join();
     }
+      console.log("Space " + space);
+      console.log(orderedTiles);
+    var emptyArray = [];
+    for (var i = 0; i < orderedTiles.length; i++) {
+      emptyArray.push(orderedTiles[i].join());
+    }
+
+    return emptyArray.indexOf(space);
   }
 
   // iterates through every tile to determine it's action
@@ -123,7 +129,9 @@ function tileCollision(keystroke) {
 
     // returns adjacent tile's index in orderedTiles
     // or -1 if the adjacent space isn't occupied
+    console.log("tile " + tile);
     var adjacentTile = adjacentSpace(direction, rowsIndex, columnsIndex);
+    console.log(adjacentTile);
     // NOTE: Right now it's always returning -1, but we think that might be
     // because we haven't implemented all the logic
 
@@ -148,7 +156,6 @@ function grabTile(coordinates) {
 
 // determines if tiles can merge or not
 function merge(space1, space2, direction) {
-  console.log("hey!");
   var tile1 = grabTile(space1);
   var tile2 = grabTile(space2);
   var tile1Value = tile1.val();
@@ -186,7 +193,20 @@ function moveOne(coordinates, direction){
       }
       break;
     case "down":
+      if (rows[rowIndex] != "r3") {
+        // to be one row up
+        tile.attr("data-row", rows[rowIndex + 1]);
+      }
+      break;
     case "left":
+      if (cols[colIndex] != "c0") {
+        tile.attr("data-col", cols[colIndex - 1]);
+      }
+      break;
     case "right":
+      if (cols[colIndex] != "c3") {
+        tile.attr("data-col", cols[colIndex + 1]);
+      }
+      break;
   }
 }
