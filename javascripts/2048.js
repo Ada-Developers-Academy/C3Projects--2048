@@ -101,18 +101,25 @@ function moveUp() {
   }
 }
 
+function updateValue(tile) {
+  var added = tile.attr('data-val') * 2;
+  tile.attr('data-val', added);
+  tile.text(added);
+  pop(tile);
+
+  updateScore(added);
+}
+
+function updateScore(num) {
+  score += num;
+  $('.score').text(score);
+}
+
 function combineUpOrLeft(gridElement) {
   for (var i = 1; i < gridElement.length; i++) {
     if (gridElement[i].attr('data-val') === gridElement[i - 1].attr('data-val')) {
       // combine!
-      var added = gridElement[i].attr('data-val') * 2;
-      gridElement[i].attr('data-val', added);
-      gridElement[i].text(added);
-      pop(gridElement[i]);
-
-      // add to score var
-      score += added;
-      console.log(score);
+      updateValue(gridElement[i]);
 
       gridElement[i - 1].remove();
       gridElement.splice(i - 1, 1);
@@ -126,14 +133,7 @@ function combineRightOrDown(gridElement) {
   for (var i = gridElement.length - 2; i >= 0; i--) {
     if (gridElement[i].attr('data-val') === gridElement[i + 1].attr('data-val')) {
       // combine!
-      var added = gridElement[i].attr('data-val') * 2;
-      gridElement[i].attr('data-val', added);
-      gridElement[i].text(added);
-      pop(gridElement[i]);
-
-      // add to score var
-      score += added;
-      console.log(score);
+      updateValue(gridElement[i]);
 
       gridElement[i + 1].remove();
       gridElement.splice(i + 1, 1);
