@@ -8,6 +8,8 @@ $(document).ready(function() {
       event.preventDefault();
     }
   addTile();
+  var location = locateTiles();
+  console.log(location);
   endGame();
   })
 
@@ -22,7 +24,7 @@ $(document).ready(function() {
 
   // Place tiles on gameboard
   tilePlacement(tile1);
-  tilePlacement(tile2)
+  tilePlacement(tile2);
 })
 
 // Score is zero at the start of the game;
@@ -56,18 +58,64 @@ function addTile(){
 function moveTile(tile, direction) {
   var spacesTaken = locateTiles(); //=>[["r3", "c0"], ["r3", "c1"]]
 
+  // var flattened=[];
+  // for (var i=0; i<spacesTaken.length; ++i) {
+  //   var current = spacesTaken[i];
+  //   for (var j=0; j<current.length; ++j)
+  //     flattened.push(current[j]);
+  //   }
+    // console.log(flattened);
+
   var new_tile_value = tile.attr("data-val");
   tile.attr("data-val", new_tile_value);
   tile.text(new_tile_value);
-
 
   for(var i = 0; i < spacesTaken.length; i++) {
     switch(direction) {
       case 38: //up
         // tile.attr("data-row","r0");
-        var rowValue = spacesTaken[i][0][1]; // "3"
-        var newRowValue = (rowValue + 1).toString();
-        tile.attr("data-row", "r" + newRowValue);
+        // var rowValue = spacesTaken[i][1][1]; // "3"
+        // console.log(rowValue);
+
+        var r0 = jQuery.inArray("r0", spacesTaken); // TRUE: 0, FALSE: -1
+        var r1 = jQuery.inArray("r1", spacesTaken);
+        var r2 = jQuery.inArray("r2", spacesTaken);
+        var r3 = jQuery.inArray("r3", spacesTaken);
+        var newRowValue;
+
+        console.log("spacesTaken[i][0]: " + spacesTaken[i][0]);
+        console.log("spacesTaken: " + spacesTaken);
+        console.log("r0:" + r0);
+        console.log("r1:" + r1);
+        console.log("r2:" + r2);
+        console.log("r3:" + r3);
+
+        //
+        if(spacesTaken[i][0] == "r0"){
+          newRowValue = "r0";
+        }else if (spacesTaken[i][0] == "r1" && r0 < 0 ){
+          newRowValue = "r0";
+        }else if (spacesTaken[i][0] == "r1" && r0 > - 1){
+          newRowValue = "r1";
+        }else if (spacesTaken[i][0] == "r2" && r1 < 0 && r0 < 0){
+          newRowValue = "r0";
+        }else if (spacesTaken[i][0] == "r2" && r1 < 0){
+          newRowValue = "r1";
+        }else if (spacesTaken[i][0] == "r2" && r1 > -1){
+          newRowValue = "r2";
+        }else if (spacesTaken[i][0] == "r3" && r2 < 0 && r1 < 0 && r0 < 0){
+          newRowValue = "r0";
+        }else if (spacesTaken[i][0] == "r3" && r2 < 0 && r1 < 0){
+          newRowValue = "r1";
+        }else if (spacesTaken[i][0] == "r3" && r2 < 0){
+          newRowValue = "r2";
+        }else{
+          newRowValue = "r3";
+        }
+
+        // tile.attr("data-row", newRowValue);
+        console.log(newRowValue);
+          tile.attr("data-row", newRowValue);
         break;
       case 40: //down
         tile.attr("data-row","r3");
@@ -80,7 +128,6 @@ function moveTile(tile, direction) {
         tile.attr("data-col","c3");
         break;
     }
-
   }
 }
 
@@ -119,7 +166,3 @@ function endGame() {
     console.log("Game over")
   }
 }
-
-// function addValue() {
-//   if()
-// }
