@@ -27,7 +27,6 @@ function initializeBoard() {
     assignRandoTiles();
     assignRandoTiles();
     displayBoard();
-    console.log(board.toString());
   }
 
   // sets the position of starter tiles in 2D array -- currently only setting
@@ -84,34 +83,35 @@ function moveTile(direction) {
 
 function moveUp() {
   var starterBoard = board.toString();
+  setupTempBoard("up");
   // traversal starting point = y3, x0
-  var newBoard = [];
-  for(x = 0; x < boardSize; x++){
-    array = []
-    for( y = 3; y >= 0 ; y--){
-      array.push(board[y][x]);
-    }
-    var tempColumn = removeZero(array);
-    while(tempColumn.length < boardSize){
-      tempColumn.push(0);
-    }
-    console.log(tempColumn);
-    newBoard.push(tempColumn);
-    replaceBoard(newBoard, "up");
-  }
-  console.log(newBoard.toString());
+  // var newBoard = [];
+  // for(x = 0; x < boardSize; x++){
+  //   array = []
+  //   for( y = 3; y >= 0 ; y--){
+  //     array.push(board[y][x]);
+  //   }
+  //   var tempColumn = removeZero(array);
+  //   while(tempColumn.length < boardSize){
+  //     tempColumn.push(0);
+  //   }
+  //   newBoard.push(tempColumn);
+  // }
+  // replaceBoard(newBoard, "up");
   // board = newBoard;
-  console.log(board.toString());
   // next we need to figure out how to push the return from removeZero
   // back into the board per the arrow direction
 
   for(y = 3; y >= 0; y--) {
     for(x = 0; x < boardSize; x++) {
       var next = checkNext(y, x, "up");
-      if (next == board[y][x]) {
+      if(next == board[y][x]) {
         board[y][x]  += board[y - 1][x]; // collapse it
         board[y - 1][x] = 0;
       }
+      // else if(next == 0){
+      //   board[y][x] =
+      // }
     }
   }
 
@@ -208,6 +208,24 @@ function moveRight() {
   }
 }
 
+function setupTempBoard(direction){
+  var newBoard = [];
+  if(direction == "up"){
+    for(x = 0; x < boardSize; x++){
+      array = []
+      for( y = 3; y >= 0 ; y--){
+        array.push(board[y][x]);
+      }
+    }
+    var tempColumn = removeZero(array);
+    while(tempColumn.length <= boardSize){
+      tempColumn.push(0);
+      newBoard.push(tempColumn);
+    }
+  }
+  replaceBoard(newBoard, direction);
+}
+
  function removeZero(arr){
     for(var i=arr.length - 1; i >= 0; i-- ) {
       if(arr[i] === 0) {
@@ -222,15 +240,14 @@ function moveRight() {
       for(x = 0; x < boardSize; x++) {
         var tempY = 0;
         for(y = 3; y >= 0; y--) {
-          // console.log(tempY);
-          console.log(array)
-          // board[y][x] = array[x][tempY];
-          // tempY += 1;
+          console.log(tempY);
+          board[y][x] = array[x][tempY];
+          tempY += 1;
         }
       }
     }
+    console.log(board.toString());
     return board;
-    console.log(board);
   }
 
 function checkNext(y, x, direction) {
