@@ -218,7 +218,7 @@ function noNeighborSideways(tile, direction){
         // collect all occupants
         var occupants = $("[data-row='r" + i + "']");
         var sortedOccupants = occupants.sort(function(a, b) {
-          return $(a).attr("data-col") - $(b).attr("data-col");
+          return $(b).attr("data-col").replace("c","") - $(a).attr("data-col").replace("c","");
         });
           //for each tile
 
