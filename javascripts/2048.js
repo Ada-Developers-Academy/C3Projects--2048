@@ -236,7 +236,6 @@ function moveTile(tile, direction) {
 
   // if board is full, see if tile combinations are possible
   // if not full, add another tile after move
-  console.log($(".tile").length);
   if ( $(".tile").length > 15 ) {
     checkPossibleMoves();
   } else {
