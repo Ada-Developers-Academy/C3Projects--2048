@@ -1,5 +1,23 @@
+// declare a mystical global board
+// exist, board!
+
+var Board = function(boardArray) { // board constructor
+  this.board = boardArray;
+  this.boardLength = 4; // board is a square, so this is the same going both ways
+  this.emptyTile = 0;
+};
+
+var board = new Board([
+  [0, 0, 0, 2],
+  [0, 0, 0, 0],
+  [0, 2, 0, 0],
+  [0, 0, 0, 0]
+]);
+
 $(document).ready(function() {
-  console.log('ready!');
+  board.display();
+  console.log('ready, should be displayed!');
+
   $('body').keydown(function(event){
     var arrow_keys = [37, 38, 39, 40];
     if(arrow_keys.indexOf(event.which) > -1) {
@@ -11,39 +29,57 @@ $(document).ready(function() {
 })
 
 function moveTile(tile, direction) {
-  var new_tile_value = tile.attr("data-val") * 2;
-  tile.attr("data-val", new_tile_value);
-  tile.text(new_tile_value);
-
   switch(direction) {
-    case 38: //up
-      tile.attr("data-row","r0");
+    case 38: // up
+      board.move("up");
       break;
-    case 40: //down
-      tile.attr("data-row","r3");
+    case 40: // down
+      board.move("down");
       break;
-    case 37: //left
-      tile.attr("data-col","c0");
+    case 37: // left
+      board.move("left");
       break;
-    case 39: //right
-      tile.attr("data-col","c3");
+    case 39: // right
+      board.move("right");
       break;
   }
 }
 
 
-var Board = function(boardArray) { // board constructor
-  this.board = boardArray;
-  this.boardLength = 4; // board is a square, so this is the same going both ways
-  this.emptyTile = 0;
-};
+Board.prototype.display = function() {
+  var gameboard = $("#gameboard");
+  // mark all the tiles as old, so we know which ones need to be removed later
+  $('.tile').addClass('old');
 
-board = new Board([ // this is an example board for us to play with during testing
-  [2,     2,   0,   0], // [2,   4,  16, 512],
-  [4,     8,   4,   2], // [2,   8,  32, 256],
-  [16,   32, 128,  64], // [0,   4, 128, 128],
-  [512, 256, 128,  32] //  [0,   2,  64,  32]
-]);
+  for (var row = 0; row < this.boardLength; row++) {
+    for (var col = 0; col < this.boardLength; col++) {
+      var tileValue = this.board[row][col];
+
+      if (tileValue != this.emptyTile) {
+        var tile = $('<div></div>');
+        tile.addClass("tile"); // mark the tile as a tile
+        // add the attributes necessary for the tile to display in the right spot on the board
+        tile.attr("data-row", "r" + row);
+        tile.attr("data-col", "c" + col);
+        tile.attr("data-val", tileValue);
+        tile.text(tileValue);
+
+        // remove the old tag, since this tile has been changed & shouldn't be deleted
+        tile.removeClass("old"); // this tile isn't old anymore
+
+        gameboard.append(tile);
+      };
+    }
+  }
+
+  $('.old').remove(); // remove any old tiles that remain
+
+  var bd = this.board // we can delete this before the final PR, but in the mean
+  console.log(bd[0]); // time it's nice to be able to open the console and see
+  console.log(bd[1]); // the current iteration of the board!
+  console.log(bd[2]);
+  console.log(bd[3]);
+}
 
 // board.move("left")
 // this is the movement controlling function that calls each step until a move is complete
@@ -63,21 +99,21 @@ Board.prototype.move = function(direction) {
   // 4. build new board from results (takes in array of condensed arrays, returns array of uncondensed arrays)
   this.build(resolvedBoard, direction, reorientedBoard); // NOTE build in its current form mutates the original board
 
-  // 5. display board};
-  this.display(); // NOTE display is currently just console.log(this.board)
+  // 5. display board
+  this.display();
 }
 
 // board.reorient("down")
 // reorients the board into arrays based on direction
 Board.prototype.reorient = function(direction) {
-  var function;
+  var method;
 
   if (direction == "left" || direction == "right")
-    function = "horizontalReorient";
+    method = "horizontalReorient";
   else // "up" || "down"
-    function = "verticalReorient";
+    method = "verticalReorient";
 
-  return this[function].call(this); // execute the function in the current context
+  return this[method].call(this); // execute the function in the current context
 };
 
 // board.horizontalReorient()
@@ -185,75 +221,6 @@ Board.prototype.updateScore = function(points) {
   // this will somehow update the total score the player has going
 }
 
-//------------ UP example --------------
-
-// before reorient UP move
-board2 = new Board([
-  [2, 4,  32, 512],
-  [2, 4,  32, 256],
-  [0, 4, 128, 256],
-  [0, 2,  64,  32]
-]);
-// after reorient, before condense / resolve UP:
-//   [  2,   2,   0,   0]
-//   [  4,   4,   4,   2]
-//   [ 32,  32, 128,  64]
-//   [512, 256, 256,  32]
-
-// after condense & resolve -- now ready for build:
-var condensedUp = [
-  [4],
-  [8, 4, 2],
-  [64, 128, 64],
-  [512, 512, 32]
-];
-
-// after rebuild step
-// [  4,   0,  0, 0]
-// [  8,   4,  2, 0]
-// [ 64, 128, 64, 0]
-// [512, 512, 32, 0]
-
-// after reorient step, READY FOR NEW TILE! :)
-// [4, 8,  64, 512]
-// [0, 4, 128, 512]
-// [0, 2,  64,  32]
-// [0, 0,   0,   0]
-
-//------------ DOWN example --------------
-
-// before reorient DOWN move
-// [2, 4,  32, 512]
-// [2, 4,  32, 256]
-// [0, 4, 128, 256]
-// [0, 2,  64,  32]
-
-// after reorient, before condense / resolve DOWN:
-//   [  2,   2,   0,   0]
-//   [  4,   4,   4,   2]
-//   [ 32,  32, 128,  64]
-//   [512, 256, 256,  32]
-
-// after condense & resolve -- now ready for build:
-var condensedDown = [
-  [4],
-  [4, 8, 2],
-  [64, 128, 64],
-  [512, 512, 32]
-];
-
-// after rebuild step
-// [0,   0,   0,  4]
-// [0,   4,   8,  2]
-// [0,  64, 128, 64]
-// [0, 512, 512, 32]
-
-// after reorient step, READY FOR NEW TILE! :)
-// [0, 0,   0,   0]
-// [0, 4,  64, 512]
-// [0, 8, 128, 512]
-// [4, 2,  64,  32]
-
 Board.prototype.build = function(condensedArrays, direction, oldBoard) {
   // all this emptySpots stuff is setup for the new tile event function
   var emptySpots = []; // this will eventually be a set of [row, column] positions for all the 0s / empty spots
@@ -309,9 +276,4 @@ Board.prototype.newTile = function(emptySpots) {
   var newTileValue = (diceRoll > chanceOfFour) ? 2 : 4;
 
   this.board[newTileRow][newTileColumn] = newTileValue;
-}
-
-Board.prototype.display = function() {
-  // code to display the board here
-  console.log(this.board);
 }
