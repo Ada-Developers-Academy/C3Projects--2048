@@ -139,9 +139,9 @@ function moveTile(tile, direction) {
       var neighborCol = occupantCol;
       var neighbor = $("[data-col='" + neighborCol + "'][data-row='r" + neighborRowNum + "']");
       var neighborVal = neighbor.attr("data-val");
-      // return neighborVal == occupantVal;
-        if (neighborVal == occupantVal){
-          mergeTiles(tile, neighbor, direction);}
+      if (neighborVal == occupantVal) {
+        return neighbor;
+      }
     } else if (direction == "down"){
       var neighborRowNum = occupantRowNum + 1;
       var neighborCol = occupantCol;
@@ -154,20 +154,19 @@ function moveTile(tile, direction) {
     } else if (direction == "left"){
 
     }
-
-    function mergeTiles(tile, neighbor, direction){
-      if (direction == "up"){
-        var neighborValue = Number(neighbor.attr("data-val"));
-        var newNeighborValue = neighborValue * 2;
-        neighbor.attr("data-val", newNeighborValue);
-        neighbor.text(newNeighborValue);
-      }
-      // we got the neighbor
-      // Update the value of the tile on the corresponding side
-      // Remove the obsolete tile HTML
-    }
   }
 
+  function mergeTiles(tile, neighbor, direction){
+    if (direction == "up"){
+      var neighborValue = Number(neighbor.attr("data-val"));
+      var newNeighborValue = neighborValue * 2;
+      neighbor.attr("data-val", newNeighborValue);
+      neighbor.text(newNeighborValue);
+    }
+    // we got the neighbor
+    // Update the value of the tile on the corresponding side
+    // Remove the obsolete tile HTML
+  }
 
 
   function addNewTile(){
@@ -207,9 +206,12 @@ function moveTile(tile, direction) {
           }
 
           // Merge Check if there's a neighbor
-          if (noNeighborVert(tile, "up") == false){
-            mergeCheck(tile, "up");
+          var neighbor = mergeCheck(tile, "up");
+
+          if (neighbor) {
+            mergeTiles(tile, neighbor, "up");
           }
+
         }
       }
 
