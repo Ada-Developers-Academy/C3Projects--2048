@@ -27,7 +27,8 @@ h1 {
   background: #bbada0;
   width: 7rem;
   height: 4rem;
-  color: #776e65;
+  color: #ede0c8;
+  text-shadow: 1px 1px black;
   display: inline-block;
   margin-left: 8rem;
 }
