@@ -2,6 +2,11 @@ var rows = ['r0', 'r1', 'r2', 'r3'];
 var cols = ['c0', 'c1', 'c2', 'c3'];
 var newTileValue = [ 2, 2, 2, 2, 4 ];
 var score = 0;
+var winCount = 0;
+var WIN_ELEMENT = $('<div class="win"><h1>You win!</h1></div>');
+var CONT_BUTTON = $('<button class="cont-button">Continue?</button>');
+var RETRY_BUTTON = $('<button class="retry-button">Try Again?</button>');
+
 
 $(document).ready(function() {
   initializeGame();
@@ -13,7 +18,7 @@ $(document).ready(function() {
       var tile = $('.tile');
       moveTiles(tile, event.which);
       event.preventDefault();
-      generateTile(newTileValue);  
+      generateTile(newTileValue);
     }
   });
 });
@@ -25,7 +30,7 @@ function initializeGame() {
 }
 
 function generateTile(array) {
-  var tile = $('<div class="tile" data-row="", data-col="" data-val="">');
+  var tile = $('<div class="tile" data-row="" data-col="" data-val="">');
   var randomRow = Math.floor(Math.random() * (rows.length));
   var randomCol = Math.floor(Math.random() * (cols.length));
   var randomValue = Math.floor(Math.random() * (array.length));
@@ -33,7 +38,7 @@ function generateTile(array) {
   tile.attr('data-row', rows[randomRow]);
   tile.attr('data-col', cols[randomCol]);
   tile.attr('data-val', array[randomValue]);
-  tile.text(array[randomValue]);
+  tile.text(tile.attr('data-val'));
 
   if ($('[data-row=' + rows[randomRow] + '][data-col=' + cols[randomCol] + ']').length === 0) {
 
@@ -185,4 +190,28 @@ function generateCol(num) {
   }
 
   return col;
+}
+
+// Not called right now. To be combined with lose functionality
+function winGame() {
+  // at 2048 tile
+  var tiles = $(".tile");
+  // win var is currently set to win at 8 for testing! Change to 2048 for true win.
+  var win = $("[data-val]").text().indexOf(2) < 0 ? false : true ;
+  winCount += 1;
+  if (win && (winCount == 1)) {
+
+    $("#gameboard").append(WIN_ELEMENT);
+    $(".win").append(CONT_BUTTON);
+    $(".win").append(RETRY_BUTTON);
+
+    $('.cont-button').click(function(event) {
+      $('.win, .cont-button, .retry-button').remove();
+    });
+
+    $('.retry-button').click(function(event) {
+      $('.win, .cont-button, .retry-button').remove();
+      location.reload();
+    });
+  }
 }
