@@ -80,14 +80,6 @@ function generateRandomBoard() {
 function moveTile(tile, direction) {
   var new_tile_value = tile.attr("data-val");
   tile.attr("data-val", new_tile_value);
-  // tile.text(new_tile_value);
-
-  // checkForVacancies -- if this returns false, move to the next column
-  function anyVacancies(columnNum) {
-    var occupants = $("[data-col='c" + columnNum + "']").size();
-    var vacancies = (4 - occupants);
-    return vacancies > 0;
-  }
 
   function noNeighborVert(tile, direction){
     var occupantRow = tile.getAttribute("data-row");
@@ -144,6 +136,14 @@ function noNeighborSideways(tile, direction){
     }
   }
 
+  function addNewTile(){
+    var newTile = generateRandomTile();
+    if (newTile !== null) {
+      $("#gameboard").append(newTile);
+    }
+  }
+
+
   switch(direction) {
     case 38: //up
 
@@ -175,17 +175,8 @@ function noNeighborSideways(tile, direction){
         }
       }
 
-      // generate new tile after move completion
-      // if the board is full, newTile will be null and we don't try
-      // to append anything
-      var newTile = generateRandomTile();
-      if (newTile !== null) {
-        $("#gameboard").append(newTile);
-      }
-
-      // --- old code----------
-
-      // check for movement path for stacking, merging possibility
+      // Add new random tile to board, unless it is full
+      addNewTile();
 
       break;
     case 40: //down
@@ -214,14 +205,8 @@ function noNeighborSideways(tile, direction){
         }
       }
 
-      // generate new tile after move completion
-      // if the board is full, newTile will be null and we don't try
-      // to append anything
-      var newTile = generateRandomTile();
-      if (newTile !== null) {
-        $("#gameboard").append(newTile);
-      }
-
+      // Add new random tile to board, unless it is full
+      addNewTile();
 
       break;
     case 37: //left
@@ -250,10 +235,9 @@ function noNeighborSideways(tile, direction){
           }
         }
 
-        var newTile = generateRandomTile();
-        if (newTile !== null) {
-          $("#gameboard").append(newTile);
-        }
+      // Add new random tile to board, unless it is full
+      addNewTile();
+
       break;
     case 39: //right
 
@@ -281,10 +265,9 @@ function noNeighborSideways(tile, direction){
           }
         }
 
-        var newTile = generateRandomTile();
-        if (newTile !== null) {
-          $("#gameboard").append(newTile);
-        }
+      // Add new random tile to board, unless it is full
+      addNewTile();
+
       break;
   }
 }
