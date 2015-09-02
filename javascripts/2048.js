@@ -2,7 +2,7 @@ const MAXSTARTINGTILE = 4;
 const MINSTARTINGTILE = 2;
 const MINBOARDLOCALE = 0;
 const BOARDCEILING = 4; // anything less than 4 is valid
-const WINNING_TILE = 16;
+const WINNING_TILE = 2048;
 // Constants -----------------
 var board = []
 var score = 0;
