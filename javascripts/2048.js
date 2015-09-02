@@ -1,4 +1,10 @@
-var score = 0;
+var SCORE = 0;
+var ALL_GRID_POSITIONS = ["r0,c0", "r0,c1", "r0,c2", "r0,c3", "r1,c0", "r1,c1", "r1,c2", "r1,c3", "r2,c0", "r2,c1", "r2,c2", "r2,c3", "r3,c0", "r3,c1", "r3,c2", "r3,c3"];
+
+function cloneGridPositions() {
+  var clone = ALL_GRID_POSITIONS.slice(0);
+  return clone;
+}
 
 $(document).ready(function() {
   console.log('ready!');
@@ -16,8 +22,10 @@ $(document).ready(function() {
   });
 });
 
+
+
 function placeFirstTiles() {
-  var grid_options = ["r0,c0", "r0,c1", "r0,c2", "r0,c3", "r1,c0", "r1,c1", "r1,c2", "r1,c3", "r2,c0", "r2,c1", "r2,c2", "r2,c3", "r3,c0", "r3,c1", "r3,c2", "r3,c3"];
+  var grid_options = cloneGridPositions();
 
   // place 2 tiles to start game
   for (i = 0; i < 2; i++) {
@@ -306,8 +314,8 @@ function combineTiles(active_tile, next_tile) {
 }
 
 function incrementScore(new_tile_value) {
-  score += new_tile_value;
-  $("#score").text(score);
+  SCORE += new_tile_value;
+  $("#score").text(SCORE);
 }
 
 
@@ -331,7 +339,7 @@ function addTile() {
     positions.push(position_pair); // push into array ["r0,c0", "r0,c1"]
   } // now have positions of all present tiles (changes after each move)
 
-  var grid_options = ["r0,c0", "r0,c1", "r0,c2", "r0,c3", "r1,c0", "r1,c1", "r1,c2", "r1,c3", "r2,c0", "r2,c1", "r2,c2", "r2,c3", "r3,c0", "r3,c1", "r3,c2", "r3,c3"];
+  var grid_options = cloneGridPositions();
 
   // iterate through list of all possible positions, remove those currently on board
   for (var j = 0; j < positions.length; j++) {
