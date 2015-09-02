@@ -13,16 +13,16 @@ $(document).ready(function() {
       // console.log(board);
     }
     console.log('ready!');
-    board[3][0] = 2;
-    board[1][0] = 2;
-    board[2][0] = 2;
-    board[0][0] = 2;
-    board[2][1] = 2;
-    board[3][1] = 2;
-    board[0][2] = 2;
-    board[3][2] = 2;
-    board[2][3] = 2;
-    board[3][3] = 2;
+    // board[3][0] = 2;
+    // board[1][0] = 2;
+    // board[2][0] = 2;
+    // board[0][0] = 2;
+    // board[2][1] = 2;
+    // board[3][1] = 2;
+    // board[0][2] = 2;
+    // board[3][2] = 2;
+    // board[2][3] = 2;
+    // board[3][3] = 2;
   }
 
   begin();
@@ -117,6 +117,8 @@ function matched(direction) {
             console.log(board[r][c] + 'matches' + neighbor);
             tileLevelUp(r, c, board[r][c]);
             board[r + 1][c] = undefined;
+            deleteVisualTile(r+1, c);
+            mergeTile(r, c, board[r][c]);
           } // if
         } // r
       } // c
@@ -132,6 +134,8 @@ function matched(direction) {
             console.log(board[r][c] + 'matches' + neighbor);
             tileLevelUp(r, c, board[r][c]);
             board[r - 1][c] = undefined;
+            deleteVisualTile(r-1, c);
+            mergeTile(r, c, board[r][c]);
           } // if
         } // r
       } // c
@@ -147,6 +151,8 @@ function matched(direction) {
             console.log(board[r][c] + 'matches'+ neighbor);
             tileLevelUp(r, c, board[r][c]);
             board[r][c + 1] = undefined;
+            deleteVisualTile(r, c+1);
+            mergeTile(r, c, board[r][c]);
           } // if
         } // r
       } // c
@@ -163,6 +169,8 @@ function matched(direction) {
             console.log('matched!');
             tileLevelUp(r, c, board[r][c]);
             board[r][c - 1] = undefined;
+            deleteVisualTile(r, c-1);
+            mergeTile(r, c, board[r][c]);
           } // if
         } // r
       } // c
@@ -174,10 +182,23 @@ function tileLevelUp(row, column, value) {
   board[row][column] = 2 * value;
 }
 
-function mergeTile(tile) {
-  var new_tile_value = tile.attr("data-val") * 2;
-  tile.attr("data-val", new_tile_value);
-  tile.text(new_tile_value);
+function mergeTile(row, col, value) {
+  // for css styles
+  var rowLocation = "r" + row;
+  var colLocation = "c" + col;
+  var tile = $("[data-row=" + rowLocation + "][data-col=" + colLocation + "]");
+  tile.text(value);
+  tile.attr("data-val", value);
+  tile.attr("data-row", rowLocation);
+  tile.attr("data-col", colLocation);
+
+}
+
+function deleteVisualTile(row, col) {
+  var div = $('.tile')
+  var rowLocation = "r" + row;
+  var colLocation = "c" + col;
+  $("[data-row=" + rowLocation + "][data-col=" + colLocation + "]").remove();
 }
 
 function moveTiles(direction) {
