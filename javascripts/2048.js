@@ -179,6 +179,8 @@ function combineTiles(active_tile, next_tile) {
 function incrementScore(new_tile_value) {
   score += new_tile_value;
   $("#score").text(score);
+
+  bubble(new_tile_value);
 }
 
 // extend ability to remove values from arrays
@@ -228,6 +230,14 @@ function pop(tile) {
   $(tile)
   .addClass('popper')
   .on('animationend', function() { $(this).removeClass('popper');});
+}
+
+function bubble(new_score) {
+  $('#score-animation').text("+" + new_score);
+  $('#score-animation').addClass('bubble-score').on('animationend', function() { 
+    $(this).removeClass('bubble-score');
+    $(this).text("");
+  });
 }
 
 // for picking random cell to place a new tile

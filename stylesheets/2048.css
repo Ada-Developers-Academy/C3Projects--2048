@@ -42,10 +42,18 @@ body {
   color: #eee4da;
   font-size: 0.75rem;
   line-height: 0.75rem;
+  position: relative;
 }
 
 #score {
   color: white;
+}
+
+#score-animation {
+  position: absolute;
+  color: #80756A;
+  top: 1.5em;
+  left: 3em;
 }
 
 .cell {
@@ -110,5 +118,21 @@ body {
   }
   100% {
     transform: scale(1);
+  }
+}
+
+.bubble-score {
+  animation: bubble 1s;
+}
+
+@keyframes bubble {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.4);
+  }
+  100% {
+    transform: scale(0);
   }
 }
