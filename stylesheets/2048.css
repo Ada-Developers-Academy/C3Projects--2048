@@ -18,13 +18,18 @@ html {
   height: 4rem;
   margin: 0.5rem 0 0 0.5rem ;
   width: 4rem;
+
+}
+
+@keyframes move {
+
 }
 
 .tile {
   position: absolute;
   top: 0; left: 0;
-  transition: all 0.2s ease-in-out;
-
+  transition: all .2s ease-in-out;
+  /*animation: keyframe_name duration ease-in;*/
   color: #f9f6f2;
   /*background: #000;*/
 
