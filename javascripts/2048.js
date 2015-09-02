@@ -46,9 +46,24 @@ board = new Board([ // this is an example board for us to play with during testi
 ]);
 
 Board.prototype.move = function(direction) {
-  // this is the movement function
-  // var reorientedBoard = this.reorient(direction);
-};
+  var that = this; // make this, which is the board object .move is being called on, available to inner scopes
+
+  // 1. reorient function => array of arrays in columns or rows
+  var reorientedBoard = this.reorient(direction);
+
+  var resolvedBoard = reorientedBoard.map(function(currentRow) {
+    // 2. each row/column condense function (LOOP)
+    var condensedRow = that.condense(currentRow, direction);
+    // 3. each row/column => compare function (LOOP)
+    return that.compareAndResolve(condensedRow, direction);
+  });
+
+  // 4. build new board from results (takes in array of condensed arrays, returns array of uncondensed arrays)
+  this.build(resolvedBoard, direction); // NOTE build in its current form mutates the original board
+
+  // 5. display board};
+  this.display(); // NOTE display is currently just console.log(this.board)
+}
 
 // board.reorient() reorients the board into arrays based on direction
 Board.prototype.reorient = function(direction) {
@@ -269,4 +284,9 @@ Board.prototype.newTile = function(emptySpots) {
   // handling for newTile here
   // var randomIndex = Math.floor(Math.random() * this.boardLength);
   // newTileLocation = emptySpots[randomIndex];
+}
+
+Board.prototype.display = function() {
+  // code to display the board here
+  console.log(this.board);
 }
