@@ -97,9 +97,35 @@ function moveTile(tile, direction) {
     return neighborCount === 0;
   }
 
+function noNeighborSideways(tile, direction){
+
+  var occupantCol = tile.getAttribute("data-col"); // c2
+  var occupantColNum = Number(occupantCol.replace("c", ""))  // 2
+  if (direction == "left"){
+    var neighborCol = (occupantColNum - 1);
+  } else if (direction == "right") {
+    var neighborCol = (occupantColNum + 1);
+  }
+  var neighborRow = tile.getAttribute("data-row");
+  var neighborCount = $("[data-col='c" + neighborCol + "'][data-row='" + neighborRow + "']").size();
+  return neighborCount === 0;
+  }
+
+
   function noWall(tile){
     var topWall = "r0";
     return tile.getAttribute("data-row") != topWall;
+  }
+
+  function noWallSideways(tile, direction){
+
+    if (direction == "left"){
+      var leftWall = "c0";
+      return tile.getAttribute("data-col") != leftWall;
+    } else if (direction == "right") {
+      var rightWall = "c3";
+      return tile.getAttribute("data-col") != rightWall;
+    }
   }
 
   switch(direction) {
@@ -153,10 +179,58 @@ function moveTile(tile, direction) {
       tile.attr("data-row","r3");
       break;
     case 37: //left
-      tile.attr("data-col","c0");
+
+      // For each row
+      for (i = 0; i < 4; i++){
+
+        // collect all occupants
+        var occupants = $("[data-row='r" + i + "']");
+        var sortedOccupants = occupants.sort(function(a, b) {
+          return $(b).attr("data-col") - $(a).attr("data-col");
+        });
+          //for each tile
+
+        // noNeighbor
+          for (j = 0; j < occupants.length; j++){
+            var tile = occupants[j];
+
+            while (noWallSideways(tile, "left") && noNeighborSideways(tile, "left")){
+
+              // move left
+              var currentPosition = tile.getAttribute("data-col");
+              var positionNum = currentPosition.replace("c","");
+              tile.setAttribute("data-col", "c" + (positionNum - 1) );
+            }
+          }
+        }
+
       break;
     case 39: //right
-      tile.attr("data-col","c3");
+
+      // For each row
+      for (i = 0; i < 4; i++){
+
+        // collect all occupants
+        var occupants = $("[data-row='r" + i + "']");
+        var sortedOccupants = occupants.sort(function(a, b) {
+          return $(b).attr("data-col") - $(a).attr("data-col");
+        });
+          //for each tile
+
+        // noNeighbor
+          for (j = 0; j < occupants.length; j++){
+            var tile = occupants[j];
+
+            while (noWallSideways(tile, "right") && noNeighborSideways(tile, "right")){
+
+              // move right
+              var currentPosition = tile.getAttribute("data-col");
+              var positionNum = Number(currentPosition.replace("c",""));
+              tile.setAttribute("data-col", "c" + (positionNum + 1) );
+            }
+          }
+        }
+
       break;
   }
 }
