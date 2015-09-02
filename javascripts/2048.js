@@ -301,3 +301,24 @@ function moveTiles(direction) {
     tile.attr("data-col", newColLocation);
   }
 }
+
+function isBoardFull() {
+
+}
+
+function noMovesAvailable() {
+  var moves = 0;
+  for (r = 0; r < 4; r++) {
+    for (c = 0; c < 4; c++) {
+      // compares tile to the right of the tile
+      if (board[r][c] == board[r][c + 1]) {
+        moves++;
+      }
+      // compares tile to the tile below
+      if (board[r][c] == board[r + 1][c]) {
+        moves++;
+      }
+    }
+  }
+  return (moves == 0);
+}
