@@ -78,9 +78,9 @@ function checkNextSpace(active_tile, direction) {
   } else if ( parseInt(next_tile.attr('data-val')) != data_val && next_row_num >= 0 && next_row_num <= 3) {
     return(false);
 
-  // if next_tile exists and is the same, combine them 
+  // if next_tile exists and is the same, combine them
   // stop checking for moves
-  } else if ( parseInt(next_tile.attr('data-val')) == data_val ) {              
+  } else if ( parseInt(next_tile.attr('data-val')) == data_val ) {
     combineTiles(active_tile, next_tile);
     return(false);
   }
@@ -106,7 +106,7 @@ function moveTile(tile, direction) {
 
           // starting at that tile's row position, check each possible move 'up' (decreasing row #)
           for(k = data_row_num ; k > 0; k--) {
-            var next_row_num = k - 1; 
+            var next_row_num = k - 1;
             var next_tile = $('.tile[data-row="r' + next_row_num + '"][data-col="c' + data_col_num + '"]');
 
             // if next_tile doesn't exist and it is within the board bounds, move active_tile to that position
@@ -118,9 +118,9 @@ function moveTile(tile, direction) {
               break;
 
             // if next_tile exists and is the same, combine them
-            } else if ( parseInt(next_tile.attr('data-val')) == data_val ) {              
+            } else if ( parseInt(next_tile.attr('data-val')) == data_val ) {
               $(active_tile).attr('data-row', "r" + next_row_num);
-              
+
               var new_tile_value = combineTiles(active_tile, next_tile);
 
               // see if won
@@ -166,7 +166,7 @@ function moveTile(tile, direction) {
             // if next_tile does exist and has same data-val as active_tile, combine them
             } else if ( parseInt(next_tile.attr('data-val')) == data_val ) {
               $(active_tile).attr('data-row', "r" + next_row_num);
-              
+
               var new_tile_value = combineTiles(active_tile, next_tile);
 
               // see if won
@@ -174,7 +174,7 @@ function moveTile(tile, direction) {
                 console.log("you win!");
                 $("#message").text("you win!");
               } // end win condition check
-              
+
               break;
             }
           }
@@ -213,7 +213,7 @@ function moveTile(tile, direction) {
             // if next_tile does exist and has same data-val as active_tile, combine them
             } else if ( parseInt(next_tile.attr('data-val')) == data_val ) {
               $(active_tile).attr('data-col', "c" + next_col_num);
-             
+
               var new_tile_value = combineTiles(active_tile, next_tile);
 
               // see if won
@@ -259,7 +259,7 @@ function moveTile(tile, direction) {
             // if there is a tile there and it IS a match, combine them
             } else if ( parseInt(next_tile.attr('data-val')) == data_val ) {
               $(active_tile).attr('data-col', "c" + next_col_num);
-              
+
               var new_tile_value = combineTiles(active_tile, next_tile);
 
               // see if won
@@ -336,12 +336,14 @@ function addTile() {
   // plug those values into a newly created div's attributes
   var new_tile = $("<div>");
   new_tile.addClass("tile");
+  var random_tile_value = (getRandomIntInclusive(1, 10) < 10) ? "2" : "4";
   new_tile.attr({
         "data-row" : new_row,
         "data-col" : new_col,
-        "data-val" : "2"
+        "data-val" : random_tile_value
     });
-  new_tile.html("2");
+  new_tile.html(random_tile_value);
+  console.log("random tile value: " + random_tile_value);
   // add tile to board
   $("#gameboard").append(new_tile);
   pop(new_tile);
