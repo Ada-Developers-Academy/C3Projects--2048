@@ -13,7 +13,7 @@ $(document).ready(function() {
       var tile = $('.tile');
       moveTiles(tile, event.which);
       event.preventDefault();
-      generateTile(newTileValue);  
+      generateTile(newTileValue);
     }
   });
 });
@@ -22,10 +22,18 @@ function initializeGame() {
   // randomly pick two positions and start values
   generateTile(newTileValue);
   generateTile(newTileValue);
+  generateTile(newTileValue);
+  generateTile(newTileValue);
+  generateTile(newTileValue);
+  generateTile(newTileValue);
+  generateTile(newTileValue);
+  generateTile(newTileValue);
+  generateTile(newTileValue);
+  win();
 }
 
 function generateTile(array) {
-  var tile = $('<div class="tile" data-row="", data-col="" data-val="">');
+  var tile = $('<div class="tile" data-row="" data-col="" data-val="">');
   var randomRow = Math.floor(Math.random() * (rows.length));
   var randomCol = Math.floor(Math.random() * (cols.length));
   var randomValue = Math.floor(Math.random() * (array.length));
@@ -33,7 +41,7 @@ function generateTile(array) {
   tile.attr('data-row', rows[randomRow]);
   tile.attr('data-col', cols[randomCol]);
   tile.attr('data-val', array[randomValue]);
-  tile.text(array[randomValue]);
+  tile.innerHTML = tile.getAttribute('data-val');
 
   if ($('[data-row=' + rows[randomRow] + '][data-col=' + cols[randomCol] + ']').length === 0) {
 
@@ -185,4 +193,14 @@ function generateCol(num) {
   }
 
   return col;
+}
+
+function win() {
+  // at 2048 tile
+  var tiles = $(".tile");
+  $("[data-val]").text();
+// returns string of all datavals "222224222"
+  console.log(tiles);
+  return tiles;
+  // "you win!", grey out grid, two buttons: continue, try again
 }
