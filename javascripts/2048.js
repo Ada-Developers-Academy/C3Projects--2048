@@ -91,7 +91,8 @@ function moveTile(tile, direction) {
 
   function noNeighbor(tile){
     var occupantRow = tile.getAttribute("data-row");
-    var neighborRow = (occupantRow.replace("r","") - 1);
+    var occupantRowNum = Number(occupantRow.replace("r", ""));  // 2
+    var neighborRow = occupantRowNum - 1;
     var neighborCol = tile.getAttribute("data-col");
     var neighborCount = $("[data-row='r" + neighborRow + "'][data-col='" + neighborCol + "']").size();
     return neighborCount === 0;
@@ -154,7 +155,7 @@ function noNeighborSideways(tile, direction){
 
             // move forward
             var currentPosition = tile.getAttribute("data-row");
-            var positionNum = currentPosition.replace("r","");
+            var positionNum = Number(currentPosition.replace("r",""));
             // THIS IS THE LINE that does the up (row - 1)
             // Down is row + 1, left is col - 1, right is col + 1
             tile.setAttribute("data-row", "r" + (positionNum - 1) );
@@ -166,7 +167,7 @@ function noNeighborSideways(tile, direction){
       // if the board is full, newTile will be null and we don't try
       // to append anything
       var newTile = generateRandomTile();
-      if (newTile != null) {
+      if (newTile !== null) {
         $("#gameboard").append(newTile);
       }
 
@@ -191,8 +192,8 @@ function noNeighborSideways(tile, direction){
           //for each tile
 
         // noNeighbor
-          for (j = 0; j < occupants.length; j++){
-            var tile = occupants[j];
+          for (j = 0; j < sortedOccupants.length; j++){
+            var tile = sortedOccupants[j];
 
             while (noWallSideways(tile, "left") && noNeighborSideways(tile, "left")){
 
@@ -218,8 +219,8 @@ function noNeighborSideways(tile, direction){
           //for each tile
 
         // noNeighbor
-          for (j = 0; j < occupants.length; j++){
-            var tile = occupants[j];
+          for (j = 0; j < sortedOccupants.length; j++){
+            var tile = sortedOccupants[j];
 
             while (noWallSideways(tile, "right") && noNeighborSideways(tile, "right")){
 
