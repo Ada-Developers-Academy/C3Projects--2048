@@ -8,7 +8,7 @@ $(document).ready(function() {
     if(arrow_keys.indexOf(event.which) > -1) {
       var tile = $('.tile');
       moveTile(event.which);
-      // createTile();
+      createTile();
       event.preventDefault();
     }
   })
@@ -29,8 +29,6 @@ function arrayInitialize(){
 }
 
 function initializeGame() {
-  createTile();
-  createTile();
   createTile();
   createTile();
 }
@@ -104,11 +102,10 @@ function moveTile(direction) {
       var three = moveUp(3);
       break;
     case 40: //down
-      // tile.attr("data-row","r3");
-      // var zero = moveDown(0);
-      // var one = moveDown(1);
-      // var two = moveDown(2);
-      // var three = moveDown(3);
+    var zero = moveDown(0);
+    var one = moveDown(1);
+    var two = moveDown(2);
+    var three = moveDown(3);
 
       break;
     case 37: //left
@@ -123,6 +120,10 @@ function moveTile(direction) {
       // tile.attr("data-col","c0");
       break;
     case 39: //right
+    var zero = moveRight(0);
+    var one = moveRight(1);
+    var two = moveRight(2);
+    var three = moveRight(3);
       // tile.attr("data-col","c3");
       break;
   }
@@ -145,12 +146,34 @@ function moveTile(direction) {
     var row = getRow(r);
     for (var i = 0; i < row.length; i++ ) {
 
-        // var col = ('c' + i );
+        var col = ('c' + i );
         tile_array[i][r] = row[i];
-        row[i].attr('data-col', "c" + i)
+        row[i].attr('data-col', col)
         console.log(r, i);
       }
    }
+
+   function moveRight(r) {
+     var row = getRow(r);
+     var max = 3;
+     for (var i = row.length - 1; i >= 0; i-- ) {
+         var col = ('c' + max );
+         tile_array[max][r] = row[i];
+         row[i].attr('data-col', col)
+         max -=1;
+       }
+    }
+
+   function moveDown(col){
+      var column = getColumn(col);
+      var max = 3;
+        for (var i = column.length - 1; i >= 0; i-- ) {
+            var row = ('r' + max );
+            tile_array[col][max] = column[i];
+            column[i].attr('data-row', row);
+            max -= 1;
+          }
+     }
 
   function getColumn(col){
     var column = tile_array[col];
@@ -172,7 +195,6 @@ function moveTile(direction) {
         column[i].attr('data-row', row)
       }
    }
-
 
 
   // function getDownColumn(col){
