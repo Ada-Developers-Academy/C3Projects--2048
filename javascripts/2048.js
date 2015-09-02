@@ -295,7 +295,7 @@ function makeTurn(direction) {
   }
 
   function checkWin(score) {
-    var winningScore = 32;
+    var winningScore = 2048;
     if (score == winningScore) {
       alert("Yay! You won!");
     }
