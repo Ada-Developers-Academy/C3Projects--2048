@@ -118,7 +118,7 @@ function matched(direction) {
             tileLevelUp(r, c, board[r][c]);
             board[r + 1][c] = undefined;
             deleteVisualTile(r+1, c);
-            mergeTile(r, c, board[r][c]);
+            incrementVisualTile(r, c, board[r][c]);
           } // if
         } // r
       } // c
@@ -135,7 +135,7 @@ function matched(direction) {
             tileLevelUp(r, c, board[r][c]);
             board[r - 1][c] = undefined;
             deleteVisualTile(r-1, c);
-            mergeTile(r, c, board[r][c]);
+            incrementVisualTile(r, c, board[r][c]);
           } // if
         } // r
       } // c
@@ -152,7 +152,7 @@ function matched(direction) {
             tileLevelUp(r, c, board[r][c]);
             board[r][c + 1] = undefined;
             deleteVisualTile(r, c+1);
-            mergeTile(r, c, board[r][c]);
+            incrementVisualTile(r, c, board[r][c]);
           } // if
         } // r
       } // c
@@ -166,11 +166,10 @@ function matched(direction) {
           var neighbor = board[r][c - 1];
           if (board[r][c] == neighbor) {
             console.log(board[r][c] + 'matches'+ neighbor);
-            console.log('matched!');
             tileLevelUp(r, c, board[r][c]);
-            board[r][c - 1] = undefined;
             deleteVisualTile(r, c-1);
-            mergeTile(r, c, board[r][c]);
+            board[r][c - 1] = undefined;
+            incrementVisualTile(r, c, board[r][c]);
           } // if
         } // r
       } // c
@@ -182,7 +181,7 @@ function tileLevelUp(row, column, value) {
   board[row][column] = 2 * value;
 }
 
-function mergeTile(row, col, value) {
+function incrementVisualTile(row, col, value) {
   // for css styles
   var rowLocation = "r" + row;
   var colLocation = "c" + col;
