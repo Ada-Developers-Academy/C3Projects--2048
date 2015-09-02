@@ -100,11 +100,13 @@ function tileCollide(tile, neighbor) {
   }
 }
 
+
  function updateTile(tile) {
   var new_tile_value = tile.attr("data-val") * 2;
   tile.attr("data-val", new_tile_value);
   tile.text(new_tile_value);
  }
+
 
 function moveTile(direction) {
   // needs conditionals to check for occupied grids spaces
@@ -117,45 +119,88 @@ function moveTile(direction) {
       var three = moveUp(3);
       break;
     case 40: //down
-     // tile.attr("data-row","r3");
+
       var zero = moveDown(0);
       var one = moveDown(1);
       var two = moveDown(2);
       var three = moveDown(3);
-
       break;
     case 37: //left
-      tile.attr("data-col","c0");
+    var zero = moveLeft(0);
+    var one = moveLeft(1);
+    var two = moveLeft(2);
+    var three = moveLeft(3);
+    // console.log(zero);
+    // console.log(one);
+    // console.log(two);
+    // console.log(three);
+      // tile.attr("data-col","c0");
       break;
     case 39: //right
-      tile.attr("data-col","c3");
+    var zero = moveRight(0);
+    var one = moveRight(1);
+    var two = moveRight(2);
+    var three = moveRight(3);
+      // tile.attr("data-col","c3");
       break;
   }
 }
 
-  function getColumn(col){
-   var column = tile_array[col];
-   var no_undef_column = [];
-   for(var i = 0; i < column.length; i++) {
-     if (column[i] !== undefined) {
-       no_undef_column.push(column[i]);
-         tile_array[col][i] = undefined;
+  function getRow(r) {
+    var row = [];
 
-     }
+    for(var i = 0; i < tile_array.length; i++) {
+      if(tile_array[i][r] !== undefined) {
+        row.push(tile_array[i][r]);
+        tile_array[i][r] = undefined;
+      }
+    }
+    console.log(row);
+    return row;
+  }
+
+  function moveLeft(r) {
+    var row = getRow(r);
+    for (var i = 0; i < row.length; i++ ) {
+
+        var col = ('c' + i );
+        tile_array[i][r] = row[i];
+        row[i].attr('data-col', col)
+        console.log(r, i);
+      }
    }
-   return no_undef_column;
- }
 
- function moveUp(col) {
-   var column = getColumn(col);
-   for (var i = 0; i < column.length; i++ ) {
-      var max = 0
-        // if column.length < 1, then there is only one tile
-        // if there length is more than 1, then we need to check if tiles are the same value
-        // pass column[i] through check to see if it will collide with other tiles
-        var row = ('r' + i );
+   function moveRight(r) {
+     var row = getRow(r);
+     var max = 3;
+     for (var i = row.length - 1; i >= 0; i-- ) {
+         var col = ('c' + max );
+         tile_array[max][r] = row[i];
+         row[i].attr('data-col', col)
+         max -=1;
+       }
+    }
+
+
+  function getColumn(col){
+    var column = tile_array[col];
+    var no_undef_column = [];
+    for(var i = 0; i < column.length; i++) {
+      if (column[i] !== undefined) {
+        no_undef_column.push(column[i]);
+        tile_array[col][i] = undefined;
+      }
+    }
+    return no_undef_column;
+  }
+
+  function moveUp(col) {
+    var column = getColumn(col);
+    for (var i = 0; i < column.length; i++ ) {
+        var row = ('r' + [i] );
         tile_array[col][i] = column[i];
         column[i].attr('data-row', row)
+      }
 
         if (i !== max && column.length > 1){
           console.log("in the collide conditional");
