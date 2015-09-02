@@ -5,19 +5,22 @@ const BOARDCEILING = 4; // anything less than 4 is valid
 const WINNING_TILE = 2048;
 // Constants -----------------
 var board = []
-var score = 0;
+var score;
 var alreadyWon = false;
 
 $(document).ready(function() {
 
   function begin() {
+    board = [];
     for (i = 0; i < 4; i++) {
       board[i] = new Array(4);
-      // console.log(board);
     }
-      createTile();
-      createTile();
-    console.log('ready!');
+    createTile();
+    createTile();
+    score = 0;
+    changeDisplayedScore();
+    console.log('Ready!');
+
     // board[3][0] = 1;
     // board[1][0] = 2;
     // board[2][0] = 3;
@@ -37,14 +40,11 @@ $(document).ready(function() {
   }
 
   begin();
-  console.log('score: ' + score);
 
-  // {key: starting position}
-  // {37: c0, 38: r0, 39: c3, 40: r3}
-  // left = 37
-  // up = 38
-  // right = 39
-  // down = 40
+  $('#newgame').click(function () {
+    clearBoard();
+    begin();
+  });
 
   $('body').keydown(function(event){
     var arrow_keys = [37, 38, 39, 40];
@@ -131,6 +131,13 @@ function createVisualTile(row, col, value) {
 
 function changeDisplayedScore() {
   var scoreDiv = $('#score')
+  //animation to ba-dump scoreboard
+  $('#scoreboard').addClass('increasescore');
+
+  // remove animation class
+  $('#scoreboard').on('animationend', function() {
+    $(this).removeClass('increasescore');
+  })
   scoreDiv.text(score);
 }
 
@@ -360,7 +367,7 @@ function hasLost() {
 }
 
 function isBoardFull() {
-// make a loop, call empty on each tile
+  // make a loop, call empty on each tile
   for (r = 0; r < 4; r++) { // for each row
     for (c = 0; c < 4; c++) { // for each col
       if (empty(board[r][c])) {
@@ -389,4 +396,9 @@ function noMovesAvailable() {
     }
   }
   return (moves == 0);
+}
+
+function clearBoard() {
+  var divs = $('.tile');
+  divs.remove();
 }
