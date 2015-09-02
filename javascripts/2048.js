@@ -226,6 +226,7 @@ var condensedDown = [
 // [4, 2,  64,  32]
 
 Board.prototype.build = function(condensedArrays, direction) {
+  // all this emptySpots stuff is setup for the new tile event function
   var emptySpots = []; // this will eventually be a set of [row, column] positions for all the 0s / empty spots
   var boardLength = this.boardLength;
   var emptyTile = this.emptyTile;
@@ -253,7 +254,7 @@ Board.prototype.build = function(condensedArrays, direction) {
     extendedArrays.push(extendedRow);
   } // see ya, for
 
-  this.board = condensedArrays; // NOTE this is mutating the original board
+  this.board = extendedArrays; // NOTE this is mutating the original board
 
   // call new tile event here
   // NOTE this needs to happen BEFORE the board is reoriented, because the
