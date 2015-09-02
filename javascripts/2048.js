@@ -131,6 +131,7 @@ function moveTile(tile, direction) {
 
             // if next_tile exists and is the same, combine them
             } else if ( parseInt(next_tile.attr('data-val')) == data_val ) {              
+              $(active_tile).attr('data-row', "r" + next_row_num);
               combineTiles(active_tile, next_tile);
               break;
             }
@@ -168,6 +169,7 @@ function moveTile(tile, direction) {
 
             // if next_tile does exist and has same data-val as active_tile, combine them
             } else if ( parseInt(next_tile.attr('data-val')) == data_val ) {
+              $(active_tile).attr('data-row', "r" + next_row_num);
               combineTiles(active_tile, next_tile);
               break;
             }
@@ -206,6 +208,7 @@ function moveTile(tile, direction) {
 
             // if next_tile does exist and has same data-val as active_tile, combine them
             } else if ( parseInt(next_tile.attr('data-val')) == data_val ) {
+              $(active_tile).attr('data-col', "c" + next_col_num);
               combineTiles(active_tile, next_tile);
               break;
             }
@@ -244,6 +247,7 @@ function moveTile(tile, direction) {
 
             // if there is a tile there and it IS a match, combine them
             } else if ( parseInt(next_tile.attr('data-val')) == data_val ) {
+              $(active_tile).attr('data-col', "c" + next_col_num);
               combineTiles(active_tile, next_tile);
               break;
             }
@@ -316,7 +320,14 @@ function addTile() {
     // add tile to board
 
   $("#gameboard").append(new_tile);
+  pop(new_tile);
 } // end addTile
+
+function pop(tile) {
+  $(tile)
+  .addClass('popper')
+  .on('animationend', function() { $(this).removeClass('popper');})
+}
 
 // for picking random cell to place a new tile
 // pulled from the internet (why must it be so damn gross?)
