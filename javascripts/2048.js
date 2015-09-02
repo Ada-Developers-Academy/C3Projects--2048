@@ -13,12 +13,6 @@ $(document).ready(function() {
 });
 
 function generateTileTemplate() {
-  // Generate random tile position and value
-  // For test purposes!
-  // var randomRow = Math.floor(Math.random() * 2 - 0);
-  // var randomCol = Math.floor(Math.random() * 2 - 0);
-  // var newValArray = [2,2,2,2,2,2,2,2];
-  console.log("tile template generated");
   var randomRow = Math.floor(Math.random() * 4 - 0);
   var randomCol = Math.floor(Math.random() * 4 - 0);
   var newValArray = [2,2,2,2,2,2,2,2,4,4];
@@ -135,7 +129,22 @@ function moveTile(tile, direction) {
   }
 
   function mergeCheck(tile, direction){
+    var occupantRow = tile.getAttribute("data-row");
+    var occupantRowNum = Number(occupantRow.replace("r", ""));
+    var occupantCol = tile.getAttribute("data-col");
     // Know which direction you're heading
+    if (direction == "up"){
+      var neighborRowNum = occupantRowNum - 1;
+      var neighborCol = occupantCol;
+      var neighbor = $("[data-col='" + neighborCol + "'][data-row='r" + neighborRowNum + "']");
+      console.log(neighbor);
+    } else if (direction == "down"){
+
+    } else if (direction == "right"){
+
+    } else if (direction == "left"){
+
+    }
     // Check for adjacent neighbor
     // Check for value match
     // Return a true or false saying if a merge in that direciton is possible
@@ -166,12 +175,15 @@ function moveTile(tile, direction) {
            return $(a).attr("data-row").replace("r","") - $(b).attr("data-row").replace("r","");
           // return $(a).attr("data-row") - $(b).attr("data-row");
         });
-        console.log(sortedOccupants);
         //for each tile
 
         // noNeighbor
         for (j = 0; j < sortedOccupants.length; j++) {
           var tile = sortedOccupants[j];
+
+          if (noNeighborVert(tile, "up") == false){
+            mergeCheck(tile, "up");
+          }
 
           while (noWallVert(tile, "up") && noNeighborVert(tile, "up")){
 
