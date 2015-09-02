@@ -2,6 +2,31 @@ html {
   font: normal normal 30px/1 "Clear Sans", "Helvetica Neue", Arial, sans-serif;
 }
 
+#scoreboard {
+  background: #bbada0;
+  border-radius: 0.25rem;
+  /*height: 2.5rem;*/
+  /*width: 2rem;*/
+  display: inline-block;
+}
+
+#scoreboard p {
+  margin: 0;
+  font-weight: bold;
+  text-align: center;
+  padding: 0.25rem;
+}
+
+#score-label {
+  font-size: .5rem;
+  color: #ede0c8; /* same color as 4 tile background */
+}
+
+#score {
+  font-size: 1em;
+  color: white;
+}
+
 #gameboard {
   background: #bbada0;
   border-radius: 0.5rem;
