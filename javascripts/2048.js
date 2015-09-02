@@ -2,6 +2,11 @@ var rows = ['r0', 'r1', 'r2', 'r3'];
 var cols = ['c0', 'c1', 'c2', 'c3'];
 var newTileValue = [ 2, 2, 2, 2, 4 ];
 var score = 0;
+var winCount = 0;
+var WIN_ELEMENT = $('<div class="win"><h1>You win!</h1></div>');
+var CONT_BUTTON = $('<button class="cont-button">Continue?</button>');
+var RETRY_BUTTON = $('<button class="retry-button">Try Again?</button>');
+
 
 $(document).ready(function() {
   initializeGame();
@@ -22,14 +27,6 @@ function initializeGame() {
   // randomly pick two positions and start values
   generateTile(newTileValue);
   generateTile(newTileValue);
-  generateTile(newTileValue);
-  generateTile(newTileValue);
-  generateTile(newTileValue);
-  generateTile(newTileValue);
-  generateTile(newTileValue);
-  generateTile(newTileValue);
-  generateTile(newTileValue);
-  // winGame();
 }
 
 function generateTile(array) {
@@ -195,12 +192,26 @@ function generateCol(num) {
   return col;
 }
 
+// Not called right now. To be combined with lose functionality
 function winGame() {
   // at 2048 tile
   var tiles = $(".tile");
-  var win = $("[data-val]").text().indexOf(2048) < 0 ? false : true;
+  // win var is currently set to win at 8 for testing! Change to 2048 for true win.
+  var win = $("[data-val]").text().indexOf(2) < 0 ? false : true ;
+  winCount += 1;
+  if (win && (winCount == 1)) {
 
-  console.log(tiles);
-  return tiles;
-  // "you win!", grey out grid, two buttons: continue, try again
+    $("#gameboard").append(WIN_ELEMENT);
+    $(".win").append(CONT_BUTTON);
+    $(".win").append(RETRY_BUTTON);
+
+    $('.cont-button').click(function(event) {
+      $('.win, .cont-button, .retry-button').remove();
+    });
+
+    $('.retry-button').click(function(event) {
+      $('.win, .cont-button, .retry-button').remove();
+      location.reload();
+    });
+  }
 }

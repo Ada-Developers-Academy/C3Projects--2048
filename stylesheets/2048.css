@@ -24,6 +24,16 @@ h1 {
   display: inline-block;
 }
 
+.win {
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 0.5rem;
+  height: 18.5rem;
+  margin: 1rem auto;
+  position: relative;
+  width: 18.5rem;
+  text-align: center;
+}
+
 #gameboard {
   background: #bbada0;
   border-radius: 0.5rem;
