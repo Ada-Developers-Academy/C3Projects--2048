@@ -2,7 +2,6 @@ $(document).ready(function() {
   console.log('ready!');
   generateRandomBoard();
 
-
   $('body').keydown(function(event){
     var arrow_keys = [37, 38, 39, 40];
     if(arrow_keys.indexOf(event.which) > -1) {
@@ -10,8 +9,8 @@ $(document).ready(function() {
       moveTile(tile, event.which);
       event.preventDefault();
     }
-  })
-})
+  });
+});
 
 function generateRandomTile() {
   // Generate random tile position and value
@@ -19,7 +18,7 @@ function generateRandomTile() {
   // var randomRow = Math.floor(Math.random() * 2 - 0);
   // var randomCol = Math.floor(Math.random() * 2 - 0);
   // var newValArray = [2,2,2,2,2,2,2,2];
-
+  console.log("tile generated");
   var randomRow = Math.floor(Math.random() * 4 - 0);
   var randomCol = Math.floor(Math.random() * 4 - 0);
   var newValArray = [2,2,2,2,2,2,2,2,4,4];
@@ -112,13 +111,13 @@ function moveTile(tile, direction) {
            return $(a).attr("data-row").replace("r","") - $(b).attr("data-row").replace("r","");
           // return $(a).attr("data-row") - $(b).attr("data-row");
         });
-        console.log(sortedOccupants)
+        console.log(sortedOccupants);
           //for each tile
 
         // noNeighbor
           for (j = 0; j < sortedOccupants.length; j++){
             var tile = sortedOccupants[j];
-            console.log(tile.getAttribute("data-row"))
+            console.log(tile.getAttribute("data-row"));
             console.log(" noNeighbor: " + noNeighbor(tile));
             console.log(" noWall: " + noWall(tile));
 
@@ -131,18 +130,16 @@ function moveTile(tile, direction) {
             }
           }
 
-            // checkWall
-
-            // while checks return false
-            // moveTile
-        // generate new tile after move completion
-
 
       }
+
+        // generate new tile after move completion
+
+    $("#gameboard").append(generateRandomTile());
+
   // --- old code----------
 
       // check for movement path for stacking, merging possibility
-
 
       break;
     case 40: //down
