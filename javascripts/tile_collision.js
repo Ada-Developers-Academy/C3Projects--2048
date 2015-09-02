@@ -62,7 +62,6 @@ function orderTiles(keystroke) {
 function tileCollision(keystroke) {
   var orderedTiles = orderTiles(keystroke);
 
-//  console.log(orderedTiles);
   var direction = function() {
     switch(keystroke) {
     case 38:
@@ -97,10 +96,6 @@ function tileCollision(keystroke) {
       return $.inArray([colRight, sameRow], orderedTiles);
     }
   }
-  //console.log(adjacentSpace("up"));
-  //console.log(adjacentSpace("down"));
-  //console.log(adjacentSpace("left"));
-  //console.log(adjacentSpace("right"));
 
   // iterates through every tile to determine it's action
   // on this single keystroke
@@ -125,7 +120,6 @@ function tileCollision(keystroke) {
 
     // returns adjacent tile's index
     // or -1 if the adjacent space isn't occupied
-
     var adjacentTile = adjacentSpace(direction, rowsIndex, columnsIndex);
   }
 }
