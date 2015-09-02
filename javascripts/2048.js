@@ -1,5 +1,6 @@
 $(document).ready(function() {
   console.log('ready!');
+  // setupScoreboard();
   $('body').keydown(function(event){
     var arrow_keys = [37, 38, 39, 40];
     var direction = event.which;
@@ -17,6 +18,14 @@ function makeTurn(direction) {
   var oppositeType = (type == "data-row") ? "data-col" : "data-row";
   // set the positive or negative according to direction
   var magnitude = parseInt(farthestValue());
+  var score = parseInt($("#score").attr("data-score"));
+
+  var updateScore = function(points) {
+    score += points;
+    var scoreBoard = $("#score");
+    scoreBoard.attr("data-score", score);
+    scoreBoard.text(score);
+  }
 
   function moveTiles() {
     var moveInDirection = makeMovement(direction);
@@ -105,6 +114,7 @@ function makeTurn(direction) {
       if (neighbor) {
         var currentVal = parseInt(sortedTiles[i].getAttribute("data-val"));
         sortedTiles[i].setAttribute("data-val", (currentVal * 2));
+        updateScore(currentVal*2);
         sortedTiles[i].innerHTML = (currentVal * 2);
         var neighborIndex = sortedTiles.indexOf(neighbor);
         // so sorry
@@ -217,7 +227,7 @@ function makeTurn(direction) {
   }
 
   moveTiles();
-  mergeTiles();
+  mergeTiles(); // scoring happens here
   moveTiles();
   addTile();
 }
