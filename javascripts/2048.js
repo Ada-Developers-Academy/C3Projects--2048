@@ -12,17 +12,17 @@ $(document).ready(function() {
 })
 
 function moveTile(tile, direction) {
-  if (tilesCollide == true) {
+  // if (tilesCollide(direction); == true) {
     var new_tile_value = tile.attr("data-val") * 2;
     tile.attr("data-val", new_tile_value);
     tile.text(new_tile_value); // then also moves to next available position
-  } else {
+  // } else {
     // they do not merge, they slide into the next available position
-  }
+  // }
 
   switch(direction) {
     case 38: //up
-      tile.attr("data-row","r0");
+      tile.attr("data-row","r0"); // unless a tile is there
       break;
     case 40: //down
       tile.attr("data-row","r3");
@@ -36,7 +36,12 @@ function moveTile(tile, direction) {
   }
 }
 
-function tilesCollide() {
+function moveUp() {
+
+
+}
+
+function tilesCollide(direction) {
 
 }
 
@@ -98,10 +103,12 @@ function addTile(){
   dataCol.value = "c" + newSpot["col"];
   newDiv.setAttributeNode(dataCol);
   var dataVal = document.createAttribute("data-val");
-  dataVal.value = "2";
-  newDiv.setAttributeNode(dataVal);
-  newDiv.textContent = "2";
 
+  var randomValArray = [2, 2, 2, 4]
+  var randomVal = randomValArray[Math.floor(Math.random() * randomValArray.length)];
+  dataVal.value = randomVal;
+  newDiv.setAttributeNode(dataVal);
+  newDiv.textContent = randomVal;
   $("#gameboard").append(newDiv); // adds tile to gameboard
 
 }
