@@ -44,6 +44,7 @@ $(document).ready(function() {
       // empty(tile);
       moveTiles(event.which);
       matched(event.which);
+      moveTiles(event.which);
       createTile();
       event.preventDefault();
     }
@@ -111,7 +112,7 @@ function matched(direction) {
 
       for(c=0; c<4; c++) { //colm incrementing
         for(r=rowStart; r<3; r++) { //row incrementing
-          if (isNaN(board[r][c])) { break;} // will do check if value is a number
+          if (isNaN(board[r][c])) { continue;} // will do check if value is a number
             var neighbor = board[r + 1][c];
           if (board[r][c] == neighbor) {
             console.log(board[r][c] + 'matches' + neighbor);
@@ -128,7 +129,7 @@ function matched(direction) {
 
       for(c=0; c<4; c++) { //colm incrementing
         for(r=rowStart; r>0; r--) { //row decrementing
-          if (isNaN(board[r][c])) { break;} // will do check if value is a number
+          if (isNaN(board[r][c])) { continue;} // will do check if value is a number
           var neighbor = board[r - 1][c];
           if (board[r][c] == neighbor) {
             console.log(board[r][c] + 'matches' + neighbor);
@@ -145,7 +146,7 @@ function matched(direction) {
 
       for(c=colStart; c<3; c++) { //colm incrementing
         for(r=0; r<3; r++) { //row incrementing
-          if (isNaN(board[r][c])) { break;} // will do check if value is a number
+          if (isNaN(board[r][c])) { continue;} // will do check if value is a number
           var neighbor = board[r][c + 1];
           if (board[r][c] == neighbor) {
             console.log(board[r][c] + 'matches'+ neighbor);
@@ -162,7 +163,7 @@ function matched(direction) {
 
       for(c=colmStart; c>0; c--) { //colm decrementing
         for(r=0; r<4; r++) { //row incrementing
-          if (isNaN(board[r][c])) { break;} // will do check if value is a number
+          if (isNaN(board[r][c])) { continue;} // will do check if value is a number
           var neighbor = board[r][c - 1];
           if (board[r][c] == neighbor) {
             console.log(board[r][c] + 'matches'+ neighbor);
@@ -188,9 +189,6 @@ function incrementVisualTile(row, col, value) {
   var tile = $("[data-row=" + rowLocation + "][data-col=" + colLocation + "]");
   tile.text(value);
   tile.attr("data-val", value);
-  tile.attr("data-row", rowLocation);
-  tile.attr("data-col", colLocation);
-
 }
 
 function deleteVisualTile(row, col) {
