@@ -5,25 +5,24 @@ $(document).ready(function() {
                    ["r3", "c1"], ["r3", "c2"], ["r3", "c3"], ["r3", "c0"],
                    ["r0", "c1"], ["r0", "c2"], ["r0", "c3"], ["r0", "c0"]];
   var usedCells = []
-  playGame(openCells, usedCells);
+  newTile(openCells, usedCells);
+  newTile(openCells, usedCells);
+
   $('body').keydown(function(event){
     var arrow_keys = [37, 38, 39, 40];
     if(arrow_keys.indexOf(event.which) > -1) {
       var tile = $('.tile');
-      moveTile(tile, openCells, usedCells, event.which);
+      // newTile(openCells, usedCells);
+      playGame(tile, openCells, usedCells, event.which);
       event.preventDefault();
+
     }
-    newTile(openCells, usedCells);
   })
 })
 
-function playGame(open, used) {
-  if (open.length == 16) {
-    newTile(open, used);
-    newTile(open, used);
-  } else {
-    newTile(open, used)
-  }
+function playGame(tile, openCells, usedCells, direction) {
+    moveTile(tile, openCells, usedCells, direction);
+    newTile(openCells, usedCells)
 }
 
 function randomNum(array) {
@@ -42,15 +41,31 @@ function newTile(openCells, usedCells) {
   $(tile).attr("data-val", initNum);
   $(tile).text(initNum);
   occupyCell(openCells, usedCells, cellSpace);
+  // emptyCell(openCells, usedCells, cellSpace)
+
 }
 
 function occupyCell(openCells, usedCells, cellSpace) {
-  openCells.splice(openCells.indexOf(cellSpace), 1);
-  usedCells.push(cellSpace);
+  var index = findIndex(openCells, cellSpace);
+  openCells.splice(index, 1);
+  var cellExists = findIndex(usedCells, cellSpace)
+  if (cellExists == undefined) {
+    usedCells.push(cellSpace);
+  }
+  // return openCells, usedCells;
+}
+
+function findIndex(array, element) {
+  for (k = 0; k < array.length; k++) {
+    if (array[k][0] == element[0] && array[k][1] == element[1]) {
+      return k;
+    }
+  }
 }
 
 function emptyCell(openCells, usedCells, cellSpace) {
-  usedCells.splice(usedCells.indexOf(cellSpace), 1);
+  var index = findIndex(usedCells, cellSpace);
+  usedCells.splice(index, 1);
   openCells.push(cellSpace);
 }
 
@@ -79,7 +94,7 @@ function moveTile(tile, openCells, usedCells, direction) {
 
   switch(direction) {
       case 38: //up
-        moveUp(tile, openCells, usedCells, direction);
+        return moveUp(tile, openCells, usedCells, direction);
         break;
   }
 }
@@ -91,7 +106,7 @@ function moveUp(tile, openCells, usedCells, direction) {
     // search and delete from array method??
     var usedCol = usedCells.filter(function(array) { return array[1] == "c" + i});
     // is either open or used cells == 4, there is nothing to move
-    if (openCol.length == 4 || usedCol.length == 4) {
+    if (openCol.length >= 4 || usedCol.length >= 4) {
       continue;
     } else {
       // gives array with row # and column coordinates sorted by row #
@@ -101,15 +116,19 @@ function moveUp(tile, openCells, usedCells, direction) {
       for (j = 0; j < usedArr.length; j++) {
         if (openArr[0][0] < usedArr[j][0]) {
           var fullCoord = "r" + openArr[0][0];
-          $(tile).attr("data-row", fullCoord);
-          openCol.push(usedArr[j]);
-          occupyCell(openCol, usedCol, [fullCoord, openArr[0][1]]);
+          var col = "c" + i
+          usedArr[j][0] = "r" + usedArr[j][0]
+          oneTile = $("div[data-row=" + usedArr[j][0] + "][data-col=" + col + "]");
+          $(oneTile).attr("data-row", fullCoord);
+          // openCol.push(usedArr[j]);
+          emptyCell(openCells, usedCells, usedArr[j]);
+          occupyCell(openCells, usedCells, [fullCoord, openArr[0][1]]);
         }
       }
       // add to global variables
-
     }
   }
+  // return [openCells, usedCells];
   // all columns have been iterated over - create a new tile
   // newTile(openCells, usedCells);
 }
