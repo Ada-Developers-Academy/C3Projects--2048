@@ -75,6 +75,12 @@ function moveTile(tile, direction) {
 
               // active_tile disappears
               active_tile.remove();
+
+              // see if won
+              if (new_tile_value >= 2048) {
+                console.log("you win!");
+                $("#message").text("you win!");
+              } // end win condition check
             }
           }
         }
@@ -114,6 +120,12 @@ function moveTile(tile, direction) {
 
               // active_tile disappears
               active_tile.remove();
+
+              // see if won
+              if (new_tile_value >= 2048) {
+                console.log("you win!");
+                $("#message").text("you win!");
+              } // end win condition check
             }
           }
         }
@@ -154,6 +166,12 @@ function moveTile(tile, direction) {
 
               // active_tile disappears
               active_tile.remove();
+
+              // see if won
+              if (new_tile_value >= 2048) {
+                console.log("you win!");
+                $("#message").text("you win!");
+              } // end win condition check
             }
           }
         }
@@ -202,6 +220,12 @@ function moveTile(tile, direction) {
 
               // active_tile disappears
               active_tile.remove();
+
+              // see if won
+              if (new_tile_value >= 2048) {
+                console.log("you win!");
+                $("#message").text("you win!");
+              } // end win condition check
             }
           }
         }
@@ -318,5 +342,5 @@ function checkPossibleMoves() {
 
   console.log("you lose!");
   $("#message").text("GAME OVER");
-  
+
 } // end checkPossibleMoves
