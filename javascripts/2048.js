@@ -309,7 +309,15 @@ function moveTiles(direction) {
 }
 
 function isBoardFull() {
-
+// make a loop, call empty on each tile
+  for (r = 0; r < 4; r++) { // for each row
+    for (c = 0; c < 4; c++) { // for each col()
+      empty(board[r][c]);
+      // collect all answers
+      // want all falses
+      // when empty is true, break
+    }
+  }
 }
 
 function noMovesAvailable() {
