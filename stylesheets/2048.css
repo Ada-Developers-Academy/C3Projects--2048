@@ -84,15 +84,6 @@ h1 {
   width: 4rem;
 }
 
-.popper {
-  animation: pop .2s;
-  animation-delay: .2s;
-}
-
-.scaleIn {
-  animation: scaleIn .3s;
-}
-
 .tile[data-row=r0] { top: 0; }
 .tile[data-row=r1] { top: 4.5rem; }
 .tile[data-row=r2] { top: 9rem; }
@@ -114,6 +105,18 @@ h1 {
 .tile[data-val="512"]  { background: #edc850; }
 .tile[data-val="1024"] { background: #edc53f; }
 .tile[data-val="2048"] { background: #edc22e; }
+
+
+/* ------- ANIMATIONS ------- */
+
+.popper {
+  animation: pop .2s;
+  animation-delay: .2s;
+}
+
+.scaleIn {
+  animation: scaleIn .3s;
+}
 
 @keyframes pop {
   0% {
