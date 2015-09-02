@@ -153,7 +153,6 @@ function moveTile(tile, direction) {
   $('.tile').attr('combined','false');          // reset combined to false for next round of checks
 }
 
-
 function combineTiles(active_tile, next_tile) {
   var new_tile_value = parseInt(next_tile.attr('data-val'))* 2;
 
@@ -176,8 +175,8 @@ function incrementScore(new_tile_value) {
   $("#score").text(score);
 }
 
-
-// extend ability to remove values from arrays, because reasons
+// extend ability to remove values from arrays
+// because deleting values leaves them undefined
 Array.prototype.remove = function(value) {
     if (this.indexOf(value)!== -1) {
        this.splice(this.indexOf(value), 1);
@@ -187,14 +186,19 @@ Array.prototype.remove = function(value) {
    }
 };
 
+function tilePositionToStringCoordinate(tile) {
+  var row = tile.getAttribute("data-row"); // "r0"
+  var col = tile.getAttribute("data-col"); // "c0"
+  var coordinate = row + "," + col; // "r0,c0"
+  return coordinate;
+}
+
 function addTile() {
   var present_tiles = (document.getElementsByClassName("tile")); // find all tiles
   var positions = [];
   for (var i = 0; i < present_tiles.length; i++) { // pull each tile position into string pair "r0,c0"
-    var row = present_tiles[i].getAttribute("data-row");
-    var col = present_tiles[i].getAttribute("data-col");
-    var position_pair = row + "," + col;
-    positions.push(position_pair); // push into array ["r0,c0", "r0,c1"]
+    var coordinate = tilePositionToStringCoordinate(present_tiles[i]); // "r0,c0"
+    positions.push(coordinate); // push into array ["r0,c0", "r1,c1", ...]
   } // now have positions of all present tiles (changes after each move)
 
   var grid_options = cloneGridPositions();
@@ -229,7 +233,7 @@ function getRandomIntInclusive(min, max) {
 
 function checkPossibleMoves() {
   var present_tiles = $(".tile");                           // find all tiles
-  
+
   for (i = 0; i < present_tiles.length; i++) {              // iterate through all tiles
     var tile = present_tiles[i];
 
