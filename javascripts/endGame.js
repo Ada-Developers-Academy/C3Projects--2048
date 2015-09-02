@@ -2,6 +2,7 @@ function checkWin() {
   var winningTiles = $("[data-val=" + winningTileValue + "]");
   if (winningTiles.length > 0) {
     priorWin = true;
+    winnerTile(winningTiles);
     endGame('win');
   } else { return false;}
 }
@@ -52,5 +53,6 @@ function endGame(status) {
   }
 
   // display overlay
+  delayFadeIn(overlay);
   $('#gameboard').append(overlay);
 }

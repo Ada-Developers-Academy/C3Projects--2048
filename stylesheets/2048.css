@@ -118,6 +118,15 @@ h1 {
   animation: scaleIn .3s;
 }
 
+.delayFadeIn {
+  animation: fadeIn 1s;
+}
+
+.winning {
+  animation: smallPop 1s;
+  animation-delay: .2s;
+}
+
 @keyframes pop {
   0% {
     transform: scale(0);
@@ -140,6 +149,34 @@ h1 {
   /* This adds a sort of delay so that the tile does not appear prior to tiles around it shifting. */
   50% {
     transform: scale(0);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes smallPop {
+  0% {
+    transform: scale(.9);
+  }
+
+  50% {
+    transform: scale(1.2);
   }
 
   100% {
