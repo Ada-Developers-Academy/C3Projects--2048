@@ -141,6 +141,7 @@ function moveTile(tile, direction) {
       var neighborVal = neighbor.attr("data-val");
       return neighborVal == occupantVal;
 
+      console.log(mergeTiles(neighbor));
     } else if (direction == "down"){
       var neighborRowNum = occupantRowNum + 1;
       var neighborCol = occupantCol;
@@ -153,15 +154,16 @@ function moveTile(tile, direction) {
     } else if (direction == "left"){
 
     }
-    // Check for adjacent neighbor
-    // Check for value match
-    // Return a true or false saying if a merge in that direciton is possible
+
+    function mergeTiles(neighbor){
+      return neighbor;
+      // we got the neighbor
+      // Update the value of the tile on the corresponding side
+      // Remove the obsolete tile HTML
+    }
   }
 
-  function mergeTiles(obsoleteTile, remainingTile){
-    // Update the value of the tile on the corresponding side
-    // Remove the obsolete tile HTML
-  }
+
 
   function addNewTile(){
     var newTile = generateRandomTile();
