@@ -10,7 +10,6 @@ $(document).ready(function() {
     if(arrow_keys.indexOf(event.which) > -1) {
       var tile = $('.tile');
       moveTile(tile, event.which);
-      tileCollision(event.which);
       event.preventDefault();
     }
   });
@@ -83,6 +82,8 @@ function moveTile(tile, direction) {
     // var new_tile_value = tile.attr("data-val") * 2;
     // tile.attr("data-val", new_tile_value);
     // tile.text(new_tile_value);
+
+  tileCollision(direction);
 
   switch(direction) {
     case 38: // up
