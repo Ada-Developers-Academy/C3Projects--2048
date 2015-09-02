@@ -13,6 +13,7 @@ $(document).ready(function() {
 var board     = [];
 var boardSize = 4;
 var newTile  = [];
+var score = 0;
 
 // sets up 2D array
 function initializeBoard() {
@@ -82,6 +83,7 @@ function moveTile(direction) {
       break;
   }
   displayBoard();
+  console.log(score);
 }
 
 function moveUp() {
@@ -97,6 +99,7 @@ function moveUp() {
       }
       else if(next == board[y][x]) {
         board[y][x]    += board[y - 1][x]; // collapse it
+        score += board[y][x];
         board[y - 1][x] = 0;
       }
     }
@@ -119,6 +122,7 @@ function moveDown () {
       }
       else if(next == board[y][x]) {
         board[y][x]    += board[y + 1][x]; // collapse it
+        score += board[y][x];
         board[y + 1][x] = 0;
       }
     }
@@ -141,6 +145,7 @@ function moveLeft() {
       }
       else if(next == board[y][x]) {
         board[y][x]    += board[y][x + 1]; // collapse it
+        score += board[y][x];
         board[y][x + 1] = 0;
       }
     }
@@ -163,6 +168,7 @@ function moveRight() {
       }
       else if(next == board[y][x]) {
         board[y][x]    += board[y][x - 1]; // collapse it
+        score += board[y][x];
         board[y][x - 1] = 0;
       }
     }
@@ -194,9 +200,7 @@ function setupTempBoard(direction) {
       for(y = 3; y >= 0; y--) {
         array.push(board[y][x]);
       }
-      console.log(array);
       var tempColumn = removeZero(array);
-      console.log(tempColumn);
       while(tempColumn.length <= boardSize - 1) {
         tempColumn.unshift(0);
       }
@@ -276,7 +280,6 @@ function setupTempBoard(direction) {
         }
       }
     }
-    console.log(board.toString());
     return board;
   }
 
