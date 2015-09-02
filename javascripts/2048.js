@@ -1,18 +1,19 @@
 const MAXSTARTINGTILE = 4;
 const MINSTARTINGTILE = 2;
 const MINBOARDLOCALE = 0;
+const MAXBOARDLOCALE = 4;
 const BOARDCEILING = 4; // anything less than 4 is valid
 const WINNING_TILE = 2048;
 // Constants -----------------
-var board = []
+var board;
 var score;
 var alreadyWon = false;
 
 $(document).ready(function() {
 
   function begin() {
-    board = [];
-    for (i = 0; i < 4; i++) {
+    board = []; // creates an empty board
+    for (i = 0; i < 4; i++) { // fills the board
       board[i] = new Array(4);
     }
     createTile();
@@ -20,23 +21,6 @@ $(document).ready(function() {
     score = 0;
     changeDisplayedScore();
     console.log('Ready!');
-
-    // board[3][0] = 1;
-    // board[1][0] = 2;
-    // board[2][0] = 3;
-    // board[0][0] = 4;
-    // board[0][1] = 5;
-    // board[1][1] = 6;
-    // board[2][1] = 7;
-    // board[3][1] = 8;
-    // board[0][2] = 9;
-    // board[1][2] = 10;
-    // board[2][2] = 11;
-    // board[3][2] = 12;
-    // board[0][3] = 13;
-    // board[3][3] = 14;
-    // board[2][3] = 15;
-    // board[1][3] = 16;
   }
 
   begin();
@@ -49,11 +33,6 @@ $(document).ready(function() {
   $('body').keydown(function(event){
     var arrow_keys = [37, 38, 39, 40];
     if(arrow_keys.indexOf(event.which) > -1) {
-      // var tile = $('.tile');
-      // console.log(tile);
-      // console.log(tile.length);
-      // console.log(tile[1]);
-      // empty(tile);
       var moved1 = moveTiles(event.which);
       var merged = matched(event.which);
       var moved2 = moveTiles(event.which);
@@ -70,10 +49,9 @@ $(document).ready(function() {
         alert("YOU HAVE FAILED! D:");
       }
       event.preventDefault();
-      console.log('score: ' + score);
     }
   })
-})
+});
 
 function empty(location) {
   // input will be board location
@@ -102,7 +80,6 @@ function randomizeLocation() {
     var col = Math.floor(
       Math.random() *(BOARDCEILING - MINBOARDLOCALE) + MINBOARDLOCALE );
     // need to check if slot is empty
-    console.log("TEST");
   }
   return [row, col];
 }
@@ -152,7 +129,6 @@ function matched(direction) {
           if (isNaN(board[r][c])) { continue;} // will do check if value is a number
           var neighbor = board[r + 1][c];
           if (board[r][c] == neighbor) {
-            console.log(board[r][c] + 'matches' + neighbor);
             tileLevelUp(r, c, board[r][c]);
             board[r + 1][c] = undefined;
             deleteVisualTile(r+1, c);
@@ -170,7 +146,6 @@ function matched(direction) {
           if (isNaN(board[r][c])) { continue;} // will do check if value is a number
           var neighbor = board[r - 1][c];
           if (board[r][c] == neighbor) {
-            console.log(board[r][c] + 'matches' + neighbor);
             tileLevelUp(r, c, board[r][c]);
             board[r - 1][c] = undefined;
             deleteVisualTile(r-1, c);
@@ -188,7 +163,6 @@ function matched(direction) {
           if (isNaN(board[r][c])) { continue;} // will do check if value is a number
           var neighbor = board[r][c + 1];
           if (board[r][c] == neighbor) {
-            console.log(board[r][c] + 'matches'+ neighbor);
             tileLevelUp(r, c, board[r][c]);
             board[r][c + 1] = undefined;
             deleteVisualTile(r, c+1);
@@ -206,7 +180,6 @@ function matched(direction) {
           if (isNaN(board[r][c])) { continue;} // will do check if value is a number
           var neighbor = board[r][c - 1];
           if (board[r][c] == neighbor) {
-            console.log(board[r][c] + 'matches'+ neighbor);
             tileLevelUp(r, c, board[r][c]);
             deleteVisualTile(r, c-1);
             board[r][c - 1] = undefined;
