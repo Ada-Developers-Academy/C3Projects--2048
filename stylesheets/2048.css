@@ -1,8 +1,10 @@
 html {
   font: normal normal 30px/1 "Clear Sans", "Helvetica Neue", Arial, sans-serif;
+  font-family: 'Orbitron', sans-serif;
 }
 
 h1 {
+  font-size: 4rem;
   text-align: center;
   margin: 5px;
 }
