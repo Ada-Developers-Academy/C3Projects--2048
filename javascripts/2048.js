@@ -352,7 +352,7 @@ function addTile() {
 function pop(tile) {
   $(tile)
   .addClass('popper')
-  .on('animationend', function() { $(this).removeClass('popper');})
+  .on('animationend', function() { $(this).removeClass('popper');});
 }
 
 // for picking random cell to place a new tile
