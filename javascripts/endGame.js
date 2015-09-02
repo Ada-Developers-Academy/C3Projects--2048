@@ -33,7 +33,7 @@ function endGame(status) {
   var overlay = $("<div class='gameOver'>");
   var retryButton = $('<button class="retry-button">Try Again?</button>');
   retryButton.click(retryClickHandler);
-  var message = $('<h1>')
+  var message = $('<h1></h1><br>')
 
   overlay.append(message);
   overlay.append(retryButton);
