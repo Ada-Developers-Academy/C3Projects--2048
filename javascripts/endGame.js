@@ -34,7 +34,7 @@ function endGame(status) {
   var overlay = $("<div class='gameOver'>");
   var retryButton = $('<button class="retry-button">Try Again?</button>');
   retryButton.click(retryClickHandler);
-  var message = $('<h1>')
+  var message = $('<h1>');
 
   overlay.append(message);
   overlay.append(retryButton);
@@ -45,14 +45,15 @@ function endGame(status) {
     overlay.append(contButton);
 
     message.text('You won!');
+    delayFadeIn(overlay);
   } else if (status == 'lose') {
     message.text('Game over!');
+    scaleIn(overlay);
   } else {
     message.text('Sorry! Unexpected error!');
     console.log('ERROR!');
   }
 
   // display overlay
-  delayFadeIn(overlay);
   $('#gameboard').append(overlay);
 }
