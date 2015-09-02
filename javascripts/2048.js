@@ -29,7 +29,7 @@ function initializeGame() {
   generateTile(newTileValue);
   generateTile(newTileValue);
   generateTile(newTileValue);
-  win();
+  // winGame();
 }
 
 function generateTile(array) {
@@ -41,7 +41,7 @@ function generateTile(array) {
   tile.attr('data-row', rows[randomRow]);
   tile.attr('data-col', cols[randomCol]);
   tile.attr('data-val', array[randomValue]);
-  tile.innerHTML = tile.getAttribute('data-val');
+  tile.text(tile.attr('data-val'));
 
   if ($('[data-row=' + rows[randomRow] + '][data-col=' + cols[randomCol] + ']').length === 0) {
 
@@ -195,11 +195,11 @@ function generateCol(num) {
   return col;
 }
 
-function win() {
+function winGame() {
   // at 2048 tile
   var tiles = $(".tile");
-  $("[data-val]").text();
-// returns string of all datavals "222224222"
+  var win = $("[data-val]").text().indexOf(2048) < 0 ? false : true;
+
   console.log(tiles);
   return tiles;
   // "you win!", grey out grid, two buttons: continue, try again
