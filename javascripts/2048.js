@@ -77,19 +77,34 @@ function createTile() {
   // Maybe assign unique tile identifier
 }
 
-function destroyTile() {
-  // If a tile is merged into a new tile, tile is destroyed
+// function destroyTile() {
+//   // If a tile is merged into a new tile, tile is destroyed
 
-  // div is destroyed
+//   // div is destroyed
+// }
+
+//  // Function may need more arguments to work
+
+
+function tileCollide(tile, neighbor) {
+  // tile should be checked against neighbor
+  if (tile.attr('data-val') == neighbor.attr('data-val')) {
+    //move tile to neighbors spot
+    var new_col = neighbor.attr('data-col')
+    var new_row = neighbor.attr('data-row')
+    tile.attr('data-col', new_col)
+    tile.attr('data-row', new_row - 1)
+
+    // need to mutate neighbor
+    updateTile(neighbor);
+  }
 }
 
- // Function may need more arguments to work
-function tileCollide(tile) {
-  // Should happen upon collision
+ function updateTile(tile) {
   var new_tile_value = tile.attr("data-val") * 2;
   tile.attr("data-val", new_tile_value);
   tile.text(new_tile_value);
-}
+ }
 
 function moveTile(direction) {
   // needs conditionals to check for occupied grids spaces
@@ -134,9 +149,20 @@ function moveTile(direction) {
  function moveUp(col) {
    var column = getColumn(col);
    for (var i = 0; i < column.length; i++ ) {
-       var row = ('r' + [i] );
-       tile_array[col][i] = column[i];
-       column[i].attr('data-row', row)
+      var max = 0
+        // if column.length < 1, then there is only one tile
+        // if there length is more than 1, then we need to check if tiles are the same value
+        // pass column[i] through check to see if it will collide with other tiles
+        var row = ('r' + i );
+        tile_array[col][i] = column[i];
+        column[i].attr('data-row', row)
+
+        if (i !== max && column.length > 1){
+          console.log("in the collide conditional");
+          var tile = column[i];
+          var tile_neighbor = column[i -1];
+            tileCollide(tile, tile_neighbor);
+          }
      }
   }
 
@@ -155,85 +181,5 @@ function moveTile(direction) {
 
 
 
-  // function moveUp(){
-  //
-  //   for(var i = 0; i < tile_array.length; i++) {
-  //     var tile = tile_array[i];
-  //     checkUp(tile);
-  //   }
-  // }
-  //
-  // function checkUp(tile) {
-  //   var column = tile.attr('data-col');// data-col: 'c0'
-  //   var row = tile.attr('data-row'); //data-row: 'r1'
-  //   for(var j = 0; j < tile_array.length; j++) {
-  //     if (row == 'r0') {
-  //      console.log("done moving!");
-  //     } else {
-  //       var row_num = +(row.slice(1, 2)); //row-num: 1
-  //       var next_row = 'r' + (row_num - 1); //next_row: r0
-  //
-  //       if(tile_array[j].attr('data-col') == column) {
-  //         console.log(tile_array[j].attr('data-row'), next_row);
-  //         if (tile_array[j].attr('data-row') == next_row) {
-  //           console.log("I am not mutating");
-  //         } else {
-  //           tile.attr("data-row", next_row);
-  //         }
-  //       } else {
-  //         console.log("I am not in this column");
-  //       }
-  //     }
-  //   }
-  // }
-  //
-  //
-
-    //tile.attr("data-row","r0") if no tile exists with data-col 0, rows 2, 1, 0
 
 
-
-
-  // move to 'r0' if tile_array.attr('data-row') !=
-
-
-
-  // function sortToMove() {
-  //     var zero_array = [];
-  //     var one_array = [];
-  //     var two_array = [];
-  //     var three_array = [];
-  //   for(var i=0; i < filled_space.length; i++) {
-  //     if (filled_space[i][0] == 0) {
-  //       zero_array.push([filled_space[i]]);
-  //     } else if (filled_space[i][0] == 1) {
-  //         one_array.push([filled_space[i]]);
-  //     } else if (filled_space[i][0] == 2) {
-  //         two_array.push([filled_space[i]]);
-  //     } else if (filled_space[i][0] == 3) {
-  //         three_array.push([filled_space[i]]);
-  //     } else {
-  //       console.log("you broke it");
-  //     }
-  //   }
-  //   zero_array.sort();
-  //   one_array.sort();
-  //   two_array.sort();
-  //   three_array.sort();
-
-  // }
-
-
-// var tile_num = zero_array.length;
-// zero_array = zero_result.slice(0, tile_num);
-
-// var zero_result =  [[0,0][0,1][0,2][0,3]];
-// var one_result =   [[1,0][1,1][1,2][1,3]];
-// var two_result =   [[2,0][2,1][2,2][2,3]];
-// var three_result = [[3,0][3,1][3,2][3,3]];
-
-// var filled_space = [[0, 1], [1, 3], [2, 3], [1, 1]];
-//     console.log(zero_array);
-//     console.log(one_array);
-//     console.log(two_array);
-//     console.log(three_array);
