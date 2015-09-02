@@ -31,6 +31,56 @@ function moveTile(tile, direction) {
   }
 }
 
+function game_Lost(){
+  var gameLost = false
+
+  if $("#gameboard .tile").length == 16 
+    var gameLost = true 
+  // && else if no collisions possible  
+    var gameLost = true
+  end  
+      
+ return gameLost 
+}
+
+function game_Won(){
+  var gameWon = false
+  // pseudo : loop through all the tiles, check value.
+  // if tile with value "2048", gameWon true
+
+  var gameBoard = $("#gameboard .tile")
+  for (var i = 0; i < gameBoard; i++){
+     if gameBoard[i].attr("data-val") >= 2048
+        gameWon = true  
+      }
+
+return gameWon
+
+}
+
+function freeSpot() {
+ var freeSpots = [];
+ for (var row = 0; row < 4; row++) {
+   for (var col = 0; col < 4; col++) {
+     var reference = ".tile[data-row=r" + row + "][data-col=c" + col + "]";
+     // => .tile[data-row=r0][data-col=c0]
+     var unoccupied = $(reference).length == 0;
+     if(unoccupied)
+       freeSpots.push({ row: row, col: col });
+   }
+ }
+
+ return freeSpots[Math.floor( Math.random() * freeSpots.length )];
+}
+
+function add_tile(){
+  var newTileHere = pick freeSpot()
+  var newTileHere = 
+  var tile = make tile(here)
+  insert_tile()
+
+}
+
 pseudo:
 when game starts: two random tiles populate board
 is game over?
