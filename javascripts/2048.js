@@ -61,16 +61,14 @@ function checkNextSpace(active_tile, direction) {
   }
 
   switch(direction) {
-    case 38:
-    case 40: // both up and down
+    case 38: case 40: // both up and down
       var attr_mod = 'data-row';
       var attr_mod_val = 'r' + next_row_num;
       var next_tile = findTile(next_row_num, data_col_num);
       var next_axis = next_row_num;
     break;
 
-    case 37:
-    case 39: // left and right
+    case 37: case 39: // left and right
       var attr_mod = 'data-col';
       var attr_mod_val = 'c' + next_col_num;
       var next_tile = findTile(data_row_num, next_col_num);
@@ -99,72 +97,43 @@ function checkNextSpace(active_tile, direction) {
 
 function moveTile(tile, direction) {
   switch(direction) {
-    case 38: //up
-      // for each row (starting at r[1] since r[0] can't move up anymore), collect all tiles in that row
-      for(i = 1; i <= 3; i++) {
-        var tiles = $('.tile[data-row="r' + i +'"]');
+    case 38: case 40: var tile_accessor = '.tile[data-row="r'; break; // up & down
+    case 37: case 39: var tile_accessor = '.tile[data-col="c'; break; // left & right
+  }
 
-        // for each tile in that row, check the next space
+  switch(direction) {
+    case 38: case 37:                           // up & left use incremental loop
+      for(i = 1; i <= 3; i++) {                 // for each row or col, get all the tiles
+        var tiles = $(tile_accessor + i +'"]');
+
+        for (j = 0; j < tiles.length; j++) {    // for each tile in that group, check the next space
+          var active_tile = tiles[j];
+
+          checkNextSpace(active_tile, direction);
+        }
+      }
+    break;
+
+    case 40: case 39:                           // down & right use decremental loop
+      for (i = 2; i >= 0; i--) {                
+        var tiles = $(tile_accessor + i +'"]');
+
         for (j = 0; j < tiles.length; j++) {
           var active_tile = tiles[j];
 
           checkNextSpace(active_tile, direction);
         }
       }
-      break;
+    break;
+  }
 
-    case 40: //down
-      // for each row (starting at r[2] since r[3] can't move down anymore), collect all tiles in that row
-      for (i = 2; i >= 0; i--) {
-        var tiles = $('.tile[data-row="r' + i +'"]');
-
-        // for each tile in that row, check the next space
-        for (j = 0; j < tiles.length; j++) {
-          var active_tile = tiles[j];
-
-          checkNextSpace(active_tile, direction);
-        }
-      }
-      break;
-
-    case 37: //left
-      // for each col (starting at c[1] since c[0] can't move left anymore), collect all tiles in that row
-      for (i = 1; i <= 3; i++) {
-        var tiles = $('.tile[data-col="c' + i +'"]');
-
-        // for each tile in that col, check the next space
-        for (j = 0; j < tiles.length; j++) {
-          var active_tile = tiles[j];
-
-          checkNextSpace(active_tile, direction);
-        }
-      }
-      break;
-
-    case 39: //right
-      // for each col (starting at c[2] since c[3] can't move right anymore), collect all tiles in that row
-      for (i = 2; i >= 0; i--) {
-        var tiles = $('.tile[data-col="c' + i +'"]');
-
-        // for each tile in that col, check the next space
-        for (j = 0; j < tiles.length; j++) {
-          var active_tile = tiles[j];
-
-          checkNextSpace(active_tile, direction);
-        }
-      } 
-      break;
-  } // end switch
-
-  // if board is full, see if tile combinations are possible
-  // if not full, add another tile after move
-  if ( $(".tile").length > 15 ) {
+  if ( $(".tile").length > 15 ) {               // check for loss
     checkPossibleMoves();
   } else {
     addTile();
   }
+}
 
-} // end moveTile
 
 function combineTiles(active_tile, next_tile) {
   var new_tile_value = parseInt(next_tile.attr('data-val'))* 2;
