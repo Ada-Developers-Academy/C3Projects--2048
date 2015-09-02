@@ -4,7 +4,6 @@ $(document).ready(function() {
   $('body').keydown(function(event){
     var arrow_keys = [37, 38, 39, 40];
     if(arrow_keys.indexOf(event.which) > -1) {
-      // var tile = $('.tile');
       moveTile(event.which);
       event.preventDefault();
     }
@@ -29,8 +28,6 @@ function initializeBoard() {
     displayBoard();
   }
 
-  // sets the position of starter tiles in 2D array -- currently only setting
-  // value to 2
   function assignRandoTiles() {
     var y = Math.floor(Math.random() * (boardSize));
     var x = Math.floor(Math.random() * (boardSize));
@@ -61,9 +58,6 @@ function initializeBoard() {
 
 
 function moveTile(direction) {
-  // var new_tile_value = tile.attr("data-val") * 2;
-  // tile.attr("data-val", new_tile_value);
-  // tile.text(new_tile_value);
   switch(direction) {
     case 38: //up
       moveUp();
@@ -85,33 +79,13 @@ function moveUp() {
   var starterBoard = board.toString();
   setupTempBoard("up");
   // traversal starting point = y3, x0
-  // var newBoard = [];
-  // for(x = 0; x < boardSize; x++){
-  //   array = []
-  //   for( y = 3; y >= 0 ; y--){
-  //     array.push(board[y][x]);
-  //   }
-  //   var tempColumn = removeZero(array);
-  //   while(tempColumn.length < boardSize){
-  //     tempColumn.push(0);
-  //   }
-  //   newBoard.push(tempColumn);
-  // }
-  // replaceBoard(newBoard, "up");
-  // board = newBoard;
-  // next we need to figure out how to push the return from removeZero
-  // back into the board per the arrow direction
-
   for(y = 3; y >= 0; y--) {
     for(x = 0; x < boardSize; x++) {
       var next = checkNext(y, x, "up");
       if(next == board[y][x]) {
-        board[y][x]  += board[y - 1][x]; // collapse it
+        board[y][x]    += board[y - 1][x]; // collapse it
         board[y - 1][x] = 0;
       }
-      // else if(next == 0){
-      //   board[y][x] =
-      // }
     }
   }
 
@@ -122,19 +96,14 @@ function moveUp() {
 
 function moveDown () {
   starterBoard = board.toString();
+  setupTempBoard("down");
   // traversal starting point = y0, x0
-  // removeZero("down");
   for(y = 0; y < boardSize; y++) {
     for(x = 0; x < boardSize; x++) {
-    var next = checkNext(y, x, "up");
-      if (next == 0) {
-      }
-      else if (next == board[y][x]) {
-        // collapse the above tile into the current tile and sum them
-        board[y][x]    += board[y + 1][x];
+      var next = checkNext(y, x, "down");
+      if(next == board[y][x]) {
+        board[y][x]    += board[y + 1][x]; // collapse it
         board[y + 1][x] = 0;
-      }
-      else {
       }
     }
   }
@@ -212,15 +181,30 @@ function setupTempBoard(direction){
   var newBoard = [];
   if(direction == "up"){
     for(x = 0; x < boardSize; x++){
-      array = []
+      array = [];
       for( y = 3; y >= 0 ; y--){
         array.push(board[y][x]);
       }
       var tempColumn = removeZero(array);
-      while(tempColumn.length <= boardSize){
+      while(tempColumn.length <= boardSize - 1) {
         tempColumn.push(0);
-        newBoard.push(tempColumn);
       }
+      newBoard.push(tempColumn);
+    }
+    console.log(newBoard);
+  }
+
+  else if(direction == "down"){
+    for(x = 0; x < boardSize; x++) {
+      array = [];
+      for(y = 0; y < boardSize; y++) {
+        array.push(board[y][x]);
+      }
+      var tempColumn = removeZero(array);
+      while(tempColumn.length <= boardSize - 1) {
+        tempColumn.unshift(0);
+      }
+      newBoard.push(tempColumn);
     }
     console.log(newBoard);
   }
@@ -241,9 +225,17 @@ function setupTempBoard(direction){
       for(x = 0; x < boardSize; x++) {
         var tempY = 0;
         for(y = 3; y >= 0; y--) {
-          console.log(tempY);
           board[y][x] = array[x][tempY];
           tempY += 1;
+        }
+      }
+    }
+    if(direction == "down"){
+      for(x = 0; x < boardSize; x++) {
+        var tempY = 3;
+        for(y = 0; y < boardSize; y++) {
+          board[y][x] = array[x][tempY];
+          tempY -= 1;
         }
       }
     }
