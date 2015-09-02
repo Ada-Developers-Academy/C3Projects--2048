@@ -2,6 +2,7 @@ const MAXSTARTINGTILE = 4;
 const MINSTARTINGTILE = 2;
 const MINBOARDLOCALE = 0;
 const BOARDCEILING = 4; // anything less than 4 is valid
+const WINNING_TILE = 2048;
 // Constants -----------------
 var board = []
 var score = 0;
@@ -56,7 +57,9 @@ $(document).ready(function() {
       matched(event.which);
       moveTiles(event.which);
       createTile();
-      if (hasLost()) {
+      if (hasWon()) {
+        alert("YOU HAVE WOOOOOON!!!");
+      } else if (hasLost()) {
         alert("YOU HAVE FAILED! D:");
       }
       event.preventDefault();
@@ -323,6 +326,13 @@ function moveTiles(direction) {
 function incrementScore(value) {
   score += value;
   changeDisplayedScore();
+}
+
+function hasWon() {
+  var winningDataVal = "[data-val=" + WINNING_TILE + "]";
+  var winningTile = $(winningDataVal);
+  // if a winning tile exists return true, else return false
+  return (winningTile.length > 0);
 }
 
 function hasLost() {
