@@ -86,12 +86,12 @@ function destroyTile() {
 }
 
  // Function may need more arguments to work
-function tileCollide(tile) {
-  // Should happen upon collision
-  var new_tile_value = tile.attr("data-val") * 2;
-  tile.attr("data-val", new_tile_value);
-  tile.text(new_tile_value);
-}
+// function tileCollide(tile) {
+//   // Should happen upon collision
+//   var new_tile_value = tile.attr("data-val") * 2;
+//   tile.attr("data-val", new_tile_value);
+//   tile.text(new_tile_value);
+// }
 
 function moveTile(direction) {
   // needs conditionals to check for occupied grids spaces
@@ -99,9 +99,9 @@ function moveTile(direction) {
     case 38: //up
       //tile.attr("data-row","r0");
       var zero = moveUp(0);
-      // var one = moveUp(1);
-      // var two = moveUp(2);
-      // var three = moveUp(3);
+      var one = moveUp(1);
+      var two = moveUp(2);
+      var three = moveUp(3);
       break;
     case 40: //down
       // tile.attr("data-row","r3");
@@ -112,10 +112,10 @@ function moveTile(direction) {
 
       break;
     case 37: //left
-    var zero = getRow(0);
-    // var one = getRow(1);
-    // var two = getRow(2);
-    // var three = getRow(3);
+    var zero = moveLeft(0);
+    var one = moveLeft(1);
+    var two = moveLeft(2);
+    var three = moveLeft(3);
     // console.log(zero);
     // console.log(one);
     // console.log(two);
@@ -128,38 +128,40 @@ function moveTile(direction) {
   }
 }
 
-  function getRow(row) {
+  function getRow(r) {
     var row = [];
+
     for(var i = 0; i < tile_array.length; i++) {
-      if (tile_array[i][row] == tile_array[i][row]) {
-        console.log(tile_array[i][row]);
-        // for (var j = 0; j < tile_array[i].length; j++) {
-        //   if (tile_array[i][j] !== undefined) {
-        //   row.push(tile_array[i][j]);
-        //   index = tile_array[i][j];
-        // //   tile_array[i][j] = undefined;
-        //  }
-        // }
+      if(tile_array[i][r] !== undefined) {
+        row.push(tile_array[i][r]);
+        tile_array[i][r] = undefined;
       }
     }
+    console.log(row);
     return row;
   }
 
+  function moveLeft(r) {
+    var row = getRow(r);
+    for (var i = 0; i < row.length; i++ ) {
+
+        // var col = ('c' + i );
+        tile_array[i][r] = row[i];
+        row[i].attr('data-col', "c" + i)
+        console.log(r, i);
+      }
+   }
 
   function getColumn(col){
-    var column = [];
-    for(var i = 0; i < tile_array.length; i++) {
-      if (tile_array[i] == tile_array[col]) {
-        for (var j = 0; j < tile_array[i].length; j++) {
-          if (tile_array[i][j] !== undefined) {
-          column.push(tile_array[i][j]);
-          index = tile_array[i][j];
-          tile_array[i][j] = undefined;
-         }
-        }
+    var column = tile_array[col];
+    var no_undef_column = [];
+    for(var i = 0; i < column.length; i++) {
+      if (column[i] !== undefined) {
+        no_undef_column.push(column[i]);
+        tile_array[col][i] = undefined;
       }
     }
-    return column;
+    return no_undef_column;
   }
 
   function moveUp(col) {
@@ -170,6 +172,8 @@ function moveTile(direction) {
         column[i].attr('data-row', row)
       }
    }
+
+
 
   // function getDownColumn(col){
   //   var column = [];
