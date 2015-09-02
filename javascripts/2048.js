@@ -54,10 +54,10 @@ $(document).ready(function() {
       // console.log(tile.length);
       // console.log(tile[1]);
       // empty(tile);
-      moveTiles(event.which);
-      matched(event.which);
-      moveTiles(event.which);
-      if (!isBoardFull()) {
+      var moved1 = moveTiles(event.which);
+      var merged = matched(event.which);
+      var moved2 = moveTiles(event.which);
+      if (!isBoardFull() && (moved1 || merged || moved2)) {
         createTile();
       }
 
@@ -135,6 +135,7 @@ function changeDisplayedScore() {
 }
 
 function matched(direction) {
+  var mergeOccured = false;
   switch(direction) {
     case 38: //up
       var rowStart = 0; //rowstart
@@ -149,6 +150,7 @@ function matched(direction) {
             board[r + 1][c] = undefined;
             deleteVisualTile(r+1, c);
             incrementVisualTile(r, c, board[r][c]);
+            mergeOccured = true;
           } // if
         } // r
       } // c
@@ -166,6 +168,7 @@ function matched(direction) {
             board[r - 1][c] = undefined;
             deleteVisualTile(r-1, c);
             incrementVisualTile(r, c, board[r][c]);
+            mergeOccured = true;
           } // if
         } // r
       } // c
@@ -183,6 +186,7 @@ function matched(direction) {
             board[r][c + 1] = undefined;
             deleteVisualTile(r, c+1);
             incrementVisualTile(r, c, board[r][c]);
+            mergeOccured = true;
           } // if
         } // r
       } // c
@@ -200,11 +204,13 @@ function matched(direction) {
             deleteVisualTile(r, c-1);
             board[r][c - 1] = undefined;
             incrementVisualTile(r, c, board[r][c]);
+            mergeOccured = true;
           } // if
         } // r
       } // c
       break;
   };
+  return mergeOccured;
 }
 
 function tileLevelUp(row, column, value) {
@@ -229,6 +235,7 @@ function deleteVisualTile(row, col) {
 }
 
 function moveTiles(direction) {
+  var moved = false;
   switch(direction) {
     case 38: // up
       for (i = 0; i <= 3; i++) { // for each column
@@ -272,6 +279,7 @@ function moveTiles(direction) {
           board[x][y] = board[count + 1][y];
           board[count + 1][y] = undefined;
           reassigningTileAttr((count + 1), x, y, y);
+          moved = true;
         }
         count++;
       }
@@ -286,6 +294,7 @@ function moveTiles(direction) {
           board[x][y] = board[count - 1][y];
           board[count - 1][y] = undefined;
           reassigningTileAttr((count - 1), x, y, y);
+          moved = true;
         }
         count--;
       }
@@ -300,6 +309,7 @@ function moveTiles(direction) {
           board[x][y] = board[x][count + 1];
           board[x][count + 1] = undefined;
           reassigningTileAttr(x, x, (count + 1), y);
+          moved = true;
         }
         count++;
       }
@@ -314,6 +324,7 @@ function moveTiles(direction) {
           board[x][y] = board[x][count - 1];
           board[x][count - 1] = undefined;
           reassigningTileAttr(x, x, (count - 1), y);
+          moved = true;
         }
         count--;
       }
@@ -328,6 +339,8 @@ function moveTiles(direction) {
     tile.attr("data-row", newRowLocation);
     tile.attr("data-col", newColLocation);
   }
+
+  return moved;
 }
 
 function incrementScore(value) {
