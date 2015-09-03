@@ -194,6 +194,10 @@ function moveTile(tile, direction) {
     tile.remove();
 
     // Add newNeighborValue to the score
+    updateScore(newNeighborValue);
+  }
+
+  function updateScore(newNeighborValue){
     var currentScore = $("#score-number").text();
     var updatedScore = Number(currentScore) + Number(newNeighborValue);
     $("#score-number").text(updatedScore);
