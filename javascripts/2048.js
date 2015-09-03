@@ -179,6 +179,9 @@ function verticalMove(tile, openCells, usedCells, direction) {
             occupyCell(openCells, usedCells, [openArr[0][0], openArr[0][1]]);
             occupyCell(openArr, usedArr, [openArr[0][0], openArr[0][1]]);
           }
+          if (usedCol.length > 1 && usedArr[j+1] != undefined) {
+            merge(usedArr[j], usedArr[j+1], "up", openCells, usedCells);
+          }
           openArr = sortArray(openArr);
           usedArr = sortArray(usedArr);
         }
