@@ -216,32 +216,14 @@ function moveTile(tile, direction) {
       // collectOccupants -- Array of tiles
       var occupants = $("[data-col='c" + i + "']");
 
-      console.log("col " + i + ": " + occupants.length + " occupants");
-
-      // Do we need this?
-      // We know that the sortedOccupants variable is unnecessary, since
-      // occupants gets mutated. However keeping for clarity for now.
-      // if (direction == "up") {
-      //   var sortedOccupants = occupants.sort(function(a, b) {
-      //      return $(a).attr("data-row").replace("r","") - $(b).attr("data-row").replace("r","");
-      //   });
-      // } else if (direction == "down") {
-      //   var sortedOccupants = occupants.sort(function(a, b) {
-      //      return $(b).attr("data-row").replace("r","") - $(a).attr("data-row").replace("r","");
-      //   });
-      // }
-
       //for each tile
       // Loop backwards so that sliding works and we don't leave gaps
-      for (var j = occupants.length - 1; j >= 0; j--) {
+      for (var j = 0; j < occupants.length; j++) {
 
         var tile = occupants[j];
 
-        console.log("tile " + j + ": " + tile.getAttribute("data-val"));
-
         // Check for a space directly in front of the current tile
         while (noWallVert(tile, direction) && noNeighborVert(tile, direction)){
-          console.log("there's a space to slide into");
           // There is a space, so move it forward by one space
             var currentPosition = tile.getAttribute("data-row");
             var positionNum = Number(currentPosition.replace("r",""));
@@ -383,3 +365,30 @@ function moveTile(tile, direction) {
       break;
   }
 }
+  function moveToVacancy(occupants, j){
+    var tile = occupants[j];
+    // Check for a space directly in front of the current tile
+    while (noWallVert(tile, direction) && noNeighborVert(tile, direction)){
+      // There is a space, so move it forward by one space
+        var currentPosition = tile.getAttribute("data-row");
+        var positionNum = Number(currentPosition.replace("r",""));
+
+        // Move the tiles vertically
+        if (direction == "up"){
+          tile.setAttribute("data-row", "r" + (positionNum - 1) );
+        } else if (direction == "down") {
+          tile.setAttribute("data-row", "r" + (positionNum + 1) );
+        }
+    }
+  }
+
+  function merging(){
+      // Merge Check if there's a neighbor
+    var neighbor = mergeCheckVert(tile, direction);
+    if (neighbor) {
+      // Only merge if neither tile has been merged already in this turn
+      if (!$(tile).hasClass("merged") && !$(neighbor).hasClass("merged")) {
+        mergeTiles(tile, neighbor);
+      }
+    }
+  }
