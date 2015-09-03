@@ -34,6 +34,9 @@ function startGame() {
 
   startTiles();
   startTiles();
+  startTiles();
+  startTiles();
+  startTiles();
 }
 
 // tiles will be anywhere on the board
@@ -100,5 +103,5 @@ function moveTile(tile, direction) {
   //     break;
   // }
 
-  newTile();
+  // newTile();
 }

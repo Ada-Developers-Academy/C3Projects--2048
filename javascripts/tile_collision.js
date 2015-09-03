@@ -80,21 +80,26 @@ function tileCollision(keystroke) {
   function adjacentSpace(direction, rowsIndex, columnsIndex){
     var space = "";
 
-    if (direction === "up") {
-      var rowUp = rows[rowsIndex - 1]; if (rowsIndex > 0);
-      space = [rowUp, sameColumn].join();
+    switch(direction) {
+      case "up":
+        var rowUp = rows[rowsIndex - 1]; if (rowsIndex > 0);
+        space = [rowUp, sameColumn].join();
+        break;
 
-    } else if (direction === "down") {
-      var rowDown = rows[rowsIndex + 1]; if (rowsIndex < 3);
-      space = [rowDown, sameColumn].join();
+      case "down":
+        var rowDown = rows[rowsIndex + 1]; if (rowsIndex < 3);
+        space = [rowDown, sameColumn].join();
+        break;
 
-    } else if (direction === "left") {
-      var colLeft = columns[columnsIndex - 1]; if (columnsIndex > 0);
-      space = [sameRow, colLeft].join();
+      case "left":
+        var colLeft = columns[columnsIndex - 1]; if (columnsIndex > 0);
+        space = [sameRow, colLeft].join();
+        break;
 
-    } else if (direction === "right") {
-      var colRight = columns[columnsIndex + 1]; if (columnsIndex < 3);
-      space = [sameRow, colRight].join();
+      case "right":
+        var colRight = columns[columnsIndex + 1]; if (columnsIndex < 3);
+        space = [sameRow, colRight].join();
+        break;
     }
 
     var emptyArray = [];
@@ -152,10 +157,13 @@ function grabTile(coordinates) {
 
 // determines if tiles can merge or not
 function merge(space1, spaceIndex, direction, orderedTiles) {
+  // maybe this is bad 'cause orderedTiles hasn't been updated?
   var space2 = orderedTiles[spaceIndex];
 
   var tile1 = grabTile(space1);
   var tile2 = grabTile(space2);
+  tile1.attr("id", "tile1");
+  tile2.attr("id", "tile2");
   var tile1Value = parseInt($(tile1).text());
   var tile2Value = parseInt($(tile2).text());
 
@@ -182,6 +190,7 @@ function moveOne(coordinates, direction){
   var rowIndex = rows.indexOf(coordinates[0]);
   var colIndex = cols.indexOf(coordinates[1]);
   var tile = grabTile(coordinates);
+
   // grabs all the tiles in the same row/column behind the tile in question
   var tilesBehind = function(){
     var tiles = [];
@@ -209,7 +218,7 @@ function moveOne(coordinates, direction){
           tiles.push(tile);
         }
         return tiles;
-        
+
       case "right":
         for(i = colIndex; i > -1; i--) {
           tile = $("div[data-col|='" + cols[i] + "'][data-row|='" + rows[rowIndex] + "']");
