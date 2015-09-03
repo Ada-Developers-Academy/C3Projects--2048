@@ -100,6 +100,7 @@ function moveUp() {
       else if(next == board[y][x]) {
         board[y][x]    += board[y - 1][x]; // collapse it
         score += board[y][x];
+        populateScore(score);
         board[y - 1][x] = 0;
       }
     }
@@ -123,6 +124,7 @@ function moveDown () {
       else if(next == board[y][x]) {
         board[y][x]    += board[y + 1][x]; // collapse it
         score += board[y][x];
+        populateScore(score);
         board[y + 1][x] = 0;
       }
     }
@@ -146,6 +148,7 @@ function moveLeft() {
       else if(next == board[y][x]) {
         board[y][x]    += board[y][x + 1]; // collapse it
         score += board[y][x];
+        populateScore(score);
         board[y][x + 1] = 0;
       }
     }
@@ -169,6 +172,7 @@ function moveRight() {
       else if(next == board[y][x]) {
         board[y][x]    += board[y][x - 1]; // collapse it
         score += board[y][x];
+        populateScore(score);
         board[y][x - 1] = 0;
       }
     }
@@ -317,4 +321,9 @@ function checkNext(y, x, direction) {
       return null;
     }
   }
+}
+
+function populateScore(score){
+  var scoreDiv = $('.score');
+  scoreDiv.text(score);
 }
