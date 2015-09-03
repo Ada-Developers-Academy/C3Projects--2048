@@ -83,7 +83,6 @@ function moveTile(direction) {
       break;
   }
   displayBoard();
-  console.log(score);
 }
 
 function moveUp() {
@@ -106,7 +105,8 @@ function moveUp() {
     }
   }
   var endGame = checkEndGame();
-  console.log(endGame);
+  displayGameResult(endGame);
+
   if (board.toString() != starterBoard) {
     assignRandoTiles();
   }
@@ -131,6 +131,9 @@ function moveDown () {
       }
     }
   }
+  var endGame = checkEndGame();
+  displayGameResult(endGame);
+
   if (board.toString() != starterBoard) {
     assignRandoTiles();
   }
@@ -155,6 +158,9 @@ function moveLeft() {
       }
     }
   }
+  var endGame = checkEndGame();
+  displayGameResult(endGame);
+
   if (board.toString() != starterBoard) {
     assignRandoTiles();
   }
@@ -179,6 +185,9 @@ function moveRight() {
       }
     }
   }
+  var endGame = checkEndGame();
+  displayGameResult(endGame);
+
   if (board.toString() != starterBoard) {
     assignRandoTiles();
   }
@@ -331,23 +340,36 @@ function populateScore(score){
 }
 
 function checkEndGame(){
-  //iterate through the board
-  //if any tile === 2048
-  //they win
   var directions = ["up", "down", "left", "right"];
   for(y = 0; y < boardSize; y++){
     for(x = 0; x < boardSize; x++){
-      for(i=0; i < directions.length; i++){
+      if(board[y][x] == 2048){
+        var result = 2048; // game is over and you win
+        return result;
+      }
+      for(i = 0; i < directions.length; i++){
         var next = checkNext(y, x, directions[i]);
-        if(next == board[y][x]){
-          var result = false;
-          return false; //game is not over
+        if(next == board[y][x] || next == 0){
+          var result = false; // game is not over
+          return result;
         }
         else {
-          var result = true; // game is over
+          var result = true; // game is over and you lose
         }
       }
     }
   }
   return result;
+}
+
+function displayGameResult(endGameResult) {
+  if(endGameResult == false){
+    // do something to continue play
+  }
+  else if (endGameResult == 2048) {
+    // do something and you win
+  }
+  else {
+    // do something and tell player they lost
+  }
 }
