@@ -66,11 +66,12 @@ function emptyCell(openCells, usedCells, cellSpace) {
 
 
 // MERGING TILES --------------------------------------------------------------------------
-function merge(tile1, tile2, direction) {
+function merge(tile1, tile2, direction, openCells, usedCells, openArr, usedArr) {
   if (direction == "up") {
     if (tile1[0][1] > tile2[0][1]) {
+      var temp = tile1
       tile1 = tile2;
-      tile2 = tile1;
+      tile2 = temp;
     }
 
     var findTile1 = $("div[data-row=" + tile1[0] + "][data-col=" + tile1[1] + "]");
@@ -78,15 +79,19 @@ function merge(tile1, tile2, direction) {
     var value = $(findTile1).text();
     if (value == $(findTile2).text()) {
       $(findTile1).text(value * 2);
-      deleteTile(findTile2);
+      deleteTile(findTile2, openCells, usedCells, openArr,usedArr);
     }
+  } else if (direction == "down") {
+    
   }
 }
 
-function deleteTile(tile) {
-  // var row = $(tile).attr("data-row");
-  // var col = $(tile).attr("data-col");
+function deleteTile(tile, openCells, usedCells, openArr, usedArr) {
+  var row = $(tile).attr("data-row");
+  var col = $(tile).attr("data-col");
   $(tile).remove();
+  emptyCell(openArr, usedArr, [row, col]);
+  emptyCell(openCells, usedCells, [row, col]);
 }
 
 
@@ -179,8 +184,10 @@ function verticalMove(tile, openCells, usedCells, direction) {
             occupyCell(openCells, usedCells, [openArr[0][0], openArr[0][1]]);
             occupyCell(openArr, usedArr, [openArr[0][0], openArr[0][1]]);
           }
+          openArr = sortArray(openArr);
+          usedArr = sortArray(usedArr);
           if (usedCol.length > 1 && usedArr[j+1] != undefined) {
-            merge(usedArr[j], usedArr[j+1], "up", openCells, usedCells);
+            merge(usedArr[j], usedArr[j+1], "up", openCells, usedCells, openArr, usedArr);
           }
           openArr = sortArray(openArr);
           usedArr = sortArray(usedArr);
@@ -201,26 +208,13 @@ function verticalMove(tile, openCells, usedCells, direction) {
             occupyCell(openCells, usedCells, [openArr[0][0], openArr[0][1]]);
             occupyCell(openArr, usedArr, [openArr[0][0], openArr[0][1]]);
           }
-            openArr = sortArray(openArr).reverse();
-            usedArr = sortArray(usedArr).reverse();
+          openArr = sortArray(openArr).reverse();
+          usedArr = sortArray(usedArr).reverse();
         }
       }
     }
   }
 }
-
-// function reassignHorTiles(open, used, cellNum, rowNum, openCells, usedCells) {
-//   var row = "r" + rowNum;
-//   oneTile = $("div[data-row=" + row + "][data-col=" + used[cellNum][1] + "]");
-//   $(oneTile).attr("data-col", open[0][1]);
-//   emptyCell(openCells, usedCells, used[cellNum]);
-//   emptyCell(open, used, used[cellNum]);
-//   occupyCell(openCells, usedCells, [row, open[0][1]]);
-//   occupyCell(open, used, [open[0][0], open[0][1]]);
-//   used = sortArray(used);
-//   open = sortArray(open);
-// }
-
 
 function sortArray(arrayCol) {
   var newArr = [];
