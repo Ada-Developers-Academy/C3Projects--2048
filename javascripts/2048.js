@@ -336,11 +336,13 @@ function checkEndGame(){
   for(i=0; i < directions.length; i++){
     var next = checkNext(y, x, directions[i]);
     if(next == board[y][x]){
-      return false;
+      var result = false
+      return false; //game is not over
     }
     else {
-      return true;
+      var result = true
     }
+    return result;
   }
   //if board full && nothing can collapse/setupTempBoard
   //we could use checknext in each direction to see if it can
