@@ -191,11 +191,12 @@ function makeTurn(direction) {
            );
         checkWin(newVal);
 
-        // animation to hide the merged tile, then delete it
-        $('.tile[merged]').hide('slow', function(){
-          $(this).remove();
-        });
       }
+
+      // animation to hide the merged tile, then delete it
+      $(".tile[merged]").hide("fast", function(){
+        $(this).remove();
+      });
     }
   }
 
