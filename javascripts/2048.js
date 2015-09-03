@@ -6,7 +6,7 @@ Array.prototype.equals = function (array) {
     return false;
   }
 
-  // compare lengths - can save a lot of time 
+  // compare lengths - can save a lot of time
   if (this.length != array.length) {
     return false;
   }
@@ -16,12 +16,12 @@ Array.prototype.equals = function (array) {
     if (this[i] instanceof Array && array[i] instanceof Array) {
       // recurse into the nested arrays
       if (!this[i].equals(array[i])) {
-        return false;       
+        return false;
       } else if (this[i] != array[i]) {
         // Warning - two different object instances will never be equal: {x:20} != {x:20}
-        return false;   
-      }  
-    }       
+        return false;
+      }
+    }
   }
   return true;
 }
@@ -169,13 +169,18 @@ function makeTurn(direction) {
   function mergeTiles() {
     var sortedTiles = orderTiles();
 
-
     for (var i = 0; i < sortedTiles.length; i++) {
       var neighbor = findMergeableTile(sortedTiles[i], turnType, turnMagnitude);
       // if neighbor exists, then double current tile's value and delete neighbor tile
       if (neighbor) {
         var currentVal = parseInt(sortedTiles[i].getAttribute("data-val"));
         var newVal = currentVal * 2;
+
+        // setting neighbor tile's to the original tile's position for animation
+        neighbor.setAttribute("data-row", sortedTiles[i].getAttribute("data-row"));
+        neighbor.setAttribute("data-col", sortedTiles[i].getAttribute("data-col"));
+        neighbor.setAttribute("merged", "");
+
         sortedTiles[i].setAttribute("data-val", (newVal));
         updateScore(newVal);
         sortedTiles[i].innerHTML = (newVal);
@@ -184,9 +189,14 @@ function makeTurn(direction) {
         sortedTiles = sortedTiles.splice(0,neighborIndex).concat(
            sortedTiles.splice(1, sortedTiles.length-1)
            );
-        neighbor.remove();
         checkWin(newVal);
+
       }
+
+      // animation to hide the merged tile, then delete it
+      $(".tile[merged]").hide("fast", function(){
+        $(this).remove();
+      });
     }
   }
 

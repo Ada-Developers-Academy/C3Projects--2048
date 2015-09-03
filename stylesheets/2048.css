@@ -36,6 +36,11 @@ html {
   margin: 0.5rem 0 0 0.5rem ;
   text-align: center;
   width: 4rem;
+  z-index: 2;
+}
+
+.tile[merged] {
+  z-index: 1;
 }
 
 .tile[data-row="1"] { top: 0; }
