@@ -110,6 +110,8 @@ function tileCollide(tile, neighbor, direction) {
       tile_array[col][row - 1] = undefined;
     } else if (direction == 'left') {
       tile_array[col + 1][row] = undefined;
+    } else if (direction == 'right') {
+      tile_array[col - 1][row] = undefined;
     }
   }
 
@@ -187,6 +189,13 @@ function moveDirection(moveWay) {
          tile_array[max][r] = row[i];
          row[i].attr('data-col', col)
          max -=1;
+
+        if (max !== 2 && row.length > 1){
+          var tile = row[i];
+          var tile_neighbor = row[i + 1];
+          console.log('tile', tile, 'neighbor', tile_neighbor);
+          tileCollide(tile, tile_neighbor, 'right');
+      }
     }
   }
 
