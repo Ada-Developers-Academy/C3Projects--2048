@@ -45,8 +45,8 @@ function combineUpOrLeft(gridElement) {
       // combine!
       updateValue(gridElement[i]);
 
-      gridElement[i - 1].remove();
-      gridElement.splice(i - 1, 1);
+      gridElement[i - 1].remove(); // removes adjacent tile from html
+      gridElement.splice(i - 1, 1); // removes adjacent tile from gridElement array
       i += 1;
     }
   }
@@ -54,17 +54,9 @@ function combineUpOrLeft(gridElement) {
 }
 
 function combineRightOrDown(gridElement) {
-  for (var i = gridElement.length - 2; i >= 0; i--) {
-    if (gridElement[i].attr('data-val') === gridElement[i + 1].attr('data-val')) {
-      // combine!
-      updateValue(gridElement[i]);
-
-      gridElement[i + 1].remove();
-      gridElement.splice(i + 1, 1);
-      i -= 1;
-    }
-  }
-  return gridElement;
+  gridElement.reverse();
+  // modify element to work with other combining function:
+  return combineUpOrLeft(gridElement).reverse();
 }
 
 function shiftRightOrDown(tile_array, type) {
