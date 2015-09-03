@@ -3,12 +3,13 @@ const MAXSTARTINGTILE = 4;
 const MINBOARDLOCALE = 0; // starting array index
 const MAXBOARDLOCALE = 3; // highest array index
 const BOARDSIZE = 4; // anything less than 4 is valid
-const WINNINGTILE = 2048;
+const WINNINGTILE = 16;
 // Constants -----------------
 var board;
 var score;
 var alreadyWon = false;
 var gameOver = false;
+var actionOccurred; // change moveOccured & merged
 
 $(document).ready(function() {
   begin();
@@ -22,10 +23,10 @@ $(document).ready(function() {
     if (!gameOver) {
       var arrowKeys = [37, 38, 39, 40];
       if (arrowKeys.indexOf(event.which) > -1) {
-        var moved1 = moveTiles(event.which);
-        var merged = matched(event.which);
-        var moved2 = moveTiles(event.which);
-        if (!isBoardFull() && (moved1 || merged || moved2)) {
+        moveTiles(event.which);
+        merged = matched(event.which);
+        moveTiles(event.which);
+        if (!isBoardFull() && (moveOccurred || merged)) {
           createTile();
         }
 
@@ -41,6 +42,7 @@ $(document).ready(function() {
           setTimeout (function(){alert("YOU HAVE FAILED! D:")}, 1000);
           gameOver = true;
         }
+        moveOccurred = false;
         event.preventDefault();
       }
     }
@@ -228,112 +230,20 @@ function deleteVisualTile(row, col) {
 }
 
 function moveTiles(direction) {
-  var moved = false;
   switch(direction) {
     case 38: // up
-      for (i = 0; i <= 3; i++) { // for each column
-        var row = goingUp(i);
-        for (j = 0; j < 3; j++) { // for each row
-          row(j);
-        }
-      }
+      colRowIterator(goingUp, MINBOARDLOCALE, lessThan, 1);
       break;
     case 40: // down
-      for (i = 0; i <= 3; i++) { // for each column
-        var row = goingDown(i);
-        for (j = 3; j > 0; j--) { // for each row
-          row(j);
-        }
-      }
+      colRowIterator(goingDown, MAXBOARDLOCALE, greaterThan, -1);
       break;
     case 37: // left
-      for (i = 0; i <= 3; i++) { // for each row
-        var col = goingLeft(i);
-        for (j = 0; j < 3; j++) { // for each column
-          col(j);
-        }
-      }
+      colRowIterator(goingLeft, MINBOARDLOCALE, lessThan, 1);
       break;
     case 39: // right
-      for (i = 0; i <= 3; i++) { // for each row
-        var col = goingRight(i);
-        for (j = 3; j > 0; j--) { // for each column
-          col(j);
-        }
-      }
+      colRowIterator(goingRight, MAXBOARDLOCALE, greaterThan, -1);
       break;
   }
-
-  function goingUp(y) {
-    return function(x) {
-      var count = x;
-      while (empty(board[x][y]) && count < 3) {
-        if (!empty(board[count + 1][y])) {
-          board[x][y] = board[count + 1][y];
-          board[count + 1][y] = undefined;
-          reassigningTileAttr((count + 1), x, y, y);
-          moved = true;
-        }
-        count++;
-      }
-    }
-  }
-
-  function goingDown(y) {
-    return function(x) {
-      var count = x;
-      while (empty(board[x][y]) && count > 0) {
-        if (!empty(board[count - 1][y])) {
-          board[x][y] = board[count - 1][y];
-          board[count - 1][y] = undefined;
-          reassigningTileAttr((count - 1), x, y, y);
-          moved = true;
-        }
-        count--;
-      }
-    }
-  }
-
-  function goingLeft(x) {
-    return function(y) {
-      var count = y;
-      while (empty(board[x][y]) && count < 3) {
-        if (!empty(board[x][count + 1])) {
-          board[x][y] = board[x][count + 1];
-          board[x][count + 1] = undefined;
-          reassigningTileAttr(x, x, (count + 1), y);
-          moved = true;
-        }
-        count++;
-      }
-    }
-  }
-
-  function goingRight(x) {
-    return function(y) {
-      var count = y;
-      while (empty(board[x][y]) && count > 0) {
-        if (!empty(board[x][count - 1])) {
-          board[x][y] = board[x][count - 1];
-          board[x][count - 1] = undefined;
-          reassigningTileAttr(x, x, (count - 1), y);
-          moved = true;
-        }
-        count--;
-      }
-    }
-  }
-
-  function reassigningTileAttr(oldRow, newRow, oldCol, newCol) {
-    var oldLocation = ".tile[data-row=r" + oldRow + "][data-col=c" + oldCol + "]";
-    var tile = $(oldLocation);
-    var newRowLocation = "r" + newRow;
-    var newColLocation = "c" + newCol;
-    tile.attr("data-row", newRowLocation);
-    tile.attr("data-col", newColLocation);
-  }
-
-  return moved;
 }
 
 function incrementScore(value) {
@@ -354,8 +264,8 @@ function hasLost() {
 
 function isBoardFull() {
   // make a loop, call empty on each tile
-  for (r = 0; r < 4; r++) { // for each row
-    for (c = 0; c < 4; c++) { // for each col
+  for (r = 0; r < BOARDSIZE; r++) { // for each row
+    for (c = 0; c < BOARDSIZE; c++) { // for each col
       if (empty(board[r][c])) {
         return false;
       }
@@ -367,19 +277,113 @@ function isBoardFull() {
 
 function noMovesAvailable() {
   var moves = 0;
-  for (r = 0; r < 4; r++) { // for each row
-    for (c = 0; c < 4; c++) { // for each col
+  for (r = 0; r < BOARDSIZE; r++) { // for each row
+    for (c = 0; c < BOARDSIZE; c++) { // for each col
       // compares tile to the right of the tile
-      if ((c + 1)== BOARDSIZE) {
+      if ((c + 1) == BOARDSIZE) {
+        // do NOTHING
+        // don't want to do the check (because no col to compare to)
       } else if (board[r][c] == board[r][c + 1]) {
         moves++;
       }
       // compares tile to the tile below
-      if ((r + 1)== BOARDSIZE) {
+      if ((r + 1) == BOARDSIZE) {
+        // do NOTHING
+        // don't want to do the check (because no row to compare to)
       } else if (board[r][c] == board[r + 1][c]) {
         moves++;
       }
     }
   }
   return (moves == 0);
+}
+
+function colRowIterator(directionFunction, startNum, endConditionalFunction, incrementor) {
+  // directionFunction should be goingUp(), goingDown(), etc.
+  // startNum should be MAXBOARDLOCALE OR MINBOARDLOCALE
+  // endConditionalFunction should be "function() {c > 0}" or "function() {c < 3}"
+  // incrementor should be 1 or -1
+  for (var i = MINBOARDLOCALE; i <= MAXBOARDLOCALE; i++) {
+    var colRow = directionFunction(i);
+    for (var j = startNum; endConditionalFunction(j); j += incrementor) {
+      colRow(j);
+    }
+  }
+}
+
+function lessThan(k) {
+  return k < MAXBOARDLOCALE;
+}
+
+function greaterThan(k) {
+  return k > MINBOARDLOCALE;
+}
+
+function goingUp(y) {
+  return function(x) {
+    var count = x;
+    while (empty(board[x][y]) && count < 3) {
+      if (!empty(board[count + 1][y])) {
+        board[x][y] = board[count + 1][y];
+        board[count + 1][y] = undefined;
+        reassigningTileAttr((count + 1), x, y, y);
+        moveOccurred = true;
+      }
+      count++;
+    }
+  }
+}
+
+function goingDown(y) {
+  return function(x) {
+    var count = x;
+    while (empty(board[x][y]) && count > 0) {
+      if (!empty(board[count - 1][y])) {
+        board[x][y] = board[count - 1][y];
+        board[count - 1][y] = undefined;
+        reassigningTileAttr((count - 1), x, y, y);
+        moveOccurred = true;
+      }
+      count--;
+    }
+  }
+}
+
+function goingLeft(x) {
+  return function(y) {
+    var count = y;
+    while (empty(board[x][y]) && count < 3) {
+      if (!empty(board[x][count + 1])) {
+        board[x][y] = board[x][count + 1];
+        board[x][count + 1] = undefined;
+        reassigningTileAttr(x, x, (count + 1), y);
+        moveOccurred = true;
+      }
+      count++;
+    }
+  }
+}
+
+function goingRight(x) {
+  return function(y) {
+    var count = y;
+    while (empty(board[x][y]) && count > 0) {
+      if (!empty(board[x][count - 1])) {
+        board[x][y] = board[x][count - 1];
+        board[x][count - 1] = undefined;
+        reassigningTileAttr(x, x, (count - 1), y);
+        moveOccurred = true;
+      }
+      count--;
+    }
+  }
+}
+
+function reassigningTileAttr(oldRow, newRow, oldCol, newCol) {
+  var oldLocation = ".tile[data-row=r" + oldRow + "][data-col=c" + oldCol + "]";
+  var tile = $(oldLocation);
+  var newRowLocation = "r" + newRow;
+  var newColLocation = "c" + newCol;
+  tile.attr("data-row", newRowLocation);
+  tile.attr("data-col", newColLocation);
 }
