@@ -208,6 +208,17 @@ function matched(direction) {
   };
 }
 
+function itsAMatch(tile, neighbor) {
+  // neighbor = [r, c, val]
+  tileLevelUp(tile[0], tile[1], tile[2]);
+  board[neighbor[0]][neighbor[1]] = undefined;
+
+  deleteVisualTile(neighbor[0], neighbor[1]);
+  incrementVisualTile(tile[0], tile[1], tile[3]);
+  
+  actionOccurred = true;
+}
+
 function tileLevelUp(row, column, value) {
   board[row][column] = 2 * value;
   incrementScore(board[row][column]);
