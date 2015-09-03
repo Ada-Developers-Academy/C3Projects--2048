@@ -104,7 +104,10 @@ function tileCollide(tile, neighbor, direction) {
     updateTile(tile);
 
     // remove tile
-    deleteTile(neighbor);
+    setTimeout(function() {
+      deleteTile(neighbor);
+    }, 500);
+
 
     // reset tile array so deleted spot is set to undefined
     resetTileArray(col, row, direction)
