@@ -81,24 +81,24 @@ function generateTileForTestPurposes(r, c, value)
 
 function generateRandomBoard() {
 
-  // $("#gameboard").append(generateTileForTestPurposes(1, 0, 4));
-  // $("#gameboard").append(generateTileForTestPurposes(2, 0, 2));
-  // $("#gameboard").append(generateTileForTestPurposes(3, 0, 2));
-  //
-  // $("#gameboard").append(generateTileForTestPurposes(0, 1, 4));
-  // $("#gameboard").append(generateTileForTestPurposes(2, 1, 4));
-  // $("#gameboard").append(generateTileForTestPurposes(3, 1, 2));
-  //
-  // $("#gameboard").append(generateTileForTestPurposes(0, 2, 4));
-  // $("#gameboard").append(generateTileForTestPurposes(1, 2, 4));
-  // $("#gameboard").append(generateTileForTestPurposes(3, 2, 2));
-  //
-  // $("#gameboard").append(generateTileForTestPurposes(0, 3, 2));
-  // $("#gameboard").append(generateTileForTestPurposes(1, 3, 2));
-  // $("#gameboard").append(generateTileForTestPurposes(2, 3, 4));
+  $("#gameboard").append(generateTileForTestPurposes(1, 0, 4));
+  $("#gameboard").append(generateTileForTestPurposes(2, 0, 2));
+  $("#gameboard").append(generateTileForTestPurposes(3, 0, 2));
 
-  $("#gameboard").append(generateRandomTile());
-  $("#gameboard").append(generateRandomTile());
+  $("#gameboard").append(generateTileForTestPurposes(0, 1, 4));
+  $("#gameboard").append(generateTileForTestPurposes(2, 1, 4));
+  $("#gameboard").append(generateTileForTestPurposes(3, 1, 2));
+
+  $("#gameboard").append(generateTileForTestPurposes(0, 2, 4));
+  $("#gameboard").append(generateTileForTestPurposes(1, 2, 4));
+  $("#gameboard").append(generateTileForTestPurposes(3, 2, 2));
+
+  $("#gameboard").append(generateTileForTestPurposes(0, 3, 2));
+  $("#gameboard").append(generateTileForTestPurposes(1, 3, 2));
+  $("#gameboard").append(generateTileForTestPurposes(2, 3, 4));
+
+  // $("#gameboard").append(generateRandomTile());
+  // $("#gameboard").append(generateRandomTile());
 }
 
 function moveTile(tile, direction) {
