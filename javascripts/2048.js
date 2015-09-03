@@ -86,30 +86,40 @@ function createTile() {
 //  // Function may need more arguments to work
 
 
-function tileCollide(tile, neighbor) {
+function tileCollide(tile, neighbor, direction) {
   // tile should be checked against neighbor
+  console.log('tile', tile, 'neighbor', neighbor);
   if (tile.attr('data-val') == neighbor.attr('data-val')) {
     //move tile to neighbors spot
     var new_col = neighbor.attr('data-col');
     var new_row = neighbor.attr('data-row');
     tile.attr('data-col', new_col);
     tile.attr('data-row', new_row);
-    console.log(tile, neighbor);
-
+    console.log(tile);
+    // take col and row and number and set for tile to be deleted
     var col = +(new_col.slice(1));
     var row = +(new_row.slice(1));
-    console.log(col, row, tile_array);
+
+    // remove tile
     junkTile = neighbor;
-    // console.log(tile);
-     $(junkTile).remove();
-     tile_array[col][row] = undefined;
+    $(junkTile).remove();
 
-
-    // need to mutate neighbor
+    // reset tile array so updated tile is in correct spot
+    tile_array[col][row] = tile
+    // reset tile array so deleted spot is set to undefined
+    deleteTile(col, row, direction)
+    // update tile
     updateTile(tile);
   }
 }
 
+  function deleteTile(col, row, direction){
+    if (direction == 'up'){
+      tile_array[col][row + 1] = undefined;
+    } else if (direction == 'down') {
+      tile_array[col][row - 1] = undefined;
+    }
+  }
 
  function updateTile(tile) {
   var new_tile_value = tile.attr("data-val") * 2;
@@ -140,10 +150,6 @@ function moveTile(direction) {
       moveLeft(1);
       moveLeft(2);
       moveLeft(3);
-    // console.log(zero);
-    // console.log(one);
-    // console.log(two);
-    // console.log(three);
       // tile.attr("data-col","c0");
       break;
     case 39: //right
@@ -172,11 +178,10 @@ function moveTile(direction) {
   function moveLeft(r) {
     var row = getRow(r);
     for (var i = 0; i < row.length; i++ ) {
-
-        var col = ('c' + i );
-        tile_array[i][r] = row[i];
-        row[i].attr('data-col', col)
-        console.log(r, i);
+      var col = ('c' + i );
+      tile_array[i][r] = row[i];
+      row[i].attr('data-col', col)
+      console.log(r, i);
       }
    }
 
@@ -206,23 +211,19 @@ function moveTile(direction) {
 
   function moveUp(col) {
     var column = getColumn(col);
-    console.log('column', column);
     for (var i = 0; i < column.length; i++ ) {
         var row = ('r' + [i] );
         tile_array[col][i] = column[i];
         column[i].attr('data-row', row)
         var top = 0
 
-        if (i !== top && column.length > 1){
-          console.log("in the collide conditional");
-          var tile = column[i];
-
-          var tile_neighbor = column[i - 1];
-
-          tileCollide(tile, tile_neighbor);
-          }
-       }
-     }
+      if (i !== top && column.length > 1){
+        var tile = column[i];
+        var tile_neighbor = column[i - 1];
+        tileCollide(tile, tile_neighbor, 'up');
+      }
+    }
+  }
 
   function moveDown(col){
     var column = getColumn(col);
@@ -232,9 +233,15 @@ function moveTile(direction) {
           tile_array[col][max] = column[i];
           column[i].attr('data-row', row);
           max -= 1;
-        }
-   }
 
+        if (max !== 2 && column.length > 1){
+          console.log('inside if loop');
+          var tile = column[i];
+          var tile_neighbor = column[i + 1];
+          tileCollide(tile, tile_neighbor, 'down');
+        }
+      }
+  }
 
 
 
