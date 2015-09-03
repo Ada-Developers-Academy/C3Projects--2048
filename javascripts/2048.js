@@ -14,8 +14,8 @@ $(document).ready(function() {
   })
 })
 
- //keeps track of where on the board has a tile
 
+ //keeps track of where on the board has a tile
 var tile_array = [];
 //set up for 2D array
 function arrayInitialize(){
@@ -28,16 +28,19 @@ function arrayInitialize(){
     }
 }
 
+
+// Creates 2 tiles at the start of the game
 function initializeGame() {
   createTile();
   createTile();
 }
 
+// Random number generated between 0 and 3
 function rando_num(){
   return Math.floor(Math.random() * 4);
 }
 
-
+// See if a tile already exists at a particular column and row
 function checkLocation(column, row) {
   for(var i = 0; i < tile_array.length; i++) {
     if (tile_array[column][row] !== undefined) {
@@ -82,8 +85,6 @@ function createTile() {
 
 //   // div is destroyed
 // }
-
-//  // Function may need more arguments to work
 
 
 function tileCollide(tile, neighbor, direction) {
@@ -133,35 +134,31 @@ function moveTile(direction) {
   switch(direction) {
     case 38: //up
       //tile.attr("data-row","r0");
-        moveUp(0);
-        moveUp(1);
-        moveUp(2);
-        moveUp(3);
+      moveDirection(moveUp);
       break;
     case 40: //down
 
-        moveDown(0);
-        moveDown(1);
-        moveDown(2);
-        moveDown(3);
+      moveDirection(moveDown);
       break;
     case 37: //left
-      moveLeft(0);
-      moveLeft(1);
-      moveLeft(2);
-      moveLeft(3);
-      // tile.attr("data-col","c0");
+
+      moveDirection(moveLeft);
       break;
     case 39: //right
-      moveRight(0);
-      moveRight(1);
-      moveRight(2);
-      moveRight(3);
-      // tile.attr("data-col","c3");
+
+      moveDirection(moveRight);
       break;
   }
 }
 
+// Loops through to move elements in every column/row
+function moveDirection(moveWay) {
+  for (var i=0; i < 4; i++) {
+    moveWay(i);
+  }
+}
+
+// Returns row at passed in index (r)
   function getRow(r) {
     var row = [];
 
@@ -171,7 +168,6 @@ function moveTile(direction) {
         tile_array[i][r] = undefined;
       }
     }
-    console.log(row);
     return row;
   }
 
@@ -189,8 +185,7 @@ function moveTile(direction) {
           console.log('tile', tile, 'neighbor', tile_neighbor);
           tileCollide(tile, tile_neighbor, 'up');
         }
-      }
-   }
+  }
 
    function moveRight(r) {
      var row = getRow(r);
@@ -241,6 +236,7 @@ function moveTile(direction) {
           column[i].attr('data-row', row);
           max -= 1;
 
+
         if (max !== 2 && column.length > 1){
           console.log('inside if loop');
           var tile = column[i];
@@ -249,7 +245,6 @@ function moveTile(direction) {
         }
       }
   }
-
 
 
 
