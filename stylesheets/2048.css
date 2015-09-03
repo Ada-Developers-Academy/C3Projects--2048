@@ -14,6 +14,10 @@ h1 {
   color: #555250;
 }
 
+#dashboard {
+  /*margin: 0% 20%;*/
+  /*i don't know how to center this stuff arggh!!*/
+}
 #gameboard {
   background: #bbada0;
   border-radius: 0.5rem;
@@ -31,7 +35,7 @@ h1 {
   color: #ede0c8;
   text-shadow: 1px 1px black;
   display: inline-block;
-  margin-left: 8rem;
+  /*margin-left: 8rem;*/
 }
 
 .increasescore {
@@ -85,8 +89,6 @@ p {
 }
 
 footer {
-  /*margin: auto;*/
-  /*display: inline-block;*/
   text-align: center;
 }
 
