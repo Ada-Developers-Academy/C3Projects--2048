@@ -105,6 +105,8 @@ function moveUp() {
       }
     }
   }
+  var endGame = checkEndGame();
+  console.log(endGame);
   if (board.toString() != starterBoard) {
     assignRandoTiles();
   }
@@ -333,21 +335,19 @@ function checkEndGame(){
   //if any tile === 2048
   //they win
   var directions = ["up", "down", "left", "right"];
-  for(i=0; i < directions.length; i++){
-    var next = checkNext(y, x, directions[i]);
-    if(next == board[y][x]){
-      var result = false
-      return false; //game is not over
+  for(y = 0; y < boardSize; y++){
+    for(x = 0; x < boardSize; x++){
+      for(i=0; i < directions.length; i++){
+        var next = checkNext(y, x, directions[i]);
+        if(next == board[y][x]){
+          var result = false;
+          return false; //game is not over
+        }
+        else {
+          var result = true; // game is over
+        }
+      }
     }
-    else {
-      var result = true
-    }
-    return result;
   }
-  //if board full && nothing can collapse/setupTempBoard
-  //we could use checknext in each direction to see if it can
-  //sum aka is the same value
-  //they lose
-
-
+  return result;
 }
