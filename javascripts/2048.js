@@ -198,7 +198,6 @@ function matched(direction) {
 
 function itsAMatch(tile, neighbor) {
   // neighbor = [r, c, val]
-  console.log("Matched")
   newValue = tileLevelUp(tile[0], tile[1], tile[2]);
   board[neighbor[0]][neighbor[1]] = undefined;
 
