@@ -37,7 +37,8 @@ $(document).ready(function() {
           alert("Congrats on winning!\nBut there are no more moves for you to make.\nPlease start a new game.")
           gameOver = true;
         } else if (hasLost()) {
-          alert("YOU HAVE FAILED! D:");
+          $('img').addClass("crashandburn").on("animationend", function() { $(this).removeClass("crashandburn") });
+          setTimeout (function(){alert("YOU HAVE FAILED! D:")}, 1000);
           gameOver = true;
         }
         event.preventDefault();

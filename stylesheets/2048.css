@@ -23,6 +23,7 @@ p {
 img {
   /*float: left;*/
   position: relative;
+
 }
 
 footer {
@@ -147,4 +148,8 @@ footer {
 
 .blastoff {
   animation: blastoff 3.0s ease-in-out;
+}
+
+.crashandburn {
+  animation: offscreen 1.0s;
 }
