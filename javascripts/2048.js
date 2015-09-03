@@ -7,9 +7,9 @@ const WINNINGTILE = 16;
 // Constants -----------------
 var board;
 var score;
-var alreadyWon = false;
-var gameOver = false;
-var actionOccurred; // change moveOccured & merged
+var actionOccurred;
+var alreadyWon;
+var gameOver;
 
 $(document).ready(function() {
   begin();
@@ -24,9 +24,9 @@ $(document).ready(function() {
       var arrowKeys = [37, 38, 39, 40];
       if (arrowKeys.indexOf(event.which) > -1) {
         moveTiles(event.which);
-        merged = matched(event.which);
+        matched(event.which);
         moveTiles(event.which);
-        if (!isBoardFull() && (moveOccurred || merged)) {
+        if (!isBoardFull() && actionOccurred) {
           createTile();
         }
 
@@ -42,7 +42,7 @@ $(document).ready(function() {
           setTimeout (function(){alert("YOU HAVE FAILED! D:")}, 1000);
           gameOver = true;
         }
-        moveOccurred = false;
+        actionOccurred = false;
         event.preventDefault();
       }
     }
@@ -60,6 +60,8 @@ function begin() {
   createTile();
 
   score = 0; // sets score to 0 for a new game
+  alreadyWon = false;
+  gameOver = false;
   changeDisplayedScore();
 }
 
@@ -134,7 +136,6 @@ function changeDisplayedScore() {
 }
 
 function matched(direction) {
-  var mergeOccured = false;
   switch(direction) {
     case 38: //up
       var rowStart = 0; //rowstart
@@ -148,7 +149,7 @@ function matched(direction) {
             board[r + 1][c] = undefined;
             deleteVisualTile(r+1, c);
             incrementVisualTile(r, c, board[r][c]);
-            mergeOccured = true;
+            actionOccurred = true;
           } // if
         } // r
       } // c
@@ -165,7 +166,7 @@ function matched(direction) {
             board[r - 1][c] = undefined;
             deleteVisualTile(r-1, c);
             incrementVisualTile(r, c, board[r][c]);
-            mergeOccured = true;
+            actionOccurred = true;
           } // if
         } // r
       } // c
@@ -182,7 +183,7 @@ function matched(direction) {
             board[r][c + 1] = undefined;
             deleteVisualTile(r, c+1);
             incrementVisualTile(r, c, board[r][c]);
-            mergeOccured = true;
+            actionOccurred = true;
           } // if
         } // r
       } // c
@@ -199,13 +200,12 @@ function matched(direction) {
             deleteVisualTile(r, c-1);
             board[r][c - 1] = undefined;
             incrementVisualTile(r, c, board[r][c]);
-            mergeOccured = true;
+            actionOccurred = true;
           } // if
         } // r
       } // c
       break;
   };
-  return mergeOccured;
 }
 
 function tileLevelUp(row, column, value) {
@@ -327,7 +327,7 @@ function goingUp(y) {
         board[x][y] = board[count + 1][y];
         board[count + 1][y] = undefined;
         reassigningTileAttr((count + 1), x, y, y);
-        moveOccurred = true;
+        actionOccurred = true;
       }
       count++;
     }
@@ -342,7 +342,7 @@ function goingDown(y) {
         board[x][y] = board[count - 1][y];
         board[count - 1][y] = undefined;
         reassigningTileAttr((count - 1), x, y, y);
-        moveOccurred = true;
+        actionOccurred = true;
       }
       count--;
     }
@@ -357,7 +357,7 @@ function goingLeft(x) {
         board[x][y] = board[x][count + 1];
         board[x][count + 1] = undefined;
         reassigningTileAttr(x, x, (count + 1), y);
-        moveOccurred = true;
+        actionOccurred = true;
       }
       count++;
     }
@@ -372,7 +372,7 @@ function goingRight(x) {
         board[x][y] = board[x][count - 1];
         board[x][count - 1] = undefined;
         reassigningTileAttr(x, x, (count - 1), y);
-        moveOccurred = true;
+        actionOccurred = true;
       }
       count--;
     }
