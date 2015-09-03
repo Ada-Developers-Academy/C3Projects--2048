@@ -55,7 +55,7 @@ function checkLocation(column, row) {
 function createTile() {
 
   // Check for empty spaces before creating
-  // if (tile_array.length < 16) {
+
     var new_column = rando_num();
     var new_row = rando_num();
 
@@ -72,34 +72,23 @@ function createTile() {
     $('#gameboard').append(newTile);
 
     tile_array[column][row] = newTile;
-
-  // } else {
-  //   console.log("spaces full");
-  // }
-
-  // Maybe assign unique tile identifier
 }
-
-// function destroyTile() {
-//   // If a tile is merged into a new tile, tile is destroyed
-
-//   // div is destroyed
-// }
 
 
 function tileCollide(tile, neighbor, direction) {
   // tile should be checked against neighbor
-  console.log('tile', tile, 'neighbor', neighbor);
+  //console.log('tile', tile, 'neighbor', neighbor);
   if (tile.attr('data-val') == neighbor.attr('data-val')) {
     //move tile to neighbors spot
     var new_col = neighbor.attr('data-col');
     var new_row = neighbor.attr('data-row');
     tile.attr('data-col', new_col);
     tile.attr('data-row', new_row);
-    console.log(tile);
+    //console.log(tile);
     // take col and row and number and set for tile to be deleted
     var col = +(new_col.slice(1));
     var row = +(new_row.slice(1));
+    console.log('col', col, 'row', row)
 
     // remove tile
     junkTile = neighbor;
@@ -119,6 +108,8 @@ function tileCollide(tile, neighbor, direction) {
       tile_array[col][row + 1] = undefined;
     } else if (direction == 'down') {
       tile_array[col][row - 1] = undefined;
+    } else if (direction == 'left') {
+      tile_array[col + 1][row] = undefined;
     }
   }
 
@@ -177,14 +168,15 @@ function moveDirection(moveWay) {
       var col = ('c' + i );
       tile_array[i][r] = row[i];
       row[i].attr('data-col', col)
-      var top = 0
+      var left = 0
 
-       if (i !== top && row.length > 1){
+       if (i !== left && row.length > 1){
           var tile = row[i];
           var tile_neighbor = row[i - 1];
           console.log('tile', tile, 'neighbor', tile_neighbor);
-          tileCollide(tile, tile_neighbor, 'up');
+          tileCollide(tile, tile_neighbor, 'left');
         }
+      }
   }
 
    function moveRight(r) {
