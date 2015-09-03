@@ -36,7 +36,7 @@ function initializeBoard() {
     if(board[y][x] == 0) {
       newTile = [y,x];
       var rando = Math.random();
-      if(rando < .75) {
+      if(rando < .9) {
         board[y][x] = 2;
       }
       else{
