@@ -164,8 +164,18 @@ function verticalMove(tile, openCells, usedCells, direction) {
         var usedArr = sortArray(usedCol).reverse();
         for (j = 0; j < usedArr.length; j++) {
           if (openArr[0][0] > usedArr[j][0]) {
-            reassignVerTiles(openArr, usedArr, j, i,openCells, usedCells);
+            var col = "c" + i;
+            oneTile = $("div[data-row=" + usedArr[j][0] + "][data-col=" + col + "]");
+            $(oneTile).attr("data-row", openArr[0][0]);
+            // check to make sure local arrays are correct
+            // double check global holder
+            emptyCell(openCells, usedCells, usedArr[j]);
+            emptyCell(openArr, usedArr, usedArr[j]);
+            occupyCell(openCells, usedCells, [openArr[0][0], openArr[0][1]]);
+            occupyCell(openArr, usedArr, [openArr[0][0], openArr[0][1]]);
           }
+            openArr = sortArray(openArr).reverse();
+            usedArr = sortArray(usedArr).reverse();
         }
       }
     }
@@ -180,20 +190,24 @@ function reassignHorTiles(open, used, cellNum, rowNum, openCells, usedCells) {
   emptyCell(open, used, used[cellNum]);
   occupyCell(openCells, usedCells, [row, open[0][1]]);
   occupyCell(open, used, [open[0][0], open[0][1]]);
-  sortArray(used);
-  sortArray(open);
+  used = sortArray(used);
+  open = sortArray(open);
 }
 
 function reassignVerTiles(open, used, cellNum, colNum, openCells, usedCells) {
   var col = "c" + colNum;
   oneTile = $("div[data-row=" + used[cellNum][0] + "][data-col=" + col + "]");
   $(oneTile).attr("data-row", open[0][0]);
+  // check to make sure local arrays are correct
+  // double check global holder
   emptyCell(openCells, usedCells, used[cellNum]);
   emptyCell(open, used, used[cellNum]);
   occupyCell(openCells, usedCells, [open[0][0], open[0][1]]);
   occupyCell(open, used, [open[0][0], open[0][1]]);
-  sortArray(used);
-  sortArray(open);
+  // sort outside the IF loop instead!!! DUH!!!
+  // extract empty and occupy cells??
+  used = sortArray(used);
+  open = sortArray(open);
 }
 
 function sortArray(arrayCol) {
