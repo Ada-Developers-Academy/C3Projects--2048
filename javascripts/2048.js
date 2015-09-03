@@ -46,10 +46,8 @@ $(document).ready(function() {
 });
 
 function begin() {
-  // creates an empty board
-  board = [];
-  // fills the board: creates a 2D array
-  for (i = 0; i < BOARDSIZE; i++) {
+  board = []; // creates an empty board
+  for (i = 0; i < BOARDSIZE; i++) { // fills the board: creates a 2D array
     board[i] = new Array(BOARDSIZE);
   }
 
@@ -57,8 +55,7 @@ function begin() {
   createTile();
   createTile();
 
-  // sets score to 0 for a new game
-  score = 0;
+  score = 0; // sets score to 0 for a new game
   changeDisplayedScore();
 }
 
