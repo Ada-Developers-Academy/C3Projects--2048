@@ -66,7 +66,37 @@ function tilesInSameLocation(existingTile, newTile){
   // false even if location was the same because they have two diff values.
 }
 
+// This can be called with a specific row, column, and value for testing purposes
+function generateTileForTestPurposes(r, c, value)
+{
+  var newTileTemplate = $("<div class='tile' data-row='', data-col='' data-val=''></div>");
+
+  // Build new tile
+  newTileTemplate.attr("data-row", 'r'+ r);
+  newTileTemplate.attr("data-col", 'c'+ c);
+  newTileTemplate.attr("data-val", value);
+  newTileTemplate.text(value);
+  return newTileTemplate;
+}
+
 function generateRandomBoard() {
+
+  // $("#gameboard").append(generateTileForTestPurposes(1, 0, 4));
+  // $("#gameboard").append(generateTileForTestPurposes(2, 0, 2));
+  // $("#gameboard").append(generateTileForTestPurposes(3, 0, 2));
+  //
+  // $("#gameboard").append(generateTileForTestPurposes(0, 1, 4));
+  // $("#gameboard").append(generateTileForTestPurposes(2, 1, 4));
+  // $("#gameboard").append(generateTileForTestPurposes(3, 1, 2));
+  //
+  // $("#gameboard").append(generateTileForTestPurposes(0, 2, 4));
+  // $("#gameboard").append(generateTileForTestPurposes(1, 2, 4));
+  // $("#gameboard").append(generateTileForTestPurposes(3, 2, 2));
+  //
+  // $("#gameboard").append(generateTileForTestPurposes(0, 3, 2));
+  // $("#gameboard").append(generateTileForTestPurposes(1, 3, 2));
+  // $("#gameboard").append(generateTileForTestPurposes(2, 3, 4));
+
   $("#gameboard").append(generateRandomTile());
   $("#gameboard").append(generateRandomTile());
 }
@@ -78,11 +108,13 @@ function moveTile(tile, direction) {
     var occupantRowNum = Number(occupantRow.replace("r", ""));  // 2
 
     // If up, go to the higher rows
+    var neighborRow;
     if (direction == "up"){
-      var neighborRow = occupantRowNum - 1;
+      neighborRow = occupantRowNum - 1;
     // If down, go to the lower rows
-    } else if (direction == "down") {
-      var neighborRow = occupantRowNum + 1;
+    }
+    else if (direction == "down") {
+      neighborRow = occupantRowNum + 1;
     }
 
     var neighborCol = tile.getAttribute("data-col");
@@ -93,11 +125,12 @@ function moveTile(tile, direction) {
   function noNeighborSideways(tile, direction){
 
     var occupantCol = tile.getAttribute("data-col"); // c2
-    var occupantColNum = Number(occupantCol.replace("c", ""))  // 2
+    var occupantColNum = Number(occupantCol.replace("c", ""));  // 2
+    var neighborCol;
     if (direction == "left"){
-      var neighborCol = (occupantColNum - 1);
+      neighborCol = (occupantColNum - 1);
     } else if (direction == "right") {
-      var neighborCol = (occupantColNum + 1);
+      neighborCol = (occupantColNum + 1);
     }
     var neighborRow = tile.getAttribute("data-row");
     var neighborCount = $("[data-col='c" + neighborCol + "'][data-row='" + neighborRow + "']").size();
@@ -132,10 +165,11 @@ function moveTile(tile, direction) {
     var occupantCol = tile.getAttribute("data-col");
     var occupantVal = tile.getAttribute("data-val");
     // Know which direction you're heading
+    var neighborRowNum;
     if (direction == "up"){
-      var neighborRowNum = occupantRowNum - 1;
+      neighborRowNum = occupantRowNum - 1;
     } else if (direction == "down"){
-      var neighborRowNum = occupantRowNum + 1;
+      neighborRowNum = occupantRowNum + 1;
     }
 
     var neighborCol = occupantCol;
@@ -151,11 +185,14 @@ function moveTile(tile, direction) {
     var newNeighborValue = neighborValue * 2;
     neighbor.attr("data-val", newNeighborValue);
     neighbor.text(newNeighborValue);
-    neighbor = null;
-    tile.remove();
-    // Remove the obsolete tile HTML
-  }
 
+    // Mark the neighbor as already merged so it never gets merged
+    // multiple times in the same turn
+    neighbor.addClass("merged");
+
+    // Remove the obsolete tile HTML
+    tile.remove();
+  }
 
   function addNewTile(){
     var newTile = generateRandomTile();
@@ -166,9 +203,11 @@ function moveTile(tile, direction) {
 
   function moveVert(direction) {
     // for each column
-    for (i = 0; i < 4; i++) {
+    for (var i = 0; i < 4; i++) {
       // collectOccupants -- Array of tiles
       var occupants = $("[data-col='c" + i + "']");
+
+      console.log("col " + i + ": " + occupants.length + " occupants");
 
       // Do we need this?
       // We know that the sortedOccupants variable is unnecessary, since
@@ -184,28 +223,44 @@ function moveTile(tile, direction) {
       // }
 
       //for each tile
-      for (j = 0; j < occupants.length; j++) {
+      // Loop backwards so that sliding works and we don't leave gaps
+      for (var j = occupants.length - 1; j >= 0; j--) {
+
         var tile = occupants[j];
 
-        while (noWallVert(tile, direction) && noNeighborVert(tile, direction)){
-          // move forward
-          var currentPosition = tile.getAttribute("data-row");
-          var positionNum = Number(currentPosition.replace("r",""));
+        console.log("tile " + j + ": " + tile.getAttribute("data-val"));
 
-          // Move the tiles vertically
-          if (direction == "up"){
-            tile.setAttribute("data-row", "r" + (positionNum - 1) );
-          } else if (direction == "down") {
-            tile.setAttribute("data-row", "r" + (positionNum + 1) );
-          }
+        // Check for a space directly in front of the current tile
+        while (noWallVert(tile, direction) && noNeighborVert(tile, direction)){
+          console.log("there's a space to slide into");
+          // There is a space, so move it forward by one space
+            var currentPosition = tile.getAttribute("data-row");
+            var positionNum = Number(currentPosition.replace("r",""));
+
+            // Move the tiles vertically
+            if (direction == "up"){
+              tile.setAttribute("data-row", "r" + (positionNum - 1) );
+            } else if (direction == "down") {
+              tile.setAttribute("data-row", "r" + (positionNum + 1) );
+            }
         }
+
         // Merge Check if there's a neighbor
         var neighbor = mergeCheckVert(tile, direction);
-
         if (neighbor) {
-          mergeTilesVert(tile, neighbor);
+          // Only merge if neither tile has been merged already in this turn
+          if (!$(tile).hasClass("merged") && !$(neighbor).hasClass("merged")) {
+            mergeTilesVert(tile, neighbor);
+          }
         }
       }
+    }
+
+    // Clear any merged class markings from this turn
+    var mergedTiles = $('.merged');
+    for (var i = 0; i < mergedTiles.length; i++)
+    {
+      $(mergedTiles[i]).removeClass("merged");
     }
   }
 
