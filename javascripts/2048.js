@@ -88,22 +88,29 @@ function tileCollide(tile, neighbor, direction) {
     // take col and row and number and set for tile to be deleted
     var col = +(new_col.slice(1));
     var row = +(new_row.slice(1));
-    console.log('col', col, 'row', row)
-
-    // remove tile
-    junkTile = neighbor;
-    $(junkTile).remove();
 
     // reset tile array so updated tile is in correct spot
     tile_array[col][row] = tile
-    // reset tile array so deleted spot is set to undefined
-    deleteTile(col, row, direction)
+
     // update tile
     updateTile(tile);
+
+    // remove tile
+    deleteTile(neighbor);
+
+    // reset tile array so deleted spot is set to undefined
+    resetTileArray(col, row, direction)
   }
 }
 
-  function deleteTile(col, row, direction){
+  function deleteTile(neighbor){
+    junkTile = neighbor;
+    console.log("junk", junkTile)
+    $(junkTile).remove();
+  }
+
+
+  function resetTileArray(col, row, direction){
     if (direction == 'up'){
       tile_array[col][row + 1] = undefined;
     } else if (direction == 'down') {
@@ -175,7 +182,6 @@ function moveDirection(moveWay) {
        if (i !== left && row.length > 1){
           var tile = row[i];
           var tile_neighbor = row[i - 1];
-          console.log('tile', tile, 'neighbor', tile_neighbor);
           tileCollide(tile, tile_neighbor, 'left');
         }
       }
@@ -193,7 +199,6 @@ function moveDirection(moveWay) {
         if (max !== 2 && row.length > 1){
           var tile = row[i];
           var tile_neighbor = row[i + 1];
-          console.log('tile', tile, 'neighbor', tile_neighbor);
           tileCollide(tile, tile_neighbor, 'right');
       }
     }
@@ -239,7 +244,6 @@ function moveDirection(moveWay) {
 
 
         if (max !== 2 && column.length > 1){
-          console.log('inside if loop');
           var tile = column[i];
           var tile_neighbor = column[i + 1];
           tileCollide(tile, tile_neighbor, 'down');
