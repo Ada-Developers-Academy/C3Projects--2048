@@ -95,6 +95,22 @@ function merge(tile1, tile2, direction, openCells, usedCells, openArr, usedArr) 
       $(findTile1).attr("data-value", value * 2)
       deleteTile(findTile2, openCells, usedCells, openArr,usedArr);
     }
+  } else if (direction == "left") {
+    if (tile1[1][1] < tile2[1][1]) {
+      var temp = tile2;
+      tile1 = tile2;
+      tile1 = temp;
+    }
+    var findTile1 = $("div[data-row=" + tile1[0] + "][data-col=" + tile1[1] + "]");
+    var findTile2 = $("div[data-row=" + tile2[0] + "][data-col=" + tile2[1] + "]");
+    var value = $(findTile1).text();
+    if (value == $(findTile2).text()) {
+      $(findTile1).text(value * 2);
+      $(findTile1).attr("data-value", value * 2)
+      deleteTile(findTile2, openCells, usedCells, openArr,usedArr);
+    }
+  } else if (direction == "right") {
+
   }
 }
 
@@ -145,6 +161,11 @@ function horizontalMove(tile, openCells, usedCells, direction) {
             emptyCell(openArr, usedArr, usedArr[j]);
             occupyCell(openCells, usedCells, [row, openArr[0][1]]);
             occupyCell(openArr, usedArr, [openArr[0][0], openArr[0][1]]);
+          }
+          usedArr = sortArray(usedArr);
+          openArr = sortArray(openArr);
+          if (usedRow.length > 1 && usedArr[j+1] != undefined) {
+            merge(usedArr[j], usedArr[j+1], "left", openCells, usedCells, openArr, usedArr);
           }
           usedArr = sortArray(usedArr);
           openArr = sortArray(openArr);
