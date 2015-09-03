@@ -94,14 +94,15 @@ function tileCollide(tile, neighbor) {
     var new_row = neighbor.attr('data-row');
     tile.attr('data-col', new_col);
     tile.attr('data-row', new_row);
+    console.log(tile, neighbor);
 
     var col = +(new_col.slice(1));
     var row = +(new_row.slice(1));
     console.log(col, row, tile_array);
-    junkTile = tile_array[col][row + 1];
-    console.log(tile);
-    $(junkTile).remove();
-    tile_array[col][row] = undefined;
+    junkTile = neighbor;
+    // console.log(tile);
+     $(junkTile).remove();
+     tile_array[col][row] = undefined;
 
 
     // need to mutate neighbor
@@ -122,23 +123,23 @@ function moveTile(direction) {
   switch(direction) {
     case 38: //up
       //tile.attr("data-row","r0");
-      var zero = moveUp(0);
-      var one = moveUp(1);
-      var two = moveUp(2);
-      var three = moveUp(3);
+        moveUp(0);
+        moveUp(1);
+        moveUp(2);
+        moveUp(3);
       break;
     case 40: //down
 
-      var zero = moveDown(0);
-      var one = moveDown(1);
-      var two = moveDown(2);
-      var three = moveDown(3);
+        moveDown(0);
+        moveDown(1);
+        moveDown(2);
+        moveDown(3);
       break;
     case 37: //left
-    var zero = moveLeft(0);
-    var one = moveLeft(1);
-    var two = moveLeft(2);
-    var three = moveLeft(3);
+      moveLeft(0);
+      moveLeft(1);
+      moveLeft(2);
+      moveLeft(3);
     // console.log(zero);
     // console.log(one);
     // console.log(two);
@@ -146,10 +147,10 @@ function moveTile(direction) {
       // tile.attr("data-col","c0");
       break;
     case 39: //right
-    var zero = moveRight(0);
-    var one = moveRight(1);
-    var two = moveRight(2);
-    var three = moveRight(3);
+      moveRight(0);
+      moveRight(1);
+      moveRight(2);
+      moveRight(3);
       // tile.attr("data-col","c3");
       break;
   }
@@ -205,6 +206,7 @@ function moveTile(direction) {
 
   function moveUp(col) {
     var column = getColumn(col);
+    console.log('column', column);
     for (var i = 0; i < column.length; i++ ) {
         var row = ('r' + [i] );
         tile_array[col][i] = column[i];
