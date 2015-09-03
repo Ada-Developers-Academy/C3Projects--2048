@@ -3,7 +3,7 @@ const MAXSTARTINGTILE = 4;
 const MINBOARDLOCALE = 0; // starting array index
 const MAXBOARDLOCALE = 3; // highest array index
 const BOARDSIZE = 4; // anything less than 4 is valid
-const WINNINGTILE = 16;
+const WINNINGTILE = 2048;
 // Constants -----------------
 var board;
 var score;
