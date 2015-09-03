@@ -36,7 +36,8 @@ function moveTile(direction) {
       moveUp(tile);
       break;
     case 40: //down
-      tile.attr("data-row","r3");
+      // tile.attr("data-row","r3");
+      moveDown(tile);
       break;
     case 37: //left
       moveLeft(tile);
@@ -142,6 +143,37 @@ function moveColUp(col) {
     }
 }
 
+function moveDown(tile){
+
+  var col0 = [];
+  var col1 = [];
+  var col2 = [];
+  var col3 = [];
+
+  for (var i = 0; i < tile.length; i++) {
+    if (tile[i].getAttribute("data-col") == "c0") {
+      col0.push(tile[i]);
+    } else if (tile[i].getAttribute("data-col") == "c1") {
+      col1.push(tile[i]);
+    } else if (tile[i].getAttribute("data-col") == "c2") {
+      col2.push(tile[i]);
+    } else if (tile[i].getAttribute("data-col") == "c3") {
+      col3.push(tile[i]);
+    }
+  }
+
+  var cols = [col0, col1, col2, col3];
+
+  for (var i = 0; i < cols.length; i++) {
+    moveColDown(cols[i]);
+  }
+}
+
+function moveColDown(col) {
+  for(var i = 0; i < col.length; i++) {
+    col[i].setAttribute("data-row",("r" + (i + 4 - col.length)));
+    }
+}
 
 
 
