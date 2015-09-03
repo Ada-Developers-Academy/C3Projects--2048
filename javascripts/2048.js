@@ -367,32 +367,8 @@ function moveTile(tile, direction) {
 
       break;
     case 39: //right
+      moveSideways("right");
 
-      // For each row
-      for (i = 0; i < 4; i++){
-
-        // collect all occupants
-        var occupants = $("[data-row='r" + i + "']");
-        var sortedOccupants = occupants.sort(function(a, b) {
-          return $(b).attr("data-col").replace("c","") - $(a).attr("data-col").replace("c","");
-        });
-          //for each tile
-
-        // noNeighbor
-          for (j = 0; j < sortedOccupants.length; j++){
-            var tile = sortedOccupants[j];
-
-            while (noWallSideways(tile, "right") && noNeighborSideways(tile, "right")){
-
-              // move right
-              var currentPosition = tile.getAttribute("data-col");
-              var positionNum = Number(currentPosition.replace("c",""));
-              tile.setAttribute("data-col", "c" + (positionNum + 1) );
-            }
-          }
-        }
-
-      // Add new random tile to board, unless it is full
       addNewTile();
 
       break;
