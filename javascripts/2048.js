@@ -180,7 +180,7 @@ function moveTile(tile, direction) {
     }
   }
 
-  function mergeTilesVert(tile, neighbor){
+  function mergeTiles(tile, neighbor){
     var neighborValue = Number(neighbor.attr("data-val"));
     var newNeighborValue = neighborValue * 2;
     neighbor.attr("data-val", newNeighborValue);
@@ -250,7 +250,7 @@ function moveTile(tile, direction) {
         if (neighbor) {
           // Only merge if neither tile has been merged already in this turn
           if (!$(tile).hasClass("merged") && !$(neighbor).hasClass("merged")) {
-            mergeTilesVert(tile, neighbor);
+            mergeTiles(tile, neighbor);
           }
         }
       }
@@ -263,6 +263,86 @@ function moveTile(tile, direction) {
       $(mergedTiles[i]).removeClass("merged");
     }
   }
+
+  function mergeCheckSideways(tile, direction){
+    var occupantCol = tile.getAttribute("data-col");
+    var occupantColNum = Number(occupantCol.replace("c", ""));
+    var occupantRow = tile.getAttribute("data-row");
+    var occupantVal = tile.getAttribute("data-val");
+    // Know which direction you're heading
+    var neighborColNum;
+    if (direction == "left"){
+      neighborColNum = occupantColNum - 1;
+    } else if (direction == "right"){
+      neighborColNum = occupantColNum + 1;
+    }
+
+    var neighborRow = occupantRow;
+    var neighbor = $("[data-row='" + neighborRow + "'][data-col='c" + neighborColNum + "']");
+    var neighborVal = neighbor.attr("data-val");
+    if (neighborVal == occupantVal) {
+      return neighbor;
+    }
+  }
+
+  function moveSideways(direction){
+    // for each row
+    for (var i = 0; i < 4; i++) {
+      // collectOccupants -- Array of tiles
+      var occupants = $("[data-row='r" + i + "']");
+
+      // Loop backwards so that sliding works and we don't leave gaps
+      for (var j = occupants.length - 1; j >= 0; j--) {
+
+        var tile = occupants[j];
+
+        // Check for a space directly in front of the current tile
+        while (noWallSideways(tile, direction) && noNeighborSideways(tile, direction)){
+          // There is a space, so move it forward by one space
+            var currentPosition = tile.getAttribute("data-col");
+            var positionNum = Number(currentPosition.replace("c",""));
+
+            // Move the tiles vertically
+            if (direction == "left"){
+              tile.setAttribute("data-col", "c" + (positionNum - 1) );
+            } else if (direction == "right") {
+              tile.setAttribute("data-col", "c" + (positionNum + 1) );
+            }
+        }
+
+        // Merge Check if there's a neighbor
+        var neighbor = mergeCheckSideways(tile, direction);
+        if (neighbor) {
+          // Only merge if neither tile has been merged already in this turn
+          if (!$(tile).hasClass("merged") && !$(neighbor).hasClass("merged")) {
+            mergeTiles(tile, neighbor);
+          }
+        }
+      }
+    }
+
+    // Clear any merged class markings from this turn
+    var mergedTiles = $('.merged');
+    for (var i = 0; i < mergedTiles.length; i++)
+    {
+      $(mergedTiles[i]).removeClass("merged");
+    }
+  }
+
+  // function mergeTilesSideways(tile, neighbor){
+  //   var neighborValue = Number(neighbor.attr("data-val"));
+  //   var newNeighborValue = neighborValue * 2;
+  //   neighbor.attr("data-val", newNeighborValue);
+  //   neighbor.text(newNeighborValue);
+  //
+  //   // Mark the neighbor as already merged so it never gets merged
+  //   // multiple times in the same turn
+  //   neighbor.addClass("merged");
+  //
+  //   // Remove the obsolete tile HTML
+  //   tile.remove();
+  // }
+
 
   switch(direction) {
     case 38: //up
@@ -281,31 +361,8 @@ function moveTile(tile, direction) {
       break;
     case 37: //left
 
-      // For each row
-      for (i = 0; i < 4; i++){
+      moveSideways("left");
 
-        // collect all occupants
-        var occupants = $("[data-row='r" + i + "']");
-        var sortedOccupants = occupants.sort(function(a, b) {
-         return $(a).attr("data-col").replace("c","") - $(b).attr("data-col").replace("c","");
-       });
-          //for each tile
-
-        // noNeighbor
-          for (j = 0; j < sortedOccupants.length; j++){
-            var tile = sortedOccupants[j];
-
-            while (noWallSideways(tile, "left") && noNeighborSideways(tile, "left")){
-
-              // move left
-              var currentPosition = tile.getAttribute("data-col");
-              var positionNum = currentPosition.replace("c","");
-              tile.setAttribute("data-col", "c" + (positionNum - 1) );
-            }
-          }
-        }
-
-      // Add new random tile to board, unless it is full
       addNewTile();
 
       break;
