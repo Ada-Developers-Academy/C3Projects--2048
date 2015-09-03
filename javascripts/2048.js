@@ -146,15 +146,13 @@ function moveTile(tile, direction) {
     }
   }
 
-  function mergeTiles(tile, neighbor, direction){
-    if (direction == "up"){
-      var neighborValue = Number(neighbor.attr("data-val"));
-      var newNeighborValue = neighborValue * 2;
-      neighbor.attr("data-val", newNeighborValue);
-      neighbor.text(newNeighborValue);
-      neighbor = null;
-      tile.remove();
-    }
+  function mergeTilesVert(tile, neighbor){
+    var neighborValue = Number(neighbor.attr("data-val"));
+    var newNeighborValue = neighborValue * 2;
+    neighbor.attr("data-val", newNeighborValue);
+    neighbor.text(newNeighborValue);
+    neighbor = null;
+    tile.remove();
     // Remove the obsolete tile HTML
   }
 
@@ -171,21 +169,23 @@ function moveTile(tile, direction) {
     for (i = 0; i < 4; i++) {
       // collectOccupants -- Array of tiles
       var occupants = $("[data-col='c" + i + "']");
+
+      // Do we need this?
       // We know that the sortedOccupants variable is unnecessary, since
       // occupants gets mutated. However keeping for clarity for now.
-      if (direction == "up") {
-        var sortedOccupants = occupants.sort(function(a, b) {
-           return $(a).attr("data-row").replace("r","") - $(b).attr("data-row").replace("r","");
-        });
-      } else if (direction == "down") {
-        var sortedOccupants = occupants.sort(function(a, b) {
-           return $(b).attr("data-row").replace("r","") - $(a).attr("data-row").replace("r","");
-        });
-      }
+      // if (direction == "up") {
+      //   var sortedOccupants = occupants.sort(function(a, b) {
+      //      return $(a).attr("data-row").replace("r","") - $(b).attr("data-row").replace("r","");
+      //   });
+      // } else if (direction == "down") {
+      //   var sortedOccupants = occupants.sort(function(a, b) {
+      //      return $(b).attr("data-row").replace("r","") - $(a).attr("data-row").replace("r","");
+      //   });
+      // }
 
       //for each tile
-      for (j = 0; j < sortedOccupants.length; j++) {
-        var tile = sortedOccupants[j];
+      for (j = 0; j < occupants.length; j++) {
+        var tile = occupants[j];
 
         while (noWallVert(tile, direction) && noNeighborVert(tile, direction)){
           // move forward
@@ -203,7 +203,7 @@ function moveTile(tile, direction) {
         var neighbor = mergeCheckVert(tile, direction);
 
         if (neighbor) {
-          mergeTiles(tile, neighbor, direction);
+          mergeTilesVert(tile, neighbor);
         }
       }
     }
