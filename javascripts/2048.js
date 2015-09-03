@@ -352,8 +352,8 @@ function hasLost() {
 
 function isBoardFull() {
   // make a loop, call empty on each tile
-  for (r = 0; r < 4; r++) { // for each row
-    for (c = 0; c < 4; c++) { // for each col
+  for (r = 0; r < BOARDSIZE; r++) { // for each row
+    for (c = 0; c < BOARDSIZE; c++) { // for each col
       if (empty(board[r][c])) {
         return false;
       }
@@ -365,15 +365,19 @@ function isBoardFull() {
 
 function noMovesAvailable() {
   var moves = 0;
-  for (r = 0; r < 4; r++) { // for each row
-    for (c = 0; c < 4; c++) { // for each col
+  for (r = 0; r < BOARDSIZE; r++) { // for each row
+    for (c = 0; c < BOARDSIZE; c++) { // for each col
       // compares tile to the right of the tile
-      if ((c + 1)== BOARDSIZE) {
+      if ((c + 1) == BOARDSIZE) {
+        // do NOTHING
+        // don't want to do the check (because no col to compare to)
       } else if (board[r][c] == board[r][c + 1]) {
         moves++;
       }
       // compares tile to the tile below
-      if ((r + 1)== BOARDSIZE) {
+      if ((r + 1) == BOARDSIZE) {
+        // do NOTHING
+        // don't want to do the check (because no row to compare to)
       } else if (board[r][c] == board[r + 1][c]) {
         moves++;
       }
