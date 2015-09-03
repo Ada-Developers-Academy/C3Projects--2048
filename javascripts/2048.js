@@ -53,14 +53,12 @@ function makeTurn(direction) {
 
   function gameboardSnapshot(tiles) {
     var gameboard = [];
-    var tileProperties = [];
-
     for (var i = 0; i < tiles.length; i++) {
-      var row = tiles[i].getAttribute("data-row");
-      var col = tiles[i].getAttribute("data-col");
-      var val = tiles[i].getAttribute("data-val");
-      tileProperties.push(row, col, val);
-      gameboard.push(tileProperties);
+      var dataRow = tiles[i].getAttribute("data-row");
+      var dataCol = tiles[i].getAttribute("data-col");
+      var dataVal = tiles[i].getAttribute("data-val");
+      var tileProperties = new Array(dataRow, dataCol, dataVal);
+      gameboard[i] = tileProperties;
     }
     return gameboard;
   }
