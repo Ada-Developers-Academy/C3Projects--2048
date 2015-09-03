@@ -2,6 +2,17 @@ html {
   font: normal normal 30px/1 "Clear Sans", "Helvetica Neue", Arial, sans-serif;
 }
 
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 #gameboard {
   background: #bbada0;
   border-radius: 0.5rem;
@@ -24,6 +35,7 @@ html {
   position: absolute;
   top: 0; left: 0;
   transition: all 0.2s ease-in-out;
+  -webkit-animation: pop-in 0.5s;
 
   color: #f9f6f2;
   background: #000;
