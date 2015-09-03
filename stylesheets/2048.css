@@ -22,6 +22,9 @@ p {
 
 img {
   /*float: left;*/
+  position: relative;
+  animation: rotation 2.0s ;
+
 }
 
 footer {
@@ -50,10 +53,9 @@ footer {
   color: #ede0c8;
   text-shadow: 1px 1px black;
   /*float: left;*/
-  /*display: inline-block;*/
-  /*margin-left: 8rem;*/
+  display: inline-block;
+  margin-left: 8rem;
 }
-
 
 #score {
   text-align: center;
@@ -141,29 +143,6 @@ footer {
   animation: spawn 0.4s;
 }
 
-/*@keyframes spawn {
-  0% {
-    transform: scale(0);
-  }
-  50% {
-    transform: scale(0);
-  }
-  75% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(1);
-  }
-}*/
-
-/*@keyframes popscore {
-  0% {
-    transform: scale(1);
-  }
-  75% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(1);
-  }
-}*/
+.rotate {
+  animation: rotation 1.0s;
+}
