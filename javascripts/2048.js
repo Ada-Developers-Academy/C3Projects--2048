@@ -226,112 +226,22 @@ function deleteVisualTile(row, col) {
 }
 
 function moveTiles(direction) {
-  var moved = false;
+  var moveOccurred = false;
   switch(direction) {
     case 38: // up
-      for (i = 0; i <= 3; i++) { // for each column
-        var row = goingUp(i);
-        for (j = 0; j < 3; j++) { // for each row
-          row(j);
-        }
-      }
+      colRowIterator(goingUp, 0, lessThan, 1);
       break;
     case 40: // down
-      for (i = 0; i <= 3; i++) { // for each column
-        var row = goingDown(i);
-        for (j = 3; j > 0; j--) { // for each row
-          row(j);
-        }
-      }
+      colRowIterator(goingDown, 3, greaterThan, -1);
       break;
     case 37: // left
-      for (i = 0; i <= 3; i++) { // for each row
-        var col = goingLeft(i);
-        for (j = 0; j < 3; j++) { // for each column
-          col(j);
-        }
-      }
+      colRowIterator(goingLeft, 0, lessThan, 1);
       break;
     case 39: // right
-      for (i = 0; i <= 3; i++) { // for each row
-        var col = goingRight(i);
-        for (j = 3; j > 0; j--) { // for each column
-          col(j);
-        }
-      }
+      colRowIterator(goingRight, 3, greaterThan, -1);
       break;
   }
-
-  function goingUp(y) {
-    return function(x) {
-      var count = x;
-      while (empty(board[x][y]) && count < 3) {
-        if (!empty(board[count + 1][y])) {
-          board[x][y] = board[count + 1][y];
-          board[count + 1][y] = undefined;
-          reassigningTileAttr((count + 1), x, y, y);
-          moved = true;
-        }
-        count++;
-      }
-    }
-  }
-
-  function goingDown(y) {
-    return function(x) {
-      var count = x;
-      while (empty(board[x][y]) && count > 0) {
-        if (!empty(board[count - 1][y])) {
-          board[x][y] = board[count - 1][y];
-          board[count - 1][y] = undefined;
-          reassigningTileAttr((count - 1), x, y, y);
-          moved = true;
-        }
-        count--;
-      }
-    }
-  }
-
-  function goingLeft(x) {
-    return function(y) {
-      var count = y;
-      while (empty(board[x][y]) && count < 3) {
-        if (!empty(board[x][count + 1])) {
-          board[x][y] = board[x][count + 1];
-          board[x][count + 1] = undefined;
-          reassigningTileAttr(x, x, (count + 1), y);
-          moved = true;
-        }
-        count++;
-      }
-    }
-  }
-
-  function goingRight(x) {
-    return function(y) {
-      var count = y;
-      while (empty(board[x][y]) && count > 0) {
-        if (!empty(board[x][count - 1])) {
-          board[x][y] = board[x][count - 1];
-          board[x][count - 1] = undefined;
-          reassigningTileAttr(x, x, (count - 1), y);
-          moved = true;
-        }
-        count--;
-      }
-    }
-  }
-
-  function reassigningTileAttr(oldRow, newRow, oldCol, newCol) {
-    var oldLocation = ".tile[data-row=r" + oldRow + "][data-col=c" + oldCol + "]";
-    var tile = $(oldLocation);
-    var newRowLocation = "r" + newRow;
-    var newColLocation = "c" + newCol;
-    tile.attr("data-row", newRowLocation);
-    tile.attr("data-col", newColLocation);
-  }
-
-  return moved;
+  return moveOccurred;
 }
 
 function incrementScore(value) {
@@ -384,4 +294,94 @@ function noMovesAvailable() {
     }
   }
   return (moves == 0);
+}
+
+function colRowIterator(directionFunction, startNum, endConditionalFunction, incrementor) {
+  // directionFunction should be goingUp(), goingDown(), etc.
+  // startNum should be MAXBOARDLOCALE OR MINBOARDLOCALE
+  // endConditionalFunction should be "function() {c > 0}" or "function() {c < 3}"
+  // incrementor should be 1 or -1
+  for (var i = 0; i <= 3; i++) {
+    var colRow = directionFunction(i);
+    for (j = startNum; endConditionalFunction(j); j += incrementor) {
+      colRow(j);
+    }
+  }
+}
+
+function lessThan(k) {
+  return k < 4;
+}
+
+function greaterThan(k) {
+  return k > 0;
+}
+
+function goingUp(y) {
+  return function(x) {
+    var count = x;
+    while (empty(board[x][y]) && count < 3) {
+      if (!empty(board[count + 1][y])) {
+        board[x][y] = board[count + 1][y];
+        board[count + 1][y] = undefined;
+        reassigningTileAttr((count + 1), x, y, y);
+        moveOccurred = true;
+      }
+      count++;
+    }
+  }
+}
+
+function goingDown(y) {
+  return function(x) {
+    var count = x;
+    while (empty(board[x][y]) && count > 0) {
+      if (!empty(board[count - 1][y])) {
+        board[x][y] = board[count - 1][y];
+        board[count - 1][y] = undefined;
+        reassigningTileAttr((count - 1), x, y, y);
+        moveOccurred = true;
+      }
+      count--;
+    }
+  }
+}
+
+function goingLeft(x) {
+  return function(y) {
+    var count = y;
+    while (empty(board[x][y]) && count < 3) {
+      if (!empty(board[x][count + 1])) {
+        board[x][y] = board[x][count + 1];
+        board[x][count + 1] = undefined;
+        reassigningTileAttr(x, x, (count + 1), y);
+        moveOccurred = true;
+      }
+      count++;
+    }
+  }
+}
+
+function goingRight(x) {
+  return function(y) {
+    var count = y;
+    while (empty(board[x][y]) && count > 0) {
+      if (!empty(board[x][count - 1])) {
+        board[x][y] = board[x][count - 1];
+        board[x][count - 1] = undefined;
+        reassigningTileAttr(x, x, (count - 1), y);
+        moveOccurred = true;
+      }
+      count--;
+    }
+  }
+}
+
+function reassigningTileAttr(oldRow, newRow, oldCol, newCol) {
+  var oldLocation = ".tile[data-row=r" + oldRow + "][data-col=c" + oldCol + "]";
+  var tile = $(oldLocation);
+  var newRowLocation = "r" + newRow;
+  var newColLocation = "c" + newCol;
+  tile.attr("data-row", newRowLocation);
+  tile.attr("data-col", newColLocation);
 }
