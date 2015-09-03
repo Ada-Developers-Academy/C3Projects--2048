@@ -14,6 +14,13 @@ $(document).ready(function() {
   })
 })
 
+function pop(tile) {
+  $(tile).addClass("popper")
+  .on("animationend",function() {
+    $(this).removeClass("popper");
+  });
+}
+
 
  //keeps track of where on the board has a tile
 var tile_array = [];
@@ -72,6 +79,7 @@ function createTile() {
     $('#gameboard').append(newTile);
 
     tile_array[column][row] = newTile;
+    pop(newTile);
 }
 
 
@@ -250,8 +258,3 @@ function moveDirection(moveWay) {
         }
       }
   }
-
-
-
-
-
