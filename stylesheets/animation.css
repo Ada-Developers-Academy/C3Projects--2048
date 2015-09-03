@@ -24,3 +24,43 @@
     transform: scale(1);
   }
 }
+
+@keyframes rotation {
+  0% {
+    transform: rotate(-45deg);
+    left: 0px;
+    top: 0px;
+  }
+  25% {
+    transform: rotate(-45deg);
+    left: -250px;
+    top: 100px;
+  }
+  50% {
+    transform: rotate(45deg);
+    left: -300px;
+    top: -100px;
+  }
+  75% {
+    transform: rotate(180deg);
+    left: 250px;
+    top: -100px;
+  }
+  90% {
+    transform: rotate(270deg);
+    left: 250px;
+    top: 70px;
+  }
+
+  100% {
+    transform: rotate(360deg);
+    left: 0px;
+    top: 0px;
+  }
+}
+
+0%   {background-color:red; left:0px; top:0px;}
+   25%  {background-color:yellow; left:200px; top:0px;}
+   50%  {background-color:blue; left:200px; top:200px;}
+   75%  {background-color:green; left:0px; top:200px;}
+   100% {background-color:red; left:0px; top:0px;}
