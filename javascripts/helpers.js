@@ -1,4 +1,5 @@
-// allows us to compare arrays
+// allows us to compare an array of arrays
+// by turning the inner arrays into string, e.g. ["r3, c3", "r2, c0"]
 function stringify(array) {
   var stringifiedArray = [];
 
@@ -9,6 +10,7 @@ function stringify(array) {
   return stringifiedArray;
 }
 
+// returns an array of the occupied spaces, e.g. ["r2", "c0"]
 function occupiedSpaces() {
   var tiles = $('.tile');
 
@@ -22,6 +24,7 @@ function occupiedSpaces() {
   return takenSpaces;
 }
 
+// returns an array of open space locations, e.g. ["r1", "c3"]
 function openSpaces() {
   var takenSpaces = stringify(occupiedSpaces());
   var boardSpaces = [ 'r0,c0', 'r0,c1', 'r0,c2', 'r0,c3',
