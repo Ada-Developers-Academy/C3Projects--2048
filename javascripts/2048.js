@@ -1,7 +1,6 @@
 $(document).ready(function() {
   console.log('ready!');
   initializeGame();
-  endGame();
   $('body').keydown(function(event){
     var arrow_keys = [37, 38, 39, 40];
     if(arrow_keys.indexOf(event.which) > -1) {
@@ -9,7 +8,8 @@ $(document).ready(function() {
       moveTile(tile, event.which);
       event.preventDefault();
     }
-    addTile();
+    // addTile();
+    endGame();
   })
 })
 
@@ -94,40 +94,66 @@ function findEmptyRowCol(coordinate, RowCol) { // => 'r3' or 'c2'
 }
 
 function moveTile(tile, direction) {
-  var new_tile_value = tile.attr("data-val") * 2;
-  tile.attr("data-val", new_tile_value);
-  tile.text(new_tile_value);
+  // var new_tile_value = tile.attr("data-val");
+  // tile.attr("data-val", new_tile_value);
+  // tile.text(new_tile_value);
  
-  var rowValue = extractNum(tile, 'data-row'); // => 3
-  var colValue = extractNum(tile, 'data-col'); // => 2
-  var rowCoordinate = tile.attr('data-row') // => 'r2'
-  var colCoordinate = tile.attr('data-col') // => 'c3'
+  // if up row - 1
+  // if right column + 1
+  // if down row + 1
+  // if left column - 1
+  for(var i = 0; i < tile.length; i++) {
+    var rowValue = extractNum(tile[i], 'data-row'); // => 3
+    var colValue = extractNum(tile[i], 'data-col'); // => 2
+    var rowCoordinate = tile[i].getAttribute('data-row') // => 'r3'
+    var colCoordinate = tile[i].getAttribute('data-col'); // => 'c2'
 
-  switch(direction) {
-    case 38: //up 'r3, c2'
-      var emptyCol = findEmptyRowCol(coordinate, 'column')
+    switch(direction) {
+      case 38: //up
+        var emptyCol = findEmptyRowCol(colCoordinate, "col"); // => ['r2, c0', 'r1, c0']
 
-      // $(" '.tile[data-row="' + (rowValue - 1) + '"])'
-      // var test = $(".tile[data-row=" + (rowValue - 1) + "]")
-      // console.log(test);
+        var rowPosition = (rowValue - 1);
+        var newRow = "r" + rowPosition;
+        var newPosition = newRow + ', ' + colCoordinate
+        if (emptyCol.indexOf(newPosition) > -1) {
+          tile[i].setAttribute("data-row", newRow);
+        }
+        console.log(tile[i])
+        break;
+      case 40: //down
+        var emptyCol = findEmptyRowCol(colCoordinate, "col"); // => ['r2, c0', 'r1, c0']
 
-      // Find all tiles => array ['r0, c0', 'r3, c2', 'r1, c3', 'r2, c2']
-      // Loop through array
-          // does div exist with these attributes?
-              // if empty, length = 0, assign values to div
-              // \
+        var rowPosition = (rowValue + 1);
+        var newRow = "r" + rowPosition;
+        var newPosition = newRow + ', ' + colCoordinate
+        if (emptyCol.indexOf(newPosition) > -1) {
+          tile[i].setAttribute("data-row", newRow);
+        }
+        console.log(tile[i])
+        break;
+      case 37: //left
+        var emptyRow = findEmptyRowCol(rowCoordinate, "row");
 
-      // tile.attr("data-row","r0");
-      break;
-    case 40: //down
-      tile.attr("data-row","r3");
-      break;
-    case 37: //left
-      tile.attr("data-col","c0");
-      break;
-    case 39: //right
-      tile.attr("data-col","c3");
-      break;
+        var colPosition = (colValue - 1);
+        var newCol = "c" + colPosition;
+        var newPosition = rowCoordinate + ', ' + newCol;
+        if (emptyRow.indexOf(newPosition) > -1) {
+          tile[i].setAttribute("data-col", newCol);
+        }
+        console.log(tile[i])
+        break;
+      case 39: //right
+        var emptyRow = findEmptyRowCol(rowCoordinate, "row");
+
+        var colPosition = (colValue + 1);
+        var newCol = "c" + colPosition;
+        var newPosition = rowCoordinate + ', ' + newCol;
+        if (emptyRow.indexOf(newPosition) > -1) {
+          tile[i].setAttribute("data-col", newCol);
+        }
+        console.log(tile[i])
+        break;
+    }
   }
 }
 
