@@ -14,8 +14,8 @@ $(document).ready(function() {
   })
 })
 
- //keeps track of where on the board has a tile
 
+ //keeps track of where on the board has a tile
 var tile_array = [];
 //set up for 2D array
 function arrayInitialize(){
@@ -28,16 +28,19 @@ function arrayInitialize(){
     }
 }
 
+
+// Creates 2 tiles at the start of the game
 function initializeGame() {
   createTile();
   createTile();
 }
 
+// Random number generated between 0 and 3
 function rando_num(){
   return Math.floor(Math.random() * 4);
 }
 
-
+// See if a tile already exists at a particular column and row
 function checkLocation(column, row) {
   for(var i = 0; i < tile_array.length; i++) {
     if (tile_array[column][row] !== undefined) {
@@ -83,8 +86,6 @@ function createTile() {
 //   // div is destroyed
 // }
 
-//  // Function may need more arguments to work
-
 
 function tileCollide(tile, neighbor) {
   // tile should be checked against neighbor
@@ -122,39 +123,31 @@ function moveTile(direction) {
   switch(direction) {
     case 38: //up
       //tile.attr("data-row","r0");
-      var zero = moveUp(0);
-      var one = moveUp(1);
-      var two = moveUp(2);
-      var three = moveUp(3);
+      moveDirection(moveUp);
       break;
     case 40: //down
 
-      var zero = moveDown(0);
-      var one = moveDown(1);
-      var two = moveDown(2);
-      var three = moveDown(3);
+      moveDirection(moveDown);
       break;
     case 37: //left
-    var zero = moveLeft(0);
-    var one = moveLeft(1);
-    var two = moveLeft(2);
-    var three = moveLeft(3);
-    // console.log(zero);
-    // console.log(one);
-    // console.log(two);
-    // console.log(three);
-      // tile.attr("data-col","c0");
+
+      moveDirection(moveLeft);
       break;
     case 39: //right
-    var zero = moveRight(0);
-    var one = moveRight(1);
-    var two = moveRight(2);
-    var three = moveRight(3);
-      // tile.attr("data-col","c3");
+
+      moveDirection(moveRight);
       break;
   }
 }
 
+// Loops through to move elements in every column/row
+function moveDirection(moveWay) {
+  for (var i=0; i < 4; i++) {
+    moveWay(i);
+  }
+}
+
+// Returns row at passed in index (r)
   function getRow(r) {
     var row = [];
 
@@ -164,7 +157,6 @@ function moveTile(direction) {
         tile_array[i][r] = undefined;
       }
     }
-    console.log(row);
     return row;
   }
 
@@ -175,7 +167,6 @@ function moveTile(direction) {
         var col = ('c' + i );
         tile_array[i][r] = row[i];
         row[i].attr('data-col', col)
-        console.log(r, i);
       }
    }
 
@@ -232,10 +223,3 @@ function moveTile(direction) {
           max -= 1;
         }
    }
-
-
-
-
-
-
-
