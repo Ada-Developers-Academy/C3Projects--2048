@@ -2,6 +2,10 @@ html {
   font: normal normal 30px/1 "Clear Sans", "Helvetica Neue", Arial, sans-serif;
 }
 
+body {
+  background: #faf8ef;
+}
+
 #gameboard {
   background: #bbada0;
   border-radius: 0.5rem;
@@ -9,6 +13,47 @@ html {
   margin: 1rem auto;
   position: relative;
   width: 18.5rem;
+}
+
+.container {
+  text-align: center;
+  margin: 0 auto;
+}
+
+#message {
+  display: inline-block;
+  vertical-align: middle;
+  background: #bbada0;
+  padding: 15px 25px;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  color: #eee4da;
+  font-size: 0.75rem;
+  line-height: 1.5rem;
+}
+
+#scoreboard {
+  display: inline-block;
+  vertical-align: middle;
+  background: #bbada0;
+  padding: 15px 25px;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  color: #eee4da;
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+  position: relative;
+}
+
+#score {
+  color: white;
+}
+
+#score-animation {
+  position: absolute;
+  color: #80756A;
+  top: 1.5em;
+  left: 3em;
 }
 
 .cell {
@@ -23,7 +68,7 @@ html {
 .tile {
   position: absolute;
   top: 0; left: 0;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.5s ease-in-out;
 
   color: #f9f6f2;
   background: #000;
@@ -59,3 +104,35 @@ html {
 .tile[data-val="512"]  { background: #edc850; }
 .tile[data-val="1024"] { background: #edc53f; }
 .tile[data-val="2048"] { background: #edc22e; }
+
+.popper {
+  animation: pop 1s;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.bubble-score {
+  animation: bubble 1s;
+}
+
+@keyframes bubble {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.4);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
