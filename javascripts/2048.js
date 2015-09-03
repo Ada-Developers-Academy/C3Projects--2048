@@ -3,7 +3,7 @@ const MAXSTARTINGTILE = 4;
 const MINBOARDLOCALE = 0; // starting array index
 const MAXBOARDLOCALE = 3; // highest array index
 const BOARDSIZE = 4; // anything less than 4 is valid
-const WINNINGTILE = 2048;
+const WINNINGTILE = 16;
 // Constants -----------------
 var board;
 var score;
@@ -20,7 +20,7 @@ $(document).ready(function() {
   });
 
   $('body').keydown(function(event) {
-    // if (!gameOver) {
+    if (!gameOver) {
       var arrowKeys = [37, 38, 39, 40];
       if (arrowKeys.indexOf(event.which) > -1) {
         moveTiles(event.which);
@@ -43,7 +43,7 @@ $(document).ready(function() {
         moveOccurred = false;
         event.preventDefault();
       }
-    // }
+    }
   })
 });
 
@@ -306,7 +306,6 @@ function colRowIterator(directionFunction, startNum, endConditionalFunction, inc
     for (var j = startNum; endConditionalFunction(j); j += incrementor) {
       colRow(j);
     }
-    console.log(j)
   }
 }
 
