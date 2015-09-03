@@ -27,9 +27,6 @@ function newTile() {
   // randomly select an available space
   var spaceIndex = Math.floor(Math.random() * availableSpaces.length);
   var cell = availableSpaces[spaceIndex];
-  console.log(availableSpaces);
-  console.log(spaceIndex);
-  console.log(cell);
 
   // create html tile
   var tile = $("<div class='tile'></div>");
