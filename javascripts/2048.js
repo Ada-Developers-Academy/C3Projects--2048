@@ -72,8 +72,26 @@ function moveLeft(tile) {
 
   for (var i = 0; i < rows.length; i++) {
     moveRowLeft(rows[i]);
+    collideTilesLeft(rows[i]);
+    moveRowLeft(rows[i]);
   }
 }
+
+function collideTilesLeft(row){
+
+  for (var i = 0; i < row.length - 1; i++) {
+    var leftTileValue = row[i].getAttribute("data-val");
+    var nextTileValue = row[i+1].getAttribute("data-val");
+    if (leftTileValue == nextTileValue){
+      var newTileValue = leftTileValue * 2; 
+      row[i].setAttribute("data-val", newTileValue);
+      row[i].textContent = newTileValue;
+      row[i+1].remove();
+    };
+  } 
+    
+}
+
 
 function moveRowLeft(row) {
   for(var i = 0; i < row.length; i++) {
@@ -181,6 +199,7 @@ function moveColDown(col) {
 
 function tilesCollide(direction) {
 
+
 }
 
 function gameLost(){
@@ -277,7 +296,15 @@ function playTurn() {
 // click event (arrow_keys)
 //   movetile function happens
 //   collisions result in new tile with increased
-//   face value
+// //   face value
+//           a direction is chosen 
+//           tiles data-val is looked at
+//           if adjacent tiles have identical data-val
+//             farthest tile data *2
+//             tile next to it deletes 
+//             * nice to have - deletes by sliding behind the farthest tile
+//             (visual animation)
+//             any tiles behind deleted tile, slide one position in direction chosen
 //     if tile adjacent in direction of arrow is identical
 //     in face value to the one next to it, the farthest tile is replaced with new tile
 //      -> double face value
