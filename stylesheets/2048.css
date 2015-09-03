@@ -21,8 +21,14 @@ html {
 
 }
 
-@keyframes move {
+.popper {
+  animation: popout .5s ease-in;
+}
 
+@keyframes popout {
+  from{ transform: scale(0)  }
+  80% { transform: scale(1.2)}
+  to  { transform: scale(1)  }
 }
 
 .tile {
