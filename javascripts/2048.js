@@ -1,14 +1,13 @@
 var rows = ['r0', 'r1', 'r2', 'r3'];
 var cols = ['c0', 'c1', 'c2', 'c3'];
-var boardSize = function() { return rows.length * cols.length; }()
-// var boardSize = 16 // rows.length * cols.length // TODO: ask about this!
+var boardSize = rows.length * cols.length;
 var newTileValue = [ 2, 2, 2, 2, 4 ];
 var score = 0;
 var priorWin = false;
 var gameOver = false;
 
-// win var is currently set to win at 8 for testing! Change to 2048 for true win.
-var winningTileValue = '8';
+// win var is currently set to win at 64 for testing! Change to 2048 for true win.
+var winningTileValue = '64';
 
 $(document).ready(function() {
   initializeGame();
@@ -30,7 +29,7 @@ function playTurn(event) {
     event.preventDefault();
 
     var tile = $('.tile');
-    moveTiles(tile, event.which);
+    moveTiles(event.which);
 
     if ($('.tile').length >= boardSize) {
       if (checkLose()) { endGame('lose'); }
@@ -53,15 +52,17 @@ function continueClickHandler(event) {
   $('.gameOver, .cont-button, .retry-button').remove();
 }
 
-function addTile(array) {
+function addTile(possible_values) {
   var tile = $('<div class="tile" data-row="" data-col="" data-val="">');
-  var randomRow = Math.floor(Math.random() * (rows.length));
-  var randomCol = Math.floor(Math.random() * (cols.length));
-  var randomValue = Math.floor(Math.random() * (array.length));
+  var randomRow = function() { return Math.floor(Math.random() * (rows.length)); }();
+  var randomCol = function() { return Math.floor(Math.random() * (cols.length)); }();
+  var randomValue = function() {
+    return Math.floor(Math.random() * (possible_values.length));
+    }();
 
   tile.attr('data-row', rows[randomRow]);
   tile.attr('data-col', cols[randomCol]);
-  tile.attr('data-val', array[randomValue]);
+  tile.attr('data-val', possible_values[randomValue]);
   tile.text(tile.attr('data-val'));
 
   if ($('[data-row=' + rows[randomRow] + '][data-col=' + cols[randomCol] + ']').length === 0) {
@@ -69,7 +70,7 @@ function addTile(array) {
     $('#gameboard').append(tile);
     scaleIn(tile);
   } else {
-    addTile(array);
+    addTile(possible_values);
   }
 }
 

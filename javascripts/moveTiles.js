@@ -1,4 +1,4 @@
-function moveTiles(tile, direction) {
+function moveTiles(direction) {
   switch(direction) {
     case 38: //up
       moveUp();
