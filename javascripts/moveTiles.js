@@ -1,42 +1,6 @@
 function moveTiles(direction) {
-  switch(direction) {
-    case 38: //up
-      moveUp();
-      break;
-    case 40: //down
-      moveDown();
-      break;
-    case 37: //left
-      moveLeft();
-      break;
-    case 39: //right
-      moveRight();
-      break;
-  }
-}
-
-function moveRight() {
-  for (var i = 0; i < rows.length; i++) {
-    shiftRightOrDown(combineRightOrDown(generateRow(i)), 'row');
-  }
-}
-
-function moveLeft() {
-  for (var i = 0; i < rows.length; i++) {
-    shiftLeftOrUp(combineUpOrLeft(generateRow(i)), 'row');
-  }
-}
-
-function moveDown() {
-  for (var i = 0; i < cols.length; i++) {
-    shiftRightOrDown(combineRightOrDown(generateCol(i)), 'col');
-  }
-}
-
-function moveUp() {
-  for (var i = 0; i < cols.length; i++) {
-    shiftLeftOrUp(combineUpOrLeft(generateCol(i)), 'col');
-  }
+  var collection = new TileCollection(direction);
+  collection.move();
 }
 
 function combineUpOrLeft(gridElement) {
