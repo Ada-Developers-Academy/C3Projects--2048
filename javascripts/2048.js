@@ -181,7 +181,14 @@ function moveTile(direction) {
       var col = ('c' + i );
       tile_array[i][r] = row[i];
       row[i].attr('data-col', col)
-      console.log(r, i);
+      var top = 0
+
+       if (i !== top && row.length > 1){
+          var tile = row[i];
+          var tile_neighbor = row[i - 1];
+          console.log('tile', tile, 'neighbor', tile_neighbor);
+          tileCollide(tile, tile_neighbor, 'up');
+        }
       }
    }
 
@@ -193,8 +200,8 @@ function moveTile(direction) {
          tile_array[max][r] = row[i];
          row[i].attr('data-col', col)
          max -=1;
-       }
     }
+  }
 
 
   function getColumn(col){
