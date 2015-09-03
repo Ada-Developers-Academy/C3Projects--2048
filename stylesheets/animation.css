@@ -1,0 +1,73 @@
+@keyframes popscore {
+  0% {
+    transform: scale(1);
+  }
+  75% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes spawn {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(0);
+  }
+  75% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes blastoff {
+  0% {
+    transform: rotate(-45deg);
+    left: 0px;
+    top: 0px;
+  }
+  25% {
+    transform: rotate(-45deg);
+    left: -250px;
+    top: 100px;
+  }
+  50% {
+    transform: rotate(45deg);
+    left: -300px;
+    top: -100px;
+  }
+  60% {
+    transform: rotate(150deg);
+    left: -300px;
+    top: -100px;
+  }
+  75% {
+    transform: rotate(180deg);
+    left: 250px;
+    top: -100px;
+  }
+
+  100% {
+    transform: rotate(360deg);
+    left: 0px;
+    top: 0px;
+  }
+}
+@keyframes offscreen {
+  from{
+    transform: rotate(0deg);
+    left: 0px;
+    top: 0px;
+  }
+
+  to{
+    transform: rotate(700deg);
+    left: -800px;
+    top: 100px;
+  }
+}

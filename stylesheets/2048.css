@@ -14,7 +14,28 @@ h1 {
   color: #555250;
 }
 
+p {
+  padding-top: 7px;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+img {
+  /*float: left;*/
+  position: relative;
+
+}
+
+footer {
+  text-align: center;
+}
+
+#dashboard {
+  /*margin: 0% 20%;*/
+  /*i don't know how to center this stuff arggh!!*/
+}
 #gameboard {
+  float: clear;
   background: #bbada0;
   border-radius: 0.5rem;
   height: 18.5rem;
@@ -30,24 +51,9 @@ h1 {
   height: 4rem;
   color: #ede0c8;
   text-shadow: 1px 1px black;
+  /*float: left;*/
   display: inline-block;
   margin-left: 8rem;
-}
-
-.increasescore {
-  animation: popscore 0.1s;
-}
-
-@keyframes popscore {
-  0% {
-    transform: scale(1);
-  }
-  75% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(1);
-  }
 }
 
 #score {
@@ -63,9 +69,10 @@ h1 {
   text-align: center;
   color: #776e65;
   padding: 5px;
+  /*float: left;*/
   display: inline-block;
   /*margin-right: 3rem;*/
-  margin: auto;
+  /*margin: auto;*/
 }
 
 #newgame:hover {
@@ -76,18 +83,6 @@ h1 {
 #newgame:active {
   background-color: #f2b179;
   cursor: pointer;
-}
-
-p {
-  padding-top: 7px;
-  margin-bottom: 5px;
-  text-align: center;
-}
-
-footer {
-  /*margin: auto;*/
-  /*display: inline-block;*/
-  text-align: center;
 }
 
 .cell {
@@ -139,21 +134,22 @@ footer {
 .tile[data-val="1024"] { background: #edc53f; }
 .tile[data-val="2048"] { background: #edc22e; }
 
+.increasescore {
+  animation: popscore 0.1s;
+}
+
 .spawning {
   animation: spawn 0.4s;
 }
 
-@keyframes spawn {
-  0% {
-    transform: scale(0);
-  }
-  50% {
-    transform: scale(0);
-  }
-  75% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(1);
-  }
+.rotate {
+  animation: rotation 1.0s;
+}
+
+.blastoff {
+  animation: blastoff 3.0s ease-in-out;
+}
+
+.crashandburn {
+  animation: offscreen 1.0s;
 }
