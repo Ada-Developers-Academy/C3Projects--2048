@@ -43,13 +43,9 @@ function moveLeft(tile) {
   var row2 = [];
   var row3 = [];
 
-  // var tiles = $(".tile");
   for (var i = 0; i < tile.length; i++) {
       if (tile[i].getAttribute("data-row") == "r0") {
-        // var tileCol = tile[i].getAttribute("data-col");
-        // tileCol = tileCol.substr(1);
         row0.push(tile[i]);
-        // put into row0 array in the position of the col
       } else if (tile[i].getAttribute("data-row") == "r1") {
         row1.push(tile[i]);
       } else if (tile[i].getAttribute("data-row") == "r2") {
@@ -58,23 +54,18 @@ function moveLeft(tile) {
         row3.push(tile[i]);
       }
     }
+    
+  var rows = [row0, row1, row2, row3];
 
-  for(var i = 0; i < row0.length; i++) {
-      row0[i].setAttribute("data-col", ("c" + i));
+  for (var i = 0; i < rows.length; i++) {
+    moveRowLeft(rows[i]);
+  }
+}
+
+function moveRowLeft(row) {
+  for(var i = 0; i < row.length; i++) {
+      row[i].setAttribute("data-col", ("c" + i));
     }
-
-  for(var i = 0; i < row1.length; i++) {
-      row1[i].setAttribute("data-col", ("c" + i));
-    }
-
-  for(var i = 0; i < row2.length; i++) {
-      row2[i].setAttribute("data-col", ("c" + i));
-    }
-
-  for(var i = 0; i < row3.length; i++) {
-      row3[i].setAttribute("data-col", ("c" + i));
-    }
-
 }
 
 function tilesCollide(direction) {
