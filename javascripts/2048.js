@@ -120,17 +120,33 @@ function horizontalMove(tile, openCells, usedCells, direction) {
         var openArr = sortArray(openRow);
         var usedArr = sortArray(usedRow);
         for (j = 0; j < usedArr.length; j++) {
-          if (openArr[0][1][1] < usedArr[j][0][1]) {
-            reassignHorTiles(openArr, usedArr, j, i, openCells, usedCells);
+          if (openArr[0][1] < usedArr[j][1]) {
+            var row = "r" + i;
+            oneTile = $("div[data-row=" + row + "][data-col=" + usedArr[j][1] + "]");
+            $(oneTile).attr("data-col", openArr[0][1]);
+            emptyCell(openCells, usedCells, usedArr[j]);
+            emptyCell(openArr, usedArr, usedArr[j]);
+            occupyCell(openCells, usedCells, [row, openArr[0][1]]);
+            occupyCell(openArr, usedArr, [openArr[0][0], openArr[0][1]]);
           }
+          usedArr = sortArray(usedArr);
+          openArr = sortArray(openArr);
         }
       } else if (direction == 39) { //right
         var openArr = sortArray(openRow).reverse();
         var usedArr = sortArray(usedRow).reverse();
         for (j = 0; j < usedArr.length; j++) {
-          if (openArr[0][1][1] > usedArr[j][1][1]) {
-            reassignHorTiles(openArr, usedArr, j, i, openCells, usedCells);
+          if (openArr[0][1] > usedArr[j][1]) {
+            var row = "r" + i;
+            oneTile = $("div[data-row=" + row + "][data-col=" + usedArr[j][1] + "]");
+            $(oneTile).attr("data-col", openArr[0][1]);
+            emptyCell(openCells, usedCells, usedArr[j]);
+            emptyCell(openArr, usedArr, usedArr[j]);
+            occupyCell(openCells, usedCells, [row, openArr[0][1]]);
+            occupyCell(openArr, usedArr, [openArr[0][0], openArr[0][1]]);
           }
+          usedArr = sortArray(usedArr).reverse();
+          openArr = sortArray(openArr).reverse();
         }
       }
     }
@@ -154,9 +170,17 @@ function verticalMove(tile, openCells, usedCells, direction) {
         var usedArr = sortArray(usedCol);
         for (j = 0; j < usedArr.length; j++) {
         // loop through used array and always compare to position 0 of open array
-          if (openArr[0][0][1] < usedArr[j][0][1]) {
-            reassignVerTiles(openArr, usedArr, j, i, openCells, usedCells);
+          if (openArr[0][0] < usedArr[j][0]) {
+            var col = "c" + i;
+            oneTile = $("div[data-row=" + usedArr[j][0] + "][data-col=" + col + "]");
+            $(oneTile).attr("data-row", openArr[0][0]);
+            emptyCell(openCells, usedCells, usedArr[j]);
+            emptyCell(openArr, usedArr, usedArr[j]);
+            occupyCell(openCells, usedCells, [openArr[0][0], openArr[0][1]]);
+            occupyCell(openArr, usedArr, [openArr[0][0], openArr[0][1]]);
           }
+          openArr = sortArray(openArr);
+          usedArr = sortArray(usedArr);
         }
       } else if (direction == 40) { //down
         // gives array with row # and column coordinates sorted by row #
@@ -182,33 +206,18 @@ function verticalMove(tile, openCells, usedCells, direction) {
   }
 }
 
-function reassignHorTiles(open, used, cellNum, rowNum, openCells, usedCells) {
-  var row = "r" + rowNum;
-  oneTile = $("div[data-row=" + row + "][data-col=" + used[cellNum][1] + "]");
-  $(oneTile).attr("data-col", open[0][1]);
-  emptyCell(openCells, usedCells, used[cellNum]);
-  emptyCell(open, used, used[cellNum]);
-  occupyCell(openCells, usedCells, [row, open[0][1]]);
-  occupyCell(open, used, [open[0][0], open[0][1]]);
-  used = sortArray(used);
-  open = sortArray(open);
-}
+// function reassignHorTiles(open, used, cellNum, rowNum, openCells, usedCells) {
+//   var row = "r" + rowNum;
+//   oneTile = $("div[data-row=" + row + "][data-col=" + used[cellNum][1] + "]");
+//   $(oneTile).attr("data-col", open[0][1]);
+//   emptyCell(openCells, usedCells, used[cellNum]);
+//   emptyCell(open, used, used[cellNum]);
+//   occupyCell(openCells, usedCells, [row, open[0][1]]);
+//   occupyCell(open, used, [open[0][0], open[0][1]]);
+//   used = sortArray(used);
+//   open = sortArray(open);
+// }
 
-function reassignVerTiles(open, used, cellNum, colNum, openCells, usedCells) {
-  var col = "c" + colNum;
-  oneTile = $("div[data-row=" + used[cellNum][0] + "][data-col=" + col + "]");
-  $(oneTile).attr("data-row", open[0][0]);
-  // check to make sure local arrays are correct
-  // double check global holder
-  emptyCell(openCells, usedCells, used[cellNum]);
-  emptyCell(open, used, used[cellNum]);
-  occupyCell(openCells, usedCells, [open[0][0], open[0][1]]);
-  occupyCell(open, used, [open[0][0], open[0][1]]);
-  // sort outside the IF loop instead!!! DUH!!!
-  // extract empty and occupy cells??
-  used = sortArray(used);
-  open = sortArray(open);
-}
 
 function sortArray(arrayCol) {
   var newArr = [];
