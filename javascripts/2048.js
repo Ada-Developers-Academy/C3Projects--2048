@@ -9,6 +9,7 @@ var board;
 var score;
 var alreadyWon = false;
 var gameOver = false;
+var actionOccurred; // change moveOccured & merged
 
 $(document).ready(function() {
   begin();
@@ -19,13 +20,13 @@ $(document).ready(function() {
   });
 
   $('body').keydown(function(event) {
-    if (!gameOver) {
+    // if (!gameOver) {
       var arrowKeys = [37, 38, 39, 40];
       if (arrowKeys.indexOf(event.which) > -1) {
-        var moved1 = moveTiles(event.which);
-        var merged = matched(event.which);
-        var moved2 = moveTiles(event.which);
-        if (!isBoardFull() && (moved1 || merged || moved2)) {
+        moveTiles(event.which);
+        merged = matched(event.which);
+        moveTiles(event.which);
+        if (!isBoardFull() && (moveOccurred || merged)) {
           createTile();
         }
 
@@ -39,9 +40,10 @@ $(document).ready(function() {
           alert("YOU HAVE FAILED! D:");
           gameOver = true;
         }
+        moveOccurred = false;
         event.preventDefault();
       }
-    }
+    // }
   })
 });
 
@@ -226,22 +228,20 @@ function deleteVisualTile(row, col) {
 }
 
 function moveTiles(direction) {
-  var moveOccurred = false;
   switch(direction) {
     case 38: // up
-      colRowIterator(goingUp, 0, lessThan, 1);
+      colRowIterator(goingUp, MINBOARDLOCALE, lessThan, 1);
       break;
     case 40: // down
-      colRowIterator(goingDown, 3, greaterThan, -1);
+      colRowIterator(goingDown, MAXBOARDLOCALE, greaterThan, -1);
       break;
     case 37: // left
-      colRowIterator(goingLeft, 0, lessThan, 1);
+      colRowIterator(goingLeft, MINBOARDLOCALE, lessThan, 1);
       break;
     case 39: // right
-      colRowIterator(goingRight, 3, greaterThan, -1);
+      colRowIterator(goingRight, MAXBOARDLOCALE, greaterThan, -1);
       break;
   }
-  return moveOccurred;
 }
 
 function incrementScore(value) {
@@ -301,20 +301,21 @@ function colRowIterator(directionFunction, startNum, endConditionalFunction, inc
   // startNum should be MAXBOARDLOCALE OR MINBOARDLOCALE
   // endConditionalFunction should be "function() {c > 0}" or "function() {c < 3}"
   // incrementor should be 1 or -1
-  for (var i = 0; i <= 3; i++) {
+  for (var i = MINBOARDLOCALE; i <= MAXBOARDLOCALE; i++) {
     var colRow = directionFunction(i);
-    for (j = startNum; endConditionalFunction(j); j += incrementor) {
+    for (var j = startNum; endConditionalFunction(j); j += incrementor) {
       colRow(j);
     }
+    console.log(j)
   }
 }
 
 function lessThan(k) {
-  return k < 4;
+  return k < MAXBOARDLOCALE;
 }
 
 function greaterThan(k) {
-  return k > 0;
+  return k > MINBOARDLOCALE;
 }
 
 function goingUp(y) {
