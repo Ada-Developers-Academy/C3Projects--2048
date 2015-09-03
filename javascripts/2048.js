@@ -22,7 +22,8 @@ function moveTile(tile, direction) {
 
   switch(direction) {
     case 38: //up
-      tile.attr("data-row","r0"); // unless a tile is there
+      // tile.attr("data-row","r0"); // unless a tile is there
+      moveUp(tile);
       break;
     case 40: //down
       tile.attr("data-row","r3");
@@ -32,6 +33,7 @@ function moveTile(tile, direction) {
       // tile.attr("data-col","c0");
       break;
     case 39: //right
+      // moveRight(tile);
       tile.attr("data-col","c3");
       break;
   }
@@ -54,7 +56,7 @@ function moveLeft(tile) {
         row3.push(tile[i]);
       }
     }
-    
+
   var rows = [row0, row1, row2, row3];
 
   for (var i = 0; i < rows.length; i++) {
@@ -64,9 +66,76 @@ function moveLeft(tile) {
 
 function moveRowLeft(row) {
   for(var i = 0; i < row.length; i++) {
-      row[i].setAttribute("data-col", ("c" + i));
+    row[i].setAttribute("data-col", ("c" + i));
     }
 }
+
+// function moveRowRight(row) {
+//   for(var i = 0; i < row.length; i++) {
+//     row[i].setAttribute("data-col", ("c" + (i + 4 - row.length)));
+//   }
+// }
+
+// function moveRight(tile) {
+//   var row0 = [];
+//   var row1 = [];
+//   var row2 = [];
+//   var row3 = [];
+//
+//   for (var i = 0; i < tile.length; i++) {
+//       if (tile[i].getAttribute("data-row") == "r0") {
+//         row0.push(tile[i]);
+//       } else if (tile[i].getAttribute("data-row") == "r1") {
+//         row1.push(tile[i]);
+//       } else if (tile[i].getAttribute("data-row") == "r2") {
+//         row2.push(tile[i]);
+//       } else if (tile[i].getAttribute("data-row") == "r3") {
+//         row3.push(tile[i]);
+//       }
+//     }
+//
+//   var rows = [row0, row1, row2, row3];
+//
+//   for (var i = 0; i < rows.length; i++) {
+//     moveRowRight(rows[i]);
+//   }
+// }
+
+function moveUp(tile) {
+  var col0 = [];
+  var col1 = [];
+  var col2 = [];
+  var col3 = [];
+
+  for (var i = 0; i < tile.length; i++) {
+      if (tile[i].getAttribute("data-col") == "c0") {
+        col0.push(tile[i]);
+      } else if (tile[i].getAttribute("data-col") == "c1") {
+        col1.push(tile[i]);
+      } else if (tile[i].getAttribute("data-col") == "c2") {
+        col2.push(tile[i]);
+      } else if (tile[i].getAttribute("data-col") == "c3") {
+        col3.push(tile[i]);
+      }
+    }
+
+  var cols = [col0, col1, col2, col3];
+
+  for (var i = 0; i < cols.length; i++) {
+    moveColUp(cols[i]);
+  }
+}
+
+function moveColUp(col) {
+  for(var i = 0; i < col.length; i++) {
+    col[i].setAttribute("data-row", ("r" + i));
+    }
+}
+
+
+
+
+
 
 function tilesCollide(direction) {
 
