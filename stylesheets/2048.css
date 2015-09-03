@@ -23,7 +23,7 @@ html {
 .tile {
   position: absolute;
   top: 0; left: 0;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.5s ease-in-out;
 
   color: #f9f6f2;
   background: #000;
@@ -36,8 +36,12 @@ html {
   margin: 0.5rem 0 0 0.5rem ;
   text-align: center;
   width: 4rem;
+  z-index: 2;
 }
 
+.tile[merged] {
+  z-index: 1;
+}
 .tile[data-row="1"] { top: 0; }
 .tile[data-row="2"] { top: 4.5rem; }
 .tile[data-row="3"] { top: 9rem; }
