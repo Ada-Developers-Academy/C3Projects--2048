@@ -8,59 +8,64 @@ const WINNINGTILE = 2048;
 var board;
 var score;
 var alreadyWon = false;
+var gameOver = false;
 
 $(document).ready(function() {
-
-  function begin() {
-    board = []; // creates an empty board
-    // fills the board: creates a 2D array
-    for (i = 0; i < BOARDSIZE; i++) {
-      board[i] = new Array(BOARDSIZE);
-    }
-    // createTile();
-    // createTile();
-
-    times(2, createTile);
-
-    function times(num, theFunction) {
-      for (i = 0; i < num; i++) {
-        theFunction();
-      }
-    }
-    score = 0;
-    changeDisplayedScore();
-    console.log('Ready!');
-  }
-
   begin();
 
-  $('#newgame').click(function () {
+  $('#newgame').click(function() {
     clearBoard();
     begin();
   });
 
-  $('body').keydown(function(event){
-    var arrow_keys = [37, 38, 39, 40];
-    if(arrow_keys.indexOf(event.which) > -1) {
-      var moved1 = moveTiles(event.which);
-      var merged = matched(event.which);
-      var moved2 = moveTiles(event.which);
-      if (!isBoardFull() && (moved1 || merged || moved2)) {
-        createTile();
-      }
+  $('body').keydown(function(event) {
+    if (!gameOver) {
+      var arrowKeys = [37, 38, 39, 40];
+      if (arrowKeys.indexOf(event.which) > -1) {
+        var moved1 = moveTiles(event.which);
+        var merged = matched(event.which);
+        var moved2 = moveTiles(event.which);
+        if (!isBoardFull() && (moved1 || merged || moved2)) {
+          createTile();
+        }
 
-      if (!alreadyWon && hasWon()) {
-        alert("YOU HAVE WOOOOOON!!!");
-        alreadyWon = true;
-      } else if (alreadyWon && hasLost()) {
-        alert("Congrats on winning!\nBut there are no more moves for you to make.\nPlease start a new game.")
-      } else if (hasLost()) {
-        alert("YOU HAVE FAILED! D:");
+        if (!alreadyWon && hasWon()) {
+          alert("YOU HAVE WOOOOOON!!!");
+          alreadyWon = true;
+        } else if (alreadyWon && hasLost()) {
+          alert("Congrats on winning!\nBut there are no more moves for you to make.\nPlease start a new game.")
+          gameOver = true;
+        } else if (hasLost()) {
+          alert("YOU HAVE FAILED! D:");
+          gameOver = true;
+        }
+        event.preventDefault();
       }
-      event.preventDefault();
     }
   })
 });
+
+function begin() {
+  // creates an empty board
+  board = [];
+  // fills the board: creates a 2D array
+  for (i = 0; i < BOARDSIZE; i++) {
+    board[i] = new Array(BOARDSIZE);
+  }
+
+  // creates two tiles to start with
+  createTile();
+  createTile();
+
+  // sets score to 0 for a new game
+  score = 0;
+  changeDisplayedScore();
+}
+
+function clearBoard() {
+  var divs = $('.tile');
+  divs.remove();
+}
 
 function empty(location) {
   // input will be board location
@@ -378,9 +383,4 @@ function noMovesAvailable() {
     }
   }
   return (moves == 0);
-}
-
-function clearBoard() {
-  var divs = $('.tile');
-  divs.remove();
 }
