@@ -105,7 +105,7 @@ function checkNextSpace(active_tile, direction) {
 
     // force tile to move into same cell before combining (for visual flair)
     $(active_tile).attr(attr_mod, attr_mod_val); // move
-    var new_tile_value = combineTiles(active_tile, next_tile); // combine
+    var new_tile_value = combineTiles(active_tile, next_tile) // combine
 
     // check for win
     if (new_tile_value >= 2048) {
@@ -166,12 +166,10 @@ function combineTiles(active_tile, next_tile) {
   next_tile.text(new_tile_value);
 
   // active_tile disappears
-  $(active_tile).delay(425).queue(function() { // to *roughly* match move transition timing
-    $(this).remove();
+  $(active_tile).remove();
 
-    // increment score
-    incrementScore(new_tile_value);
-  });
+  // increment score
+  incrementScore(new_tile_value);
 
   return new_tile_value;
 }
