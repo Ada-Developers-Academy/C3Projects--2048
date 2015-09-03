@@ -142,14 +142,11 @@ function matched(direction) {
 
       for(c=0; c<4; c++) { //colm incrementing
         for(r=rowStart; r<3; r++) { //row incrementing
-          if (isNaN(board[r][c])) { continue;} // will do check if value is a number
-          var neighbor = board[r + 1][c];
-          if (board[r][c] == neighbor) {
-            tileLevelUp(r, c, board[r][c]);
-            board[r + 1][c] = undefined;
-            deleteVisualTile(r+1, c);
-            incrementVisualTile(r, c, board[r][c]);
-            actionOccurred = true;
+          if (isNaN(board[r][c])) { continue;} // check for numeric value
+          if (board[r][c] == board[r + 1][c]) {
+            var tile = [r, c, board[r][c]]
+            var neighbor = [r + 1, c, board[r + 1][c]]
+            itsAMatch(tile, neighbor);
           } // if
         } // r
       } // c
@@ -159,14 +156,11 @@ function matched(direction) {
 
       for(c=0; c<4; c++) { //colm incrementing
         for(r=rowStart; r>0; r--) { //row decrementing
-          if (isNaN(board[r][c])) { continue;} // will do check if value is a number
-          var neighbor = board[r - 1][c];
-          if (board[r][c] == neighbor) {
-            tileLevelUp(r, c, board[r][c]);
-            board[r - 1][c] = undefined;
-            deleteVisualTile(r-1, c);
-            incrementVisualTile(r, c, board[r][c]);
-            actionOccurred = true;
+          if (isNaN(board[r][c])) { continue;}
+          if (board[r][c] == board[r - 1][c]) {
+            var tile = [r, c, board[r][c]]
+            var neighbor = [r - 1, c, board[r - 1][c]]
+            itsAMatch(tile, neighbor);
           } // if
         } // r
       } // c
@@ -177,13 +171,10 @@ function matched(direction) {
       for(c=colStart; c<3; c++) { //colm incrementing
         for(r=0; r<4; r++) { //row incrementing
           if (isNaN(board[r][c])) { continue;} // will do check if value is a number
-          var neighbor = board[r][c + 1];
-          if (board[r][c] == neighbor) {
-            tileLevelUp(r, c, board[r][c]);
-            board[r][c + 1] = undefined;
-            deleteVisualTile(r, c+1);
-            incrementVisualTile(r, c, board[r][c]);
-            actionOccurred = true;
+          if (board[r][c] == board[r][c + 1]) {
+            var tile = [r, c, board[r][c]]
+            var neighbor = [r, c + 1, board[r][c + 1]]
+            itsAMatch(tile, neighbor);
           } // if
         } // r
       } // c
@@ -194,13 +185,10 @@ function matched(direction) {
       for(c=colmStart; c>0; c--) { //colm decrementing
         for(r=0; r<4; r++) { //row incrementing
           if (isNaN(board[r][c])) { continue;} // will do check if value is a number
-          var neighbor = board[r][c - 1];
-          if (board[r][c] == neighbor) {
-            tileLevelUp(r, c, board[r][c]);
-            deleteVisualTile(r, c-1);
-            board[r][c - 1] = undefined;
-            incrementVisualTile(r, c, board[r][c]);
-            actionOccurred = true;
+          if (board[r][c] == board[r][c - 1]) {
+            var tile = [r, c, board[r][c]]
+            var neighbor = [r, c - 1, board[r][c - 1]]
+            itsAMatch(tile, neighbor);
           } // if
         } // r
       } // c
@@ -210,18 +198,21 @@ function matched(direction) {
 
 function itsAMatch(tile, neighbor) {
   // neighbor = [r, c, val]
-  tileLevelUp(tile[0], tile[1], tile[2]);
+  console.log("Matched")
+  newValue = tileLevelUp(tile[0], tile[1], tile[2]);
   board[neighbor[0]][neighbor[1]] = undefined;
 
   deleteVisualTile(neighbor[0], neighbor[1]);
-  incrementVisualTile(tile[0], tile[1], tile[3]);
-  
+  incrementVisualTile(tile[0], tile[1], newValue);
+
   actionOccurred = true;
 }
 
 function tileLevelUp(row, column, value) {
   board[row][column] = 2 * value;
   incrementScore(board[row][column]);
+  console.log(board[row][column]);
+  return board[row][column];
 }
 
 function incrementVisualTile(row, col, value) {
