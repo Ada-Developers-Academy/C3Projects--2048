@@ -3,22 +3,32 @@ $(document).ready(function() {
   $('body').keydown(function(event){
     var arrow_keys = [37, 38, 39, 40];
     if(arrow_keys.indexOf(event.which) > -1) {
-      var tile = $('.tile');
-      moveTile(tile, event.which);
+      // var tile = $('.tile');
+      moveTile(event.which);
       addTile();
       event.preventDefault();
     }
   })
 })
 
-function moveTile(tile, direction) {
+function moveTile(direction) {
   // if (tilesCollide(direction); == true) {
-    var new_tile_value = tile.attr("data-val") * 2;
-    tile.attr("data-val", new_tile_value);
-    tile.text(new_tile_value); // then also moves to next available position
+    // var new_tile_value = tile.attr("data-val") * 2;
+    // tile.attr("data-val", new_tile_value);
+    // tile.text(new_tile_value); // then also moves to next available position
   // } else {
     // they do not merge, they slide into the next available position
   // }
+  var c0 = $("div[data-col='c0']");
+  var col0 = $.makeArray(c0);
+  var c1 = $("div[data-col='c1']");
+  var col1 = $.makeArray(c1);
+  var c2 = $("div[data-col='c2']");
+  var col2 = $.makeArray(c2);
+  var c3 = $("div[data-col='c3']");
+  var col3 = $.makeArray(c3);
+
+  var tile = col0.concat(col1, col2, col3);
 
   switch(direction) {
     case 38: //up
@@ -33,8 +43,8 @@ function moveTile(tile, direction) {
       // tile.attr("data-col","c0");
       break;
     case 39: //right
-      // moveRight(tile);
-      tile.attr("data-col","c3");
+      moveRight(tile);
+      // tile.attr("data-col","c3");
       break;
   }
 }
@@ -70,36 +80,36 @@ function moveRowLeft(row) {
     }
 }
 
-// function moveRowRight(row) {
-//   for(var i = 0; i < row.length; i++) {
-//     row[i].setAttribute("data-col", ("c" + (i + 4 - row.length)));
-//   }
-// }
+function moveRight(tile) {
+  var row0 = [];
+  var row1 = [];
+  var row2 = [];
+  var row3 = [];
 
-// function moveRight(tile) {
-//   var row0 = [];
-//   var row1 = [];
-//   var row2 = [];
-//   var row3 = [];
-//
-//   for (var i = 0; i < tile.length; i++) {
-//       if (tile[i].getAttribute("data-row") == "r0") {
-//         row0.push(tile[i]);
-//       } else if (tile[i].getAttribute("data-row") == "r1") {
-//         row1.push(tile[i]);
-//       } else if (tile[i].getAttribute("data-row") == "r2") {
-//         row2.push(tile[i]);
-//       } else if (tile[i].getAttribute("data-row") == "r3") {
-//         row3.push(tile[i]);
-//       }
-//     }
-//
-//   var rows = [row0, row1, row2, row3];
-//
-//   for (var i = 0; i < rows.length; i++) {
-//     moveRowRight(rows[i]);
-//   }
-// }
+  for (var i = 0; i < tile.length; i++) {
+      if (tile[i].getAttribute("data-row") == "r0") {
+        row0.push(tile[i]);
+      } else if (tile[i].getAttribute("data-row") == "r1") {
+        row1.push(tile[i]);
+      } else if (tile[i].getAttribute("data-row") == "r2") {
+        row2.push(tile[i]);
+      } else if (tile[i].getAttribute("data-row") == "r3") {
+        row3.push(tile[i]);
+      }
+    }
+
+  var rows = [row0, row1, row2, row3];
+
+  for (var i = 0; i < rows.length; i++) {
+    moveRowRight(rows[i]);
+  }
+}
+
+function moveRowRight(row) {
+  for(var i = 0; i < row.length; i++) {
+    row[i].setAttribute("data-col", ("c" + (i + 4 - row.length)));
+  }
+}
 
 function moveUp(tile) {
   var col0 = [];
