@@ -23,8 +23,6 @@ p {
 img {
   /*float: left;*/
   position: relative;
-  animation: rotation 2.0s ;
-
 }
 
 footer {
@@ -145,4 +143,8 @@ footer {
 
 .rotate {
   animation: rotation 1.0s;
+}
+
+.blastoff {
+  animation: blastoff 3.0s ease-in-out;
 }
