@@ -175,11 +175,11 @@ function makeTurn(direction) {
       if (neighbor) {
         var currentVal = parseInt(sortedTiles[i].getAttribute("data-val"));
         var newVal = currentVal * 2;
-        // ANIMATE NEIGHBOR HERE
+
+        // setting neighbor tile's to the original tile's position for animation
         neighbor.setAttribute("data-row", sortedTiles[i].getAttribute("data-row"));
         neighbor.setAttribute("data-col", sortedTiles[i].getAttribute("data-col"));
         neighbor.setAttribute("merged", "");
-        // neighbor.addClass = "merge";
 
         sortedTiles[i].setAttribute("data-val", (newVal));
         updateScore(newVal);
@@ -190,8 +190,11 @@ function makeTurn(direction) {
            sortedTiles.splice(1, sortedTiles.length-1)
            );
         checkWin(newVal);
-        // neighbor.remove();
-      $('.tile[merged]').hide('slow', function(){ $(this).remove(); });
+
+        // animation to hide the merged tile, then delete it
+        $('.tile[merged]').hide('slow', function(){
+          $(this).remove();
+        });
       }
     }
   }
