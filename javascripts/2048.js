@@ -58,7 +58,7 @@ function initializeBoard() {
         if(y == newTile[0] && x == newTile[1]){
           cell.addClass("popper");
           cell.one("animationend", function(e) {
-            cell.removeClass("popper");
+            $(this).removeClass("popper");
           });
         }
       }
