@@ -327,3 +327,25 @@ function populateScore(score){
   var scoreDiv = $('.score');
   scoreDiv.text(score);
 }
+
+function checkEndGame(){
+  //iterate through the board
+  //if any tile === 2048
+  //they win
+  var directions = ["up", "down", "left", "right"];
+  for(i=0; i < directions.length; i++){
+    var next = checkNext(y, x, directions[i]);
+    if(next == board[y][x]){
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+  //if board full && nothing can collapse/setupTempBoard
+  //we could use checknext in each direction to see if it can
+  //sum aka is the same value
+  //they lose
+
+
+}
