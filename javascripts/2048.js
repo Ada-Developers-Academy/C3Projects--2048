@@ -293,8 +293,14 @@ function makeTurn(direction) {
     tile.attr("data-col", randomLocation[1]);
     tile.attr("data-val", dataVal);
     tile.text(dataVal);
+    // add new class to provide animation
+    tile.addClass("new");
 
     $("#gameboard").append(tile);
+    // remove new class after animation is complete
+    tile.on("animationend", function() {
+      tile.removeClass("new");
+    })
   }
 
   function checkWin(score) {
