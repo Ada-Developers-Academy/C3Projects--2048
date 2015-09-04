@@ -5,8 +5,6 @@ $(document).ready(function() {
   if (inPlay === false) {
     newTile();
     newTile();
-    newTile();
-    newTile();
   }
 
   // play
@@ -20,12 +18,17 @@ $(document).ready(function() {
   });
 });
 
-// TODO: Try to make it appear opposite of the keystroke instead of randomly
 function newTile() {
   var availableSpaces = openSpaces();
   // randomly select an available space
   var spaceIndex = Math.floor(Math.random() * availableSpaces.length);
   var cell = availableSpaces[spaceIndex];
+
+  // TODO: Try to make it appear opposite of the keystroke instead of randomly
+  // takes inventory of open spaces
+  // figures out the direction of the keystroke
+  // randomly selects an open space that's in the
+  // 2 rows/columns opposite of your keystroke
 
   // create html tile
   var tile = $("<div class='tile'></div>");
@@ -38,5 +41,13 @@ function newTile() {
 
 function moveTile(tile, direction) {
   tileCollision(direction);
-  // newTile();
+
+  // ensures the new tile is introduced *after* the tiles transition
+  var addedTile = false;
+  document.addEventListener("transitionend", function() {
+    if (addedTile === false) {
+      newTile();
+      addedTile = true;
+    }
+  });
 }
