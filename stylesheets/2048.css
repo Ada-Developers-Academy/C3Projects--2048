@@ -29,7 +29,7 @@ button {
 .retry-button {
   width: 7em;
   font-size: 0.6em;
-  background-color: #bbada0;
+  background-color: rgba(238, 228, 218, 0.5);
 }
 
 
@@ -63,7 +63,7 @@ button {
 }
 
 #gameboard {
-  background: #bbada0;
+  background: #727272;
   border-radius: 0.5rem;
   height: 18.5rem;
   margin: 1rem auto;
