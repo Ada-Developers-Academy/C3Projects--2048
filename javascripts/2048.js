@@ -128,7 +128,7 @@ function solveColumn(col, direction) { // => ('c3', 'up')
   var orderedTiles = orderedColTiles(tiles); //=> [0, tile, 0, tile]
 
   orderedTiles = orderedTiles.filter(removeZero); //=> [tile, tile]
-  orderedTiles = mergeColumn(orderedTiles);
+  orderedTiles = mergeTile(orderedTiles);
 
   if (direction == 'up') {
     while (orderedTiles.length < 4) {
@@ -152,8 +152,9 @@ function solveRow(row, direction) { // => ('r3', "right")
   var tiles = $('.tile[data-row=r' + row + ']'); //=> [tile in r3, tile in r3]
 
   var orderedTiles = orderedRowTiles(tiles); //=> [0, tile, 0, tile]
-
+  
   orderedTiles = orderedTiles.filter(removeZero); //=> [tile, tile]
+  orderedTiles = mergeTile(orderedTiles);
 
   if (direction == 'left') {
     while (orderedTiles.length < 4) {
@@ -200,23 +201,28 @@ function moveTile(tile, direction) {
   }
 }
 
+Array.prototype.insert = function (index, item) {
+  this.splice(index, 0, item);
+};
 
-function mergeColumn(arrayOfTiles) { // => ('c3', 'up')
+function mergeTile(arrayOfTiles) { // => ('c3', 'up')
   if (arrayOfTiles.length >= 2){
-    for (var i = 0; i < arrayOfTiles.length; i++){
-      var value1 = arrayOfTiles[i].getAttribute('data-val');
-      var value2 = arrayOfTiles[i + 1].getAttribute('data-val');
-      if (value1 == value2){
-        arrayOfTiles[i].setAttribute('data-val', value1 * 2);
-        $(arrayOfTiles[i]).text(value1 * 2);
-        console.log(arrayOfTiles[i])
-        arrayOfTiles.pop();
+    for (var i = 0; i < arrayOfTiles.length; i++) {
+      if (arrayOfTiles[i] != 0 && arrayOfTiles[i + 1] && arrayOfTiles[i + 1] != 0) {
+        var value1 = arrayOfTiles[i].getAttribute('data-val'); //=> r0 = 2
+        var value2 = arrayOfTiles[i + 1].getAttribute('data-val'); //=> r1 = 2
+        if (value1 == value2){
+          arrayOfTiles[i].setAttribute('data-val', value1 * 2); //r0 = 4
+          arrayOfTiles[i + 1].remove();
+          $(arrayOfTiles[i]).text(value1 * 2); // r0text = 4
+          arrayOfTiles.insert(i + 1, 0); // [4tile, 0, 2tile]
+          arrayOfTiles.splice(i + 2, 1);
+        }
       }
     }
   }
-  return arrayOfTiles;
+  return arrayOfTiles.filter(removeZero);
 }
-
 
 // generates a random grid postion =>"r3, c0"
 function position(){
