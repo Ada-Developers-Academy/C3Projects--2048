@@ -1,10 +1,11 @@
+// Constants -----------------------------------------------------------
 const MINSTARTINGTILE = 2;
 const MAXSTARTINGTILE = 4;
 const MINBOARDLOCALE = 0; // starting array index
 const MAXBOARDLOCALE = 3; // highest array index
 const BOARDSIZE = 4; // anything less than 4 is valid
 const WINNINGTILE = 2048;
-// Constants -----------------
+// Global Variables ------------------------------------------------------
 var board;
 var score;
 var actionOccurred;
@@ -19,6 +20,22 @@ $(document).ready(function() {
     begin();
   });
 
+  function begin() {
+    board = []; // creates an empty board
+    for (i = 0; i < BOARDSIZE; i++) { // fills the board: creates a 2D array
+      board[i] = new Array(BOARDSIZE);
+    }
+
+    // creates two tiles to start with
+    createTile();
+    createTile();
+
+    score = 0; // sets score to 0 for a new game
+    alreadyWon = false;
+    gameOver = false;
+    changeDisplayedScore();
+  }
+
   $('body').keydown(function(event) {
     if (!gameOver) {
       var arrowKeys = [37, 38, 39, 40];
@@ -32,7 +49,7 @@ $(document).ready(function() {
 
         if (!alreadyWon && hasWon()) {
           $('img').addClass("blastoff").on("animationend", function() { $(this).removeClass("blastoff") });
-          setTimeout (function(){alert("YOU HAVE WOOOOOON!!!")}, 3000);
+          setTimeout (function(){alert("Congratulations, YOU HAVE WOOOOOON!!!")}, 3000);
           alreadyWon = true;
         } else if (alreadyWon && hasLost()) {
           alert("Congrats on winning!\nBut there are no more moves for you to make.\nPlease start a new game.")
@@ -49,34 +66,7 @@ $(document).ready(function() {
   })
 });
 
-function begin() {
-  board = []; // creates an empty board
-  for (i = 0; i < BOARDSIZE; i++) { // fills the board: creates a 2D array
-    board[i] = new Array(BOARDSIZE);
-  }
-
-  // creates two tiles to start with
-  createTile();
-  createTile();
-
-  score = 0; // sets score to 0 for a new game
-  alreadyWon = false;
-  gameOver = false;
-  changeDisplayedScore();
-}
-
-function clearBoard() {
-  var divs = $('.tile');
-  divs.remove();
-}
-
-function empty(location) {
-  // input will be board location
-  // check if board array location is undefined
-  var answer = (location == undefined) ? true : false;
-  return answer;
-}
-
+// tile creation ------------------------------------------------------
 function randomizeValue() {
   var coinFlip = Math.floor(Math.random() * 2)
   value = coinFlip == 0 ? 2 : 4;
@@ -110,29 +100,12 @@ function createTile() {
   createVisualTile(row, col, value);
 }
 
-function createVisualTile(row, col, value) {
-  var rowLocation = "r" + row;
-  var colLocation = "c" + col;
-  var tile = $("<div></div>");
-  tile.addClass("tile");
-  tile.text(value);
-  tile.attr("data-val", value);
-  tile.attr("data-row", rowLocation);
-  tile.attr("data-col", colLocation);
-  $("#gameboard").append(tile);
-  tile.addClass("spawning").on("animationend", function() { $(this).removeClass("spawning") });
-}
-
-function changeDisplayedScore() {
-  var scoreDiv = $('#score')
-  //animation to ba-dump scoreboard
-  $('#scoreboard').addClass('increasescore');
-
-  // remove animation class
-  $('#scoreboard').on('animationend', function() {
-    $(this).removeClass('increasescore');
-  })
-  scoreDiv.text(score);
+// matching & empty checking ---------------------------------------------------
+function empty(location) {
+  // input will be board location
+  // check if board array location is undefined
+  var answer = (location == undefined) ? true : false;
+  return answer;
 }
 
 function matched(direction) {
@@ -214,22 +187,12 @@ function tileLevelUp(row, column, value) {
   return board[row][column];
 }
 
-function incrementVisualTile(row, col, value) {
-  // for css styles
-  var rowLocation = "r" + row;
-  var colLocation = "c" + col;
-  var tile = $("[data-row=" + rowLocation + "][data-col=" + colLocation + "]");
-  tile.text(value);
-  tile.attr("data-val", value);
+function incrementScore(value) {
+  score += value;
+  changeDisplayedScore();
 }
 
-function deleteVisualTile(row, col) {
-  var div = $('.tile')
-  var rowLocation = "r" + row;
-  var colLocation = "c" + col;
-  $("[data-row=" + rowLocation + "][data-col=" + colLocation + "]").remove();
-}
-
+// Movement ------------------------------------------------------
 function moveTiles(direction) {
   switch(direction) {
     case 38: // up
@@ -245,58 +208,6 @@ function moveTiles(direction) {
       colRowIterator(goingRight, MAXBOARDLOCALE, greaterThan, -1);
       break;
   }
-}
-
-function incrementScore(value) {
-  score += value;
-  changeDisplayedScore();
-}
-
-function hasWon() {
-  var winningDataVal = "[data-val=" + WINNINGTILE + "]";
-  var winningTile = $(winningDataVal);
-  // if a winning tile exists return true, else return false
-  return (winningTile.length > 0);
-}
-
-function hasLost() {
-  return (isBoardFull() && noMovesAvailable());
-}
-
-function isBoardFull() {
-  // make a loop, call empty on each tile
-  for (r = 0; r < BOARDSIZE; r++) { // for each row
-    for (c = 0; c < BOARDSIZE; c++) { // for each col
-      if (empty(board[r][c])) {
-        return false;
-      }
-    }
-  }
-  // "the length " + $('.tile').length >= 16
-  return true;
-}
-
-function noMovesAvailable() {
-  var moves = 0;
-  for (r = 0; r < BOARDSIZE; r++) { // for each row
-    for (c = 0; c < BOARDSIZE; c++) { // for each col
-      // compares tile to the right of the tile
-      if ((c + 1) == BOARDSIZE) {
-        // do NOTHING
-        // don't want to do the check (because no col to compare to)
-      } else if (board[r][c] == board[r][c + 1]) {
-        moves++;
-      }
-      // compares tile to the tile below
-      if ((r + 1) == BOARDSIZE) {
-        // do NOTHING
-        // don't want to do the check (because no row to compare to)
-      } else if (board[r][c] == board[r + 1][c]) {
-        moves++;
-      }
-    }
-  }
-  return (moves == 0);
 }
 
 function colRowIterator(directionFunction, startNum, endConditionalFunction, incrementor) {
@@ -380,6 +291,32 @@ function goingRight(x) {
   }
 }
 
+// Visual Functions ------------------------------------------------------
+function createVisualTile(row, col, value) {
+  var rowLocation = "r" + row;
+  var colLocation = "c" + col;
+  var tile = $("<div></div>");
+  tile.addClass("tile");
+  tile.text(value);
+  tile.attr("data-val", value);
+  tile.attr("data-row", rowLocation);
+  tile.attr("data-col", colLocation);
+  $("#gameboard").append(tile);
+  tile.addClass("spawning").on("animationend", function() { $(this).removeClass("spawning") });
+}
+
+function changeDisplayedScore() {
+  var scoreDiv = $('#score')
+  //animation to ba-dump scoreboard
+  $('#scoreboard').addClass('increasescore');
+
+  // remove animation class
+  $('#scoreboard').on('animationend', function() {
+    $(this).removeClass('increasescore');
+  })
+  scoreDiv.text(score);
+}
+
 function reassigningTileAttr(oldRow, newRow, oldCol, newCol) {
   var oldLocation = ".tile[data-row=r" + oldRow + "][data-col=c" + oldCol + "]";
   var tile = $(oldLocation);
@@ -387,4 +324,73 @@ function reassigningTileAttr(oldRow, newRow, oldCol, newCol) {
   var newColLocation = "c" + newCol;
   tile.attr("data-row", newRowLocation);
   tile.attr("data-col", newColLocation);
+}
+
+function incrementVisualTile(row, col, value) {
+  // for css styles
+  var rowLocation = "r" + row;
+  var colLocation = "c" + col;
+  var tile = $("[data-row=" + rowLocation + "][data-col=" + colLocation + "]");
+  tile.text(value);
+  tile.attr("data-val", value);
+}
+
+function deleteVisualTile(row, col) {
+  var div = $('.tile')
+  var rowLocation = "r" + row;
+  var colLocation = "c" + col;
+  $("[data-row=" + rowLocation + "][data-col=" + colLocation + "]").remove();
+}
+
+// Endgame ------------------------------------------------------
+function isBoardFull() {
+  // make a loop, call empty on each tile
+  for (r = 0; r < BOARDSIZE; r++) { // for each row
+    for (c = 0; c < BOARDSIZE; c++) { // for each col
+      if (empty(board[r][c])) {
+        return false;
+      }
+    }
+  }
+  // "the length " + $('.tile').length >= 16
+  return true;
+}
+
+function noMovesAvailable() {
+  var moves = 0;
+  for (r = 0; r < BOARDSIZE; r++) { // for each row
+    for (c = 0; c < BOARDSIZE; c++) { // for each col
+      // compares tile to the right of the tile
+      if ((c + 1) == BOARDSIZE) {
+        // do NOTHING
+        // don't want to do the check (because no col to compare to)
+      } else if (board[r][c] == board[r][c + 1]) {
+        moves++;
+      }
+      // compares tile to the tile below
+      if ((r + 1) == BOARDSIZE) {
+        // do NOTHING
+        // don't want to do the check (because no row to compare to)
+      } else if (board[r][c] == board[r + 1][c]) {
+        moves++;
+      }
+    }
+  }
+  return (moves == 0);
+}
+
+function hasWon() {
+  var winningDataVal = "[data-val=" + WINNINGTILE + "]";
+  var winningTile = $(winningDataVal);
+  // if a winning tile exists return true, else return false
+  return (winningTile.length > 0);
+}
+
+function hasLost() {
+  return (isBoardFull() && noMovesAvailable());
+}
+
+function clearBoard() {
+  var divs = $('.tile');
+  divs.remove();
 }
