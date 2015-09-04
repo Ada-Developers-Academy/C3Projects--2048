@@ -2,13 +2,59 @@ html {
   font: normal normal 30px/1 "Clear Sans", "Helvetica Neue", Arial, sans-serif;
 }
 
+#score {
+  position: absolute;
+  margin-top: 1rem;
+  margin-left: 0.5rem;
+  padding: 10px;
+  background-color: #bbada0;
+  text-align: center;
+  color: #000;
+}
+
 #gameboard {
   background: #bbada0;
   border-radius: 0.5rem;
   height: 18.5rem;
   margin: 1rem auto;
   position: relative;
+  z-index: -1;
   width: 18.5rem;
+}
+
+#endgame.win, #endgame.lose {
+  border-radius: 0.5rem;
+  height: 18.5rem;
+  margin: 1rem auto;
+  width: 18.5rem;
+  z-index: 1;
+}
+
+#endgame .message {
+  position: absolute;
+  font-size: 30px;
+  font-weight: bold;
+  color: #000;
+  top: 8rem;
+  margin: 0 3rem;
+}
+
+#endgame.win {
+  background: rgba(255, 150, 40, 0.6);
+}
+
+#endgame.lose {
+  background: rgba(210, 210, 200, 0.7);
+}
+
+#endgame button {
+  position: absolute;
+  font-size: 20px;
+  font-weight: bold;
+  margin-left: 7rem;
+  margin-top: -10rem;
+  background-color: #ccc;
+  color: #000;
 }
 
 .cell {
@@ -23,7 +69,7 @@ html {
 .tile {
   position: absolute;
   top: 0; left: 0;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.1s ease-in-out; /* I think 0.1s is closer to the original game */
 
   color: #f9f6f2;
   background: #000;
