@@ -45,22 +45,27 @@ function moveTile(tile, direction) {
       moveDown(tile);
       break;
     case 37: //left
-      var rows = moveLeft(tile);
+      var rows = makeRows(tile);
       moveRowLeft(rows);
       collideTilesLeft(rows);
       var reTile = $('.tile');
-      var reRow = moveLeft(reTile);
+      var reRow = makeRows(reTile);
       moveRowLeft(reRow);
       // tile.attr("data-col","c0");
       break;
     case 39: //right
-      moveRight(tile);
+      var rows = makeRows(tile);
+      moveRowRight(rows);
+      collideTilesRight(rows);
+      var reTile = $('.tile');
+      var reRow = makeRows(reTile);
+      moveRowRight(reRow);
       // tile.attr("data-col","c3");
       break;
   }
 }
 
-function moveLeft(tile) {
+function makeRows(tile) {
   var row0 = [];
   var row1 = [];
   var row2 = [];
@@ -116,35 +121,29 @@ function moveRowLeft(row) {
   }
 }
 
-function moveRight(tile) {
-  var row0 = [];
-  var row1 = [];
-  var row2 = [];
-  var row3 = [];
 
-  for (var i = 0; i < tile.length; i++) {
-      if (tile[i].getAttribute("data-row") == "r0") {
-        row0.push(tile[i]);
-      } else if (tile[i].getAttribute("data-row") == "r1") {
-        row1.push(tile[i]);
-      } else if (tile[i].getAttribute("data-row") == "r2") {
-        row2.push(tile[i]);
-      } else if (tile[i].getAttribute("data-row") == "r3") {
-        row3.push(tile[i]);
-      }
-    }
-
-  var rows = [row0, row1, row2, row3];
-
+function collideTilesRight(rows){
   for (var i = 0; i < rows.length; i++) {
-    moveRowRight(rows[i]);
-  }
+  for (var j = rows[i].length - 1; j < 1; j--){
+   var rightTileValue = rows[i][j].getAttribute("data-val");
+   var nextTileValue = rows[i][j-1].getAttribute("data-val");
+      if (rightTileValue == nextTileValue){
+        var newTileValue = rightTileValue * 2;
+          rows[i][j].setAttribute("data-val", newTileValue);
+          rows[i][j].textContent = newTileValue;
+          rows[i][j-1].remove();
+    };
+
+  }    
+}
 }
 
 function moveRowRight(row) {
-  for(var i = 0; i < row.length; i++) {
-    row[i].setAttribute("data-col", ("c" + (i + 4 - row.length)));
+  for (var i = 0; i < row.length; i++) {
+    for(var j = 0; j < row[i].length; j++) {
+    row[i][j].setAttribute("data-col", ("c" + (j + 4 - row.length)));
   }
+}
 }
 
 function moveUp(tile) {
