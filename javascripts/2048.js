@@ -6,9 +6,8 @@ $(document).ready(function() {
     var arrow_keys = [37, 38, 39, 40];
 
     if(arrow_keys.indexOf(event.which) > -1) {
-      var tile = $('.tile');
+      // var tile = $('.tile');
       moveTile(event.which);
-      createTile();
       event.preventDefault();
     }
   })
@@ -64,6 +63,7 @@ function checkLocation(column, row) {
   }
   return [column, row];
 }
+
 
 function createTile() {
 
@@ -177,6 +177,9 @@ function moveDirection(moveWay) {
   for (var i=0; i < 4; i++) {
     moveWay(i);
   }
+  setTimeout(function() {
+    createTile();
+  }, 500);
 }
 
 // Returns row at passed in index (r)
