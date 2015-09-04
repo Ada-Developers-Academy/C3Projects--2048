@@ -28,8 +28,8 @@ function playTurn(event) {
   if (arrow_keys.indexOf(event.which) > -1) {
     event.preventDefault();
 
-    var tile = $('.tile');
-    moveTiles(event.which);
+    var collection = new TileCollection(event.which);
+    collection.move();
 
     if ($('.tile').length >= boardSize) {
       if (checkLose()) { endGame('lose'); }

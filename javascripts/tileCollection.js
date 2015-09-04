@@ -25,7 +25,7 @@ function TileCollection(direction) {
 
 TileCollection.prototype.move = function() {
   for (var i = 0; i < this.max_length; i++) {
-    this.shift_tiles(this.combine(this.generate(i)), this.collection_type);
+    this.shift_tiles(this.combine(this.generate(i)));
   }
 }
 
@@ -34,12 +34,10 @@ TileCollection.prototype.combine = function(collection) {
 
   for (var i = 1; i < collection.length; i++) {
     if (collection[i].attr('data-val') === collection[i - 1].attr('data-val')) {
-      // combine!
-      updateValue(collection[i]);
+      updateValue(collection[i]);  // combine!
 
       collection[i - 1].remove();  // removes adjacent tile from html
       collection.splice(i - 1, 1); // removes adjacent tile from collection array
-      i += 1;
     }
   }
 
