@@ -1,22 +1,40 @@
 html {
-  font: normal normal 30px/1 "Clear Sans", "Helvetica Neue", Arial, sans-serif;
+  font: normal normal 18px/1 'Orbitron', sans-serif;
+  background-image: url("../assets/images/asteroidbackground.jpg");
+  color: white;
 }
 
 h1 {
   display: inline-block;
   text-align: center;
-  margin: .5em;
+  margin: .7em .5em .5em .5em;
+  font-style: italic;
+  font-size: 2.5em;
 }
 
 button {
-  padding: 0.5em;
+  padding: 0.7em 0.5em 0.5em 0.5em;
   margin: 0 0.4em;
-  color: #534E4E;
-  font-size: 0.5em;
-  background-color: white;
-  width: 6em;
+  color: #545867;
+  background-color: rgba(255, 255, 255, 0.7);
   border-radius: 0.2rem;
   border: none;
+  font: inherit;
+}
+
+.intro {
+  display: inline-block;
+  font-size: 0.8em;
+}
+
+.retry-button {
+  width: 8em;
+  font-size: 0.7em;
+}
+
+.end-button {
+  width: 8em;
+  font-size: 0.7em;
 }
 
 .heading {
@@ -27,12 +45,14 @@ button {
   display: inline-block;
   text-align: center;
   margin: 0 1em;
+  color: black;
+  border-radius: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: .7em .7em .5em .7em;
 }
 
 .score {
-  padding: .5em;
   margin: 0;
-  background-color: rgba(238, 228, 218, 0.35);
   display: inline-block;
 }
 
@@ -47,7 +67,7 @@ button {
 }
 
 #gameboard {
-  background: #bbada0;
+  background: #727272;
   border-radius: 0.5rem;
   height: 18.5rem;
   margin: 1rem auto;
@@ -64,9 +84,24 @@ button {
   z-index: 10;
   padding: 25% 0;
   text-align: center;
-  background-color: rgba(238, 228, 218, 0.8);
-  font-size: 1.3em;
+
+  background-color: rgba(255, 255, 255, 0.5);
+  font-size: 1.1em;
   color: #545867;
+}
+
+.gameOver::after {
+  content: "";
+  background-image: url("../assets/images/nebula-small.jpg");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  opacity: 0.4;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;
 }
 
 .cell {
