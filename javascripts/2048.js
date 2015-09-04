@@ -7,7 +7,7 @@ var priorWin = false;
 var gameOver = false;
 
 // win var is currently set to win at 64 for testing! Change to 2048 for true win.
-var winningTileValue = '64';
+var winningTileValue = '4';
 
 $(document).ready(function() {
   initializeGame();
