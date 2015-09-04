@@ -18,23 +18,19 @@ function TileCollection(direction) {
 
   if (direction == 39 || direction == 40) {
     this.needs_reverse = true;
-    this.shift = shiftRightOrDown;
   } else if (direction == 37 || direction == 38) {
     this.needs_reverse = false;
-    this.shift = shiftLeftOrUp;
   }
 }
 
 TileCollection.prototype.move = function() {
   for (var i = 0; i < this.max_length; i++) {
-    this.shift(this.combine(this.generate(i)), this.collection_type);
+    this.shift_tiles(this.combine(this.generate(i)), this.collection_type);
   }
 }
 
 TileCollection.prototype.combine = function(collection) {
-  if (this.needs_reverse) {
-    collection.reverse();
-  }
+  if (this.needs_reverse) { collection.reverse(); }
 
   for (var i = 1; i < collection.length; i++) {
     if (collection[i].attr('data-val') === collection[i - 1].attr('data-val')) {
@@ -47,9 +43,19 @@ TileCollection.prototype.combine = function(collection) {
     }
   }
 
-  if (this.needs_reverse) {
-    collection.reverse();
-  }
+  if (this.needs_reverse) { collection.reverse(); }
 
   return collection;
+}
+
+TileCollection.prototype.shift_tiles = function(collection) {
+  if (this.needs_reverse) {
+    for (var i = 1, j = collection.length - 1; i <= collection.length; i++, j--) {
+      collection[j].attr(this.attr_name, this.letter + (this.max_length - i).toString());
+    }
+  } else {
+    for (var i = 0; i < collection.length; i++) {
+      collection[i].attr(this.attr_name, this.letter + (i).toString());
+    }
+  }
 }
