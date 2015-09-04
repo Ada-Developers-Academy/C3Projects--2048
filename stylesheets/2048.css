@@ -1,14 +1,97 @@
 html {
   font: normal normal 30px/1 "Clear Sans", "Helvetica Neue", Arial, sans-serif;
+  font-family: 'Orbitron', sans-serif;
+}
+
+body {
+  margin: 0% 10%;
+}
+
+h1 {
+  font-size: 4rem;
+  text-align: center;
+  margin: 5px;
+  color: #555250;
+}
+
+p {
+  padding-top: 7px;
+  margin-bottom: 5px;
+  /*text-align: center;*/
+}
+
+img {
+  /*float: left;*/
+  position: relative;
+}
+
+footer {
+  text-align: center;
+}
+
+#dashboard {
+  /*margin: 0% 20%;*/
+  /*i don't know how to center this stuff arggh!!*/
+  height: 155px;
+  text-align: center;
 }
 
 #gameboard {
+  float: clear;
   background: #bbada0;
   border-radius: 0.5rem;
   height: 18.5rem;
   margin: 1rem auto;
   position: relative;
   width: 18.5rem;
+}
+
+#scoreboard {
+  border-radius: 0.5rem;
+  background: #bbada0;
+  width: 210px;
+  height: 120px;
+  color: #ede0c8;
+  text-shadow: 1px 1px black;
+  /*float: left;*/
+  display: inline-block;
+  /*margin-left: 8rem;*/
+  vertical-align: text-bottom;
+}
+
+#score {
+  text-align: center;
+  padding-bottom: 7px;
+}
+
+#newgame {
+  width: 188px;
+  height: 98px;
+  border: 4px solid #776e65;
+  border-radius: 0.5rem;
+  box-shadow: 2px 2px grey;
+  background: #ede0c8;
+  text-align: center;
+  color: #776e65;
+  padding: 5px;
+  /*float: left;*/
+  display: inline-block;
+  /*margin-right: 3rem;*/
+  /*margin: auto;*/
+  /*vertical-align: top;*/
+  /*margin-top: 50px;*/
+  /*word-spacing: 7rem;*/
+  vertical-align: text-bottom;
+}
+
+#newgame:hover {
+  background-color: #bbada0;
+  cursor: pointer;
+}
+
+#newgame:active {
+  background-color: #f2b179;
+  cursor: pointer;
 }
 
 .cell {
@@ -59,3 +142,23 @@ html {
 .tile[data-val="512"]  { background: #edc850; }
 .tile[data-val="1024"] { background: #edc53f; }
 .tile[data-val="2048"] { background: #edc22e; }
+
+.increasescore {
+  animation: popscore 0.1s;
+}
+
+.spawning {
+  animation: spawn 0.4s;
+}
+
+.rotate {
+  animation: rotation 1.0s;
+}
+
+.blastoff {
+  animation: blastoff 3.0s ease-in-out;
+}
+
+.crashandburn {
+  animation: offscreen 1.0s;
+}

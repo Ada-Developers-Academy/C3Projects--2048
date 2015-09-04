@@ -3,10 +3,24 @@
   <head>
     <title>2048</title>
     <link rel="stylesheet" media="all" href="stylesheets/2048.css"/>
+    <link rel="stylesheet" media="all" href="stylesheets/animation.css"/>
     <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script type="text/javascript" src="javascripts/2048.js"></script>
+    <!-- google font -->
+    <link href='https://fonts.googleapis.com/css?family=Orbitron:400,700' rel='stylesheet' type='text/css'>
   </head>
   <body>
+    <h1>2048</h1>
+    <div id='dashboard'>
+      <div id='scoreboard'>
+        <p>Your Score </p>
+        <div id="score"></div>
+      </div>
+      <img src="images/spaceship.png" alt = "rocket" height = "128" width = "127">
+      <div id="newgame">
+        <p>New Game</p>
+      </div>
+    </div>
     <div id="gameboard">
       <div class="cells">
         <div class="cell"></div>
@@ -26,7 +40,7 @@
         <div class="cell"></div>
         <div class="cell"></div>
       </div>
-      <div class="tile" data-row="r1", data-col="c1" data-val="2">2</div>
     </div>
+    <footer> Brandi & Brittany Production </footer>
   </body>
 </html>
