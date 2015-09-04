@@ -252,6 +252,8 @@ function makeTurn(direction) {
       }
 
       // try adding document.addEventListener("transitionend", function(){})
+      // look for delegation syntax
+      // --> in jquery, to make the transition end more deliberate
       // animation to hide the merged tile, then delete it
       $(".tile.merged").remove();
       // $(".tile.merged").on("transitionend", function() {
