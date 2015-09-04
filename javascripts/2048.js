@@ -14,18 +14,34 @@ var board = new Board([
   [ 32,  512, 128,    8]
 ]);
 
+var gameOver = false;
 $(document).ready(function() {
+  // setup the play again button & stash it for later use :)
+  var endgame = $("#endgame");
+  var playAgain = $('<button></button>');
+  playAgain.addClass("play-again");
+  playAgain.text("Play Again?");
+  endgame.append(playAgain);
+  playAgain.hide();
+
+  // display the board!
   board.display();
-  console.log('ready, should be displayed!');
 
   $('body').keydown(function(event){
     var arrow_keys = [37, 38, 39, 40];
+
     if(arrow_keys.indexOf(event.which) > -1) {
-      var tile = $('.tile');
-      moveTile(tile, event.which);
-      event.preventDefault();
+      if (!gameOver) {
+        var tile = $('.tile');
+        moveTile(tile, event.which);
+        event.preventDefault();
+      };
     }
-  })
+  });
+
+  playAgain.click(function(event) {
+    location.reload();
+  });
 })
 
 function moveTile(tile, direction) {
@@ -73,18 +89,13 @@ Board.prototype.display = function() {
   }
 
   $('.old').remove(); // remove any old tiles that remain
-
-  var bd = this.board // we can delete this before the final PR, but in the mean
-  console.log(bd[0]); // time it's nice to be able to open the console and see
-  console.log(bd[1]); // the current iteration of the board!
-  console.log(bd[2]);
-  console.log(bd[3]);
 }
 
 // board.move("left")
 // this is the movement controlling function that calls each step until a move is complete
 Board.prototype.move = function(direction) {
-  var that = this; // make this, which is the board object .move is being called on, available to inner scopes
+  // make this, which is the board object .move is being called on, available to inner scopes
+  var that = this;
 
   // 1. reorient function => array of arrays in columns or rows
   var reorientedBoard = this.reorient(direction);
@@ -102,7 +113,7 @@ Board.prototype.move = function(direction) {
   // 5. display board
   this.display();
 
-  // 6. resolve win/lose condition
+  // 6. check for & resolve win/lose condition
   this.isGameOver();
 }
 
@@ -335,19 +346,25 @@ Board.prototype.isGameOver = function() {
 }
 
 Board.prototype.gameOver = function(condition) {
-  // call this from somewhere??
-
   var endgame = $('#endgame');
   endgame.addClass(condition);
   var message = $('<div></div>')
   message.addClass("message");
 
+  // prepare some flavor text for the user
   if (condition == "win") {
     message.text("You won! Super congrats!");
   } else {
-    message.text("You lost! Triple dang! D':");
+    message.text("You lost! Triple dang! (;_;)");
   }
 
+  // set global gameOver to true to disable click handlers
+  gameOver = true;
+
+  // add a button to allow the user to play another game
+  var br = $('<br />');
+  var playAgain = $('button');
+  playAgain.show();
+
   endgame.append(message);
-  // stop the click handlers?
 }

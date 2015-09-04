@@ -21,7 +21,6 @@ html {
 }
 
 #endgame .message {
-  z-index: 1;
   position: absolute;
   font-size: 30px;
   font-weight: bold;
@@ -35,7 +34,17 @@ html {
 }
 
 #endgame.lose {
-  background: rgba(210, 210, 200, 0.6);
+  background: rgba(210, 210, 200, 0.7);
+}
+
+#endgame button {
+  position: absolute;
+  font-size: 20px;
+  font-weight: bold;
+  margin-left: 7rem;
+  margin-top: -10rem;
+  background-color: #ccc;
+  color: #000;
 }
 
 .cell {
