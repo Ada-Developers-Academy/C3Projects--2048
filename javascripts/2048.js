@@ -68,9 +68,13 @@ $(document).ready(function() {
 
 // tile creation ------------------------------------------------------
 function randomizeValue() {
-  var coinFlip = Math.floor(Math.random() * 2)
-  value = coinFlip == 0 ? 2 : 4;
-  return value;
+  var fourSidedDie = Math.ceil(Math.random() * 4 - 1) + 1
+
+  if (fourSidedDie == 4) {
+    return 4;
+  } else {
+    return 2;
+  }
 }
 
 function randomizeLocation() {
