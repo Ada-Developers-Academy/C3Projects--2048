@@ -95,11 +95,6 @@ function findEmptyRowCol(coordinate, RowCol) { // => ('r3', 'row') or ('c2', 'co
 
 function orderedColTiles(tiles) { // => tiles = array of jQuery tile divs 
   var array = [0, 0, 0, 0];
-  // [
-  // <div class=​"tile" data-row=​"r0" data-col=​"c0" data-val=​"2">​2​</div>​, 
-  // <div class=​"tile" data-row=​"r3" data-col=​"c0" data-val=​"2">​2​</div>​
-  // ]
-
 
   for(var i = 0; i < tiles.length; i++) {
     var tile = tiles[i]; 
@@ -109,19 +104,6 @@ function orderedColTiles(tiles) { // => tiles = array of jQuery tile divs
   }
   return array;
 }
-
-// function findEmptyRowCol(coordinate, RowCol) { // => ('r3', 'row') or ('c2', 'col')
-//   var emptyTiles = findEmptySpaces();
-  
-//   function isEmpty(position) {
-//     if (RowCol == 'row') {
-//       return position.substr(0, 2) == coordinate;
-//     } else {
-//       return position.substr(4, 2) == coordinate;
-//     }
-//   }
-//   return emptyTiles.filter(isEmpty) // => ['r3, c0', 'r0, c0']
-// }
 
 function removeZero(element) {
   return element != 0;
@@ -152,10 +134,7 @@ function solveColumn(col, direction) { // => ('c3', 'up')
   }
 }
 
-
   // [2, 2, 0, 0]
-
-
 
   // [undefined, 2, undefined, 4] => 
 
@@ -181,42 +160,22 @@ function solveRow(row) {
 }
 
 function moveTile(tile, direction) {
-  // var new_tile_value = tile.attr("data-val");
-  // tile.attr("data-val", new_tile_value);
-  // tile.text(new_tile_value);
- 
-  // if up row - 1
-  // if right column + 1
-  // if down row + 1
-  // if left column - 1
   for(var i = 0; i < tile.length; i++) {
     var rowValue = extractNum(tile[i], 'data-row'); // => 3
     var colValue = extractNum(tile[i], 'data-col'); // => 2
     var rowCoordinate = tile[i].getAttribute('data-row') // => 'r3'
     var colCoordinate = tile[i].getAttribute('data-col'); // => 'c2'
-
+    var positions = [0, 1, 2, 3]
     switch(direction) {
       case 38: //up
-        var emptyCol = findEmptyRowCol(colCoordinate, "col"); // => ['r2, c0', 'r1, c0']
-
-        var rowPosition = (rowValue - 1);
-        var newRow = "r" + rowPosition;
-        var newPosition = newRow + ', ' + colCoordinate
-        if (emptyCol.indexOf(newPosition) > -1) {
-          tile[i].setAttribute("data-row", newRow);
+        for(var i = 0; i < positions.length; i++) {
+          solveColumn(i, "up");
         }
-        console.log(tile[i])
         break;
       case 40: //down
-        var emptyCol = findEmptyRowCol(colCoordinate, "col"); // => ['r2, c0', 'r1, c0']
-
-        var rowPosition = (rowValue + 1);
-        var newRow = "r" + rowPosition;
-        var newPosition = newRow + ', ' + colCoordinate
-        if (emptyCol.indexOf(newPosition) > -1) {
-          tile[i].setAttribute("data-row", newRow);
+        for(var i = 0; i < positions.length; i++) {
+          solveColumn(i, "down");
         }
-        console.log(tile[i])
         break;
       case 37: //left
         var emptyRow = findEmptyRowCol(rowCoordinate, "row");
