@@ -1,5 +1,5 @@
-var rows = ['r0', 'r1', 'r2', 'r3'];
-var cols = ['c0', 'c1', 'c2', 'c3'];
+var rows = ['0', '1', '2', '3'];
+var cols = ['0', '1', '2', '3'];
 var boardSize = rows.length * cols.length;
 var newTileValue = [ 2, 2, 2, 2, 4 ];
 var score = 0;
@@ -28,8 +28,8 @@ function playTurn(event) {
   if (arrow_keys.indexOf(event.which) > -1) {
     event.preventDefault();
 
-    var tile = $('.tile');
-    moveTiles(event.which);
+    var collection = new TileCollection(event.which);
+    collection.move();
 
     if ($('.tile').length >= boardSize) {
       if (checkLose()) { endGame('lose'); }
@@ -92,7 +92,7 @@ function updateScore(num) {
 function generateRow(num) {
   var row = [];
   for (var i = 0; i < rows.length; i++) {
-    var tile = $('[data-row=r' + num + '][data-col=c' + i + ']');
+    var tile = $('[data-row=' + num + '][data-col=' + i + ']');
     if (tile.length > 0) { row.push(tile); }
   }
 
@@ -103,7 +103,7 @@ function generateRow(num) {
 function generateCol(num) {
   var col = [];
   for (var i = 0; i < cols.length; i++) {
-    var tile = $('[data-col=c' + num + '][data-row=r' + i + ']');
+    var tile = $('[data-col=' + num + '][data-row=' + i + ']');
     if (tile.length > 0) { col.push(tile); }
   }
 
