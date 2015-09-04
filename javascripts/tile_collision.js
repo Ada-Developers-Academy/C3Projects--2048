@@ -37,12 +37,11 @@ function orderTiles(keystroke) {
   }();
 
 
-  function solveColumn(colNum, direction) { // (c1, "up")
-    var colsNew = ["c0","c1", "c2", "c3"];
-    var tilesInColumn = $("div[data-col|='" + colNum + "']"); // all tiles in c1
+  function solveColumn(columnNumber, direction) { // (c1, "up")
+    var tilesInColumn = $("div[data-col|='" + columnNumber + "']"); // all tiles in c1
 
-
-
+    var realOrderedTiles = orderedTilesInColumn(tilesInColumn); //  [0, tile, 0, tile] <=> [r0, r2, r3, r4]
+    // realOrderedTiles.filter(eliminateZeros) => []
   }
 
 
@@ -66,9 +65,9 @@ function orderTiles(keystroke) {
     var result = [];
     for(var i = 0; i < direction.length; i++) { // ["r3", "r2", "r1", "r0"] } ONE
     console.log(tiles + " 2tiles");
-      console.log(filterByLocation(direction[i]) + " filterbylocation"); // filterbylocation(r1).....[r1, c1, r0, c0] TWO
+    console.log(filterByLocation(direction[i]) + " filterbylocation"); // filterbylocation(r1).....[r1, c1, r0, c0] TWO
       result = result.concat(filterByLocation(direction[i])); // same as above
-      console.log(result + " result");
+    console.log(result + " result");
     }
     return result;
   };
