@@ -164,8 +164,6 @@ function merge(space1, spaceIndex, direction, orderedTiles) {
 
   var tile1 = grabTile(space1);
   var tile2 = grabTile(space2);
-  tile1.attr("id", "tile1");
-  tile2.attr("id", "tile2");
   var tile1Value = parseInt($(tile1).text());
   var tile2Value = parseInt($(tile2).text());
 
@@ -185,36 +183,61 @@ function merge(space1, spaceIndex, direction, orderedTiles) {
   }
 }
 
-function solveColumn(columnNumber, direction) { // (c1, "up")
+function solveMovement(rowNumber, columnNumber, direction) { // (c1, "up")
   var tilesInColumn = $("div[data-col|=c" + columnNumber + "]"); // all tiles in c1
+  var tilesInRow = $("div[data-row|=r" + rowNumber + "]"); // all tiles in r1
 
-  var realOrderedTiles = orderedTilesInColumn(tilesInColumn); //  [0, tile, 0, tile] <=> [r0, r1, r2, r3]
+  var realOrderedTiles = "";
+  if (columnNumber !== null) {
+    realOrderedTiles = orderedTilesInColumn(tilesInColumn); //  [0, tile, 0, tile] <=> [r0, r1, r2, r3]
+  } else if (rowNumber !== null) {
+    realOrderedTiles = orderedTilesInRow(tilesInRow);
+  }
+
   realOrderedTiles = realOrderedTiles.filter(eliminateZeros); // [tile, tile]
 
   while (realOrderedTiles.length < 4){
-    if (direction === "up") {
-      realOrderedTiles.push(0);
-    } else if (direction === "down") {
-      realOrderedTiles.unshift(0);
+    if (direction === "up" || direction === "left")   { realOrderedTiles.push(0); }
+    if (direction === "down" || direction === "right") { realOrderedTiles.unshift(0); }
+    console.log(realOrderedTiles);
   }
 
-  if (direction === "up") {
-    for(var i = 0; i < realOrderedTiles.length; i++) {
-      var upRow = 'r' + i;
-      if(realOrderedTiles[i] !== 0) {
-        realOrderedTiles[i].setAttribute("data-row", upRow);
+  switch (direction) {
+    case "up":
+      for(var i = 0; i < realOrderedTiles.length; i++) {
+        var upRow = 'r' + i;
+        if(realOrderedTiles[i] !== 0) {
+          realOrderedTiles[i].setAttribute("data-row", upRow);
+        }
       }
-    }
-  } else if (direction === "down"){
-    for(var j = realOrderedTiles.length -1; j > -1; j--) {
-      var downRow = 'r' + j;
-      console.log(realOrderedTiles);
-      console.log([j]);
-      if(realOrderedTiles[j] !== 0) {
-        realOrderedTiles[j].setAttribute("data-row", downRow);
+      break;
+
+    case "down":
+      for(var j = realOrderedTiles.length - 1; j > -1; j--) {
+        var downRow = 'r' + j;
+        if(realOrderedTiles[j] !== 0) {
+          realOrderedTiles[j].setAttribute("data-row", downRow);
+        }
       }
-    }
-  }
+      break;
+
+    case "left":
+      for(var l = realOrderedTiles.length - 1; l > -1; l--) {
+        var leftCol = 'c' + l;
+        if(realOrderedTiles[l] !== 0) {
+          realOrderedTiles[l].setAttribute("data-col", leftCol);
+        }
+      }
+      break;
+
+    case "right":
+      for(var k = 0; k < realOrderedTiles.length; k++) {
+        var rightCol = 'c' + k;
+        if(realOrderedTiles[k] !== 0) {
+          realOrderedTiles[k].setAttribute("data-col", rightCol);
+        }
+      }
+      break;
   }
 }
 
@@ -224,12 +247,24 @@ function orderedTilesInColumn(tilesInColumn) {
   for (var i = 0; i < tilesInColumn.length; i++) {
     var tilep = tilesInColumn[i];
     var row = tilep.getAttribute("data-row");
-    var col = tilep.getAttribute("data-col");
     var rows = ["r0", "r1", "r2", "r3"];
     var rowIndex = rows.indexOf(row); // 1 is r1
     initialColumn[rowIndex] = tilep; // => array[1] = tile
   }
   return initialColumn;
+}
+
+function orderedTilesInRow(tilesInRow) {
+  var initialRow = [0, 0, 0, 0];
+
+  for (var i = 0; i < tilesInRow.length; i++) {
+    var tilep = tilesInRow[i];
+    var col = tilep.getAttribute("data-col");
+    var cols = ["c0", "c1", "c2", "c3"];
+    var colIndex = cols.indexOf(col); // 1 is r1
+    initialRow[colIndex] = tilep; // => array[1] = tile
+  }
+  return initialRow;
 }
 
 function eliminateZeros(tilesInColumn) {
@@ -242,34 +277,32 @@ function moveOne(coordinates, direction){ // change it so that moveOne accepts t
     var rowIndex = rows.indexOf(coordinates[0]); // 1 is r1
     var colIndex = cols.indexOf(coordinates[1]); // 1 is c1
     var tile = grabTile(coordinates); // r1c1
-    var columnNumber = [0, 1, 2, 3];
+    var cellIndex = [0, 1, 2, 3];
 
   switch(direction) {
     // change the tile's coordinates
     // guard against tiles on the edge
     case "up":
-      for (var j = 0; j < columnNumber.length; j++ ) {
-        solveColumn(j, "up");
+      for (var i = 0; i < cellIndex.length; i++ ) {
+        solveMovement(null, i, "up");
       }
-    // if (rows[rowIndex] != "r0") { tile.attr("data-row", rows[rowIndex - 1]); }
       break;
+
     case "down":
-     for (var j = 0; j < columnNumber.length; j++ ) {
-       solveColumn(j, "down");
+     for (var j = 0; j < cellIndex.length; j++ ) {
+       solveMovement(null, j, "down");
       }
-    //  if (rows[rowIndex] != "r3") { tile.attr("data-row", rows[rowIndex + 1]); }
       break;
+
     case "left":
-  //    for (var j = 0; j < rowNumber.length; j++ ) {
-        //solveRow(j, "left");
-    //  }
-      if (cols[colIndex] != "c0") { tile.attr("data-col", cols[colIndex - 1]); }
+      for (var k = 0; k < cellIndex.length; k++ ) {
+        solveMovement(k, null, "left");
+      }
       break;
     case "right":
-  //    for (var j = 0; j < rowNumber.length; j++ ) {
-      //  solveRow(j, "right");
-  //    }
-      if (cols[colIndex] != "c3") { tile.attr("data-col", cols[colIndex + 1]); }
+      for (var l = 0; l < cellIndex.length; l++ ) {
+        solveMovement(l, null, "right");
+      }
       break;
   }
   // var tilesBehind = function(){
