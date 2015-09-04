@@ -6,10 +6,8 @@ $(document).ready(function() {
     if(arrow_keys.indexOf(event.which) > -1) {
       var tile = $('.tile');
       moveTile(tile, event.which);
-
-      addTile();
-
       event.preventDefault();
+      addTile();
     }
     endGame();
   })
@@ -58,8 +56,8 @@ function addTile(){
   } else {
     do {
       var anotherNewTile = position();
-      return tilePlacement(anotherNewTile);
-    } while (emptySpace.indexOf(anotherNewTile) == -1)
+    } while (emptySpace.indexOf(anotherNewTile) == -1);
+    return tilePlacement(anotherNewTile);
   }
 }
 
@@ -175,36 +173,30 @@ function solveRow(row, direction) { // => ('r3', "right")
 }
 
 function moveTile(tile, direction) {
-  // for(var i = 0; i < tile.length; i++) {
-    // var rowValue = extractNum(tile[i], 'data-row'); // => 3
-    // var colValue = extractNum(tile[i], 'data-col'); // => 2
-    // var rowCoordinate = tile[i].getAttribute('data-row') // => 'r3'
-    // var colCoordinate = tile[i].getAttribute('data-col'); // => 'c2'
-    var positions = [0, 1, 2, 3]
-    switch(direction) {
-      case 38: //up
-        for(var i = 0; i < positions.length; i++) {
-          solveColumn(i, "up");
-        }
-        break;
-      case 40: //down
-        for(var i = 0; i < positions.length; i++) {
-          solveColumn(i, "down");
-        }
-        break;
-      case 37: //left
-        for(var i = 0; i < positions.length; i++) {
-          solveRow(i, "left");
-        }
+  var positions = [0, 1, 2, 3]
+  switch(direction) {
+    case 38: //up
+      for(var i = 0; i < positions.length; i++) {
+        solveColumn(i, "up");
+      }
+      break;
+    case 40: //down
+      for(var i = 0; i < positions.length; i++) {
+        solveColumn(i, "down");
+      }
+      break;
+    case 37: //left
+      for(var i = 0; i < positions.length; i++) {
+        solveRow(i, "left");
+      }
 
-        break;
-      case 39: //right
-        for(var i = 0; i < positions.length; i++) {
-          solveRow(i, "right");
-        }
-        break;
-    }
-  // }
+      break;
+    case 39: //right
+      for(var i = 0; i < positions.length; i++) {
+        solveRow(i, "right");
+      }
+      break;
+  }
 }
 
 // generates a random grid postion =>"r3, c0"
