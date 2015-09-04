@@ -189,8 +189,13 @@ function merge(space1, spaceIndex, direction, orderedTiles) {
 function solveColumn(columnNumber, direction) { // (c1, "up")
   var tilesInColumn = $("div[data-col|=c" + columnNumber + "]"); // all tiles in c1
 
-  var realOrderedTiles = orderedTilesInColumn(tilesInColumn); //  [0, tile, 0, tile] <=> [r0, r2, r3, r4]
-  realOrderedTiles.filter(eliminateZeros);
+  var realOrderedTiles = orderedTilesInColumn(tilesInColumn); //  [0, tile, 0, tile] <=> [r0, r1, r2, r3]
+  realOrderedTiles = realOrderedTiles.filter(eliminateZeros); // [tile, tile]
+
+  for(var i = 0; i < realOrderedTiles.length; i++) {
+    var upRow = 'r' + i;
+    realOrderedTiles[i].setAttribute("data-row", upRow);
+}
 }
 
 function orderedTilesInColumn(tilesInColumn) {
