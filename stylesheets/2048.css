@@ -13,6 +13,17 @@ html {
   }
 }
 
+@keyframes winning {
+  from {
+    opacity: 1;
+    transform: scale(0.2);
+  }
+  to {
+    opacity: 0.5;
+    transform: scale(4);
+  }
+}
+
 #gameboard {
   background: #bbada0;
   border-radius: 0.5rem;
@@ -48,6 +59,11 @@ html {
   margin: 0.5rem 0 0 0.5rem ;
   text-align: center;
   width: 4rem;
+}
+
+.winning{
+  -webkit-animation: winning 2.5s;
+
 }
 
 .tile[data-row=r0] { top: 0; }

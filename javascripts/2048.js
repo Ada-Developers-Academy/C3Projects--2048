@@ -94,8 +94,8 @@ function generateRandomBoard() {
   $("#gameboard").append(generateTileForTestPurposes(3, 2, 2));
 
   $("#gameboard").append(generateTileForTestPurposes(0, 3, 2));
-  $("#gameboard").append(generateTileForTestPurposes(1, 3, 2));
-  $("#gameboard").append(generateTileForTestPurposes(2, 3, 4));
+  $("#gameboard").append(generateTileForTestPurposes(1, 3, 1024));
+  $("#gameboard").append(generateTileForTestPurposes(2, 3, 1024));
 
   // $("#gameboard").append(generateRandomTile());
   // $("#gameboard").append(generateRandomTile());
@@ -195,12 +195,19 @@ function moveTile(tile, direction) {
 
     // Add newNeighborValue to the score
     updateScore(newNeighborValue);
+
+
+
   }
 
   function updateScore(newNeighborValue){
     var currentScore = $("#score-number").text();
     var updatedScore = Number(currentScore) + Number(newNeighborValue);
     $("#score-number").text(updatedScore);
+    if (newNeighborValue === 2048){
+      var winningTile = $("[data-val='2048']")
+      winningTile.addClass("winning");
+    }
   }
 
   function addNewTile(){
