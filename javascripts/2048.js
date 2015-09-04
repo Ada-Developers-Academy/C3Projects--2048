@@ -18,7 +18,7 @@ Array.prototype.equals = function (array) {
         return false;
       }
     } else if (this[i] != array[i]) {
-        // Warning - two different object instances will never be equal: {x:20} != {x:20}
+      // Warning - two different object instances will never be equal: {x:20} != {x:20}
       return false;
     }
   }
@@ -87,7 +87,7 @@ function addTile() {
   tile.attr("data-val", dataVal);
   tile.text(dataVal);
   tile.addClass("new");
- 
+
   $("#gameboard").append(tile);
   // remove new class after animation is complete
   tile.on("animationend", function() {
@@ -107,7 +107,6 @@ function makeTurn(direction) {
   var startingGameboard = gameboardSnapshot($(".tile"));
 
   function gameboardSnapshot(tiles) {
-    // NEW WAY
     var gameboard = [];
     for (var i = 0; i < tiles.length; i++) {
       var dataRow = tiles[i].getAttribute("data-row");
@@ -236,6 +235,12 @@ function makeTurn(direction) {
         sortedTiles[i].setAttribute("data-val", (newVal));
         updateScore(newVal);
         sortedTiles[i].innerHTML = (newVal);
+        // add animation to sortedtile[i] here
+        sortedTiles[i].setAttribute("blowup", "");
+        $(".tile[blowup]").on("animationend", function(){
+            $(this).removeAttr("blowup");
+        });
+
         var neighborIndex = sortedTiles.indexOf(neighbor);
         // so sorry
         sortedTiles = sortedTiles.splice(0,neighborIndex).concat(
