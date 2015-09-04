@@ -208,7 +208,8 @@ function mergeColumn(arrayOfTiles) { // => ('c3', 'up')
       var value2 = arrayOfTiles[i + 1].getAttribute('data-val');
       if (value1 == value2){
         arrayOfTiles[i].setAttribute('data-val', value1 * 2);
-        arrayOfTiles[i].text = value1 * 2;
+        $(arrayOfTiles[i]).text(value1 * 2);
+        console.log(arrayOfTiles[i])
         arrayOfTiles.pop();
       }
     }
