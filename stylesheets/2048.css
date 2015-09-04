@@ -19,6 +19,18 @@ button {
   border: none;
 }
 
+.intro {
+  display: inline-block;
+  font-size: 0.7em;
+}
+
+.retry-button {
+  width: 7em;
+  font-size: 0.6em;
+  background-color: #bbada0;
+}
+
+
 .heading {
   text-align: center;
 }
