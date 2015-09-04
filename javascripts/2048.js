@@ -128,6 +128,7 @@ function solveColumn(col, direction) { // => ('c3', 'up')
   var orderedTiles = orderedColTiles(tiles); //=> [0, tile, 0, tile]
 
   orderedTiles = orderedTiles.filter(removeZero); //=> [tile, tile]
+  orderedTiles = mergeColumn(orderedTiles);
 
   if (direction == 'up') {
     while (orderedTiles.length < 4) {
@@ -198,6 +199,23 @@ function moveTile(tile, direction) {
       break;
   }
 }
+
+
+function mergeColumn(arrayOfTiles) { // => ('c3', 'up')
+  if (arrayOfTiles.length >= 2){
+    for (var i = 0; i < arrayOfTiles.length; i++){
+      var value1 = arrayOfTiles[i].getAttribute('data-val');
+      var value2 = arrayOfTiles[i + 1].getAttribute('data-val');
+      if (value1 == value2){
+        arrayOfTiles[i].setAttribute('data-val', value1 * 2);
+        arrayOfTiles[i].text = value1 * 2;
+        arrayOfTiles.pop();
+      }
+    }
+  }
+  return arrayOfTiles;
+}
+
 
 // generates a random grid postion =>"r3, c0"
 function position(){
