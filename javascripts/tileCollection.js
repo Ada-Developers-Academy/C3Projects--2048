@@ -5,13 +5,11 @@ function TileCollection(direction) {
   if (direction == 37 || direction == 39) {
     this.collection_type = 'row';
     this.attr_name = 'data-col';
-    this.letter = 'c';
     this.max_length = cols.length;
     this.generate = generateRow;
   } else if (direction == 38 || direction == 40) {
     this.collection_type = 'col';
     this.attr_name = 'data-row';
-    this.letter = 'r';
     this.max_length = rows.length;
     this.generate = generateCol;
   }
@@ -49,11 +47,11 @@ TileCollection.prototype.combine = function(collection) {
 TileCollection.prototype.shift_tiles = function(collection) {
   if (this.needs_reverse) {
     for (var i = 1, j = collection.length - 1; i <= collection.length; i++, j--) {
-      collection[j].attr(this.attr_name, this.letter + (this.max_length - i).toString());
+      collection[j].attr(this.attr_name, (this.max_length - i).toString());
     }
   } else {
     for (var i = 0; i < collection.length; i++) {
-      collection[i].attr(this.attr_name, this.letter + (i).toString());
+      collection[i].attr(this.attr_name, (i).toString());
     }
   }
 }
