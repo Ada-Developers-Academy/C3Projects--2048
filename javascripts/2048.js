@@ -274,6 +274,7 @@ function setupTempBoard(direction) {
             tempY += 1;
           }
         }
+        break;
       case "down":
         for(x = 0; x < boardSize; x++) {
           var tempY = 3;
@@ -282,18 +283,21 @@ function setupTempBoard(direction) {
             tempY -= 1;
           }
         }
+        break;
       case "left":
         for(y = 0; y < boardSize; y++) {
           for(x = 0; x < boardSize; x++) {
             board[y][x] = array[y][x];
           }
         }
+        break;
       case "right":
         for(y = 0; y < boardSize; y++) {
           for(x = 3; x >= 0; x--) {
             board[y][x] = array[y][x];
           }
         }
+        break;
     }
     return board;
   }
@@ -307,6 +311,7 @@ function checkNext(y, x, direction) {
       else {
         return null;
       }
+      break;
     case "down":
       if(y + 1 < boardSize) {
         return board[y + 1][x];
@@ -314,6 +319,7 @@ function checkNext(y, x, direction) {
       else {
         return null;
       }
+      break;
     case "left":
       if(x + 1 <= 3) {
         return board[y][x + 1];
@@ -321,7 +327,7 @@ function checkNext(y, x, direction) {
       else {
         return null;
       }
-
+      break;
     case "right":
       if(x - 1 >= 0) {
         return board[y][x - 1];
@@ -329,6 +335,7 @@ function checkNext(y, x, direction) {
       else {
         return null;
       }
+      break;
   }
 }
 
