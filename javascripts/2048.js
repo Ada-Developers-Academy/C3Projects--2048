@@ -54,7 +54,7 @@ function generateRandomTile() {
         return newTile;
       }
     }
-
+    console.log(mergeCheckVert(tile, direction), mergeCheckSideways(tile, direction));
     // There are no more empty spaces on the board
     alert("Sorry, you ran out of turns!")
     return null;

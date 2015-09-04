@@ -2,6 +2,10 @@ html {
   font: normal normal 30px/1 "Clear Sans", "Helvetica Neue", Arial, sans-serif;
 }
 
+body {
+  background-color: #faf8ef;
+}
+
 @keyframes pop-in {
   from {
     opacity: 0;
@@ -35,17 +39,19 @@ html {
 }
 
 #score {
-  width: 25%;
+  width: 20%;
   background: #bbada0;
   border-radius: 0.5rem;
   padding-left: .5rem;
+  padding-right: .5rem;
+  text-align: center;
 }
 
 #wrapper {
 width: 19rem;
 margin: 1rem auto;
-
 }
+
 
 .cell {
   background: rgba(238, 228, 218, 0.35);
