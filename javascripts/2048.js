@@ -265,37 +265,35 @@ function setupTempBoard(direction) {
   }
 
   function replaceBoard(array, direction) {
-    if(direction == "up"){
-      for(x = 0; x < boardSize; x++) {
-        var tempY = 0;
-        for(y = 3; y >= 0; y--) {
-          board[y][x] = array[x][tempY];
-          tempY += 1;
-        }
-      }
-    }
-    if(direction == "down"){
-      for(x = 0; x < boardSize; x++) {
-        var tempY = 3;
-        for(y = 0; y < boardSize; y++) {
-          board[y][x] = array[x][tempY];
-          tempY -= 1;
-        }
-      }
-    }
-    if(direction == "left"){
-      for(y = 0; y < boardSize; y++) {
+    switch(direction) {
+      case "up":
         for(x = 0; x < boardSize; x++) {
-          board[y][x] = array[y][x];
+          var tempY = 0;
+          for(y = 3; y >= 0; y--) {
+            board[y][x] = array[x][tempY];
+            tempY += 1;
+          }
         }
-      }
-    }
-    if(direction == "right"){
-      for(y = 0; y < boardSize; y++) {
-        for(x = 3; x >= 0; x--) {
-          board[y][x] = array[y][x];
+      case "down":
+        for(x = 0; x < boardSize; x++) {
+          var tempY = 3;
+          for(y = 0; y < boardSize; y++) {
+            board[y][x] = array[x][tempY];
+            tempY -= 1;
+          }
         }
-      }
+      case "left":
+        for(y = 0; y < boardSize; y++) {
+          for(x = 0; x < boardSize; x++) {
+            board[y][x] = array[y][x];
+          }
+        }
+      case "right":
+        for(y = 0; y < boardSize; y++) {
+          for(x = 3; x >= 0; x--) {
+            board[y][x] = array[y][x];
+          }
+        }
     }
     return board;
   }
