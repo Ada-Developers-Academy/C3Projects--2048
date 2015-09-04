@@ -49,12 +49,10 @@ function rando_num(){
 
 // See if a tile already exists at a particular column and row
 function checkLocation(column, row) {
-  for(var i = 0; i < tile_array.length; i++) {
-    if (tile_array[column][row] !== undefined) {
-      column = rando_num();
-      row = rando_num();
-      checkLocation(column, row);
-    }
+  if (tile_array[column][row] !== undefined) {
+    column = rando_num();
+    row = rando_num();
+    checkLocation(column, row);
   }
   return [column, row];
 }
