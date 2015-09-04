@@ -5,7 +5,7 @@ html {
 .score_box {
   font-size: 20px;
   width: 8rem;
-  margin-left: 7rem;
+  margin-left: 12rem;
   margin-bottom: -.5rem;
   border-radius: 0.5rem;
   border: solid 3px #bbada0;
@@ -15,6 +15,24 @@ html {
 .score_box h1 {
   margin: .25rem 0 .25rem .25rem;
   color: #776e65;
+}
+
+.results_container {
+  margin: 1rem auto;
+  margin-left: 11.825rem;
+  position: absolute;
+  z-index: 1;
+  width: 18.5rem;
+  height: 18.5rem;
+  font-size: 48px;
+  color: ;
+  background-color: rgba(249, 246, 242, .8);
+  border-radius: 0.5rem;
+}
+
+.result_text{
+  margin: auto;
+  text-align: center;
 }
 
 #gameboard {

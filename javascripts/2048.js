@@ -347,7 +347,7 @@ function checkEndGame(){
       for(i = 0; i < directions.length; i++){
         var next = checkNext(y, x, directions[i]);
         if(next == board[y][x] || next == 0){
-          var result = false; // game is not over
+          var result = true; // game is not over
           return result;
         }
         else {
@@ -368,6 +368,8 @@ function displayGameResult(endGameResult) {
     gameResult.text("YOU HIT 2048!");
   }
   else {
-    gameResult.text("You lose.");
+    gameResult.addClass("results_container");
+    $(".default").addClass("result_text");
+    $(".default").text("You lose.");
   }
 }
