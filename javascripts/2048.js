@@ -30,9 +30,17 @@ function arrayInitialize(){
     var first_array = [];
     tile_array.push(first_array);
     for(var j = 0; j < 4; j++) {
-      tile_array[i][j] = undefined;
+      setUndefinedTile(i, j);
       }
     }
+}
+
+function setUndefinedTile(col, row) {
+  tile_array[col][row] = undefined;
+}
+
+function setTileInArray(col, row, tile) {
+  tile_array[col][row] = tile;
 }
 
 
@@ -76,7 +84,7 @@ function createTile() {
     newTile.attr("data-val", "2");
     $('#gameboard').append(newTile);
 
-    tile_array[column][row] = newTile;
+    setTileInArray(column, row, newTile);
     pop(newTile);
 }
 
@@ -96,7 +104,7 @@ function tileCollide(tile, neighbor, direction) {
     var row = +(new_row.slice(1));
 
     // reset tile array so updated tile is in correct spot
-    tile_array[col][row] = tile
+    setTileInArray(col, row, tile);
 
     // update tile
     updateTile(tile);
@@ -121,13 +129,17 @@ function tileCollide(tile, neighbor, direction) {
 
   function resetTileArray(col, row, direction){
     if (direction == 'up'){
-      tile_array[col][row + 1] = undefined;
+      var row = (row + 1);
+      setUndefinedTile(col, row);
     } else if (direction == 'down') {
-      tile_array[col][row - 1] = undefined;
+      var row = (row - 1);
+      setUndefinedTile(col, row);
     } else if (direction == 'left') {
-      tile_array[col + 1][row] = undefined;
+      var col = (col + 1);
+      setUndefinedTile(col, row);
     } else if (direction == 'right') {
-      tile_array[col - 1][row] = undefined;
+      var col = (col - 1);
+      setUndefinedTile(col, row);
     }
   }
 
@@ -174,7 +186,7 @@ function moveDirection(moveWay) {
     for(var i = 0; i < tile_array.length; i++) {
       if(tile_array[i][r] !== undefined) {
         row.push(tile_array[i][r]);
-        tile_array[i][r] = undefined;
+        setUndefinedTile(i, r);
       }
     }
     return row;
@@ -184,7 +196,7 @@ function moveDirection(moveWay) {
     var row = getRow(r);
     for (var i = 0; i < row.length; i++ ) {
       var col = ('c' + i );
-      tile_array[i][r] = row[i];
+      setTileInArray(i, r, row[i]);
       row[i].attr('data-col', col)
       var left = 0
 
@@ -201,8 +213,8 @@ function moveDirection(moveWay) {
      var max = 3;
      for (var i = row.length - 1; i >= 0; i-- ) {
          var col = ('c' + max );
-         tile_array[max][r] = row[i];
-         row[i].attr('data-col', col)
+         setTileInArray(max, r, row[i]);
+         row[i].attr('data-col', col);
          max -=1;
 
         if (max !== 2 && row.length > 1){
@@ -220,7 +232,7 @@ function moveDirection(moveWay) {
     for(var i = 0; i < column.length; i++) {
       if (column[i] !== undefined) {
         no_undef_column.push(column[i]);
-        tile_array[col][i] = undefined;
+        setUndefinedTile(col, i);
       }
     }
     return no_undef_column;
@@ -230,7 +242,7 @@ function moveDirection(moveWay) {
     var column = getColumn(col);
     for (var i = 0; i < column.length; i++ ) {
         var row = ('r' + [i] );
-        tile_array[col][i] = column[i];
+        setTileInArray(col, i, column[i]);
         column[i].attr('data-row', row)
         var top = 0
 
@@ -247,7 +259,7 @@ function moveDirection(moveWay) {
     var max = 3;
       for (var i = column.length - 1; i >= 0; i-- ) {
           var row = ('r' + max );
-          tile_array[col][max] = column[i];
+          setTileInArray(col, max, column[i]);
           column[i].attr('data-row', row);
           max -= 1;
 
