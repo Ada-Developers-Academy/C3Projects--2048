@@ -86,8 +86,13 @@ function addTile() {
   tile.attr("data-col", randomLocation[1]);
   tile.attr("data-val", dataVal);
   tile.text(dataVal);
-
+  tile.addClass("new");
+ 
   $("#gameboard").append(tile);
+  // remove new class after animation is complete
+  tile.on("animationend", function() {
+    tile.removeClass("new");
+  })
 }
 
 function makeTurn(direction) {
