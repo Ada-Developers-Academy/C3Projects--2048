@@ -301,38 +301,36 @@ function setupTempBoard(direction) {
   }
 
 function checkNext(y, x, direction) {
-  // this is for up condition
-  if(direction == "up"){
-    if(y - 1 >= 0) {
-    return board[y - 1][x];
-    }
-    else {
-      return null;
-    }
-  }
-  else if(direction == "down"){
-    if(y + 1 < boardSize) {
-      return board[y + 1][x];
-    }
-    else {
-      return null;
-    }
-  }
-  else if(direction == "left") {
-    if(x + 1 <= 3) {
-      return board[y][x + 1];
-    }
-    else {
-      return null;
-    }
-  }
-  else if(direction == "right") {
-    if(x - 1 >= 0) {
-      return board[y][x - 1];
-    }
-    else {
-      return null;
-    }
+  switch(direction){
+    case "up":
+      if(y - 1 >= 0) {
+        return board[y - 1][x];
+      }
+      else {
+        return null;
+      }
+    case "down":
+      if(y + 1 < boardSize) {
+        return board[y + 1][x];
+      }
+      else {
+        return null;
+      }
+    case "left":
+      if(x + 1 <= 3) {
+        return board[y][x + 1];
+      }
+      else {
+        return null;
+      }
+
+    case "right":
+      if(x - 1 >= 0) {
+        return board[y][x - 1];
+      }
+      else {
+        return null;
+      }
   }
 }
 
