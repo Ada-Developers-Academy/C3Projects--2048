@@ -51,7 +51,6 @@ function moveTile(tile, direction) {
       var reTile = $('.tile');
       var reRow = makeRows(reTile);
       moveRowLeft(reRow);
-      // tile.attr("data-col","c0");
       break;
     case 39: //right
       var rows = makeRows(tile);
@@ -60,7 +59,6 @@ function moveTile(tile, direction) {
       var reTile = $('.tile');
       var reRow = makeRows(reTile);
       moveRowRight(reRow);
-      // tile.attr("data-col","c3");
       break;
   }
 }
@@ -85,9 +83,6 @@ function makeRows(tile) {
 
   var rows = [row0, row1, row2, row3];
 
-  // for (var i = 0; i < rows.length; i++) {
-  //   moveRowLeft(rows[i]);
-  // }
   return rows;
 }
 
@@ -105,7 +100,7 @@ function collideTilesLeft(rows){
         rows[i][j+1].remove();
     };
 
-  }    
+  }
 }
 }
 
@@ -114,7 +109,7 @@ function moveRowLeft(row) {
   // for(var i = 0; i < row.length; i++) {
   //   row[i].setAttribute("data-col", ("c" + i));
   //   }
-  for (var i = 0; i < row.length; i++) { 
+  for (var i = 0; i < row.length; i++) {
   for(var j = 0; j < row[i].length; j++) {
     row[i][j].setAttribute("data-col", ("c" + j));
     }
@@ -124,24 +119,26 @@ function moveRowLeft(row) {
 
 function collideTilesRight(rows){
   for (var i = 0; i < rows.length; i++) {
-  for (var j = rows[i].length - 1; j < 1; j--){
-   var rightTileValue = rows[i][j].getAttribute("data-val");
-   var nextTileValue = rows[i][j-1].getAttribute("data-val");
-      if (rightTileValue == nextTileValue){
-        var newTileValue = rightTileValue * 2;
-          rows[i][j].setAttribute("data-val", newTileValue);
-          rows[i][j].textContent = newTileValue;
-          rows[i][j-1].remove();
+
+  for (var j = 0; j < rows[i].length -1; j++){
+   var leftTileValue = rows[i][j].getAttribute("data-val");
+   var nextTileValue = rows[i][j+1].getAttribute("data-val");
+      if (leftTileValue == nextTileValue){
+        var newTileValue = nextTileValue * 2;
+          rows[i][j+1].setAttribute("data-val", newTileValue);
+          rows[i][j+1].textContent = newTileValue;
+          rows[i][j].remove();
     };
 
-  }    
+  }
 }
 }
 
 function moveRowRight(row) {
+
   for (var i = 0; i < row.length; i++) {
     for(var j = 0; j < row[i].length; j++) {
-    row[i][j].setAttribute("data-col", ("c" + (j + 4 - row.length)));
+    row[i][j].setAttribute("data-col", ("c" + (j + 4 - row[i].length)));
   }
 }
 }
@@ -326,7 +323,7 @@ function gameStart() {
 //             tile next to it deletes
 //             * nice to have - deletes by sliding behind the farthest tile
 //             (visual animation)
-//             any tiles in the position behind the deleted tile, 
+//             any tiles in the position behind the deleted tile,
 //             slide one position in direction chosen
 //     if tile adjacent in direction of arrow is identical
 //     in face value to the one next to it, the farthest tile is replaced with new tile
