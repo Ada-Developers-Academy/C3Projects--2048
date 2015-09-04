@@ -47,6 +47,8 @@ var Board = function(boardArray) { // board constructor
   this.board = boardArray;
   this.boardLength = 4; // board is a square, so this is the same going both ways
   this.emptyTile = empty;
+  this.score = 0;
+  this.scoreThisTurn = 0;
 };
 
 var board = new Board(createBoard(createRandomNumberArray()));
@@ -127,6 +129,16 @@ Board.prototype.display = function() {
   }
 
   $('.old').remove(); // remove any old tiles that remain
+
+  // update score in board
+  this.score += this.scoreThisTurn;
+  this.scoreThisTurn = 0;
+
+  // update score in page
+  var score = $("span.score");
+  console.log(score);
+  score.text(this.score);
+  console.log(this.score);
 }
 
 // board.move("left")
@@ -271,6 +283,7 @@ Board.prototype.moveBackward = function(condensedColOrRow) {
 
 Board.prototype.updateScore = function(points) {
   // this will somehow update the total score the player has going
+  this.scoreThisTurn += points;
 }
 
 Board.prototype.build = function(condensedArrays, direction, oldBoard) {

@@ -2,6 +2,16 @@ html {
   font: normal normal 30px/1 "Clear Sans", "Helvetica Neue", Arial, sans-serif;
 }
 
+#score {
+  position: absolute;
+  margin-top: 1rem;
+  margin-left: 0.5rem;
+  padding: 10px;
+  background-color: #bbada0;
+  text-align: center;
+  color: #000;
+}
+
 #gameboard {
   background: #bbada0;
   border-radius: 0.5rem;
