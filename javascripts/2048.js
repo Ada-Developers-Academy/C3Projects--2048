@@ -14,6 +14,13 @@ var board = new Board([
   [0, 0, 0, 0]
 ]);
 
+var tempBoard = new Board([
+  [0, 0, 0, 0],
+  [0, 0, 0, 0],
+  [0, 0, 0, 0],
+  [0, 0, 0, 0]
+]);
+
 $(document).ready(function() {
   board.display();
   console.log('ready, should be displayed!');
@@ -31,16 +38,28 @@ $(document).ready(function() {
 function moveTile(tile, direction) {
   switch(direction) {
     case 38: // up
-      board.move("up");
+      tempBoard.board = board.board; // sets the tempBoard to have the same values as the oldBoard
+      tempBoard.move("up");
+      board.board = tempBoard.board; // sets newboard's final board to old board's board.
+      board.display();
       break;
     case 40: // down
-      board.move("down");
+      tempBoard.board = board.board; // sets the tempBoard to have the same values as the oldBoard
+      tempBoard.move("down");
+      board.board = tempBoard.board;
+      board.display();
       break;
     case 37: // left
-      board.move("left");
+      tempBoard.board = board.board; // sets the tempBoard to have the same values as the oldBoard
+      tempBoard.move("left");
+      board.board = tempBoard.board;
+      board.display();
       break;
     case 39: // right
-      board.move("right");
+      tempBoard.board = board.board; // sets the tempBoard to have the same values as the oldBoard
+      tempBoard.move("right");
+      board.board = tempBoard.board;
+      board.display();
       break;
   }
 }
@@ -73,38 +92,25 @@ Board.prototype.display = function() {
   }
 
   $('.old').remove(); // remove any old tiles that remain
-
-  var bd = this.board // we can delete this before the final PR, but in the mean
-  console.log(bd[0]); // time it's nice to be able to open the console and see
-  console.log(bd[1]); // the current iteration of the board!
-  console.log(bd[2]);
-  console.log(bd[3]);
 }
 
-// board.move("left")
+// tempBoard.move("left")
 // this is the movement controlling function that calls each step until a move is complete
 Board.prototype.move = function(direction) {
-  var that = this; // make this, which is the board object .move is being called on, available to inner scopes
-
-  var newBoard = that.slice(); // ? is this the correct method to copy a board?
+  var that = this; // make this, which is the tempboard object .move is being called on, available to inner scopes
 
   // 1. reorient function => array of arrays in columns or rows
-  var reorientedBoard = newBoard.reorient(direction);
+  var reorientedBoard = that.reorient(direction);
 
   var resolvedBoard = reorientedBoard.map(function(currentRow) {
     // 2. each row/column condense function (LOOP)
-    var condensedRow = newBoard.condense(currentRow, direction);
+    var condensedRow = that.condense(currentRow, direction);
     // 3. each row/column => compare function (LOOP)
-    return newBoard.compareAndResolve(condensedRow, direction);
+    return that.compareAndResolve(condensedRow, direction);
   });
 
   // 4. build new board from results (takes in array of condensed arrays, returns array of uncondensed arrays)
-  newBoard.build(resolvedBoard, direction, reorientedBoard); // NOTE build in its current form mutates the original board
-
-  // 5. display board
-  newBoard.display();
-
-  this.board = newBoard; // reassigns the oldBoard to be the newboard's values (prep for the next move)
+  that.build(resolvedBoard, direction, reorientedBoard);
 }
 
 // board.reorient("down")
