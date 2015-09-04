@@ -11,6 +11,10 @@ html {
   width: 18.5rem;
 }
 
+.lost {
+  opacity: 0.5;
+}
+
 .cell {
   background: rgba(238, 228, 218, 0.35);
   border-radius: 0.5rem;
