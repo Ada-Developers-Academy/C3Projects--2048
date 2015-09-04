@@ -39,6 +39,10 @@ $(document).ready(function() {
       event.preventDefault();
     }
   })
+
+  $('.button.new-game').click(function() {
+    location.reload();
+  })
 })
 
 function makeTurn(direction) {
@@ -354,7 +358,7 @@ function makeTurn(direction) {
         gameLoss();
       }
     }
-    
+
     $('.button.new-game').click(function() {
       location.reload();
     })
