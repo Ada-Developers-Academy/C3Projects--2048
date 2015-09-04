@@ -339,6 +339,7 @@ function makeTurn(direction) {
       }
 
       if (lost == true) {
+        $("#gameboard").addClass("lost");
         alert("You have lost. Refresh to play again.");
       }
     }
