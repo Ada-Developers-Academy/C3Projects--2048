@@ -54,7 +54,12 @@ function initializeBoard() {
       for(var x = 0; x < boardSize; x++) {
         var cell = $(".tile[data-row=y" + y + "][data-col=x" + x);
         cell.attr("data-val", board[y][x]);
-        cell.text(board[y][x]);
+        if(board[y][x] == 0){
+          cell.text("");
+        }
+        else {
+          cell.text(board[y][x]);
+        }
         if(y == newTile[0] && x == newTile[1]){
           cell.addClass("popper");
           cell.one("animationend", function(e) {
@@ -347,7 +352,7 @@ function checkEndGame(){
       for(i = 0; i < directions.length; i++){
         var next = checkNext(y, x, directions[i]);
         if(next == board[y][x] || next == 0){
-          var result = false; // game is not over
+          var result = true; // game is not over
           return result;
         }
         else {

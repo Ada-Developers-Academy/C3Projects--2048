@@ -5,7 +5,7 @@ html {
 .score_box {
   font-size: 20px;
   width: 8rem;
-  margin-left: 12rem;
+  margin-left: 14.45rem;
   margin-bottom: -.5rem;
   border-radius: 0.5rem;
   border: solid 3px #bbada0;
@@ -19,7 +19,7 @@ html {
 
 .results_container {
   margin: 1rem auto;
-  margin-left: 11.825rem;
+  margin-left: 14.45rem;
   position: absolute;
   z-index: 1;
   width: 18.5rem;
