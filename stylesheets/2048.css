@@ -18,8 +18,16 @@ html {
   margin: 1rem auto;
   width: 18.5rem;
   z-index: 1;
-  font-size: 20px;
-  text-align: center;
+}
+
+#endgame .message {
+  z-index: 1;
+  position: absolute;
+  font-size: 30px;
+  font-weight: bold;
+  color: #000;
+  top: 8rem;
+  margin: 0 4rem;
 }
 
 #endgame.win {

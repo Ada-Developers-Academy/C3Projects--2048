@@ -9,7 +9,7 @@ var Board = function(boardArray) { // board constructor
 
 var board = new Board([
   [512,  128,   4, 1024],
-  [  2,   16,   8,    4],
+  [  2,   16,   8, 1024],
   [ 16, 1024,  32,    4],
   [ 32,  512, 128,    8]
 ]);
@@ -289,9 +289,11 @@ Board.prototype.isGameOver = function() {
   this.board.forEach(function(row) {
     if (row.indexOf(2048) > -1) {
       win = true;
-      return that.gameOver("win");
+      return;
     }
   });
+
+  if (win) { return that.gameOver("win"); };
 
   // 2. check for losing if we haven't won
   //   - check if there are any zeros
@@ -337,6 +339,15 @@ Board.prototype.gameOver = function(condition) {
 
   var endgame = $('#endgame');
   endgame.addClass(condition);
+  var message = $('<div></div>')
+  message.addClass("message");
 
+  if (condition == "win") {
+    message.text("You won!  Congrats!!!!");
+  } else {
+    message.text("You lost! Triple dang!");
+  }
+
+  endgame.append(message);
   // stop the click handlers?
 }
