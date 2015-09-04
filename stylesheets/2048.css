@@ -87,12 +87,11 @@ span.special {
   left: 0;
 }
 
-.lost {
+.game-over {
   opacity: 0.3;
-  /*z-index: 2;*/
 }
 
-#loss-box {
+#game-over-box {
   text-align: center;
   position: absolute;
   margin: 4rem auto;
@@ -103,12 +102,12 @@ span.special {
   z-index: 2;
 }
 
-#lossMessage {
+#game-over-message {
   font-size: 2rem;
   color: #776e65;   /* same color as the 2 tile text */
 }
 
-.new-game.button {
+.new-game.button, .continue-play.button {
   background-color: #776e65;
   border-radius: 0.25rem;
   padding: 0.25rem;
@@ -117,7 +116,7 @@ span.special {
   cursor: default;
 }
 
-.new-game.button p {
+.new-game.button p, .continue-play.button p {
   font-size: 0.5rem;
   font-weight: bold;
   margin: 0;
