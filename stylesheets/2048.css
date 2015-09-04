@@ -20,12 +20,11 @@ body {
 @keyframes winning {
   from {
     opacity: 1;
-    transform: scale(0.2);
+    transform: rotate(0deg) scale(0.2);
   }
   to {
     opacity: 0.5;
-    transform: scale(4);
-    top: 5rem;
+    transform: rotate(360deg) scale(4);
   }
 }
 
@@ -84,7 +83,7 @@ margin: 1rem auto;
 .winning{
   /*top: 8.25rem;
   left: 9.25rem;*/
-  -webkit-animation: winning 2.5s;
+  -webkit-animation: winning 1.5s;
 }
 
 

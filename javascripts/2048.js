@@ -67,8 +67,7 @@ function tilesInSameLocation(existingTile, newTile){
 }
 
 // This can be called with a specific row, column, and value for testing purposes
-function generateTileForTestPurposes(r, c, value)
-{
+function generateTileForTestPurposes(r, c, value) {
   var newTileTemplate = $("<div class='tile' data-row='', data-col='' data-val=''></div>");
 
   // Build new tile
@@ -81,24 +80,24 @@ function generateTileForTestPurposes(r, c, value)
 
 function generateRandomBoard() {
 
-  // $("#gameboard").append(generateTileForTestPurposes(1, 0, 4));
-  // $("#gameboard").append(generateTileForTestPurposes(2, 0, 2));
-  // $("#gameboard").append(generateTileForTestPurposes(3, 0, 2));
-  //
-  // $("#gameboard").append(generateTileForTestPurposes(0, 1, 4));
-  // $("#gameboard").append(generateTileForTestPurposes(2, 1, 4));
-  // $("#gameboard").append(generateTileForTestPurposes(3, 1, 2));
-  //
-  // $("#gameboard").append(generateTileForTestPurposes(0, 2, 4));
-  // $("#gameboard").append(generateTileForTestPurposes(1, 2, 4));
-  // $("#gameboard").append(generateTileForTestPurposes(3, 2, 2));
-  //
-  // $("#gameboard").append(generateTileForTestPurposes(0, 3, 2));
-  // $("#gameboard").append(generateTileForTestPurposes(1, 3, 1024));
-  // $("#gameboard").append(generateTileForTestPurposes(2, 3, 1024));
+  $("#gameboard").append(generateTileForTestPurposes(1, 0, 4));
+  $("#gameboard").append(generateTileForTestPurposes(2, 0, 2));
+  $("#gameboard").append(generateTileForTestPurposes(3, 0, 2));
 
-  $("#gameboard").append(generateRandomTile());
-  $("#gameboard").append(generateRandomTile());
+  $("#gameboard").append(generateTileForTestPurposes(0, 1, 4));
+  $("#gameboard").append(generateTileForTestPurposes(2, 1, 4));
+  $("#gameboard").append(generateTileForTestPurposes(3, 1, 2));
+
+  $("#gameboard").append(generateTileForTestPurposes(0, 2, 4));
+  $("#gameboard").append(generateTileForTestPurposes(1, 2, 4));
+  $("#gameboard").append(generateTileForTestPurposes(3, 2, 2));
+
+  $("#gameboard").append(generateTileForTestPurposes(0, 3, 2));
+  $("#gameboard").append(generateTileForTestPurposes(1, 3, 1024));
+  $("#gameboard").append(generateTileForTestPurposes(2, 3, 1024));
+
+  // $("#gameboard").append(generateRandomTile());
+  // $("#gameboard").append(generateRandomTile());
 }
 
 function moveTile(tile, direction) {
@@ -207,6 +206,8 @@ function moveTile(tile, direction) {
     if (newNeighborValue === 2048){
       var winningTile = $("[data-val='2048']")
       winningTile.addClass("winning");
+      winningTile.text("WOW");
+      setTimeout(function () {alert("Impressive!")}, 2000);
       // // Untether the winning attribute from its cell
       // // so that we can reposition it
       // winningTile.attr("data-row", "");
