@@ -1,18 +1,56 @@
 // declare a mystical global board
 // exist, board!
+var empty = "0";
+var randomNumber = function() {
+  return Math.floor(Math.random() * 4);
+}
+
+var createRandomNumberArray =  function() {
+  // This will pick a random number between 0 and 3, four times
+  var firstX = randomNumber(); // this picks a random number between 0 and 3
+  var firstY = randomNumber();
+  var secondX = randomNumber();
+  var secondY = randomNumber();
+
+  // If the two positions are the same, we'll pick a different second place
+  while (firstX == secondX && firstY == secondY) {
+    secondX = randomNumber();
+    secondY = randomNumber();
+  }
+
+  // It will store it in an array [[0, 1], [2, 3]]
+  // We'll return the array
+  return [[firstX, firstY], [secondX, secondY]];
+}
+
+var createBoard = function(randomNumbersArray) {
+  //This will put the board together with the random configuration
+  var row1 = randomNumbersArray[0][0];
+  var col1 = randomNumbersArray[0][1];
+  var row2 = randomNumbersArray[1][0];
+  var col2 = randomNumbersArray[1][1];
+
+  var array = [
+    [empty, empty, empty, empty],
+    [empty, empty, empty, empty],
+    [empty, empty, empty, empty],
+    [empty, empty, empty, empty],
+  ]
+
+  array[row1][col1] = 2; // this fills the two starting points
+  array[row2][col2] = 2;
+
+  return array
+}
 
 var Board = function(boardArray) { // board constructor
   this.board = boardArray;
   this.boardLength = 4; // board is a square, so this is the same going both ways
-  this.emptyTile = "0";
+  this.emptyTile = empty;
 };
 
-var board = new Board([
-  [512,  128,   4, 1024],
-  [  2,   16,   8,    4],
-  [ 16, 1024,  32,    4],
-  [ 32,  512, 128,    8]
-]);
+var board = new Board(createBoard(createRandomNumberArray()));
+
 
 $(document).ready(function() {
   board.display();
