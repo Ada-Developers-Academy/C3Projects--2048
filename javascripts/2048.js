@@ -103,6 +103,14 @@ function tileCollide(tile, neighbor, direction) {
     var col = +(new_col.slice(1));
     var row = +(new_row.slice(1));
 
+    // set moved tile's old location to undefined
+    var oldTileCol = tile.attr('data-col');
+    var oldTileRow = tile.attr('data-row');
+    var old_col = +(oldTileCol.slice(1));
+    var old_row = +(oldTileRow.slice(1));
+
+    setUndefinedTile(old_col, old_row);
+
     // reset tile array so updated tile is in correct spot
     setTileInArray(col, row, tile);
 
@@ -116,7 +124,7 @@ function tileCollide(tile, neighbor, direction) {
 
 
     // reset tile array so deleted spot is set to undefined
-    resetTileArray(col, row, direction)
+    //resetTileArray(col, row, direction)
   }
 }
 
@@ -127,21 +135,21 @@ function tileCollide(tile, neighbor, direction) {
   }
 
 
-  function resetTileArray(col, row, direction){
-    if (direction == 'up'){
-      var row = (row + 1);
-      setUndefinedTile(col, row);
-    } else if (direction == 'down') {
-      var row = (row - 1);
-      setUndefinedTile(col, row);
-    } else if (direction == 'left') {
-      var col = (col + 1);
-      setUndefinedTile(col, row);
-    } else if (direction == 'right') {
-      var col = (col - 1);
-      setUndefinedTile(col, row);
-    }
-  }
+  // function resetTileArray(col, row, direction){
+  //   if (direction == 'up'){
+  //     var row = (row + 1);
+  //     setUndefinedTile(col, row);
+  //   } else if (direction == 'down') {
+  //     var row = (row - 1);
+  //     setUndefinedTile(col, row);
+  //   } else if (direction == 'left') {
+  //     var col = (col + 1);
+  //     setUndefinedTile(col, row);
+  //   } else if (direction == 'right') {
+  //     var col = (col - 1);
+  //     setUndefinedTile(col, row);
+  //   }
+  // }
 
  function updateTile(tile) {
   var new_tile_value = tile.attr("data-val") * 2;
@@ -232,7 +240,7 @@ function moveDirection(moveWay) {
     for(var i = 0; i < column.length; i++) {
       if (column[i] !== undefined) {
         no_undef_column.push(column[i]);
-        setUndefinedTile(col, i);
+        // setUndefinedTile(col, i);
       }
     }
     return no_undef_column;
@@ -240,17 +248,23 @@ function moveDirection(moveWay) {
 
   function moveUp(col) {
     var column = getColumn(col);
-    for (var i = 0; i < column.length; i++ ) {
-        var row = ('r' + [i] );
-        setTileInArray(col, i, column[i]);
-        column[i].attr('data-row', row)
-        var top = 0
-
-      if (i !== top && column.length > 1){
+    for (var i = 1; i < column.length; i++ ) {
+      if (column.length > 1){
         var tile = column[i];
         var tile_neighbor = column[i - 1];
         tileCollide(tile, tile_neighbor, 'up');
       }
+        var row = ('r' + [i] );
+
+        var oldTileCol = tile.attr('data-col');
+        var oldTileRow = tile.attr('data-row');
+        var old_col = +(oldTileCol.slice(1));
+        var old_row = +(oldTileRow.slice(1));
+        setUndefinedTile(old_col, old_row);
+
+        setTileInArray(col, i, column[i]);
+        column[i].attr('data-row', row)
+
     }
   }
 
