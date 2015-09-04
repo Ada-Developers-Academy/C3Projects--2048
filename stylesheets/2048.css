@@ -62,9 +62,12 @@ html {
 }
 
 .winning{
+
   -webkit-animation: winning 2.5s;
 
 }
+
+.winning[data-val='2048'] { top: 4.5rem; }
 
 .tile[data-row=r0] { top: 0; }
 .tile[data-row=r1] { top: 4.5rem; }
