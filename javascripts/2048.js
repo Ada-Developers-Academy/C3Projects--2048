@@ -311,20 +311,32 @@ function makeTurn(direction) {
   function checkWin(score) {
     var winningScore = 2048;
     if (score == winningScore) {
-      alert("Yay! You won!");
+      $("#gameboard").addClass("game-over");
+      gameOverBox("You won!", "continue-play", "Keep playing");
+
+      $('.button.continue-play').click(function() {
+        $("#game-over-box").remove();
+        $("#gameboard").removeClass("game-over");
+      })
     }
   }
 
+  // adds a div on top of the gameboard, notifying player of win or loss
+  // and allows player to keep playing (if won) or start a new game (if loss)
+  function gameOverBox(message, buttonClass, buttonText) {
+    var gameOverBox = $("<div id='game-over-box'></div>");
+    var gameOverMessage = $("<h2 id='game-over-message'></h2>");
+    gameOverMessage.text(message);
+    gameOverBox.append(gameOverMessage);
+    $("#gameboard-container").append(gameOverBox);
+    var button = $("<div class='" + buttonClass + " button'></div>");
+    button.append("<p>"+ buttonText + "</p>");
+    gameOverBox.append(button);
+  }
+
   function gameLoss() {
-    $("#gameboard").addClass("lost");
-    var lossBox = $("<div id='loss-box'></div>");
-    var lossMessage = $("<h2 id='lossMessage'></h2>");
-    lossMessage.text("Game Over!");
-    lossBox.append(lossMessage);
-    $("#gameboard-container").append(lossBox);
-    var tryAgainButton = $("<div class='new-game button'></div>");
-    tryAgainButton.append("<p>Try again</p>");
-    lossBox.append(tryAgainButton);
+    $("#gameboard").addClass("game-over");
+    gameOverBox("Game Over!", "new-game", "Try again");
   }
 
   function checkLoss() {
