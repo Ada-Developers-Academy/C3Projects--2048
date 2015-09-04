@@ -43,6 +43,20 @@ html {
   z-index: 1;
 }
 
+.tile[new] {
+  animation: expand 0.25s ease-in-out;
+}
+
+@keyframes expand {
+  from {
+    transform: scale(0.8);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
 .tile[data-row="1"] { top: 0; }
 .tile[data-row="2"] { top: 4.5rem; }
 .tile[data-row="3"] { top: 9rem; }
