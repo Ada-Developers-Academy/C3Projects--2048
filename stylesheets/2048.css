@@ -34,6 +34,19 @@ html {
   width: 18.5rem;
 }
 
+#score {
+  width: 25%;
+  background: #bbada0;
+  border-radius: 0.5rem;
+  padding-left: .5rem;
+}
+
+#wrapper {
+width: 19rem;
+margin: 1rem auto;
+
+}
+
 .cell {
   background: rgba(238, 228, 218, 0.35);
   border-radius: 0.5rem;
