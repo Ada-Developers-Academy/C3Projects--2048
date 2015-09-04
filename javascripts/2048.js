@@ -29,7 +29,7 @@ Array.prototype.equals = function (array) {
 
 $(document).ready(function() {
   console.log('ready!');
-  // setupScoreboard();
+  prepareBoard();
   $('body').keydown(function(event){
     var arrow_keys = [37, 38, 39, 40];
     var direction = event.which;
@@ -40,6 +40,52 @@ $(document).ready(function() {
     }
   })
 })
+
+function prepareBoard() {
+  addTile();
+  addTile();
+}
+
+
+function tileSelectorText(row, col) {
+  return ".tile[data-row=\"" + row + "\"][data-col=\"" + col + "\"]";
+}
+
+function collectEmptySpaces() {
+  var emptySpaces = [];
+  var row = null;
+  var col = null;
+  var tileLocation = null;
+  // figure out all empty spots
+  for (var i = 1; i < 5; i++) { // loop through rows
+    row = i;
+    for (var j = 1; j < 5; j++) { // loop through cols
+      col = j;
+      tileLocation = $(tileSelectorText(row, col));
+      if (tileLocation.length == 0) {
+        emptySpaces.push([row, col]);
+      }
+    }
+  }
+  return emptySpaces;
+}
+
+function addTile() {
+  var tile = $("<div data-row='' data-col='' data-val=''></div>");
+  var dataVal = Math.random() < 0.04 ? 4 : 2;
+  var emptySpaces = collectEmptySpaces(); // guard for if no empty spaces?
+
+  // function to pick row and column number
+  var randomLocation = emptySpaces[Math.floor(Math.random() * emptySpaces.length)];
+
+  tile.addClass("tile");
+  tile.attr("data-row", randomLocation[0]);
+  tile.attr("data-col", randomLocation[1]);
+  tile.attr("data-val", dataVal);
+  tile.text(dataVal);
+
+  $("#gameboard").append(tile);
+}
 
 function makeTurn(direction) {
   var tiles = $(".tile"); // in order by the html
@@ -262,46 +308,6 @@ function makeTurn(direction) {
       // if tile can't move, do nothing
     }
     return moveTile;
-  }
-
-  function collectEmptySpaces() {
-    var emptySpaces = [];
-    var row = null;
-    var col = null;
-    var tileLocation = null;
-    // figure out all empty spots
-    for (var i = 1; i < 5; i++) { // loop through rows
-      row = i;
-      for (var j = 1; j < 5; j++) { // loop through cols
-        col = j;
-        tileLocation = $(tileSelectorText(row, col));
-        if (tileLocation.length == 0) {
-          emptySpaces.push([row, col]);
-        }
-      }
-    }
-    return emptySpaces;
-  }
-
-  function tileSelectorText(row, col) {
-    return ".tile[data-row=\"" + row + "\"][data-col=\"" + col + "\"]";
-  }
-
-  function addTile() {
-    var tile = $("<div data-row='' data-col='' data-val=''></div>");
-    var dataVal = Math.random() < 0.04 ? 4 : 2;
-    var emptySpaces = collectEmptySpaces(); // guard for if no empty spaces?
-
-    // function to pick row and column number
-    var randomLocation = emptySpaces[Math.floor(Math.random() * emptySpaces.length)];
-
-    tile.addClass("tile");
-    tile.attr("data-row", randomLocation[0]);
-    tile.attr("data-col", randomLocation[1]);
-    tile.attr("data-val", dataVal);
-    tile.text(dataVal);
-
-    $("#gameboard").append(tile);
   }
 
   function checkWin(score) {
