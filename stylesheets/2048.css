@@ -2,6 +2,67 @@ html {
   font: normal normal 30px/1 "Clear Sans", "Helvetica Neue", Arial, sans-serif;
 }
 
+#header {
+  height: 5rem;
+  position: relative;
+  width: 18.5rem;
+  margin: 1rem auto;
+}
+
+#header div {
+  position: absolute;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+#title {
+  color: #776e65;   /* same color as the 2 tile text */
+  top: 0;
+  left: 0;
+}
+
+#subheader {
+  color: #776e65;   /* same color as the 2 tile text */
+  bottom: 0;
+  left: 0;
+}
+
+#subheader p {
+  margin: 0;
+  font-size: 0.75rem;
+}
+
+span.special {
+  font-weight: bold;
+}
+
+#scoreboard {
+  background: #bbada0;
+  border-radius: 0.25rem;
+  top: 0;
+  right: 0;
+}
+
+#scoreboard p {
+  margin: 0;
+  font-weight: bold;
+  text-align: center;
+  padding: 0.25rem;
+}
+
+#score-label {
+  font-size: .5rem;
+  color: #ede0c8; /* same color as 4 tile background */
+}
+
+#score {
+  font-size: 1em;
+  color: white;
+}
+
 #gameboard {
   background: #bbada0;
   border-radius: 0.5rem;
