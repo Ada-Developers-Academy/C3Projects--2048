@@ -370,6 +370,7 @@ function displayGameResult(endGameResult) {
     populateScore(score);
   }
   else if (endGameResult == 2048) {
+    gameResult.addClass("win");
     gameResult.text("YOU HIT 2048!");
   }
   else {

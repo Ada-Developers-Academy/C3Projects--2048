@@ -9,7 +9,7 @@ html {
   border: solid 3px #bbada0;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 1.5rem;
+  margin-bottom: .5rem;
 }
 
 .score_box h1 {
@@ -31,9 +31,24 @@ html {
   border-radius: 0.5rem;
 }
 
-.result_text{
+.result_text {
   margin: auto;
   text-align: center;
+}
+
+.win {
+  text-align: center;
+  font-size: 20px;
+  font-weight: bolder;
+  background-color: #f2b179;
+  color: #f9f6f2;
+  width: 7.5rem;
+  border-radius: 0.5rem;
+  border: solid 3px #bbada0;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: .5rem;
+  padding: .25rem;
 }
 
 #gameboard {
