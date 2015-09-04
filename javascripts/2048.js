@@ -4,8 +4,8 @@ $(document).ready(function() {
   $('body').keydown(function(event){
     var arrow_keys = [37, 38, 39, 40];
     if(arrow_keys.indexOf(event.which) > -1) {
-      // var tile = $('.tile');
-      moveTile(event.which);
+      var tile = $('.tile');
+      moveTile(tile, event.which);
       addTile();
       event.preventDefault();
     }
@@ -16,7 +16,7 @@ $(document).ready(function() {
   })
 })
 
-function moveTile(direction) {
+function moveTile(tile, direction) {
   // if (tilesCollide(direction); == true) {
     // var new_tile_value = tile.attr("data-val") * 2;
     // tile.attr("data-val", new_tile_value);
@@ -45,7 +45,12 @@ function moveTile(direction) {
       moveDown(tile);
       break;
     case 37: //left
-      moveLeft(tile);
+      var rows = moveLeft(tile);
+      moveRowLeft(rows);
+      collideTilesLeft(rows);
+      var reTile = $('.tile');
+      var reRow = moveLeft(reTile);
+      moveRowLeft(reRow);
       // tile.attr("data-col","c0");
       break;
     case 39: //right
@@ -75,35 +80,40 @@ function moveLeft(tile) {
 
   var rows = [row0, row1, row2, row3];
 
-  for (var i = 0; i < rows.length; i++) {
-    moveRowLeft(rows[i]);
-    collideTilesLeft(rows[i]);
-    moveRowLeft(rows[i]);
-  }
+  // for (var i = 0; i < rows.length; i++) {
+  //   moveRowLeft(rows[i]);
+  // }
+  return rows;
 }
 
-function collideTilesLeft(row){
 
-  for (var i = 0; i < row.length - 1; i++) {
-    var leftTileValue = row[i].getAttribute("data-val");
-    var nextTileValue = row[i+1].getAttribute("data-val");
-    if (leftTileValue == nextTileValue){
-      var newTileValue = leftTileValue * 2;
-      row[i].setAttribute("data-val", newTileValue);
-      row[i].textContent = newTileValue;
-      row[i+1].remove();
+function collideTilesLeft(rows){
+
+  for (var i = 0; i < rows.length; i++) {
+    for (var j = 0; j< rows[i].length-1; j++){
+      var leftTileValue = rows[i][j].getAttribute("data-val");
+      var nextTileValue = rows[i][j+1].getAttribute("data-val");
+      if (leftTileValue == nextTileValue){
+        var newTileValue = leftTileValue * 2;
+        rows[i][j].setAttribute("data-val", newTileValue);
+        rows[i][j].textContent = newTileValue;
+        rows[i][j+1].remove();
     };
 
-
-  } 
-    
+  }    
+}
 }
 
 
 function moveRowLeft(row) {
-  for(var i = 0; i < row.length; i++) {
-    row[i].setAttribute("data-col", ("c" + i));
+  // for(var i = 0; i < row.length; i++) {
+  //   row[i].setAttribute("data-col", ("c" + i));
+  //   }
+  for (var i = 0; i < row.length; i++) { 
+  for(var j = 0; j < row[i].length; j++) {
+    row[i][j].setAttribute("data-col", ("c" + j));
     }
+  }
 }
 
 function moveRight(tile) {
