@@ -185,13 +185,12 @@ function merge(space1, spaceIndex, direction, orderedTiles) {
 
   }
 }
-$('.tile');
+
 function solveColumn(columnNumber, direction) { // (c1, "up")
   var tilesInColumn = $("div[data-col|=c" + columnNumber + "]"); // all tiles in c1
 
-    console.log(tilesInColumn);
   var realOrderedTiles = orderedTilesInColumn(tilesInColumn); //  [0, tile, 0, tile] <=> [r0, r2, r3, r4]
-  // realOrderedTiles.filter(eliminateZeros) => []
+  realOrderedTiles.filter(eliminateZeros);
 }
 
 function orderedTilesInColumn(tilesInColumn) {
@@ -205,8 +204,11 @@ function orderedTilesInColumn(tilesInColumn) {
     var rowIndex = rows.indexOf(row); // 1 is r1
     initialColumn[rowIndex] = tilep; // => array[1] = tile
   }
-  console.log(initialColumn);
   return initialColumn;
+}
+
+function eliminateZeros(tilesInColumn) {
+  return tilesInColumn !== 0;
 }
 
 function moveOne(coordinates, direction){ // change it so that moveOne accepts tilesInColumn not coordinates
