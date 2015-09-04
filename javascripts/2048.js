@@ -7,7 +7,6 @@ $(document).ready(function() {
     newTile();
     newTile();
     newTile();
-    newTile();
   }
 
   // play

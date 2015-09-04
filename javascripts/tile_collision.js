@@ -37,20 +37,21 @@ function orderTiles(keystroke) {
   }();
 
   // select the tiles occupying the selected row/column
-  function filterByLocation(pointer) {
-    var section = tiles.filter(function(tile){
-      if (tile[index] === pointer) { return tile; }
+  function filterByLocation(pointer) { // THREE filterByLocation(r1);
+
+    var section = tiles.filter(function(tile){ // FOUR r0,c0,r1,c1.filter for only r1,c1
+      if (tile[index] === pointer) { return tile; } // FIVE if r1 === r1, return r1, c1
     });
 
-    return section;
+    return section; // SIX return r1c1
   }
 
   // reorganize the collected tile locations
   // into the order of the direction array
   var organizedTiles = function(){
     var result = [];
-    for(var i = 0; i < direction.length; i++) {
-      result = result.concat(filterByLocation(direction[i]));
+    for(var i = 0; i < direction.length; i++) { // ["r3", "r2", "r1", "r0"] } ONE
+      result = result.concat(filterByLocation(direction[i])); // same as above
     }
     return result;
   };
@@ -116,6 +117,7 @@ function tileCollision(keystroke) {
     var tile = orderedTiles[i];
     var rows = ["r0","r1", "r2", "r3"];
     var columns = ["c0","c1", "c2", "c3"];
+
     var rowsIndex = 0;
     var columnsIndex = 0;
 
@@ -180,68 +182,129 @@ function merge(space1, spaceIndex, direction, orderedTiles) {
     tile1.attr("id", "delete");
     $("#delete").remove();
 
-    // update score
   }
 }
 
-function moveOne(coordinates, direction){
-  var rows = ["r0", "r1", "r2", "r3"];
-  var cols = ["c0", "c1", "c2", "c3"];
-  var rowIndex = rows.indexOf(coordinates[0]);
-  var colIndex = cols.indexOf(coordinates[1]);
-  var tile = grabTile(coordinates);
+function solveColumn(columnNumber, direction) { // (c1, "up")
+  var tilesInColumn = $("div[data-col|=c" + columnNumber + "]"); // all tiles in c1
 
-  // grabs all the tiles in the same row/column behind the tile in question
-  var tilesBehind = function(){
-    var tiles = [];
-    var tile = "";
-    var i = "";
+  var realOrderedTiles = orderedTilesInColumn(tilesInColumn); //  [0, tile, 0, tile] <=> [r0, r1, r2, r3]
+  realOrderedTiles = realOrderedTiles.filter(eliminateZeros); // [tile, tile]
 
-    switch(direction) {
-      case "up":
-        for(i = rowIndex; i < rows.length; i++) {
-          tile = $("div[data-col|='" + cols[colIndex] + "'][data-row|='" + rows[i] + "']");
-          tiles.push(tile);
-        }
-        return tiles;
+  while (realOrderedTiles.length < 4){
+    if (direction === "up") {
+      realOrderedTiles.push(0);
+    } else if (direction === "down") {
+      realOrderedTiles.unshift(0);
+  }
 
-      case "down":
-        for(i = rowIndex; i > -1; i--) {
-          tile = $("div[data-col|='" + cols[colIndex] + "'][data-row|='" + rows[i] + "']");
-          tiles.push(tile);
-        }
-        return tiles;
-
-      case "left":
-        for(i = colIndex; i < cols.length; i++) {
-          tile = $("div[data-col|='" + cols[i] + "'][data-row|='" + rows[rowIndex] + "']");
-          tiles.push(tile);
-        }
-        return tiles;
-
-      case "right":
-        for(i = colIndex; i > -1; i--) {
-          tile = $("div[data-col|='" + cols[i] + "'][data-row|='" + rows[rowIndex] + "']");
-          tiles.push(tile);
-        }
-        return tiles;
+  if (direction === "up") {
+    for(var i = 0; i < realOrderedTiles.length; i++) {
+      var upRow = 'r' + i;
+      if(realOrderedTiles[i] !== 0) {
+        realOrderedTiles[i].setAttribute("data-row", upRow);
+      }
     }
-  }();
+  } else if (direction === "down"){
+    for(var j = realOrderedTiles.length -1; j > -1; j--) {
+      var downRow = 'r' + j;
+      console.log(realOrderedTiles);
+      console.log([j]);
+      if(realOrderedTiles[j] !== 0) {
+        realOrderedTiles[j].setAttribute("data-row", downRow);
+      }
+    }
+  }
+  }
+}
+
+function orderedTilesInColumn(tilesInColumn) {
+  var initialColumn = [0, 0, 0, 0];
+
+  for (var i = 0; i < tilesInColumn.length; i++) {
+    var tilep = tilesInColumn[i];
+    var row = tilep.getAttribute("data-row");
+    var col = tilep.getAttribute("data-col");
+    var rows = ["r0", "r1", "r2", "r3"];
+    var rowIndex = rows.indexOf(row); // 1 is r1
+    initialColumn[rowIndex] = tilep; // => array[1] = tile
+  }
+  return initialColumn;
+}
+
+function eliminateZeros(tilesInColumn) {
+  return tilesInColumn !== 0;
+}
+
+function moveOne(coordinates, direction){ // change it so that moveOne accepts tilesInColumn not coordinates
+    var rows = ["r0", "r1", "r2", "r3"];
+    var cols = ["c0", "c1", "c2", "c3"];
+    var rowIndex = rows.indexOf(coordinates[0]); // 1 is r1
+    var colIndex = cols.indexOf(coordinates[1]); // 1 is c1
+    var tile = grabTile(coordinates); // r1c1
+    var columnNumber = [0, 1, 2, 3];
 
   switch(direction) {
     // change the tile's coordinates
     // guard against tiles on the edge
     case "up":
-      if (rows[rowIndex] != "r0") { tile.attr("data-row", rows[rowIndex - 1]); }
+      for (var j = 0; j < columnNumber.length; j++ ) {
+        solveColumn(j, "up");
+      }
+    // if (rows[rowIndex] != "r0") { tile.attr("data-row", rows[rowIndex - 1]); }
       break;
     case "down":
-      if (rows[rowIndex] != "r3") { tile.attr("data-row", rows[rowIndex + 1]); }
+     for (var j = 0; j < columnNumber.length; j++ ) {
+       solveColumn(j, "down");
+      }
+    //  if (rows[rowIndex] != "r3") { tile.attr("data-row", rows[rowIndex + 1]); }
       break;
     case "left":
+  //    for (var j = 0; j < rowNumber.length; j++ ) {
+        //solveRow(j, "left");
+    //  }
       if (cols[colIndex] != "c0") { tile.attr("data-col", cols[colIndex - 1]); }
       break;
     case "right":
+  //    for (var j = 0; j < rowNumber.length; j++ ) {
+      //  solveRow(j, "right");
+  //    }
       if (cols[colIndex] != "c3") { tile.attr("data-col", cols[colIndex + 1]); }
       break;
   }
+  // var tilesBehind = function(){
+  //   var tiles = [];
+  //   var tile = "";
+  //   var i = "";
+  //
+  //   switch(direction) {
+  //     case "up":
+  //       for(i = rowIndex; i < rows.length; i++) {
+  //         tile = $("div[data-col|='" + cols[colIndex] + "'][data-row|='" + rows[i] + "']");
+  //         tiles.push(tile);
+  //       }
+  //       return tiles;
+  //
+  //     case "down":
+  //       for(i = rowIndex; i > -1; i--) {
+  //         tile = $("div[data-col|='" + cols[colIndex] + "'][data-row|='" + rows[i] + "']");
+  //         tiles.push(tile);
+  //       }
+  //       return tiles;
+  //
+  //     case "left":
+  //       for(i = colIndex; i < cols.length; i++) {
+  //         tile = $("div[data-col|='" + cols[i] + "'][data-row|='" + rows[rowIndex] + "']");
+  //         tiles.push(tile);
+  //       }
+  //       return tiles;
+  //
+  //     case "right":
+  //       for(i = colIndex; i > -1; i--) {
+  //         tile = $("div[data-col|='" + cols[i] + "'][data-row|='" + rows[rowIndex] + "']");
+  //         tiles.push(tile);
+  //       }
+  //       return tiles;
+  //   }
+  // }();
 }
