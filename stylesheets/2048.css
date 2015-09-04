@@ -30,9 +30,15 @@ h1 {
   left: 0;
 }
 
+#header .button.new-game {
+  right: 0;
+  bottom: 0;
+  margin: 0;
+}
+
 #subheader p {
   margin: 0;
-  font-size: 0.75rem;
+  font-size: 0.65rem;
 }
 
 span.special {
@@ -112,10 +118,11 @@ span.special {
 }
 
 .new-game.button p {
-  font-size: 0.75rem;
+  font-size: 0.5rem;
   font-weight: bold;
   margin: 0;
   color: white;
+  text-align: center;
 }
 
 .cell {
