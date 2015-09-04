@@ -88,6 +88,7 @@ function collideTilesLeft(row){
       row[i].textContent = newTileValue;
       row[i+1].remove();
     };
+
   } 
     
 }
@@ -304,7 +305,8 @@ function playTurn() {
 //             tile next to it deletes 
 //             * nice to have - deletes by sliding behind the farthest tile
 //             (visual animation)
-//             any tiles behind deleted tile, slide one position in direction chosen
+//             any tiles in the position behind the deleted tile, 
+//             slide one position in direction chosen
 //     if tile adjacent in direction of arrow is identical
 //     in face value to the one next to it, the farthest tile is replaced with new tile
 //      -> double face value
