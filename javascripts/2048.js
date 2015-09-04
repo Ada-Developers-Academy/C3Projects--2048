@@ -1,5 +1,6 @@
 $(document).ready(function() {
   console.log('ready!');
+
   $('body').keydown(function(event){
     var arrow_keys = [37, 38, 39, 40];
     if(arrow_keys.indexOf(event.which) > -1) {
@@ -8,6 +9,10 @@ $(document).ready(function() {
       addTile();
       event.preventDefault();
     }
+  })
+
+  $('h6').click(function(){
+    gameStart();
   })
 })
 
@@ -83,11 +88,12 @@ function collideTilesLeft(row){
     var leftTileValue = row[i].getAttribute("data-val");
     var nextTileValue = row[i+1].getAttribute("data-val");
     if (leftTileValue == nextTileValue){
-      var newTileValue = leftTileValue * 2; 
+      var newTileValue = leftTileValue * 2;
       row[i].setAttribute("data-val", newTileValue);
       row[i].textContent = newTileValue;
       row[i+1].remove();
     };
+
 
   } 
     
@@ -272,19 +278,25 @@ function addTile(){
 }
 
 function gameStart() {
-  addTile();
-  addTile();
-}
-
-function playTurn() {
-  if ($("#gameboard .tile").length == 0) {
-    gameStart();
+  if ($(".tile").length == 0) {
+    addTile();
+    addTile();
   } else {
-    gameWon();
-    gameLost();
-
+    $(".tile").remove();
+    addTile();
+    addTile();
   }
 }
+
+// function playTurn() {
+//   if ($("#gameboard .tile").length == 0) {
+//     gameStart();
+//   } else {
+//     gameWon();
+//     gameLost();
+//
+//   }
+// }
 
 // pseudo:
 // when game starts: two random tiles populate board
@@ -298,11 +310,11 @@ function playTurn() {
 //   movetile function happens
 //   collisions result in new tile with increased
 // //   face value
-//           a direction is chosen 
+//           a direction is chosen
 //           tiles data-val is looked at
 //           if adjacent tiles have identical data-val
 //             farthest tile data *2
-//             tile next to it deletes 
+//             tile next to it deletes
 //             * nice to have - deletes by sliding behind the farthest tile
 //             (visual animation)
 //             any tiles in the position behind the deleted tile, 
