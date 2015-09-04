@@ -1,5 +1,5 @@
 html {
-  font: normal normal 30px/1 "Clear Sans", "Helvetica Neue", Arial, sans-serif;
+  font: normal normal 18px/1 'Orbitron', sans-serif;
   background-image: url("../assets/images/asteroidbackground.jpg");
   color: white;
 }
@@ -7,7 +7,9 @@ html {
 h1 {
   display: inline-block;
   text-align: center;
-  margin: .5em;
+  margin: .7em .5em .5em .5em;
+  font-style: italic;
+  font-size: 2.5em;
 }
 
 button {
@@ -44,7 +46,7 @@ button {
   color: black;
   border-radius: 0.5rem;
   background-color: rgba(238, 228, 218, 0.5);
-  padding: .5em;
+  padding: .7em .5em .5em .5em;
 }
 
 .score {

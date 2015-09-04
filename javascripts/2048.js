@@ -11,8 +11,8 @@ var winningTileValue = '64';
 
 $(document).ready(function() {
   initializeGame();
-
   $('body').keydown(playTurn);
+  $('.retry-button').click(retryClickHandler);
 });
 
 function initializeGame() {
