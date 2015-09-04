@@ -13,6 +13,17 @@ html {
 
 .lost {
   opacity: 0.5;
+  z-index: 2;
+}
+
+#loss-box {
+  z-index: 1;
+  position: relative;
+  bottom: 0;
+}
+
+#lossMessage {
+  font-size: 2rem;
 }
 
 .cell {
