@@ -86,21 +86,25 @@ Board.prototype.display = function() {
 Board.prototype.move = function(direction) {
   var that = this; // make this, which is the board object .move is being called on, available to inner scopes
 
+  var newBoard = that.slice(); // ? is this the correct method to copy a board?
+
   // 1. reorient function => array of arrays in columns or rows
-  var reorientedBoard = this.reorient(direction);
+  var reorientedBoard = newBoard.reorient(direction);
 
   var resolvedBoard = reorientedBoard.map(function(currentRow) {
     // 2. each row/column condense function (LOOP)
-    var condensedRow = that.condense(currentRow, direction);
+    var condensedRow = newBoard.condense(currentRow, direction);
     // 3. each row/column => compare function (LOOP)
-    return that.compareAndResolve(condensedRow, direction);
+    return newBoard.compareAndResolve(condensedRow, direction);
   });
 
   // 4. build new board from results (takes in array of condensed arrays, returns array of uncondensed arrays)
-  this.build(resolvedBoard, direction, reorientedBoard); // NOTE build in its current form mutates the original board
+  newBoard.build(resolvedBoard, direction, reorientedBoard); // NOTE build in its current form mutates the original board
 
   // 5. display board
-  this.display();
+  newBoard.display();
+
+  this.board = newBoard; // reassigns the oldBoard to be the newboard's values (prep for the next move)
 }
 
 // board.reorient("down")
