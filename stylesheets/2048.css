@@ -2,6 +2,21 @@ html {
   font: normal normal 30px/1 "Clear Sans", "Helvetica Neue", Arial, sans-serif;
 }
 
+.score_box {
+  font-size: 20px;
+  width: 8rem;
+  margin-left: 7rem;
+  margin-bottom: -.5rem;
+  border-radius: 0.5rem;
+  border: solid 3px #bbada0;
+  /*position: relative;*/
+}
+
+.score_box h1 {
+  margin: .25rem 0 .25rem .25rem;
+  color: #776e65;
+}
+
 #gameboard {
   background: #bbada0;
   border-radius: 0.5rem;
