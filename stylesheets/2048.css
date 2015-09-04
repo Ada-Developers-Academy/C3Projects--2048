@@ -56,6 +56,18 @@ button {
   display: inline-block;
 }
 
+.added_to_score {
+  /*display: inline;*/
+  box-sizing: border-box;
+  color: yellow;
+  margin-top: .8em;
+  margin-left: -.5em;
+
+  position: absolute;
+  animation: fadeUp .5s;
+  animation-timing-function: ease-in;
+}
+
 .win {
   background: rgba(255, 255, 255, 0.7);
   border-radius: 0.5rem;
@@ -228,5 +240,17 @@ button {
 
   100% {
     transform: scale(1);
+  }
+}
+
+@keyframes fadeUp {
+  0% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(0, -5em);
+    opacity: 0;
   }
 }

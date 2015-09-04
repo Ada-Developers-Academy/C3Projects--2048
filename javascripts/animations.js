@@ -20,3 +20,11 @@ function addRemoveClass(obj, className) {
     $(this).removeClass('delayFadeIn');
   });
 }
+
+function animateAddedValue(num) {
+  $('.added_to_score').remove();
+  var div = $("<div>");
+  div.text('+ ' + num);
+  div.addClass('added_to_score').on('animationend', function() { div.remove(); });
+  $('.score').append(div);
+}

@@ -7,7 +7,7 @@ var priorWin = false;
 var gameOver = false;
 
 // win var is currently set to win at 64 for testing! Change to 2048 for true win.
-var winningTileValue = '4';
+var winningTileValue = '2048';
 
 $(document).ready(function() {
   initializeGame();
@@ -86,6 +86,7 @@ function updateValue(tile) {
 function updateScore(num) {
   score += num;
   $('.score').text(score);
+  animateAddedValue(num);
 }
 
 // Sequentially collects all existing tiles from a row.
