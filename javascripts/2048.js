@@ -1,49 +1,22 @@
 $(document).ready(function() {
   console.log('ready!');
-  var openCells = [["r1", "c2"], ["r1", "c0"],
+  var openCells = [["r1", "c1"], ["r1", "c2"], ["r1", "c0"], ["r1", "c3"],
                    ["r2", "c1"], ["r2", "c2"], ["r2", "c3"], ["r2", "c0"],
                    ["r3", "c1"], ["r3", "c2"], ["r3", "c3"], ["r3", "c0"],
                    ["r0", "c1"], ["r0", "c2"], ["r0", "c3"], ["r0", "c0"]];
 
-  var usedCells = [["r1", "c1"], ["r1", "c3"]];
+  var usedCells = [];
 
-  var tile = document.createElement("div");
-  $("#gameboard").append(tile);
-  $(tile).addClass("tile");
-  $(tile).attr("data-row", "r1");
-  $(tile).attr("data-col", "c1");
-  $(tile).attr("data-val", 2);
-  $(tile).text(2);
 
-  var tile = document.createElement("div");
-  $("#gameboard").append(tile);
-  $(tile).addClass("tile");
-  $(tile).attr("data-row", "r1");
-  $(tile).attr("data-col", "c3");
-  $(tile).attr("data-val", 2);
-  $(tile).text(2);
-  console.log("beginning array")
-  console.log(usedCells);
+  newTile(openCells, usedCells);
+  newTile(openCells, usedCells);
 
-  emptyCell(openCells, usedCells, ["r1", "c3"])
-  console.log(usedCells);
-
-  // newTile(openCells, usedCells);
-  // newTile(openCells, usedCells);
-  // console.log("open: ");
-  // console.log(openCells);
-  // console.log("used: ");
-  // console.log(usedCells);
 
   $('body').keydown(function(event){
     var arrow_keys = [37, 38, 39, 40];
     if(arrow_keys.indexOf(event.which) > -1) {
       var tile = $('.tile');
       playGame(tile, openCells, usedCells, event.which);
-        // console.log("open: ");
-        // console.log(openCells);
-        // console.log("used: ");
-        // console.log(usedCells);
       event.preventDefault();
     }
   })
@@ -94,12 +67,8 @@ function findIndex(array, element) {
 }
 
 function emptyCell(openCells, usedCells, cellSpace) {
-  console.log("is this cell removed form usedCells?");
-  console.log("cellSpace");
-  console.log(cellSpace);
   var index = findIndex(usedCells, cellSpace);
   usedCells.splice(index, 1);
-  console.log(usedCells);
   openCells.push(cellSpace);
 }
 
@@ -145,7 +114,6 @@ function merge(tile1, tile2, direction, openCells, usedCells) {
     var findTile2 = $("div[data-row=" + tile2[0] + "][data-col=" + tile2[1] + "]");
     var value = $(findTile1).text();
     if (value == $(findTile2).text()) {
-      console.log("now were merging for sure");
       $(findTile1).text(value * 2);
       $(findTile1).attr("data-value", value * 2);
       deleteTile(findTile2, openCells, usedCells);
@@ -172,8 +140,6 @@ function deleteTile(tile, openCells, usedCells) {
   var row = $(tile).attr("data-row");
   var col = $(tile).attr("data-col");
   $(tile).remove();
-  console.log("deleting this div from board");
-  console.log(tile)
   emptyCell(openCells, usedCells, [row, col]);
 }
 
@@ -215,7 +181,6 @@ function horizontalMove(tile, openCells, usedCells, direction) {
     } else {
       if (direction == 37) { //left
         var openArr = sortArrayByColumn(openRow);
-        console.log("1st moving left");
         var usedArr = sortArrayByColumn(usedRow);
         for (j = 0; j < usedArr.length; j++) {
           if (openArr[0][1] < usedArr[j][1]) {
@@ -224,22 +189,19 @@ function horizontalMove(tile, openCells, usedCells, direction) {
             $(oneTile).attr("data-col", openArr[0][1]);
             emptyCell(openCells, usedCells, usedArr[j]);
             emptyCell(openArr, usedArr, usedArr[j]);
-            // console.log("usedArr before:");
-            // console.log(usedArr);
+            // Arr before:");
+            // rr);
             occupyCell(openCells, usedCells, [row, openArr[0][1]]);
             occupyCell(openArr, usedArr, [openArr[0][0], openArr[0][1]]);
-            // console.log("usedArr after:");
-            // console.log(usedArr);
+            // Arr after:");
+            // rr);
           }
           usedArr = sortArrayByColumn(usedArr);
-          console.log("2nd moving left");
           openArr = sortArrayByColumn(openArr);
           if (usedRow.length > 1 && usedArr[j+1] != undefined) {
-            console.log("chekcing to see if we can merge!!!");
             merge(usedArr[j], usedArr[j+1], "left", openCells, usedCells);
           }
           usedArr = sortArrayByColumn(usedArr);
-          console.log("3rd moving left");
           openArr = sortArrayByColumn(openArr);
         }
       } else if (direction == 39) { //right
@@ -379,11 +341,7 @@ function sortArrayByColumn(array) {
     for (k = 0; k < array.length; k++) {
       // returns the coordinate # of the column
       var coordPos = array[k][1];
-      console.log("coordPos");
-      console.log(coordPos);
       newArr.push([array[k][0], coordPos]);
-      console.log("newArr");
-      console.log(newArr);
     }
     return newArr.sort(newArr[1][1]);
   }
