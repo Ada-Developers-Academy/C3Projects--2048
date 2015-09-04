@@ -36,38 +36,22 @@ function orderTiles(keystroke) {
     }
   }();
 
-
-  function solveColumn(columnNumber, direction) { // (c1, "up")
-    var tilesInColumn = $("div[data-col|='" + columnNumber + "']"); // all tiles in c1
-
-    var realOrderedTiles = orderedTilesInColumn(tilesInColumn); //  [0, tile, 0, tile] <=> [r0, r2, r3, r4]
-    // realOrderedTiles.filter(eliminateZeros) => []
-  }
-
-
   // select the tiles occupying the selected row/column
-  function filterByLocation(pointer) { // THREE filterByLocation(r1);
-
-    var section = tilesInColumn.filter(function(tile){ // FOUR r0,c0,r1,c1.filter for only r1,c1
-      console.log(tiles + " tiles"); // r0,c0,r1,c1
-      console.log(pointer + " pointer"); // r1
-      console.log(tile[index] + " ti"); // tile[1] = r1
-      console.log(tile + " tile"); // r1 c1
-      if (tile[index] === pointer) { return tile; } // FIVE if r1 === r1, return r1, c1
+  function filterByLocation(pointer) {
+    var section = tiles.filter(function(tile){
+      if (tile[index] === pointer) { return tile; }
     });
 
-    return section; // SIX return r1c1
+    return section;
   }
 
   // reorganize the collected tile locations
   // into the order of the direction array
   var organizedTiles = function(){
     var result = [];
-    for(var i = 0; i < direction.length; i++) { // ["r3", "r2", "r1", "r0"] } ONE
-    console.log(tiles + " 2tiles");
-    console.log(filterByLocation(direction[i]) + " filterbylocation"); // filterbylocation(r1).....[r1, c1, r0, c0] TWO
-      result = result.concat(filterByLocation(direction[i])); // same as above
-    console.log(result + " result");
+    for(var i = 0; i < direction.length; i++) {
+      result = result.concat(filterByLocation(direction[i]));
+
     }
     return result;
   };
@@ -133,7 +117,7 @@ function tileCollision(keystroke) {
   for (var i = 0; i < orderedTiles.length; i++) {
     var tile = orderedTiles[i];
     var rows = ["r0","r1", "r2", "r3"];
-
+    var columns = ["c0","c1", "c2", "c3"];
 
     var rowsIndex = 0;
     var columnsIndex = 0;
@@ -173,7 +157,6 @@ function grabTile(coordinates) {
   return tile;
 }
 
-
 // determines if tiles can merge or not
 function merge(space1, spaceIndex, direction, orderedTiles) {
   // maybe this is bad 'cause orderedTiles hasn't been updated?
@@ -202,15 +185,53 @@ function merge(space1, spaceIndex, direction, orderedTiles) {
   }
 }
 
+function solveColumn(columnNumber, direction) { // (c1, "up")
+  var tilesInColumn = $("div[data-col|=c" + columnNumber + "]"); // all tiles in c1
+  var realOrderedTiles = orderedTilesinColumn(tilesInColumn); //  [0, tile, 0, tile] <=> [r0, r2, r3, r4]
+  // realOrderedTiles.filter(eliminateZeros) => []
+}
+
+function orderedTilesinColumn(tilesInColumn) {
+  var initialColumn = [0, 0, 0, 0];
+
+  for(var i = 0; i < tilesInColumn.length; i++) {
+    var tilep = tilesInColumn[i];
+    var rows = ["r0", "r1", "r2", "r3"];
+    var rowIndex = rows.indexOf(tilesInColumn[0]); // 1 is r1
+    initialColumn[rowIndex] = tilep; // => array[1] = tile
+  }
+  return initialColumn;
+}
+
 // reject 0 filter here & change of tilesBehind
 function moveOne(coordinates, direction){
-  var rows = ["r0", "r1", "r2", "r3"];
-  var cols = ["c0", "c1", "c2", "c3"];
-  var rowIndex = rows.indexOf(coordinates[0]); // 1
-  var colIndex = cols.indexOf(coordinates[1]); // 1
-  var tile = grabTile(coordinates); // r1c1
+  for (var i = 0; i < coordinates.length; i++ ) {
+    var rows = ["r0", "r1", "r2", "r3"];
+    var cols = ["c0", "c1", "c2", "c3"];
+    var rowIndex = rows.indexOf(coordinates[0]); // 1 is r1
+    var colIndex = cols.indexOf(coordinates[1]); // 1 is c1
+    var tile = grabTile(coordinates); // r1c1
 
-  // grabs all the tiles in the same row/column behind the tile in question
+// possible update method after we get organizedTiles like [0, tile, tile, 0]
+  switch(direction) {
+    // change the tile's coordinates
+    // guard against tiles on the edge
+    case "up":
+      for (var j = 0; j < cols.length; j++ ) {
+        solveColumn(j, "up");
+      }
+    //  if (rows[rowIndex] != "r0") { tile.attr("data-row", rows[rowIndex - 1]); }
+      break;
+    case "down":
+      if (rows[rowIndex] != "r3") { tile.attr("data-row", rows[rowIndex + 1]); }
+      break;
+    case "left":
+      if (cols[colIndex] != "c0") { tile.attr("data-col", cols[colIndex - 1]); }
+      break;
+    case "right":
+      if (cols[colIndex] != "c3") { tile.attr("data-col", cols[colIndex + 1]); }
+      break;
+  }}
   var tilesBehind = function(){
     var tiles = [];
     var tile = "";
@@ -246,22 +267,4 @@ function moveOne(coordinates, direction){
         return tiles;
     }
   }();
-
-// possible update method after we get organizedTiles like [0, tile, tile, 0]
-  switch(direction) {
-    // change the tile's coordinates
-    // guard against tiles on the edge
-    case "up":
-      if (rows[rowIndex] != "r0") { tile.attr("data-row", rows[rowIndex - 1]); }
-      break;
-    case "down":
-      if (rows[rowIndex] != "r3") { tile.attr("data-row", rows[rowIndex + 1]); }
-      break;
-    case "left":
-      if (cols[colIndex] != "c0") { tile.attr("data-col", cols[colIndex - 1]); }
-      break;
-    case "right":
-      if (cols[colIndex] != "c3") { tile.attr("data-col", cols[colIndex + 1]); }
-      break;
-  }
 }

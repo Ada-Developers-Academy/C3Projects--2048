@@ -5,7 +5,7 @@ $(document).ready(function() {
   if (inPlay === false) {
     newTile();
     newTile();
-    
+
   }
 
   // play
