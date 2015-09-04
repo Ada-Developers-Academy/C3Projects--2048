@@ -311,6 +311,15 @@ function makeTurn(direction) {
     }
   }
 
+  function gameLoss() {
+    $("#gameboard").addClass("lost");
+    var lossBox = $("<div id='loss-box'></div>");
+    var lossMessage = $("<h2 id='lossMessage'></h2>");
+    lossBox.append(lossMessage);
+    $("#container").append(lossBox);
+    alert("You have lost. Refresh to play again.");
+  }
+
   function checkLoss() {
     // count empty spaces, if 0 continue
     var emptySpaces = collectEmptySpaces();
@@ -339,8 +348,7 @@ function makeTurn(direction) {
       }
 
       if (lost == true) {
-        $("#gameboard").addClass("lost");
-        alert("You have lost. Refresh to play again.");
+        gameLoss();
       }
     }
   }
