@@ -2,6 +2,32 @@ html {
   font: normal normal 30px/1 "Clear Sans", "Helvetica Neue", Arial, sans-serif;
 }
 
+body {
+  background-color: #faf8ef;
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes winning {
+  from {
+    opacity: 1;
+    transform: rotate(0deg) scale(0.2);
+  }
+  to {
+    opacity: 0.5;
+    transform: rotate(360deg) scale(4);
+  }
+}
+
 #gameboard {
   background: #bbada0;
   border-radius: 0.5rem;
@@ -10,6 +36,21 @@ html {
   position: relative;
   width: 18.5rem;
 }
+
+#score {
+  width: 20%;
+  background: #bbada0;
+  border-radius: 0.5rem;
+  padding-left: .5rem;
+  padding-right: .5rem;
+  text-align: center;
+}
+
+#wrapper {
+width: 19rem;
+margin: 1rem auto;
+}
+
 
 .cell {
   background: rgba(238, 228, 218, 0.35);
@@ -24,6 +65,7 @@ html {
   position: absolute;
   top: 0; left: 0;
   transition: all 0.2s ease-in-out;
+  -webkit-animation: pop-in 0.5s;
 
   color: #f9f6f2;
   background: #000;
@@ -37,6 +79,14 @@ html {
   text-align: center;
   width: 4rem;
 }
+
+.winning{
+  /*top: 8.25rem;
+  left: 9.25rem;*/
+  -webkit-animation: winning 1.5s;
+}
+
+
 
 .tile[data-row=r0] { top: 0; }
 .tile[data-row=r1] { top: 4.5rem; }
