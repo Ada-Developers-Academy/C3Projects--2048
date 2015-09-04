@@ -1,5 +1,7 @@
 html {
   font: normal normal 30px/1 "Clear Sans", "Helvetica Neue", Arial, sans-serif;
+  background-image: url("../assets/images/asteroidbackground.jpg");
+  color: white;
 }
 
 h1 {
@@ -39,12 +41,14 @@ button {
   display: inline-block;
   text-align: center;
   margin: 0 1em;
+  color: black;
+  border-radius: 0.5rem;
+  background-color: rgba(238, 228, 218, 0.5);
+  padding: .5em;
 }
 
 .score {
-  padding: .5em;
   margin: 0;
-  background-color: rgba(238, 228, 218, 0.35);
   display: inline-block;
 }
 
