@@ -48,7 +48,6 @@ function locateTiles(){
 // Add a tile with every key press
 function addTile(){
   var emptySpace = findEmptySpaces();
-  console.log(emptySpace);
   // var x = emptySpace.indexOf(newTile);
   // console.log(x);
   var newTile = position();
@@ -57,10 +56,10 @@ function addTile(){
     return tilePlacement(newTile);
     // break;
   } else {
-    // do {
-    var anotherNewTile = position();
-    return tilePlacement(anotherNewTile);
-    // } while (emptySpace.indexOf(anotherNewTile) == -1
+    do {
+      var anotherNewTile = position();
+      return tilePlacement(anotherNewTile);
+    } while (emptySpace.indexOf(anotherNewTile) == -1)
   }
 }
 
@@ -176,11 +175,11 @@ function solveRow(row, direction) { // => ('r3', "right")
 }
 
 function moveTile(tile, direction) {
-  for(var i = 0; i < tile.length; i++) {
-    var rowValue = extractNum(tile[i], 'data-row'); // => 3
-    var colValue = extractNum(tile[i], 'data-col'); // => 2
-    var rowCoordinate = tile[i].getAttribute('data-row') // => 'r3'
-    var colCoordinate = tile[i].getAttribute('data-col'); // => 'c2'
+  // for(var i = 0; i < tile.length; i++) {
+    // var rowValue = extractNum(tile[i], 'data-row'); // => 3
+    // var colValue = extractNum(tile[i], 'data-col'); // => 2
+    // var rowCoordinate = tile[i].getAttribute('data-row') // => 'r3'
+    // var colCoordinate = tile[i].getAttribute('data-col'); // => 'c2'
     var positions = [0, 1, 2, 3]
     switch(direction) {
       case 38: //up
@@ -205,7 +204,7 @@ function moveTile(tile, direction) {
         }
         break;
     }
-  }
+  // }
 }
 
 // generates a random grid postion =>"r3, c0"
