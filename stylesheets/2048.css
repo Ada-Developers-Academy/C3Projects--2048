@@ -17,13 +17,12 @@ h1 {
 p {
   padding-top: 7px;
   margin-bottom: 5px;
-  text-align: center;
+  /*text-align: center;*/
 }
 
 img {
   /*float: left;*/
   position: relative;
-
 }
 
 footer {
@@ -33,7 +32,10 @@ footer {
 #dashboard {
   /*margin: 0% 20%;*/
   /*i don't know how to center this stuff arggh!!*/
+  height: 155px;
+  text-align: center;
 }
+
 #gameboard {
   float: clear;
   background: #bbada0;
@@ -47,13 +49,14 @@ footer {
 #scoreboard {
   border-radius: 0.5rem;
   background: #bbada0;
-  width: 7rem;
-  height: 4rem;
+  width: 210px;
+  height: 120px;
   color: #ede0c8;
   text-shadow: 1px 1px black;
   /*float: left;*/
   display: inline-block;
-  margin-left: 8rem;
+  /*margin-left: 8rem;*/
+  vertical-align: text-bottom;
 }
 
 #score {
@@ -62,6 +65,8 @@ footer {
 }
 
 #newgame {
+  width: 188px;
+  height: 98px;
   border: 4px solid #776e65;
   border-radius: 0.5rem;
   box-shadow: 2px 2px grey;
@@ -73,6 +78,10 @@ footer {
   display: inline-block;
   /*margin-right: 3rem;*/
   /*margin: auto;*/
+  /*vertical-align: top;*/
+  /*margin-top: 50px;*/
+  /*word-spacing: 7rem;*/
+  vertical-align: text-bottom;
 }
 
 #newgame:hover {
