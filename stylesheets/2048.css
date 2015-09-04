@@ -160,9 +160,23 @@ span.special {
   animation: expand 0.1s ease-in-out;
 }
 
+.tile[blowup] {
+  animation: blowup 0.2s ease-in-out;
+}
+
 @keyframes expand {
   from {
     transform: scale(0.8);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes blowup {
+  from {
+    transform: scale(1.25);
   }
 
   to {
