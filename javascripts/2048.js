@@ -136,9 +136,7 @@ Board.prototype.display = function() {
 
   // update score in page
   var score = $("span.score");
-  console.log(score);
   score.text(this.score);
-  console.log(this.score);
 }
 
 // board.move("left")
@@ -366,7 +364,6 @@ Board.prototype.isGameOver = function() {
     });
 
     if (zeros.length > 0) {
-      console.log("there are zeros in row index #" + row);
       hasZeros = true;
       return;
     }
