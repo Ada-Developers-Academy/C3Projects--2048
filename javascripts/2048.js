@@ -4,14 +4,14 @@
 var Board = function(boardArray) { // board constructor
   this.board = boardArray;
   this.boardLength = 4; // board is a square, so this is the same going both ways
-  this.emptyTile = 0;
+  this.emptyTile = "0";
 };
 
 var board = new Board([
-  [0, 0, 0, 2],
-  [0, 0, 0, 0],
-  [0, 2, 0, 0],
-  [0, 0, 0, 0]
+  [512,  128,   4, 1024],
+  [  2,   16,   8,    4],
+  [ 16, 1024,  32,    4],
+  [ 32,  512, 128,    8]
 ]);
 
 $(document).ready(function() {
@@ -101,6 +101,9 @@ Board.prototype.move = function(direction) {
 
   // 5. display board
   this.display();
+
+  // 6. resolve win/lose condition
+  this.isGameOver();
 }
 
 // board.reorient("down")
@@ -145,7 +148,7 @@ Board.prototype.verticalReorient = function() {
 Board.prototype.condense = function(colOrRow) {
   var condensedColOrRow = [];
 
-  for (i = 0; i < colOrRow.length; i++) {
+  for (var i = 0; i < colOrRow.length; i++) {
     if (colOrRow[i] == this.emptyTile) {
       continue;
     } else {
@@ -174,7 +177,7 @@ Board.prototype.compareAndResolve = function(condensedColOrRow, direction) {
 Board.prototype.moveForward = function(condensedColOrRow) {
   var resolvedColOrRow = [];
 
-  for (i = 0; i < condensedColOrRow.length; i++) {
+  for (var i = 0; i < condensedColOrRow.length; i++) {
     var currentTileValue = condensedColOrRow[i];
     var nextTileValue = condensedColOrRow[i + 1];
 
@@ -198,7 +201,7 @@ Board.prototype.moveForward = function(condensedColOrRow) {
 Board.prototype.moveBackward = function(condensedColOrRow) {
   var resolvedColOrRow = [];
 
-  for (i = condensedColOrRow.length - 1; i >= 0; i--) {
+  for (var i = condensedColOrRow.length - 1; i >= 0; i--) {
     var currentTileValue = condensedColOrRow[i];
     var nextTileValue = condensedColOrRow[i - 1];
 
@@ -276,4 +279,64 @@ Board.prototype.newTile = function(emptySpots) {
   var newTileValue = (diceRoll > chanceOfFour) ? 2 : 4;
 
   this.board[newTileRow][newTileColumn] = newTileValue;
+}
+
+Board.prototype.isGameOver = function() {
+  var win = false;
+  var lose = false;
+  var that = this;
+  // 1. check for winning first
+  this.board.forEach(function(row) {
+    if (row.indexOf(2048) > -1) {
+      win = true;
+      return that.gameOver("win");
+    }
+  });
+
+  // 2. check for losing if we haven't won
+  //   - check if there are any zeros
+  var hasZeros = false;
+  this.board.forEach(function(row) {
+    zeros = row.filter(function(tile) {
+      return tile == that.emptyTile;
+    });
+
+    if (zeros.length > 0) {
+      console.log("there are zeros in row index #" + row);
+      hasZeros = true;
+      return;
+    }
+  });
+
+  if (hasZeros) { return; }
+
+  //  - check for legal moves?
+  var board = this.board;
+  for (var row = 0; row < this.boardLength; row++) {
+    for (var col = 0; col < this.boardLength; col++) {
+      // if you're the last row, we don't care about a row below you anymore
+      if (row == this.boardLength - 1) {
+        if (board[row][col] == board[row][col + 1]) {
+          return;
+        };
+      } else if (col == this.boardLength - 1) {
+        if (board[row][col] == board[row + 1][col]) {
+          return;
+        };
+      } else if (board[row][col] == board[row + 1][col] || board[row][col] == board[row][col + 1]) {
+        return;
+      }; // bye, if last row
+    } // bye, for col loop
+  } // bye, for row loop
+
+  return this.gameOver("lose");
+}
+
+Board.prototype.gameOver = function(condition) {
+  // call this from somewhere??
+
+  var endgame = $('#endgame');
+  endgame.addClass(condition);
+
+  // stop the click handlers?
 }

@@ -8,7 +8,26 @@ html {
   height: 18.5rem;
   margin: 1rem auto;
   position: relative;
+  z-index: -1;
   width: 18.5rem;
+}
+
+#endgame.win, #endgame.lose {
+  border-radius: 0.5rem;
+  height: 18.5rem;
+  margin: 1rem auto;
+  width: 18.5rem;
+  z-index: 1;
+  font-size: 20px;
+  text-align: center;
+}
+
+#endgame.win {
+  background: rgba(255, 150, 40, 0.6);
+}
+
+#endgame.lose {
+  background: rgba(210, 210, 200, 0.6);
 }
 
 .cell {
