@@ -23,7 +23,6 @@ p {
 img {
   /*float: left;*/
   position: relative;
-
 }
 
 footer {
@@ -33,6 +32,7 @@ footer {
 #dashboard {
   /*margin: 0% 20%;*/
   /*i don't know how to center this stuff arggh!!*/
+  height: 155px;
   text-align: center;
 }
 #gameboard {
@@ -55,6 +55,7 @@ footer {
   /*float: left;*/
   display: inline-block;
   /*margin-left: 8rem;*/
+  vertical-align: text-bottom;
 }
 
 #score {
@@ -74,7 +75,8 @@ footer {
   display: inline;
   /*margin-right: 3rem;*/
   /*margin: auto;*/
-  vertical-align: middle;
+  /*vertical-align: top;*/
+  margin-top: 50px;
 }
 
 #newgame:hover {
