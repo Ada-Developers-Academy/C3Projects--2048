@@ -1,5 +1,4 @@
-// from stack overflow:
-// http://stackoverflow.com/questions/7837456/comparing-two-arrays-in-javascript
+// from: http://stackoverflow.com/questions/7837456/comparing-two-arrays-in-javascript
 Array.prototype.equals = function (array) {
   // if the other array is a falsy value, return
   if (!array) {
@@ -30,14 +29,18 @@ Array.prototype.equals = function (array) {
 $(document).ready(function() {
   console.log('ready!');
   prepareBoard();
+
   $('body').keydown(function(event){
     var arrow_keys = [37, 38, 39, 40];
     var direction = event.which;
     if(arrow_keys.indexOf(direction) > -1) {
       makeTurn(direction);
-      // moveTiles(direction);
       event.preventDefault();
     }
+  })
+
+  $('.button.new-game').click(function() {
+    location.reload();
   })
 })
 
@@ -181,34 +184,32 @@ function makeTurn(direction) {
     // join each sorted group
     var sortedTiles = [];
     sortedTiles = sortedTiles.concat.apply(sortedTiles, allTypes);
-    // return
+
     return sortedTiles;
   }
 
   function findMergeableTile(tile, type, magnitude) {
-    // down: type = data-row, magnitude = 1
     // this gets the value of the tile passed in
-    var dataVal = tile.getAttribute("data-val"); // 2
+    var dataVal = tile.getAttribute("data-val");
     // this gets the value of the type (row for up/down, col for right/left)
-    var typeValue = tile.getAttribute(type); // 1
+    var typeValue = tile.getAttribute(type);
     // this gets the value of the opposite type (col for up/down, row for R/L)
     var oppositeType = (type == "data-row") ? "data-col" : "data-row";
-    var oppositeValue = tile.getAttribute(oppositeType); // 1
+    var oppositeValue = tile.getAttribute(oppositeType);
     // find neighbor value ( if c1,r1 and moving up, neighbor is c1, r2)
-    var neighborValue = parseInt(typeValue) - magnitude; // 0
+    var neighborValue = parseInt(typeValue) - magnitude;
     // nasty block text stuff
-    // ".tile[data-row="0"][data-col="1"]"
     var neighborText = ".tile[" + type + "=\"" + neighborValue + "\"][" + oppositeType + "=\"" + oppositeValue + "\"]";
     // use block text to check if neighbor exists
-    var neighbor = $(neighborText); // [tile]
+    var neighbor = $(neighborText);
 
-    if (neighbor.length > 0) { // true
-      neighbor = neighbor[0]; // = tile
-      if (neighbor.getAttribute("data-val") == dataVal) { // false
+    if (neighbor.length > 0) {
+      neighbor = neighbor[0];
+      if (neighbor.getAttribute("data-val") == dataVal) {
         return neighbor;
       }
     } else {
-      return null; // null
+      return null;
     }
   }
 
@@ -276,17 +277,15 @@ function makeTurn(direction) {
 
       function okayToMove(tile) {
         var okay = true;
-        // var oppositeType = (turnType == "data-row") ? "data-col" : "data-row";
         var oppositeValue = tile.getAttribute(turnOppositeType);
         var blockerText = ".tile[" + turnType + "=\"" + newAttributeValue + "\"][" + turnOppositeType + "=\"" + oppositeValue + "\"]";
         var blocker = $(blockerText);
 
-
         if (blocker.length > 0) {
           okay = false;
         }
+
         return okay;
-        // return true/false
       }
 
       // move the tile one space
@@ -313,8 +312,32 @@ function makeTurn(direction) {
   function checkWin(score) {
     var winningScore = 2048;
     if (score == winningScore) {
-      alert("Yay! You won!");
+      $("#gameboard").addClass("game-over");
+      gameOverBox("You won!", "continue-play", "Keep playing");
+
+      $('.button.continue-play').click(function() {
+        $("#game-over-box").remove();
+        $("#gameboard").removeClass("game-over");
+      })
     }
+  }
+
+  // adds a div on top of the gameboard, notifying player of win or loss
+  // and allows player to keep playing (if won) or start a new game (if loss)
+  function gameOverBox(message, buttonClass, buttonText) {
+    var gameOverBox = $("<div id='game-over-box'></div>");
+    var gameOverMessage = $("<h2 id='game-over-message'></h2>");
+    gameOverMessage.text(message);
+    gameOverBox.append(gameOverMessage);
+    $("#gameboard-container").append(gameOverBox);
+    var button = $("<div class='" + buttonClass + " button'></div>");
+    button.append("<p>"+ buttonText + "</p>");
+    gameOverBox.append(button);
+  }
+
+  function gameLoss() {
+    $("#gameboard").addClass("game-over");
+    gameOverBox("Game Over!", "new-game", "Try again");
   }
 
   function checkLoss() {
@@ -345,14 +368,17 @@ function makeTurn(direction) {
       }
 
       if (lost == true) {
-        alert("You have lost. Refresh to play again.");
+        gameLoss();
       }
     }
+
+    $('.button.new-game').click(function() {
+      location.reload();
+    })
   }
 
   moveTiles();
   mergeTiles(); // scoring happens here
-  // var validMove = checkForMovement(); // check if anything moved or merged
   if (validMove()) {
     moveTiles();
     addTile();
