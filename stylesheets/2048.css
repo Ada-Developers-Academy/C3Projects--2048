@@ -18,8 +18,9 @@ html {
 }
 
 .results_container {
-  margin: 1rem auto;
-  margin-left: 14.45rem;
+  /*margin: 1rem auto;*/
+  /*margin-left: 14.45rem;*/
+  margin: auto;
   position: absolute;
   z-index: 1;
   width: 18.5rem;
@@ -38,8 +39,10 @@ html {
   background: #bbada0;
   border-radius: 0.5rem;
   height: 18.5rem;
-  margin: 1rem auto;
-  position: relative;
+  /*margin: 1rem auto;*/
+  /*margin-left: 14.45rem;*/
+  margin: auto;
+  position: absolute;
   width: 18.5rem;
 }
 
