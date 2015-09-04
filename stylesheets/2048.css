@@ -17,7 +17,7 @@ h1 {
 p {
   padding-top: 7px;
   margin-bottom: 5px;
-  text-align: center;
+  /*text-align: center;*/
 }
 
 img {
@@ -35,6 +35,7 @@ footer {
   height: 155px;
   text-align: center;
 }
+
 #gameboard {
   float: clear;
   background: #bbada0;
@@ -48,8 +49,8 @@ footer {
 #scoreboard {
   border-radius: 0.5rem;
   background: #bbada0;
-  width: 7rem;
-  height: 4rem;
+  width: 210px;
+  height: 120px;
   color: #ede0c8;
   text-shadow: 1px 1px black;
   /*float: left;*/
@@ -64,6 +65,8 @@ footer {
 }
 
 #newgame {
+  width: 188px;
+  height: 98px;
   border: 4px solid #776e65;
   border-radius: 0.5rem;
   box-shadow: 2px 2px grey;
@@ -72,11 +75,13 @@ footer {
   color: #776e65;
   padding: 5px;
   /*float: left;*/
-  display: inline;
+  display: inline-block;
   /*margin-right: 3rem;*/
   /*margin: auto;*/
   /*vertical-align: top;*/
-  margin-top: 50px;
+  /*margin-top: 50px;*/
+  /*word-spacing: 7rem;*/
+  vertical-align: text-bottom;
 }
 
 #newgame:hover {
