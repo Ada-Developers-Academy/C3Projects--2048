@@ -100,7 +100,7 @@ Board.prototype.move = function(direction) {
   var that = this; // make this, which is the tempboard object .move is being called on, available to inner scopes
 
   // 1. reorient function => array of arrays in columns or rows
-  var reorientedBoard = that.reorient(direction);
+  var reorientedBoard = this.reorient(direction);
 
   var resolvedBoard = reorientedBoard.map(function(currentRow) {
     // 2. each row/column condense function (LOOP)
@@ -110,7 +110,7 @@ Board.prototype.move = function(direction) {
   });
 
   // 4. build new board from results (takes in array of condensed arrays, returns array of uncondensed arrays)
-  that.build(resolvedBoard, direction, reorientedBoard);
+  this.build(resolvedBoard, direction, reorientedBoard);
 }
 
 // board.reorient("down")
