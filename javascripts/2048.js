@@ -87,7 +87,7 @@ function addTile() {
   tile.attr("data-val", dataVal);
   tile.text(dataVal);
   tile.addClass("new");
- 
+
   $("#gameboard").append(tile);
   // remove new class after animation is complete
   tile.on("animationend", function() {
@@ -236,6 +236,12 @@ function makeTurn(direction) {
         sortedTiles[i].setAttribute("data-val", (newVal));
         updateScore(newVal);
         sortedTiles[i].innerHTML = (newVal);
+        // add animation to sortedtile[i] here
+        sortedTiles[i].setAttribute("blowup", "");
+        $(".tile[blowup]").on("animationend", function(){
+            $(this).removeAttr("blowup");
+        });
+
         var neighborIndex = sortedTiles.indexOf(neighbor);
         // so sorry
         sortedTiles = sortedTiles.splice(0,neighborIndex).concat(
