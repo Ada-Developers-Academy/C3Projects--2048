@@ -251,6 +251,7 @@ function makeTurn(direction) {
 
       }
 
+      // try adding document.addEventListener("transitionend", function(){})
       // animation to hide the merged tile, then delete it
       $(".tile.merged").remove();
       // $(".tile.merged").on("transitionend", function() {
