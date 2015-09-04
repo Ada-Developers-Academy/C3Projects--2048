@@ -36,24 +36,43 @@ function orderTiles(keystroke) {
     }
   }();
 
+
+  function solveColumn(colNum, direction) { // (c1, "up")
+    var colsNew = ["c0","c1", "c2", "c3"];
+    var tilesInColumn = $("div[data-col|='" + colNum + "']"); // all tiles in c1
+
+
+
+  }
+
+
   // select the tiles occupying the selected row/column
-  function filterByLocation(pointer) {
-    var section = tiles.filter(function(tile){
-      if (tile[index] === pointer) { return tile; }
+  function filterByLocation(pointer) { // THREE filterByLocation(r1);
+
+    var section = tilesInColumn.filter(function(tile){ // FOUR r0,c0,r1,c1.filter for only r1,c1
+      console.log(tiles + " tiles"); // r0,c0,r1,c1
+      console.log(pointer + " pointer"); // r1
+      console.log(tile[index] + " ti"); // tile[1] = r1
+      console.log(tile + " tile"); // r1 c1
+      if (tile[index] === pointer) { return tile; } // FIVE if r1 === r1, return r1, c1
     });
 
-    return section;
+    return section; // SIX return r1c1
   }
 
   // reorganize the collected tile locations
   // into the order of the direction array
   var organizedTiles = function(){
     var result = [];
-    for(var i = 0; i < direction.length; i++) {
-      result = result.concat(filterByLocation(direction[i]));
+    for(var i = 0; i < direction.length; i++) { // ["r3", "r2", "r1", "r0"] } ONE
+    console.log(tiles + " 2tiles");
+      console.log(filterByLocation(direction[i]) + " filterbylocation"); // filterbylocation(r1).....[r1, c1, r0, c0] TWO
+      result = result.concat(filterByLocation(direction[i])); // same as above
+      console.log(result + " result");
     }
     return result;
   };
+  console.log(organizedTiles());
   return organizedTiles();
 }
 
@@ -115,7 +134,8 @@ function tileCollision(keystroke) {
   for (var i = 0; i < orderedTiles.length; i++) {
     var tile = orderedTiles[i];
     var rows = ["r0","r1", "r2", "r3"];
-    var columns = ["c0","c1", "c2", "c3"];
+
+
     var rowsIndex = 0;
     var columnsIndex = 0;
 
@@ -180,16 +200,16 @@ function merge(space1, spaceIndex, direction, orderedTiles) {
     tile1.attr("id", "delete");
     $("#delete").remove();
 
-    // update score
   }
 }
 
+// reject 0 filter here & change of tilesBehind
 function moveOne(coordinates, direction){
   var rows = ["r0", "r1", "r2", "r3"];
   var cols = ["c0", "c1", "c2", "c3"];
-  var rowIndex = rows.indexOf(coordinates[0]);
-  var colIndex = cols.indexOf(coordinates[1]);
-  var tile = grabTile(coordinates);
+  var rowIndex = rows.indexOf(coordinates[0]); // 1
+  var colIndex = cols.indexOf(coordinates[1]); // 1
+  var tile = grabTile(coordinates); // r1c1
 
   // grabs all the tiles in the same row/column behind the tile in question
   var tilesBehind = function(){
@@ -228,6 +248,7 @@ function moveOne(coordinates, direction){
     }
   }();
 
+// possible update method after we get organizedTiles like [0, tile, tile, 0]
   switch(direction) {
     // change the tile's coordinates
     // guard against tiles on the edge
