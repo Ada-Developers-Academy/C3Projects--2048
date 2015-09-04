@@ -366,7 +366,6 @@ function makeTurn(direction) {
 
   moveTiles();
   mergeTiles(); // scoring happens here
-  // var validMove = checkForMovement(); // check if anything moved or merged
   if (validMove()) {
     moveTiles();
     addTile();
