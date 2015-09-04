@@ -75,12 +75,12 @@ function findEmptySpaces() { // Returns all empty spaces in array => ['r0, c1', 
 }
 
 function extractNum(tileDiv, data) {
-  var coordinate = $('.tile').attr(data) // => "r3"
+  var coordinate = $(tileDiv).attr(data) // => "r3"
   var stringNum = coordinate.match(/\d+/) // => "3"
   return parseInt(stringNum);
 }
 
-function findEmptyRowCol(coordinate, RowCol) { // => 'r3' or 'c2'
+function findEmptyRowCol(coordinate, RowCol) { // => ('r3', 'row') or ('c2', 'col')
   var emptyTiles = findEmptySpaces();
   
   function isEmpty(position) {
@@ -90,7 +90,94 @@ function findEmptyRowCol(coordinate, RowCol) { // => 'r3' or 'c2'
       return position.substr(4, 2) == coordinate;
     }
   }
-  return emptyTiles.filter(isEmpty)
+  return emptyTiles.filter(isEmpty) // => ['r3, c0', 'r0, c0']
+}
+
+function orderedColTiles(tiles) { // => tiles = array of jQuery tile divs 
+  var array = [0, 0, 0, 0];
+  // [
+  // <div class=​"tile" data-row=​"r0" data-col=​"c0" data-val=​"2">​2​</div>​, 
+  // <div class=​"tile" data-row=​"r3" data-col=​"c0" data-val=​"2">​2​</div>​
+  // ]
+
+
+  for(var i = 0; i < tiles.length; i++) {
+    var tile = tiles[i]; 
+    var rowValue = extractNum(tile, 'data-row') // for 'r1' => 1
+    console.log(rowValue);
+    array[rowValue] = tile; // => array[1] = tile
+  }
+  return array;
+}
+
+// function findEmptyRowCol(coordinate, RowCol) { // => ('r3', 'row') or ('c2', 'col')
+//   var emptyTiles = findEmptySpaces();
+  
+//   function isEmpty(position) {
+//     if (RowCol == 'row') {
+//       return position.substr(0, 2) == coordinate;
+//     } else {
+//       return position.substr(4, 2) == coordinate;
+//     }
+//   }
+//   return emptyTiles.filter(isEmpty) // => ['r3, c0', 'r0, c0']
+// }
+
+function removeZero(element) {
+  return element != 0;
+}
+
+function solveColumn(col, direction) { // => ('c3', 'up')
+  var tiles = $('.tile[data-col=c' + col + ']'); //=> [tile in c3, tile in c3]
+
+  var orderedTiles = orderedColTiles(tiles); //=> [0, tile, 0, tile]
+
+  orderedTiles = orderedTiles.filter(removeZero); //=> [tile, tile]
+
+  if (direction == 'up') {
+    while (orderedTiles.length < 4) {
+      orderedTiles.push(0); // => [tile, tile, 0, 0]
+    }
+  } else { // => 'down'
+    while (orderedTiles.length < 4) {
+      orderedTiles.unshift(0); // => [0, 0, tile, tile]
+    }
+  }
+
+  for(var i = 0; i < orderedTiles.length; i++) {
+    if (orderedTiles[i] != 0) {
+      var newRow = 'r' + i;
+      orderedTiles[i].setAttribute("data-row", newRow);
+    }
+  }
+}
+
+
+  // [2, 2, 0, 0]
+
+
+
+  // [undefined, 2, undefined, 4] => 
+
+  // data-row value represents the position they should be in the array
+  //[tile, tile] => [undefined, tile, undefined, tile]
+
+  // r0 0
+  // r1 2
+  // r2 0 
+  // r3 4
+  // for the column, find the "empty" spaces
+
+  // discard them from the array
+  // [0, 2, 0, 4] => [2, 4]
+  // r0 2
+  // r1 4
+
+  // loop the tiles array to update the data-row
+  // the tile in spot zero should get data-row=r0
+
+function solveRow(row) {
+
 }
 
 function moveTile(tile, direction) {
