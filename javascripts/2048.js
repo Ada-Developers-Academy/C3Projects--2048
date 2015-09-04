@@ -197,60 +197,59 @@ function moveRight() {
 
 function setupTempBoard(direction) {
   var newBoard = [];
-  if(direction == "up") {
-    for(x = 0; x < boardSize; x++) {
-      array = [];
-      for(y = 3; y >= 0 ; y--){
-        array.push(board[y][x]);
-      }
-      var tempColumn = removeZero(array);
-      while(tempColumn.length <= boardSize - 1) {
-        tempColumn.push(0);
-      }
-      newBoard.push(tempColumn);
-    }
-  }
-
-  else if(direction == "down") {
-    for(x = 0; x < boardSize; x++) {
-      array = [];
-      for(y = 3; y >= 0; y--) {
-        array.push(board[y][x]);
-      }
-      var tempColumn = removeZero(array);
-      while(tempColumn.length <= boardSize - 1) {
-        tempColumn.unshift(0);
-      }
-      newBoard.push(tempColumn);
-    }
-  }
-
-  else if(direction == "left"){
-    for(y = 0; y < boardSize; y++) {
-      array = [];
+  switch(direction){
+    case "up":
       for(x = 0; x < boardSize; x++) {
-        array.push(board[y][x]);
+        array = [];
+        for(y = 3; y >= 0 ; y--){
+          array.push(board[y][x]);
+        }
+        var tempColumn = removeZero(array);
+        while(tempColumn.length <= boardSize - 1) {
+          tempColumn.push(0);
+        }
+        newBoard.push(tempColumn);
       }
-      var tempRow = removeZero(array);
-      while(tempRow.length < boardSize) {
-        tempRow.push(0);
-      }
-      newBoard.push(tempRow);
-    }
-  }
-
-  else if(direction == "right"){
-    for(y = 0; y < boardSize; y++) {
-      array = [];
+      break;
+      case "down":
       for(x = 0; x < boardSize; x++) {
-        array.push(board[y][x]);
+        array = [];
+        for(y = 3; y >= 0; y--) {
+          array.push(board[y][x]);
+        }
+        var tempColumn = removeZero(array);
+        while(tempColumn.length <= boardSize - 1) {
+          tempColumn.unshift(0);
+        }
+        newBoard.push(tempColumn);
       }
-      var tempRow = removeZero(array);
-      while(tempRow.length < boardSize) {
-        tempRow.unshift(0);
+      break;
+      case "left":
+      for(y = 0; y < boardSize; y++) {
+        array = [];
+        for(x = 0; x < boardSize; x++) {
+          array.push(board[y][x]);
+        }
+        var tempRow = removeZero(array);
+        while(tempRow.length < boardSize) {
+          tempRow.push(0);
+        }
+        newBoard.push(tempRow);
       }
-      newBoard.push(tempRow);
-    }
+      break;
+      case "right":
+      for(y = 0; y < boardSize; y++) {
+        array = [];
+        for(x = 0; x < boardSize; x++) {
+          array.push(board[y][x]);
+        }
+        var tempRow = removeZero(array);
+        while(tempRow.length < boardSize) {
+          tempRow.unshift(0);
+        }
+        newBoard.push(tempRow);
+      }
+      break;
   }
   replaceBoard(newBoard, direction);
 }
