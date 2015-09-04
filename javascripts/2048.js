@@ -223,7 +223,7 @@ function moveTile(tile, direction) {
         var condition = function (num) {
           return num < occupants.length;
         }
-      // Tile iteration based on down  
+      // Tile iteration based on down
       } else if (direction == "down"){
         var start = occupants.length - 1;
         var incrementor = -1;
@@ -334,21 +334,6 @@ function moveTile(tile, direction) {
       $(mergedTiles[i]).removeClass("merged");
     }
   }
-
-  // function mergeTilesSideways(tile, neighbor){
-  //   var neighborValue = Number(neighbor.attr("data-val"));
-  //   var newNeighborValue = neighborValue * 2;
-  //   neighbor.attr("data-val", newNeighborValue);
-  //   neighbor.text(newNeighborValue);
-  //
-  //   // Mark the neighbor as already merged so it never gets merged
-  //   // multiple times in the same turn
-  //   neighbor.addClass("merged");
-  //
-  //   // Remove the obsolete tile HTML
-  //   tile.remove();
-  // }
-
 
   switch(direction) {
     case 38: //up
