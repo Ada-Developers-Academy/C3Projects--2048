@@ -55,7 +55,6 @@ function orderTiles(keystroke) {
     }
     return result;
   };
-  console.log(organizedTiles());
   return organizedTiles();
 }
 
@@ -192,10 +191,31 @@ function solveColumn(columnNumber, direction) { // (c1, "up")
   var realOrderedTiles = orderedTilesInColumn(tilesInColumn); //  [0, tile, 0, tile] <=> [r0, r1, r2, r3]
   realOrderedTiles = realOrderedTiles.filter(eliminateZeros); // [tile, tile]
 
-  for(var i = 0; i < realOrderedTiles.length; i++) {
-    var upRow = 'r' + i;
-    realOrderedTiles[i].setAttribute("data-row", upRow);
-}
+  while (realOrderedTiles.length < 4){
+    if (direction === "up") {
+      realOrderedTiles.push(0);
+    } else if (direction === "down") {
+      realOrderedTiles.unshift(0);
+  }
+
+  if (direction === "up") {
+    for(var i = 0; i < realOrderedTiles.length; i++) {
+      var upRow = 'r' + i;
+      if(realOrderedTiles[i] !== 0) {
+        realOrderedTiles[i].setAttribute("data-row", upRow);
+      }
+    }
+  } else if (direction === "down"){
+    for(var j = realOrderedTiles.length -1; j > -1; j--) {
+      var downRow = 'r' + j;
+      console.log(realOrderedTiles);
+      console.log([j]);
+      if(realOrderedTiles[j] !== 0) {
+        realOrderedTiles[j].setAttribute("data-row", downRow);
+      }
+    }
+  }
+  }
 }
 
 function orderedTilesInColumn(tilesInColumn) {
@@ -233,24 +253,24 @@ function moveOne(coordinates, direction){ // change it so that moveOne accepts t
       }
     // if (rows[rowIndex] != "r0") { tile.attr("data-row", rows[rowIndex - 1]); }
       break;
-    // case "down":
-    //   for (var j = 0; j < columnNumber.length; j++ ) {
-    //     solveColumn(j, "down");
-    //   }
-    //   if (rows[rowIndex] != "r3") { tile.attr("data-row", rows[rowIndex + 1]); }
-    //   break;
-    // case "left":
-    //   for (var j = 0; j < rowNumber.length; j++ ) {
-    //     solveRow(j, "left");
-    //   }
-    //   if (cols[colIndex] != "c0") { tile.attr("data-col", cols[colIndex - 1]); }
-    //   break;
-    // case "right":
-    //   for (var j = 0; j < rowNumber.length; j++ ) {
-    //     solveRow(j, "right");
-    //   }
-    //   if (cols[colIndex] != "c3") { tile.attr("data-col", cols[colIndex + 1]); }
-    //   break;
+    case "down":
+     for (var j = 0; j < columnNumber.length; j++ ) {
+       solveColumn(j, "down");
+      }
+    //  if (rows[rowIndex] != "r3") { tile.attr("data-row", rows[rowIndex + 1]); }
+      break;
+    case "left":
+  //    for (var j = 0; j < rowNumber.length; j++ ) {
+        //solveRow(j, "left");
+    //  }
+      if (cols[colIndex] != "c0") { tile.attr("data-col", cols[colIndex - 1]); }
+      break;
+    case "right":
+  //    for (var j = 0; j < rowNumber.length; j++ ) {
+      //  solveRow(j, "right");
+  //    }
+      if (cols[colIndex] != "c3") { tile.attr("data-col", cols[colIndex + 1]); }
+      break;
   }
   // var tilesBehind = function(){
   //   var tiles = [];
