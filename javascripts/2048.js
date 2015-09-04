@@ -315,9 +315,12 @@ function makeTurn(direction) {
     $("#gameboard").addClass("lost");
     var lossBox = $("<div id='loss-box'></div>");
     var lossMessage = $("<h2 id='lossMessage'></h2>");
+    lossMessage.text("Game Over!");
     lossBox.append(lossMessage);
-    $("#container").append(lossBox);
-    alert("You have lost. Refresh to play again.");
+    $("#gameboard-container").append(lossBox);
+    var tryAgainButton = $("<div class='new-game button'></div>");
+    tryAgainButton.append("<p>Try again</p>");
+    lossBox.append(tryAgainButton);
   }
 
   function checkLoss() {
@@ -351,6 +354,10 @@ function makeTurn(direction) {
         gameLoss();
       }
     }
+    
+    $('.button.new-game').click(function() {
+      location.reload();
+    })
   }
 
   moveTiles();
