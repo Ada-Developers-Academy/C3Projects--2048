@@ -297,8 +297,24 @@ function moveTile(tile, direction) {
       // collectOccupants -- Array of tiles
       var occupants = $("[data-row='r" + i + "']");
 
-      // Loop backwards so that sliding works and we don't leave gaps
-      for (var j = occupants.length - 1; j >= 0; j--) {
+      // Tile iteration for left
+      if (direction == "left"){
+        var start = 0;
+        var incrementor = 1;
+        var condition = function (num) {
+          return num < occupants.length;
+        }
+      // Tile iteration for right
+      } else if (direction == "right"){
+        var start = occupants.length - 1;
+        var incrementor = -1;
+        var condition = function (num) {
+          return num >= 0;
+        }
+      }
+
+      // For each tile
+      for (j = start; condition(j); j = j + incrementor) {
 
         var tile = occupants[j];
 
