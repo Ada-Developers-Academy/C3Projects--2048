@@ -30,9 +30,15 @@ h1 {
   left: 0;
 }
 
+#header .button.new-game {
+  right: 0;
+  bottom: 0;
+  margin: 0;
+}
+
 #subheader p {
   margin: 0;
-  font-size: 0.75rem;
+  font-size: 0.65rem;
 }
 
 span.special {
@@ -63,13 +69,59 @@ span.special {
   color: white;
 }
 
-#gameboard {
-  background: #bbada0;
-  border-radius: 0.5rem;
+#gameboard-container {
   height: 18.5rem;
   margin: 1rem auto;
   position: relative;
   width: 18.5rem;
+}
+
+#gameboard {
+  background: #bbada0;
+  border-radius: 0.5rem;
+  height: 18.5rem;
+  width: 18.5rem;
+  margin: 1rem auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.game-over {
+  opacity: 0.3;
+}
+
+#game-over-box {
+  text-align: center;
+  position: absolute;
+  margin: 4rem auto;
+  height: 18.5rem;
+  width: 18.5rem;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+
+#game-over-message {
+  font-size: 2rem;
+  color: #776e65;   /* same color as the 2 tile text */
+}
+
+.new-game.button, .continue-play.button {
+  background-color: #776e65;
+  border-radius: 0.25rem;
+  padding: 0.25rem;
+  width: 4rem;
+  margin: 0.5rem auto;
+  cursor: default;
+}
+
+.new-game.button p, .continue-play.button p {
+  font-size: 0.5rem;
+  font-weight: bold;
+  margin: 0;
+  color: white;
+  text-align: center;
 }
 
 .cell {
