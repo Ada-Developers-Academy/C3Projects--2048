@@ -3,13 +3,36 @@ html {
 }
 
 #header {
-  margin: 1rem auto;
+  height: 5rem;
   position: relative;
   width: 18.5rem;
+  margin: 1rem auto;
+}
+
+#header div {
+  position: absolute;
 }
 
 h1 {
   font-size: 2.5rem;
+  margin: 0;
+}
+
+#title {
+  color: #776e65;   /* same color as the 2 tile text */
+  top: 0;
+  left: 0;
+}
+
+#subheader {
+  color: #776e65;   /* same color as the 2 tile text */
+  bottom: 0;
+  left: 0;
+}
+
+#subheader p {
+  margin: 0;
+  font-size: 0.75rem;
 }
 
 span.special {
@@ -19,7 +42,8 @@ span.special {
 #scoreboard {
   background: #bbada0;
   border-radius: 0.25rem;
-  display: inline-block;
+  top: 0;
+  right: 0;
 }
 
 #scoreboard p {
