@@ -352,7 +352,7 @@ function checkEndGame(){
       for(i = 0; i < directions.length; i++){
         var next = checkNext(y, x, directions[i]);
         if(next == board[y][x] || next == 0){
-          var result = true; // game is not over
+          var result = false; // game is not over
           return result;
         }
         else {

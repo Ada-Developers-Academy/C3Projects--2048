@@ -5,11 +5,11 @@ html {
 .score_box {
   font-size: 20px;
   width: 8rem;
-  margin-left: 14.45rem;
-  margin-bottom: -.5rem;
   border-radius: 0.5rem;
   border: solid 3px #bbada0;
-  /*position: relative;*/
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1.5rem;
 }
 
 .score_box h1 {
@@ -18,10 +18,11 @@ html {
 }
 
 .results_container {
-  /*margin: 1rem auto;*/
-  /*margin-left: 14.45rem;*/
-  margin: auto;
   position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
   z-index: 1;
   width: 18.5rem;
   height: 18.5rem;
@@ -39,10 +40,11 @@ html {
   background: #bbada0;
   border-radius: 0.5rem;
   height: 18.5rem;
-  /*margin: 1rem auto;*/
-  /*margin-left: 14.45rem;*/
-  margin: auto;
   position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
   width: 18.5rem;
 }
 
