@@ -17,12 +17,10 @@ function TileCollection(direction) {
   }
 
   if (direction == 39 || direction == 40) {
-    this.reverse = true;
-    this.combine = combineRightOrDown;
+    this.needs_reverse = true;
     this.shift = shiftRightOrDown;
   } else if (direction == 37 || direction == 38) {
-    this.reverse = false;
-    this.combine = combineUpOrLeft;
+    this.needs_reverse = false;
     this.shift = shiftLeftOrUp;
   }
 }
@@ -31,4 +29,27 @@ TileCollection.prototype.move = function() {
   for (var i = 0; i < this.max_length; i++) {
     this.shift(this.combine(this.generate(i)), this.collection_type);
   }
+}
+
+TileCollection.prototype.combine = function(collection) {
+  if (this.needs_reverse) {
+    collection.reverse();
+  }
+
+  for (var i = 1; i < collection.length; i++) {
+    if (collection[i].attr('data-val') === collection[i - 1].attr('data-val')) {
+      // combine!
+      updateValue(collection[i]);
+
+      collection[i - 1].remove();  // removes adjacent tile from html
+      collection.splice(i - 1, 1); // removes adjacent tile from collection array
+      i += 1;
+    }
+  }
+
+  if (this.needs_reverse) {
+    collection.reverse();
+  }
+
+  return collection;
 }
