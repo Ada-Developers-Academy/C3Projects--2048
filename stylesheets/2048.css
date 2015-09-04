@@ -33,6 +33,7 @@ footer {
 #dashboard {
   /*margin: 0% 20%;*/
   /*i don't know how to center this stuff arggh!!*/
+  text-align: center;
 }
 #gameboard {
   float: clear;
@@ -53,7 +54,7 @@ footer {
   text-shadow: 1px 1px black;
   /*float: left;*/
   display: inline-block;
-  margin-left: 8rem;
+  /*margin-left: 8rem;*/
 }
 
 #score {
@@ -70,9 +71,10 @@ footer {
   color: #776e65;
   padding: 5px;
   /*float: left;*/
-  display: inline-block;
+  display: inline;
   /*margin-right: 3rem;*/
   /*margin: auto;*/
+  vertical-align: middle;
 }
 
 #newgame:hover {
