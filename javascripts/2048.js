@@ -9,7 +9,7 @@ var Board = function(boardArray) { // board constructor
 
 var board = new Board([
   [512,  128,   4, 1024],
-  [  2,   16,   8, 1024],
+  [  2,   16,   8,    4],
   [ 16, 1024,  32,    4],
   [ 32,  512, 128,    8]
 ]);
@@ -343,9 +343,9 @@ Board.prototype.gameOver = function(condition) {
   message.addClass("message");
 
   if (condition == "win") {
-    message.text("You won!  Congrats!!!!");
+    message.text("You won! Super congrats!");
   } else {
-    message.text("You lost! Triple dang!");
+    message.text("You lost! Triple dang! D':");
   }
 
   endgame.append(message);
