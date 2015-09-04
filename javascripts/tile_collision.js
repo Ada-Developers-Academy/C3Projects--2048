@@ -305,39 +305,4 @@ function moveOne(coordinates, direction){ // change it so that moveOne accepts t
       }
       break;
   }
-  // var tilesBehind = function(){
-  //   var tiles = [];
-  //   var tile = "";
-  //   var i = "";
-  //
-  //   switch(direction) {
-  //     case "up":
-  //       for(i = rowIndex; i < rows.length; i++) {
-  //         tile = $("div[data-col|='" + cols[colIndex] + "'][data-row|='" + rows[i] + "']");
-  //         tiles.push(tile);
-  //       }
-  //       return tiles;
-  //
-  //     case "down":
-  //       for(i = rowIndex; i > -1; i--) {
-  //         tile = $("div[data-col|='" + cols[colIndex] + "'][data-row|='" + rows[i] + "']");
-  //         tiles.push(tile);
-  //       }
-  //       return tiles;
-  //
-  //     case "left":
-  //       for(i = colIndex; i < cols.length; i++) {
-  //         tile = $("div[data-col|='" + cols[i] + "'][data-row|='" + rows[rowIndex] + "']");
-  //         tiles.push(tile);
-  //       }
-  //       return tiles;
-  //
-  //     case "right":
-  //       for(i = colIndex; i > -1; i--) {
-  //         tile = $("div[data-col|='" + cols[i] + "'][data-row|='" + rows[rowIndex] + "']");
-  //         tiles.push(tile);
-  //       }
-  //       return tiles;
-  //   }
-  // }();
 }
