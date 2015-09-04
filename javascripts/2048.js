@@ -38,11 +38,21 @@ function moveTile(tile, direction) {
   switch(direction) {
     case 38: //up
       // tile.attr("data-row","r0"); // unless a tile is there
-      moveUp(tile);
+      var cols = makeCols(tile);
+      moveColUp(cols);
+      collideTilesUp(cols);
+      var reTile = $('.tile');
+      var reCol = makeCols(reTile);
+      moveColUp(reCol);
       break;
     case 40: //down
       // tile.attr("data-row","r3");
-      moveDown(tile);
+      var cols = makeCols(tile);
+      moveColDown(cols);
+      collideTilesDown(cols);
+      var reTile = $('.tile');
+      var reCol = makeCols(reTile);
+      moveColDown(reCol);
       break;
     case 37: //left
       var rows = makeRows(tile);
@@ -135,15 +145,14 @@ function collideTilesRight(rows){
 }
 
 function moveRowRight(row) {
-
   for (var i = 0; i < row.length; i++) {
     for(var j = 0; j < row[i].length; j++) {
     row[i][j].setAttribute("data-col", ("c" + (j + 4 - row[i].length)));
+    }
   }
 }
-}
 
-function moveUp(tile) {
+function makeCols(tile) {
   var col0 = [];
   var col1 = [];
   var col2 = [];
@@ -163,57 +172,58 @@ function moveUp(tile) {
 
   var cols = [col0, col1, col2, col3];
 
-  for (var i = 0; i < cols.length; i++) {
-    moveColUp(cols[i]);
-  }
+  return cols;
 }
 
 function moveColUp(col) {
-  for(var i = 0; i < col.length; i++) {
-    col[i].setAttribute("data-row", ("r" + i));
+  for (var i = 0; i < col.length; i++) {
+    for(var j = 0; j < col[i].length; j++) {
+      col[i][j].setAttribute("data-row", ("r" + j));
     }
+  }
 }
 
-function moveDown(tile){
-
-  var col0 = [];
-  var col1 = [];
-  var col2 = [];
-  var col3 = [];
-
-  for (var i = 0; i < tile.length; i++) {
-    if (tile[i].getAttribute("data-col") == "c0") {
-      col0.push(tile[i]);
-    } else if (tile[i].getAttribute("data-col") == "c1") {
-      col1.push(tile[i]);
-    } else if (tile[i].getAttribute("data-col") == "c2") {
-      col2.push(tile[i]);
-    } else if (tile[i].getAttribute("data-col") == "c3") {
-      col3.push(tile[i]);
-    }
-  }
-
-  var cols = [col0, col1, col2, col3];
+function collideTilesUp(cols){
 
   for (var i = 0; i < cols.length; i++) {
-    moveColDown(cols[i]);
+    for (var j = 0; j< cols[i].length-1; j++){
+      var upTileValue = cols[i][j].getAttribute("data-val");
+      var nextTileValue = cols[i][j+1].getAttribute("data-val");
+      if (upTileValue == nextTileValue){
+        var newTileValue = upTileValue * 2;
+        cols[i][j].setAttribute("data-val", newTileValue);
+        cols[i][j].textContent = newTileValue;
+        cols[i][j+1].remove();
+    };
+
   }
+}
 }
 
 function moveColDown(col) {
-  for(var i = 0; i < col.length; i++) {
-    col[i].setAttribute("data-row",("r" + (i + 4 - col.length)));
+  for (var i = 0; i < col.length; i++) {
+    for(var j = 0; j < col[i].length; j++) {
+      col[i][j].setAttribute("data-row",("r" + (j + 4 - col[i].length)));
     }
+  }
 }
 
+function collideTilesDown(cols){
+  for (var i = 0; i < cols.length; i++) {
 
-
-
-
-function tilesCollide(direction) {
-
-
+  for (var j = 0; j < cols[i].length -1; j++){
+   var downTileValue = cols[i][j].getAttribute("data-val");
+   var nextTileValue = cols[i][j+1].getAttribute("data-val");
+      if (downTileValue == nextTileValue){
+        var newTileValue = downTileValue * 2;
+          cols[i][j].setAttribute("data-val", newTileValue);
+          cols[i][j].textContent = newTileValue;
+          cols[i][j+1].remove();
+    };
+  }
 }
+}
+
 
 function gameLost(){
   var gameLost = false;
@@ -280,7 +290,6 @@ function addTile(){
   newDiv.setAttributeNode(dataVal);
   newDiv.textContent = randomVal;
   $("#gameboard").append(newDiv); // adds tile to gameboard
-
 }
 
 function gameStart() {
