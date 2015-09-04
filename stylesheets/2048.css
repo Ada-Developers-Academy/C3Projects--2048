@@ -152,7 +152,7 @@ span.special {
   z-index: 2;
 }
 
-.tile[merged] {
+.tile.merged {
   z-index: 1;
 }
 
@@ -160,7 +160,7 @@ span.special {
   animation: expand 0.1s ease-in-out;
 }
 
-.tile[blowup] {
+.tile.blowup {
   animation: blowup 0.2s ease-in-out;
 }
 

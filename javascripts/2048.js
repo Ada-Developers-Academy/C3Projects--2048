@@ -228,17 +228,18 @@ function makeTurn(direction) {
         var newVal = currentVal * 2;
 
         // setting neighbor tile's to the original tile's position for animation
+        neighbor.className = neighbor.className + " merged";
         neighbor.setAttribute("data-row", sortedTiles[i].getAttribute("data-row"));
         neighbor.setAttribute("data-col", sortedTiles[i].getAttribute("data-col"));
-        neighbor.setAttribute("merged", "");
 
         sortedTiles[i].setAttribute("data-val", (newVal));
         updateScore(newVal);
         sortedTiles[i].innerHTML = (newVal);
         // add animation to sortedtile[i] here
-        sortedTiles[i].setAttribute("blowup", "");
-        $(".tile[blowup]").on("animationend", function(){
-            $(this).removeAttr("blowup");
+        sortedTiles[i].className = sortedTiles[i].className + " blowup";
+        var mergedTile = $(".tile.blowup");
+        mergedTile.on("animationend", function(){
+            mergedTile.removeClass("blowup");
         });
 
         var neighborIndex = sortedTiles.indexOf(neighbor);
@@ -251,9 +252,12 @@ function makeTurn(direction) {
       }
 
       // animation to hide the merged tile, then delete it
-      $(".tile[merged]").hide("fast", function(){
-        $(this).remove();
-      });
+      $(".tile.merged").remove();
+      // $(".tile.merged").on("transitionend", function() {
+        // $(this).hide("fast", function(){
+      //   $(this).remove();
+      //   // });
+      // });
     }
   }
 
@@ -346,7 +350,7 @@ function makeTurn(direction) {
   }
 
   function gameLoss() {
-    $("#gameboard").addClass("game-over");
+    $("#gameboard").addClass("game-over") ;
     gameOverBox("Game Over!", "new-game", "Try again");
   }
 
@@ -368,6 +372,8 @@ function makeTurn(direction) {
             var type = rowOrColumn(direction);
             var magnitude = getMagnitude(direction);
             var mergeableTile = findMergeableTile(tiles[i], type, magnitude);
+            // if no mergeable tile, returns null
+            // if trying to check on edge, returns undefined
             if (mergeableTile) {
               // stop checking
               lost = false;
