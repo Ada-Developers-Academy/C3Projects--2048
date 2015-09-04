@@ -199,7 +199,6 @@ function solveMovement(rowNumber, columnNumber, direction) { // (c1, "up")
   while (realOrderedTiles.length < 4){
     if (direction === "up" || direction === "left")   { realOrderedTiles.push(0); }
     if (direction === "down" || direction === "right") { realOrderedTiles.unshift(0); }
-    console.log(realOrderedTiles);
   }
 
   switch (direction) {
