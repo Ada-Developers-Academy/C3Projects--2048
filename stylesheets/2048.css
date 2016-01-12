@@ -2,6 +2,36 @@ html {
   font: normal normal 30px/1 "Clear Sans", "Helvetica Neue", Arial, sans-serif;
 }
 
+#scoreboard {
+  position: relative;
+  background: #bbada0;
+  font-size: 25px;
+  height: 80px;
+  font-weight: bold;
+  border-radius: 3px;
+  width: 80px;
+  float: right;
+}
+
+#score {
+  width: 100%;
+  text-transform: uppercase;
+  font-size: 15px;
+  text-align: center;
+  color: #eee4da;
+  margin-bottom: 7px;
+  /*padding-top: 2px;*/
+}
+
+#score_number {
+  width: 100%;
+  text-transform: uppercase;
+  font-size: 35px;
+  text-align: center;
+  color: white;
+  margin: 0 auto;
+}
+
 #gameboard {
   background: #bbada0;
   border-radius: 0.5rem;
@@ -59,3 +89,58 @@ html {
 .tile[data-val="512"]  { background: #edc850; }
 .tile[data-val="1024"] { background: #edc53f; }
 .tile[data-val="2048"] { background: #edc22e; }
+
+
+/* 
+  transition: property duration easing;
+  transition: all, 0.5s ease-in-out
+  transition: background-color, 0.5s, ease-in-out;
+  transition: top 0.5s, ease-in-out;
+
+  easing: ease-in-out, linear, ease-out, ease-in;
+  keep transitions to slower than 0.25s
+
+  $('.cell').fadeOut('slow')
+  setInterval(function() {
+    $('.cell').toggleClass('invisible').
+  })
+  ----------------------------
+
+  .blinker {
+    animation: blink 0.5s infinite alternate;
+  }
+  @keyframes blink {
+    to {
+      opacity: 0;
+    }
+  }
+ 
+  ----------------------------
+  .popper {
+    animation: pop 1s;
+  }
+
+  @keyframes pop {
+    0% {
+      transform: scale(0);
+    }
+
+    50% {
+      transform: scale(1.2);
+    }
+
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  $('.tile').addClass('popper');
+
+  function pop(tile) {
+    $(tile)
+    .addClass('popper')
+    .on('animationend',
+      function() { $(this).removeClass('popper'); }
+    );
+  }
+*/
