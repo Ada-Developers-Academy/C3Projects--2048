@@ -1,14 +1,118 @@
 html {
-  font: normal normal 30px/1 "Clear Sans", "Helvetica Neue", Arial, sans-serif;
+  font: normal normal 18px/1 'Orbitron', sans-serif;
+  background-image: url("../assets/images/asteroidbackground.jpg");
+  color: white;
 }
 
-#gameboard {
-  background: #bbada0;
+h1 {
+  display: inline-block;
+  text-align: center;
+  margin: .7em .5em .5em .5em;
+  font-style: italic;
+  font-size: 2.5em;
+}
+
+button {
+  padding: 0.7em 0.5em 0.5em 0.5em;
+  margin: 0 0.4em;
+  color: #545867;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 0.2rem;
+  border: none;
+  font: inherit;
+}
+
+.intro {
+  display: inline-block;
+  font-size: 0.8em;
+}
+
+.retry-button {
+  width: 8em;
+  font-size: 0.7em;
+}
+
+.end-button {
+  width: 8em;
+  font-size: 0.7em;
+}
+
+.heading {
+  text-align: center;
+}
+
+.scoreboard {
+  display: inline-block;
+  text-align: center;
+  margin: 0 1em;
+  color: black;
+  border-radius: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: .7em .7em .5em .7em;
+}
+
+.score {
+  margin: 0;
+  display: inline-block;
+}
+
+.added_to_score {
+  color: yellow;
+  margin-top: .8em;
+  margin-left: -.5em;
+
+  position: absolute;
+  animation: fadeUp .5s;
+  animation-timing-function: ease-in;
+}
+
+.win {
+  background: rgba(255, 255, 255, 0.7);
   border-radius: 0.5rem;
   height: 18.5rem;
   margin: 1rem auto;
   position: relative;
   width: 18.5rem;
+  text-align: center;
+}
+
+#gameboard {
+  background: #727272;
+  border-radius: 0.5rem;
+  height: 18.5rem;
+  margin: 1rem auto;
+  position: relative;
+  width: 18.5rem;
+}
+
+.gameOver {
+  box-sizing: border-box;
+  border-radius: 0.5rem;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 10;
+  padding: 25% 0;
+  text-align: center;
+
+  background-color: rgba(255, 255, 255, 0.5);
+  font-size: 1.1em;
+  color: #545867;
+}
+
+.gameOver::after {
+  content: "";
+  border-radius: 0.5rem;
+  background-image: url("../assets/images/nebula-small.jpg");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  opacity: 0.4;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;
 }
 
 .cell {
@@ -38,15 +142,15 @@ html {
   width: 4rem;
 }
 
-.tile[data-row=r0] { top: 0; }
-.tile[data-row=r1] { top: 4.5rem; }
-.tile[data-row=r2] { top: 9rem; }
-.tile[data-row=r3] { top: 13.5rem; }
+.tile[data-row="0"] { top: 0; }
+.tile[data-row="1"] { top: 4.5rem; }
+.tile[data-row="2"] { top: 9rem; }
+.tile[data-row="3"] { top: 13.5rem; }
 
-.tile[data-col=c0] { left: 0; }
-.tile[data-col=c1] { left: 4.5rem; }
-.tile[data-col=c2] { left: 9rem; }
-.tile[data-col=c3] { left: 13.5rem; }
+.tile[data-col="0"] { left: 0; }
+.tile[data-col="1"] { left: 4.5rem; }
+.tile[data-col="2"] { left: 9rem; }
+.tile[data-col="3"] { left: 13.5rem; }
 
 .tile[data-val="2"]    { color: #776e65; background-color: #eee4da; }
 .tile[data-val="4"]    { color: #776e65; background-color: #ede0c8; }
@@ -59,3 +163,93 @@ html {
 .tile[data-val="512"]  { background: #edc850; }
 .tile[data-val="1024"] { background: #edc53f; }
 .tile[data-val="2048"] { background: #edc22e; }
+
+
+/* ------- ANIMATIONS ------- */
+
+.popper {
+  animation: pop .2s;
+  animation-delay: .2s;
+}
+
+.scaleIn {
+  animation: scaleIn .3s;
+}
+
+.delayFadeIn {
+  animation: fadeIn 1s;
+}
+
+.winning {
+  animation: smallPop 1s;
+  animation-delay: .2s;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes scaleIn {
+  0% {
+    transform: scale(0);
+  }
+
+  /* This adds a sort of delay so that the tile does not appear prior to tiles around it shifting. */
+  50% {
+    transform: scale(0);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes smallPop {
+  0% {
+    transform: scale(.9);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeUp {
+  0% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(0, -5em);
+    opacity: 0;
+  }
+}

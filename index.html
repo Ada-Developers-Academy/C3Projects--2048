@@ -1,12 +1,28 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>2048</title>
+    <title>Smash 2048</title>
     <link rel="stylesheet" media="all" href="stylesheets/2048.css"/>
+    <link href='https://fonts.googleapis.com/css?family=Orbitron:400,900' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script type="text/javascript" src="javascripts/2048.js"></script>
+    <script type="text/javascript" src="javascripts/animations.js"></script>
+    <script type="text/javascript" src="javascripts/endGame.js"></script>
+    <script type="text/javascript" src="javascripts/tileCollection.js"></script>
   </head>
   <body>
+
+    <div class="heading">
+      <h1>SMASH 2048</h1>
+
+      <p class="scoreboard">Score: <span class="score">0</span></p>
+    </div>
+
+    <div class="heading">
+      <p class="intro">Smash numbers together to get to 2048!</p>
+      <button class="retry-button">New Game</button>
+    </div>
+
     <div id="gameboard">
       <div class="cells">
         <div class="cell"></div>
@@ -26,7 +42,6 @@
         <div class="cell"></div>
         <div class="cell"></div>
       </div>
-      <div class="tile" data-row="r1", data-col="c1" data-val="2">2</div>
     </div>
   </body>
 </html>
