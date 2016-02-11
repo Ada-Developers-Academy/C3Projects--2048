@@ -7,26 +7,61 @@
     <script type="text/javascript" src="javascripts/2048.js"></script>
   </head>
   <body>
-    <div id="gameboard">
-      <div class="cells">
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
+    <div id="container">
+      <div id="header">
+        <div id="scoreboard">
+          <p id="score-label">SCORE</p>
+          <p id="score" data-score="0">0</p>
+        </div>
+        <div id="title">
+          <h1>2048</h1>
+        </div>
+        <div id="subheader">
+          <p>Join the numbers and get to the <span class="special">2048 tile!</span></p>
+        </div>
+        <div class="new-game button">
+          <p>New Game</p>
+        </div>
       </div>
-      <div class="tile" data-row="r1", data-col="c1" data-val="2">2</div>
+      <div id="gameboard-container">
+        <div id="gameboard">
+          <div class="cells">
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+          </div>
+
+          <!-- <div class="tile" data-row="1", data-col="1" data-val="2">2</div> -->
+<!--           <div class="tile" data-row="1", data-col="2" data-val="2">2</div>
+          <div class="tile" data-row="1", data-col="3" data-val="2">2</div>
+          <div class="tile" data-row="1", data-col="4" data-val="16">16</div>
+          <div class="tile" data-row="2", data-col="1" data-val="4">4</div>
+          <div class="tile" data-row="2", data-col="2" data-val="2">2</div>
+          <div class="tile" data-row="2", data-col="3" data-val="4">4</div>
+          <div class="tile" data-row="2", data-col="4" data-val="8">8</div>
+          <div class="tile" data-row="3", data-col="1" data-val="2">2</div>
+          <div class="tile" data-row="3", data-col="2" data-val="4">4</div>
+          <div class="tile" data-row="3", data-col="3" data-val="2">2</div>
+          <div class="tile" data-row="3", data-col="4" data-val="4">4</div>
+          <div class="tile" data-row="4", data-col="1" data-val="4">4</div>
+          <div class="tile" data-row="4", data-col="2" data-val="2">2</div>
+          <div class="tile" data-row="4", data-col="3" data-val="4">4</div>
+          <div class="tile" data-row="4", data-col="4" data-val="2">2</div> -->
+        </div>
+      </div>
     </div>
   </body>
 </html>

@@ -2,13 +2,126 @@ html {
   font: normal normal 30px/1 "Clear Sans", "Helvetica Neue", Arial, sans-serif;
 }
 
-#gameboard {
+#header {
+  height: 5rem;
+  position: relative;
+  width: 18.5rem;
+  margin: 1rem auto;
+}
+
+#header div {
+  position: absolute;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+#title {
+  color: #776e65;   /* same color as the 2 tile text */
+  top: 0;
+  left: 0;
+}
+
+#subheader {
+  color: #776e65;   /* same color as the 2 tile text */
+  bottom: 0;
+  left: 0;
+}
+
+#header .button.new-game {
+  right: 0;
+  bottom: 0;
+  margin: 0;
+}
+
+#subheader p {
+  margin: 0;
+  font-size: 0.65rem;
+}
+
+span.special {
+  font-weight: bold;
+}
+
+#scoreboard {
   background: #bbada0;
-  border-radius: 0.5rem;
+  border-radius: 0.25rem;
+  top: 0;
+  right: 0;
+}
+
+#scoreboard p {
+  margin: 0;
+  font-weight: bold;
+  text-align: center;
+  padding: 0.25rem;
+}
+
+#score-label {
+  font-size: .5rem;
+  color: #ede0c8; /* same color as 4 tile background */
+}
+
+#score {
+  font-size: 1em;
+  color: white;
+}
+
+#gameboard-container {
   height: 18.5rem;
   margin: 1rem auto;
   position: relative;
   width: 18.5rem;
+}
+
+#gameboard {
+  background: #bbada0;
+  border-radius: 0.5rem;
+  height: 18.5rem;
+  width: 18.5rem;
+  margin: 1rem auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.game-over {
+  opacity: 0.3;
+}
+
+#game-over-box {
+  text-align: center;
+  position: absolute;
+  margin: 4rem auto;
+  height: 18.5rem;
+  width: 18.5rem;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+
+#game-over-message {
+  font-size: 2rem;
+  color: #776e65;   /* same color as the 2 tile text */
+}
+
+.new-game.button, .continue-play.button {
+  background-color: #776e65;
+  border-radius: 0.25rem;
+  padding: 0.25rem;
+  width: 4rem;
+  margin: 0.5rem auto;
+  cursor: default;
+}
+
+.new-game.button p, .continue-play.button p {
+  font-size: 0.5rem;
+  font-weight: bold;
+  margin: 0;
+  color: white;
+  text-align: center;
 }
 
 .cell {
@@ -36,17 +149,50 @@ html {
   margin: 0.5rem 0 0 0.5rem ;
   text-align: center;
   width: 4rem;
+  z-index: 2;
 }
 
-.tile[data-row=r0] { top: 0; }
-.tile[data-row=r1] { top: 4.5rem; }
-.tile[data-row=r2] { top: 9rem; }
-.tile[data-row=r3] { top: 13.5rem; }
+.tile.merged {
+  z-index: 1;
+}
 
-.tile[data-col=c0] { left: 0; }
-.tile[data-col=c1] { left: 4.5rem; }
-.tile[data-col=c2] { left: 9rem; }
-.tile[data-col=c3] { left: 13.5rem; }
+.tile.new {
+  animation: expand 0.1s ease-in-out;
+}
+
+.tile.blowup {
+  animation: blowup 0.2s ease-in-out;
+}
+
+@keyframes expand {
+  from {
+    transform: scale(0.8);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes blowup {
+  from {
+    transform: scale(1.25);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+.tile[data-row="1"] { top: 0; }
+.tile[data-row="2"] { top: 4.5rem; }
+.tile[data-row="3"] { top: 9rem; }
+.tile[data-row="4"] { top: 13.5rem; }
+
+.tile[data-col="1"] { left: 0; }
+.tile[data-col="2"] { left: 4.5rem; }
+.tile[data-col="3"] { left: 9rem; }
+.tile[data-col="4"] { left: 13.5rem; }
 
 .tile[data-val="2"]    { color: #776e65; background-color: #eee4da; }
 .tile[data-val="4"]    { color: #776e65; background-color: #ede0c8; }
